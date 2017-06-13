@@ -1,0 +1,42 @@
+
+
+table, td, tr  {
+	border: 2px solid;
+	border-collapse: collapse;
+	border-color: black;
+	// border-color: red;		// тестовая строка
+	text-align: center;
+}
+
+p.vertical{
+  transform: rotate(-90deg);
+}
+
+p.NameHyp{
+	text-align: left;
+	padding: 0; 
+	margin: 0;
+	// color: red;
+}
+
+td.NameHyp_Col{
+	width: 5px;
+}
+
+.BlocButton{
+	// background-color: RGB(150,153,146);
+	padding: 10px; 
+	margin: 10px;
+
+}
+
+.UpdateListHyp{
+	// float: left;
+}
+
+.UpdateParamHyp{
+	float: right;
+}
+
+
+
