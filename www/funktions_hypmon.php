@@ -45,7 +45,7 @@
 		$page_1 = file_get_contents("https://bitmakler.com/investmentfund");
 				$patern_1 = '#<b onclick="openpage\(\'(https?://(?:www\.)?.*\.*/)#U'; 
 				if (!preg_match_all($patern_1,$page_1,$result_1a,PREG_PATTERN_ORDER)) { 
-				    echo "patern ненайден или ошибка";
+				    echo "patern_1 ненайден или ошибка";
 				    return false;
 					} 		
 	 
@@ -88,7 +88,7 @@
 		$page_3 = GetWebPage('http://list4hyip.com/');
 				$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 
 				if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
-				    echo "patern_2 ненайден или ошибка";
+				    echo "patern_3 ненайден или ошибка";
 				    return false;
 					} 
 				for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
@@ -178,101 +178,93 @@
 		
 		$page = GetWebPage('https://a.pr-cy.ru/'.$URL_hyp);		
 		
-			$patern_0 = '#<a href="https://yaca.yandex.ru/yca/cy/ch/.*" target="_blank">(.*)</a>#'; 
-			if (!preg_match_all($patern_0,$page,$result_0,PREG_PATTERN_ORDER)) { 
-			    echo "patern ненайден или ошибка";
-			    return false;
-				} 
-
-			$patern_1 = '#<a href="http:\/\/yandex.ru\/yandsearch\?text=host%3Abitkush\.biz.*target="_blank">(.*)</a>#sU'; 
-			if (!preg_match_all($patern_1,$page,$result_1,PREG_PATTERN_ORDER)) { 
-			    echo "patern ненайден или ошибка";
-			    return false;
-				} 
-
-			$patern_2 = '#<a href="http:\/\/yandex.ru\/yandsearch\?text=host%3Abitkush\.biz.*&nbsp;<span.*>(.*)?</span>#sU'; 
-			if (!preg_match_all($patern_2,$page,$result_2,PREG_PATTERN_ORDER)) { 
-			    echo "patern ненайден или ошибка";
-			    return false;
-				} 
-
-			$patern_3 = '#<a href="https:\/\/www\.google\.com\/search\?\e*q=site:.*" target="_blank">\e*(.*)</a>#sU'; 
-			if (!preg_match_all($patern_3,$page,$result_3,PREG_PATTERN_ORDER)) { 
-			    echo "patern ненайден или ошибка";
-			    return false;
-				} 		
-
-			// $patern_4 = '#<a href="https:\/\/www\.google\.com\/search\?\e*q=site:.*" target="_blank">\e*.*\e*&nbsp;<span.*(.*)<\/span>#s'; 
-			// if (!preg_match_all($patern_4,$page,$result_4,PREG_PATTERN_ORDER)) { 
-			//     echo "patern ненайден или ошибка";
-			//     return false;
-			// 	} 
-
-			$patern_8 = '#<div class="info-test">Ссылаются доменов</div>\v*\t*</div>\v*\t*<div class="col-sm-8 content-test">v*\t*(.*)\v*\t*<img#sU'; 
-			if (!preg_match_all($patern_8,$page,$result_8,PREG_PATTERN_ORDER)) { 
-			    echo "patern_8 ненайден или ошибка";
-			    return false;
-				} 	
-			if (is_string($result_8[1][0])) {
-				$result_8[1][0] = 0;
-				}		
-
-		$page = GetWebPage('http://www.alexa.com/siteinfo/'.$URL_hyp);	
-
 		// echo $page;
-			
-			$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 
-			if (!preg_match_all($patern_9,$page,$result_9,PREG_PATTERN_ORDER)) { 
-			    echo "patern_9 ненайден или ошибка";
-			    return false;
-				} 	
+		
+		$patern_0 = '#<a href="https://yaca.yandex.ru/yca/cy/ch/.*" target="_blank">(.*)</a>#'; 
+		if (!preg_match_all($patern_0,$page,$result_0,PREG_PATTERN_ORDER)) { 
+		    echo "patern_0 ненайден или ошибка";
+		    return false;
+			} 
 
-			$patern_10 = '#Rank in\W*<a.*>(.*)</a>#sU'; 
-			if (!preg_match_all($patern_10,$page,$result_10,PREG_PATTERN_ORDER)) { 
-			    echo "patern_10 ненайден или ошибка";
-			    return false;
-				} 	
+		$patern_1 = '#<a href="http:\/\/yandex.ru\/yandsearch\?text=host%3Abitkush\.biz.*target="_blank">(.*)</a>#sU'; 
+		if (!preg_match_all($patern_1,$page,$result_1,PREG_PATTERN_ORDER)) { 
+		    echo "patern_1 ненайден или ошибка";
+		    return false;
+			} 
 
-			$patern_11 = '#<div>\W*<img.*<strong.*vmiddle">(.*)</strong>.*</div>#sU'; 
-			if (!preg_match_all($patern_11,$page,$result_11,PREG_PATTERN_ORDER)) { 
-			    echo "patern_11 ненайден или ошибка";
-			    return false;
-				} 	
+		$patern_2 = '#<a href="http:\/\/yandex.ru\/yandsearch\?text=host%3Abitkush\.biz.*&nbsp;<span.*>(.*)?</span>#sU'; 
+		if (!preg_match_all($patern_2,$page,$result_2,PREG_PATTERN_ORDER)) { 
+		    echo "patern_2 ненайден или ошибка";
+		    return false;
+			} 
+
+		$patern_3 = '#<a href="https:\/\/www\.google\.com\/search\?\e*q=site:.*" target="_blank">\e*(.*)</a>#sU'; 
+		if (!preg_match_all($patern_3,$page,$result_3,PREG_PATTERN_ORDER)) { 
+		    echo "patern_3 ненайден или ошибка";
+		    return false;
+			} 		
+
+		$patern_4 = '#<a href="https:\/\/www\.google\.com\/search\?\e*q=site:.*" target="_blank">\e*.*\e*&nbsp;<span.*>(.*)<\/span>#sU'; 
+		if (!preg_match_all($patern_4,$page,$result_4,PREG_PATTERN_ORDER)) { 
+		    echo "patern_4 ненайден или ошибка";
+		    return false;
+			} 		
+
+		$patern_5 = '#<td>Просмотры</td>.*(?:>\d*.*<).*(?:>\d*.*<).*(?:>\d*.*<).*(?:>\d*.*<).*>(\d*.*)<.*</tr>#sU'; 
+		if (!preg_match_all($patern_5,$page,$result_5,PREG_PATTERN_ORDER)) { 
+		    echo "patern_5 ненайден или ошибка";
+		    return false;
+			} 		
+
+		$patern_6 = '#<p>.*Место в стране <img.*>(.*\w*):.*</p>#sU'; 
+		if (!preg_match_all($patern_6,$page,$result_6,PREG_PATTERN_ORDER)) { 
+		    echo "patern_6 ненайден или ошибка";
+		    return false;
+			} 		
+
+		$patern_7 = '#<div.*<div class="info-test">Ссылается страниц</div>\v*\t*</div>\v*\t*<div class="col-sm-8 content-test">\v*\t*(.*)\v*\t*<img#sU'; 
+		if (!preg_match_all($patern_7,$page,$result_7,PREG_PATTERN_ORDER)) { 
+		    echo "patern_7 ненайден или ошибка";
+		    return false;
+			} 
+		if (is_string($result_7[1][0])) {   
+				$result_7[1][0] = 0;
+				}
+
+		// $patern_8 = '#<div.*<div class="info-test">Ссылаются доменов</div>\v*\t*<div class="col-sm-8 content-test">\v*\t*(.*)\v*\t*<img#'; 
+		
+		if (!preg_match_all($patern_8,$page,$result_8,PREG_PATTERN_ORDER)) { 
+		    echo "patern_8 ненайден или ошибка";
+		    return false;
+			} 
+		
+		print_r($result_8[1][0]);
+
+		if (is_string($result_8[1][0])) {   
+				$result_8[1][0] = 0;
+				echo "<br>***********<br>";
+				}
 
 
-			$patern_16 = '#Bounce Rate.*vmiddle">(.*)</strong>#sU'; 
-			if (!preg_match_all($patern_16,$page,$result_16,PREG_PATTERN_ORDER)) { 
-			    echo "patern_16 ненайден или ошибка";
-			    return false;
-				} 	
-
-			$patern_17 = '#Daily Pageview.*vmiddle">(.*)</strong>#sU'; 
-			if (!preg_match_all($patern_17,$page,$result_17,PREG_PATTERN_ORDER)) { 
-			    echo "patern_17 ненайден или ошибка";
-			    return false;
-				} 	
-
-			$patern_18 = '#Daily Time on Site.*vmiddle">(.*)</strong>#sU'; 
-			if (!preg_match_all($patern_18,$page,$result_18,PREG_PATTERN_ORDER)) { 
-			    echo "patern_18 ненайден или ошибка";
-			    return false;
-				} 	
-
-			$patern_19 = '#Search Visits.*vmiddle">(.*)</strong>#sU'; 
-			if (!preg_match_all($patern_19,$page,$result_19,PREG_PATTERN_ORDER)) { 
-			    echo "patern_19 ненайден или ошибка";
-			    return false;
-				} 	
 
 
 
-
-
-
-
+		// print_r($result_0);
+		// print_r($result_1);
+		// print_r($result_2);
+		//print_r($result_3);
+		//print_r($result_4);
+		
 		
 
-		$arr_param_hyp = array_merge($result_0[1],$result_1[1],$result_2[1],$result_3[1],$result_8[1],$result_9[1],$result_10[1],$result_16[1],$result_17[1],$result_18[1],$result_19[1]);
+		$arr_param_hyp = array_merge($result_0[1],$result_1[1],$result_2[1],$result_3[1],$result_4[1],$result_5[1],$result_6[1],$result_7[1],$result_8[1]);
+
+
+
+
+
+
+
 		return $arr_param_hyp;
 		}
 
