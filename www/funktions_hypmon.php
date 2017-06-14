@@ -180,49 +180,49 @@
 		
 		// echo $page;
 		
-			$patern_0 = '#<a href="https://yaca.yandex.ru/yca/cy/ch/.*" target="_blank">(.*)</a>#'; 
+			$patern_0 = '#<a href="https://yaca.yandex.ru/yca/cy/ch/.*" target="_blank">(.*)</a>#'; 		//	ТИЦ 
 			if (!preg_match_all($patern_0,$page,$result_0,PREG_PATTERN_ORDER)) { 
 			    echo "patern_0 ненайден или ошибка";
 			    return false;
 				} 
 
-			$patern_1 = '#<a href="http:\/\/yandex.ru\/yandsearch\?text=host%3Abitkush\.biz.*target="_blank">(.*)</a>#sU'; 
+			$patern_1 = '#<a href="http:\/\/yandex.ru\/yandsearch\?text=host%3Abitkush\.biz.*target="_blank">(.*)</a>#sU'; 			// шт.  Яндекс
 			if (!preg_match_all($patern_1,$page,$result_1,PREG_PATTERN_ORDER)) { 
 			    echo "patern_1 ненайден или ошибка";
 			    return false;
 				} 
 
-			$patern_2 = '#<a href="http:\/\/yandex.ru\/yandsearch\?text=host%3Abitkush\.biz.*&nbsp;<span.*>(.*)?</span>#sU'; 
+			$patern_2 = '#<a href="http:\/\/yandex.ru\/yandsearch\?text=host%3Abitkush\.biz.*&nbsp;<span.*>(.*)?</span>#sU'; 		// динамика
 			if (!preg_match_all($patern_2,$page,$result_2,PREG_PATTERN_ORDER)) { 
 			    echo "patern_2 ненайден или ошибка";
 			    return false;
 				} 
 
-			$patern_3 = '#<a href="https:\/\/www\.google\.com\/search\?\e*q=site:.*" target="_blank">\e*(.*)</a>#sU'; 
+			$patern_3 = '#<a href="https:\/\/www\.google\.com\/search\?\e*q=site:.*" target="_blank">\e*(.*)</a>#sU'; 				// шт.		Гугл
 			if (!preg_match_all($patern_3,$page,$result_3,PREG_PATTERN_ORDER)) { 
 			    echo "patern_3 ненайден или ошибка";
 			    return false;
 				} 		
 
-			$patern_4 = '#<a href="https:\/\/www\.google\.com\/search\?\e*q=site:.*" target="_blank">\e*.*\e*&nbsp;<span.*>(.*)<\/span>#sU'; 
+			$patern_4 = '#<a href="https:\/\/www\.google\.com\/search\?\e*q=site:.*" target="_blank">\e*.*\e*&nbsp;<span.*>(.*)<\/span>#sU'; 	// динамика
 			if (!preg_match_all($patern_4,$page,$result_4,PREG_PATTERN_ORDER)) { 
 			    echo "patern_4 ненайден или ошибка";
 			    return false;
 				} 		
 
-			$patern_5 = '#<td>Просмотры</td>.*(?:>\d*.*<).*(?:>\d*.*<).*(?:>\d*.*<).*(?:>\d*.*<).*>(\d*.*)<.*</tr>#sU'; 
+			$patern_5 = '#<td>Просмотры</td>.*(?:>\d*.*<).*(?:>\d*.*<).*(?:>\d*.*<).*(?:>\d*.*<).*>(\d*.*)<.*</tr>#sU'; 		//  Просмотры
 			if (!preg_match_all($patern_5,$page,$result_5,PREG_PATTERN_ORDER)) { 
 			    echo "patern_5 ненайден или ошибка";
 			    return false;
 				} 		
 
-			$patern_6 = '#<p>.*Место в стране <img.*>(.*\w*):.*</p>#sU'; 
+			$patern_6 = '#<p>.*Место в стране <img.*>(.*\w*):.*</p>#sU'; 					//	 	 	Максимум трафика из
 			if (!preg_match_all($patern_6,$page,$result_6,PREG_PATTERN_ORDER)) { 
 			    echo "patern_6 ненайден или ошибка";
 			    return false;
 				} 		
 
-			$patern_7 = '#<div.*<div class="info-test">Ссылается страниц</div>\v*\t*</div>\v*\t*<div class="col-sm-8 content-test">\v*\t*(.*)\v*\t*<img#sU'; 
+			$patern_7 = '#<div.*<div class="info-test">Ссылается страниц</div>\v*\t*</div>\v*\t*<div class="col-sm-8 content-test">\v*\t*(.*)\v*\t*<img#sU'; //  Baclink - страницы
 			if (!preg_match_all($patern_7,$page,$result_7,PREG_PATTERN_ORDER)) { 
 			    echo "patern_7 ненайден или ошибка";
 			    return false;
@@ -232,7 +232,7 @@
 					}
 
 
-			$patern_8 = '#<div class="info-test">Ссылаются доменов</div>\v*\t*</div>\v*\t*<div class="col-sm-8 content-test">v*\t*(.*)\v*\t*<img#sU'; 
+			$patern_8 = '#<div class="info-test">Ссылаются доменов</div>\v*\t*</div>\v*\t*<div class="col-sm-8 content-test">v*\t*(.*)\v*\t*<img#sU'; 	//  Baclink - домены
 			if (!preg_match_all($patern_8,$page,$result_8,PREG_PATTERN_ORDER)) { 
 			    echo "patern_8 ненайден или ошибка";
 			    return false;
@@ -245,45 +245,45 @@
 
 		// echo $page;
 			
-			$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 
+			$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 		// Популярность - Global - Значение
 			if (!preg_match_all($patern_9,$page,$result_9,PREG_PATTERN_ORDER)) { 
 			    echo "patern_9 ненайден или ошибка";
 			    return false;
 				} 	
 
-			$patern_10 = '#Rank in\W*<a.*>(.*)</a>#sU'; 
+			$patern_10 = '#Rank in\W*<a.*>(.*)</a>#sU'; 									// Популярность - Rank in country - Страна
 			if (!preg_match_all($patern_10,$page,$result_10,PREG_PATTERN_ORDER)) { 
 			    echo "patern_10 ненайден или ошибка";
 			    return false;
 				} 	
 
-			$patern_11 = '#<div>\W*<img.*<strong.*vmiddle">(.*)</strong>.*</div>#sU'; 
+			$patern_11 = '#<div>\W*<img.*<strong.*vmiddle">(.*)</strong>.*</div>#sU'; 		// Популярность - Rank in country - Значение
 			if (!preg_match_all($patern_11,$page,$result_11,PREG_PATTERN_ORDER)) { 
 			    echo "patern_11 ненайден или ошибка";
 			    return false;
 				} 	
 
 
-			$patern_16 = '#Bounce Rate.*vmiddle">(.*)</strong>#sU'; 
+			$patern_16 = '#Bounce Rate.*vmiddle">(.*)</strong>#sU'; 						//	Активность пользователей - Показатель отказов
 			if (!preg_match_all($patern_16,$page,$result_16,PREG_PATTERN_ORDER)) { 
 			    echo "patern_16 ненайден или ошибка";
 			    return false;
 				} 	
 
 			$patern_17 = '#Daily Pageview.*vmiddle">(.*)</strong>#sU'; 
-			if (!preg_match_all($patern_17,$page,$result_17,PREG_PATTERN_ORDER)) { 
+			if (!preg_match_all($patern_17,$page,$result_17,PREG_PATTERN_ORDER)) { 			// Активность пользователей - Страниц за везит
 			    echo "patern_17 ненайден или ошибка";
 			    return false;
 				} 	
 
 			$patern_18 = '#Daily Time on Site.*vmiddle">(.*)</strong>#sU'; 
-			if (!preg_match_all($patern_18,$page,$result_18,PREG_PATTERN_ORDER)) { 
+			if (!preg_match_all($patern_18,$page,$result_18,PREG_PATTERN_ORDER)) { 			// Активность пользователей - Ср. продолжит визита, м-с
 			    echo "patern_18 ненайден или ошибка";
 			    return false;
 				} 	
 
 			$patern_19 = '#Search Visits.*vmiddle">(.*)</strong>#sU'; 
-			if (!preg_match_all($patern_19,$page,$result_19,PREG_PATTERN_ORDER)) { 
+			if (!preg_match_all($patern_19,$page,$result_19,PREG_PATTERN_ORDER)) { 			// Процент поискового трафика
 			    echo "patern_19 ненайден или ошибка";
 			    return false;
 				} 	

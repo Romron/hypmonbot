@@ -45,7 +45,7 @@
 			<td colspan="9">
 				http://pr-cy.ru/
 			</td>
-			<td colspan="12">
+			<td colspan="10">
 				http://www.alexa.com/siteinfo
 			</td>
 			<td colspan="3">
@@ -72,7 +72,7 @@
 
 
 
-			<td colspan="5">
+			<td colspan="3">
 				Популярность
 			</td>
 			<td colspan="2">
@@ -110,10 +110,10 @@
 			<td rowspan="2">
 				<p class="vertical"> Домены </p>
 			</td>
-			<td colspan="2">
+			<td >
 				Global Rank
 			</td>
-			<td colspan="3">
+			<td colspan="2">
 				Rank in country
 			</td>
 			<td rowspan="2">
@@ -149,23 +149,19 @@
 			<td>
 				<p class="vertical"> Значение </p>
 			</td>
-			<td>
-				<p class="vertical"> Динамика </p>
-			</td>
+
 			<td>
 				<p class="vertical"> Страна </p>
 			</td>
 			<td>
 				<p class="vertical"> Значение </p>
 			</td>
-			<td>
-				<p class="vertical"> Динамика </p>
-			</td>																						
+																						
 		</tr>
 		<tr>
 	
 			<?php 
-				for ($i=0; $i<24; $i++){
+				for ($i=0; $i<22; $i++){
 				echo "<td class='Namber_column'>".$i."</td>";
 			} ?>
 						

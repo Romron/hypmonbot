@@ -6,6 +6,6 @@
 list4hyip.com	FALSE	/	FALSE	0	PHPSESSID	89okpruii42g9q28osgvmevrv6
 list4hyip.com	FALSE	/	FALSE	1	CameFrom	deleted
 a.pr-cy.ru	FALSE	/	FALSE	0	PHPSESSID	o914a469euaqari3kmuqoifee2
-a.pr-cy.ru	FALSE	/	FALSE	1497443580	avc	3
-.alexa.com	TRUE	/siteinfo/	FALSE	1497531778	rpt	%21
-.alexa.com	TRUE	/	FALSE	1528999378	lv	1497441778
+a.pr-cy.ru	FALSE	/	FALSE	1497443933	avc	4
+.alexa.com	TRUE	/siteinfo/	FALSE	1497532132	rpt	%21
+.alexa.com	TRUE	/	FALSE	1528999732	lv	1497442132
