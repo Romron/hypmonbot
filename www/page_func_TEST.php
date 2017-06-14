@@ -1,7 +1,7 @@
 <?php 
 include('funktions_hypmon.php');
 
-$arr = ParsParamHaypWithServAnalSite("bitkush.biz");
+ParsParamHaypWithServAnalSite("dailycoins.io");
 
 echo "<br>";
 echo "<br>";
@@ -13,7 +13,7 @@ echo "<br>";
 echo "<br>";
 
 
-print_r($arr);
+// print_r($arr);
 
 echo "<br>*****************************************************************************************************************************************<br>";
 

@@ -196,7 +196,7 @@
 									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
 									</td>';
 
-						$patern_URL = '#https?:\/\/(.*)#'; 				
+						$patern_URL = '#https?:\/\/(.*)/#'; 				
 						if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
 						    echo "patern_URL ненайден или ошибка";
 						    return false;
@@ -207,7 +207,7 @@
 						$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
 						for ($q=0; $q < 22; $q++) { 
 							echo "<td>";
-								echo '<p class="ParamHyp">'.$ArrParamHype[$q].'</p>';
+								echo '<p class="ParamHyp">'.strip_tags($ArrParamHype[$q]).'</p>';
 
 							echo "</td>";
 							}

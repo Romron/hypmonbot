@@ -56,53 +56,54 @@
 					$result_1c = array('1'=>'https://bitmakler.com/investmentfund','2' => count($result_1));
 					array_unshift($result_1, $result_1c);
 
-		$page_2 = GetWebPage('http://allhyipmon.ru/rating');
-			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
-			$n=0;
-			$result_2 = array();
-			do{
+		// $page_2 = GetWebPage('http://allhyipmon.ru/rating');
+		// 	$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
+		// 	$n=0;
+		// 	$result_2 = array();
+		// 	do{
 
-				if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
-				    echo "patern_2 ненайден или ошибка";
-				    return false;
-					} 
+		// 		if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
+		// 		    echo "patern_2 ненайден или ошибка";
+		// 		    return false;
+		// 			} 
 
-				for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-					$result_2b[$q] = $result_2a[1][$q];
-					}
-				$result_2 = array_merge($result_2,$result_2b);
+		// 		for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+		// 			$result_2b[$q] = $result_2a[1][$q];
+		// 			}
+		// 		$result_2 = array_merge($result_2,$result_2b);
 
-				$n++;
-				$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
-				 // echo $url;
+		// 		$n++;
+		// 		$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
+		// 		 // echo $url;
 
-				set_time_limit(90);
-				sleep(rand(2,8));
-				$page_2 = GetWebPage($url);
+		// 		set_time_limit(90);
+		// 		sleep(rand(2,8));
+		// 		$page_2 = GetWebPage($url);
 
-			}while ($n <= 6);
+		// 	}while ($n <= 6);
 
-				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
-				array_unshift($result_2, $result_2c);
+		// 		$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
+		// 		array_unshift($result_2, $result_2c);
 
-		$page_3 = GetWebPage('http://list4hyip.com/');
-				$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 
-				if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
-				    echo "patern_3 ненайден или ошибка";
-				    return false;
-					} 
-				for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-					if ($result_3a[1][$q] == "http://list4hyip.com/") {	//	удаляем не нужное
-						continue;
-						}
-					$result_3[$q] = $result_3a[1][$q];
-					}
+		// $page_3 = GetWebPage('http://list4hyip.com/');
+		// 		$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 
+		// 		if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
+		// 		    echo "patern_3 ненайден или ошибка";
+		// 		    return false;
+		// 			} 
+		// 		for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+		// 			if ($result_3a[1][$q] == "http://list4hyip.com/") {	//	удаляем не нужное
+		// 				continue;
+		// 				}
+		// 			$result_3[$q] = $result_3a[1][$q];
+		// 			}
 
-					$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
-					array_unshift($result_3, $result_3c);
+		// 			$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
+		// 			array_unshift($result_3, $result_3c);
 
-	    $result = array_merge($result_1,$result_2,$result_3);
-        return $result;
+	    // $result = array_merge($result_1,$result_2,$result_3);
+        // return $result;
+        return $result_1;
 		}
 
 	function Table(){     	//	создаём таблицу спомощью php
@@ -178,24 +179,32 @@
 
 		$page = GetWebPage('https://a.pr-cy.ru/'.$URL_hyp);		
 		
-			// echo $page;
+			 // echo $page;
+			 // exit;
 
 			$patern_0 = '#<a href="https://yaca.yandex.ru/yca/cy/ch/.*" target="_blank">(.*)</a>#'; 		//	ТИЦ 
 			if (!preg_match_all($patern_0,$page,$result_0,PREG_PATTERN_ORDER)) { 
-			    echo "patern_0 ненайден или ошибка";
+			    echo "patern_0 ненайден или ошибка<br>";
 			    return false;
 				} 
 
-			$patern_1 = '#<a href="http:\/\/yandex.ru\/yandsearch\?text=host%3Abitkush\.biz.*target="_blank">(.*)</a>#sU'; 			// шт.  Яндекс
+			// $patern_1 = '#<a href="http:\/\/yandex.ru\/yandsearch\?text=host.*target="_blank">(.*)</a>#sU'; 			// шт.  Яндекс
+			// $patern_1 = '#<a href="http:\/\/yandex.ru\/yandsearch\?text=host%3Awww.'.$URL_hyp.'\W*target="_blank">(.*)</a>#sU'; 			// шт.  Яндекс
+			$patern_1 = '#href="http:\/\/yandex.ru\/yandsearch\?text=host%3A'.$URL_hyp.'.*target="_blank">(.*)</a>#sU'; 			// шт.  Яндекс
+
+			// echo $patern_1;
+			// echo "<br>";
+
 			if (!preg_match_all($patern_1,$page,$result_1,PREG_PATTERN_ORDER)) { 
-			    echo "patern_1 ненайден или ошибка";
-			    return false;
+			    echo "patern_1 ненайден или ошибка<br>";
+			    // return false;
 				} 
 
-			$patern_2 = '#<a href="http:\/\/yandex.ru\/yandsearch\?text=host%3Abitkush\.biz.*&nbsp;<span.*>(.*)?</span>#sU'; 		// динамика
+			$patern_2 = '#<a href="http:\/\/yandex.ru\/yandsearch\?text=host%3Awww.'.$URL_hyp.'target="_blank">.*</a>\W*&nbsp;<span class="red">(.*)</span>#sU'; 		// динамика
 			if (!preg_match_all($patern_2,$page,$result_2,PREG_PATTERN_ORDER)) { 
+				$result_2 = array('0' => '',array('0' => '0'));
 			    echo "patern_2 ненайден или ошибка";
-			    return false;
+			    // return false;
 				} 
 
 			$patern_3 = '#<a href="https:\/\/www\.google\.com\/search\?\e*q=site:.*" target="_blank">\e*(.*)</a>#sU'; 				// шт.		Гугл
@@ -204,13 +213,21 @@
 			    return false;
 				} 		
 
-			$patern_4 = '#<a href="https:\/\/www\.google\.com\/search\?\e*q=site:.*" target="_blank">\e*.*\e*&nbsp;<span.*>(.*)<\/span>#sU'; 	// динамика
+			$patern_4 = '#href="https:\/\/www\.google\.com\/search\?\e*q=site:'.$URL_hyp.'" target="_blank">\e*.*\e*&nbsp;<span.*>(.*)<\/span>#sU'; 	// динамика
 			if (!preg_match_all($patern_4,$page,$result_4,PREG_PATTERN_ORDER)) { 
 			    echo "patern_4 ненайден или ошибка";
-			    return false;
+			    // return false;
 				} 		
 
-			$patern_5 = '#<td>Просмотры</td>.*(?:>\d*.*<).*(?:>\d*.*<).*(?:>\d*.*<).*(?:>\d*.*<).*>(\d*.*)<.*</tr>#sU'; 		//  Просмотры
+			echo "<br>";
+			echo $patern_4;
+			echo "<br>";
+			print_r($result_4);
+
+
+			// $patern_5 = '#<td>Просмотры</td>.*(?:>\d*.*<).*(?:>\d*.*<).*(?:>\d*.*<).*(?:>\d*.*<).*>(\d*.*)<.*</tr>#sU'; 		
+			// $patern_5 = '#<td>Просмотры</td>(?:\r\n\t*<td class="text-right">(?:\d*(?:&nbsp;)*\d+)</td>){2}.*(\d*(?:&nbsp;)*\d+)<#sU'; 		
+			$patern_5 = '#<td>Просмотры</td>(?:\W*<td.*</td>){2}(?:\W*<td.*>(.*)</td>)#sU'; 		//  Просмотры
 			if (!preg_match_all($patern_5,$page,$result_5,PREG_PATTERN_ORDER)) { 
 			    echo "patern_5 ненайден или ошибка";
 			    return false;
@@ -293,12 +310,20 @@
 		// print_r($result_0);
 		// print_r($result_1);
 		// print_r($result_2);
-		//print_r($result_3);
-		//print_r($result_4);
+		// print_r($result_3);
+		// print_r($result_4);
 		
 		
 
-		$arr_param_hyp = array_merge($result_0[1],$result_1[1],$result_2[1],$result_3[1],$result_8[1],$result_9[1],$result_10[1],$result_16[1],$result_17[1],$result_18[1],$result_19[1]);
+		$arr_param_hyp = array_merge($result_0[1],$result_1[1],$result_2[1],$result_3[1],$result_4[1],$result_5[1],$result_6[1],$result_7[1],$result_8[1],$result_9[1],$result_10[1],$result_16[1],$result_17[1],$result_18[1],$result_19[1]);
+
+		echo "<br>-------------------------------------------------------------------------------------------------<br>";
+
+			print_r($arr_param_hyp);
+
+		echo "<br>-------------------------------------------------------------------------------------------------<br>";
+
+
 		return $arr_param_hyp;
 
 		}
