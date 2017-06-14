@@ -175,11 +175,11 @@
 		// предполагаеться вызов в теле ф-ции GetHypNam поочерёдно для каждого массива хайпов отдельно.
 		// т.е один хайп проганяется поочерёдно по всем сераисам анализа сайтов
 		// заполняеться вся строка и только после этого переходм к другому хайпу 
-		
+
 		$page = GetWebPage('https://a.pr-cy.ru/'.$URL_hyp);		
 		
-		// echo $page;
-		
+			// echo $page;
+
 			$patern_0 = '#<a href="https://yaca.yandex.ru/yca/cy/ch/.*" target="_blank">(.*)</a>#'; 		//	ТИЦ 
 			if (!preg_match_all($patern_0,$page,$result_0,PREG_PATTERN_ORDER)) { 
 			    echo "patern_0 ненайден или ошибка";
@@ -243,7 +243,7 @@
 
 		$page = GetWebPage('http://www.alexa.com/siteinfo/'.$URL_hyp);	
 
-		// echo $page;
+			// echo $page;
 			
 			$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 		// Популярность - Global - Значение
 			if (!preg_match_all($patern_9,$page,$result_9,PREG_PATTERN_ORDER)) { 

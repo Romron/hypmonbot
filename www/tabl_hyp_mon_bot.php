@@ -173,32 +173,46 @@
 
 	<?php  
 
-		// $ArrNameHyp = GetHypNam();
+		$ArrNameHyp = GetHypNam();
 
-		// for ($i=0; $i < count($ArrNameHyp); $i++) {	
+		// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
+		for ($i=0; $i < 5; $i++) {			//	для тестов
 			
 
-		// 		if (is_array($ArrNameHyp[$i])) {
-		// 				$HypName = $ArrNameHyp[$i][1];
-		// 				$HypCount = $ArrNameHyp[$i][2];					
-		// 			echo '<tr>';
-		// 				echo '<td class="NameHyp_Col" rowspan='.$HypCount.'>
-		// 					<p class="vertical">'.$HypName.'</p>
-		// 					</td>';
-		// 			continue;						
-		// 			}
-		// 			echo 
-		// 				'<td>
-		// 					'.$i.'
-		// 				</td>';
-		// 					echo '<td>
-		// 							<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
-		// 							</td>';
-		// 				for ($q=0; $q < 26; $q++) { 
-		// 					echo "<td></td>";
-		// 					}
-		// 			echo '</tr>';
-		// 	}
+				if (is_array($ArrNameHyp[$i])) {
+						$HypName = $ArrNameHyp[$i][1];
+						$HypCount = $ArrNameHyp[$i][2];					
+					echo '<tr>';
+						echo '<td class="NameHyp_Col" rowspan='.$HypCount.'>
+							<p class="vertical">'.$HypName.'</p>
+							</td>';
+					continue;						
+					}
+					echo 
+						'<td>
+							'.$i.'
+						</td>';
+							echo '<td>
+									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
+									</td>';
+
+						$patern_URL = '#https?:\/\/(.*)#'; 				
+						if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
+						    echo "patern_URL ненайден или ошибка";
+						    return false;
+							} 
+
+
+
+						$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
+						for ($q=0; $q < 22; $q++) { 
+							echo "<td>";
+								echo '<p class="ParamHyp">'.$ArrParamHype[$q].'</p>';
+
+							echo "</td>";
+							}
+					echo '</tr>';
+			}
 	?>
 
 
