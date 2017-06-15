@@ -265,27 +265,27 @@
 				    return false;
 					} 
 
-			$patern_16 = '#Bounce Rate.*vmiddle">(.*)</strong>#sU'; 						//	Активность пользователей - Показатель отказов
-				if (!preg_match_all($patern_16,$page,$result_16,PREG_PATTERN_ORDER)) { 
+			$patern_12 = '#Bounce Rate.*vmiddle">(.*)</strong>#sU'; 						//	Активность пользователей - Показатель отказов
+				if (!preg_match_all($patern_12,$page,$result_12,PREG_PATTERN_ORDER)) { 
 				    echo "patern_16 ненайден или ошибка";
 				    return false;
 					} 	
 
-			$patern_17 = '#Daily Pageview.*vmiddle">(.*)</strong>#sU'; 
-				if (!preg_match_all($patern_17,$page,$result_17,PREG_PATTERN_ORDER)) { 			// Активность пользователей - Страниц за везит
-				    echo "patern_17 ненайден или ошибка";
+			$patern_13 = '#Daily Pageview.*vmiddle">(.*)</strong>#sU'; 
+				if (!preg_match_all($patern_13,$page,$result_13,PREG_PATTERN_ORDER)) { 			// Активность пользователей - Страниц за везит
+				    echo "patern_13 ненайден или ошибка";
 				    return false;
 					} 	
 
-			$patern_18 = '#Daily Time on Site.*vmiddle">(.*)</strong>#sU'; 
-				if (!preg_match_all($patern_18,$page,$result_18,PREG_PATTERN_ORDER)) { 			// Активность пользователей - Ср. продолжит визита, м-с
-				    echo "patern_18 ненайден или ошибка";
+			$patern_14 = '#Daily Time on Site.*vmiddle">(.*)</strong>#sU'; 
+				if (!preg_match_all($patern_14,$page,$result_14,PREG_PATTERN_ORDER)) { 			// Активность пользователей - Ср. продолжит визита, м-с
+				    echo "patern_14 ненайден или ошибка";
 				    return false;
 					} 	
 
-			$patern_19 = '#Search Visits.*vmiddle">(.*)</strong>#sU'; 
-				if (!preg_match_all($patern_19,$page,$result_19,PREG_PATTERN_ORDER)) { 			// Процент поискового трафика
-				    echo "patern_19 ненайден или ошибка";
+			$patern_15 = '#Search Visits.*vmiddle">(.*)</strong>#sU'; 
+				if (!preg_match_all($patern_15,$page,$result_15,PREG_PATTERN_ORDER)) { 			// Процент поискового трафика
+				    echo "patern_15 ненайден или ошибка";
 				    return false;
 					} 	
 
@@ -299,7 +299,7 @@
 		
 		
 
-		$arr_param_hyp = array_merge($result_0[1],$result_1[1],$result_2[1],$result_3[1],$result_4[1],$result_5[1],$result_6[1],$result_7[1],$result_8[1],$result_9[1],$result_10[1],$result_11[1],$result_16[1],$result_17[1],$result_18[1],$result_19[1]);
+		$arr_param_hyp = array_merge($result_0[1],$result_1[1],$result_2[1],$result_3[1],$result_4[1],$result_5[1],$result_6[1],$result_7[1],$result_8[1],$result_9[1],$result_10[1],$result_11[1],$result_12[1],$result_13[1],$result_14[1],$result_15[1]);
 
 		// echo "<br>-------------------------------------------------------------------------------------------------<br>";
 

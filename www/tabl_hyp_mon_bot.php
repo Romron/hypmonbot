@@ -45,7 +45,7 @@
 			<td colspan="9">
 				http://pr-cy.ru/
 			</td>
-			<td colspan="10">
+			<td colspan="8">
 				http://www.alexa.com/siteinfo
 			</td>
 			<td colspan="3">
@@ -74,9 +74,6 @@
 
 			<td colspan="3">
 				Популярность
-			</td>
-			<td colspan="2">
-				География трафика 
 			</td>
 			<td colspan="3">
 				Активность пользователей
@@ -117,12 +114,6 @@
 				Rank in country
 			</td>
 			<td rowspan="2">
-				<p class="vertical"> Максимум из </p>
-			</td>
-			<td rowspan="2">
-				%
-			</td>
-			<td rowspan="2">
 				<p class="vertical"> Показатель отказов </p>
 			</td>
 			<td rowspan="2">
@@ -161,7 +152,7 @@
 		<tr>
 	
 			<?php 
-				for ($i=0; $i<22; $i++){
+				for ($i=0; $i<20; $i++){
 				echo "<td class='Namber_column'>".$i."</td>";
 			} ?>
 						
@@ -205,7 +196,7 @@
 
 
 						$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
-						for ($q=0; $q < 22; $q++) { 
+						for ($q=0; $q < 20; $q++) { 
 							echo "<td>";
 								echo '<p class="ParamHyp">'.strip_tags($ArrParamHype[$q]).'</p>';
 
