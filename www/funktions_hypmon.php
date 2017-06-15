@@ -295,18 +295,28 @@
 		
 			$patern_17 = '#Domain Registration Date.* (\w{3}) (\d{1,2}) (\d{2}:\d{2}:\d{2}) (GMT) (\d{4})#'; 
 				if (!preg_match_all($patern_17,$page,$result_17,PREG_PATTERN_ORDER)) { 			// Процент поискового трафика
-				    $result_17 = array('0' => '',array('0' => 'ptrn_17_ERR'));
-				    // return false;
+					$patern_17_1 = '#Creation Date:.*(\d{4}-\d{2}-\d{2})T\d{2}:\d{2}:\d{2}Z#'; 
+					if (!preg_match_all($patern_17_1,$page,$result_17_1,PREG_PATTERN_ORDER)) {				    
+					    $result_17_1 = array('0' => '',array('0' => 'ptrn_17_1_ERR'));
+				    	// return false;
+				    	}
+				    $result_17 = array('0' => '',$result_17_1[1]);
 					}elseif (!is_string($result_17)){ 			
 									$arr = array_merge($result_17[2],$result_17[1],$result_17[5]);
 									$str = implode("-",$arr);
 									$result_17 = array('0' => '',array('0' => $str));
-								}
+									}
 
 			$patern_18 = '#Domain Expiration Date.* (\w{3}) (\d{1,2}) (\d{2}:\d{2}:\d{2}) (GMT) (\d{4})#'; 
 				if (!preg_match_all($patern_18,$page,$result_18,PREG_PATTERN_ORDER)) { 			// Процент поискового трафика
-				    $result_18 = array('0' => '',array('0' => 'ptrn_18_ERR'));
-				    // return false;
+				    
+					$patern_18_1 = '#Creation Date:.*(\d{4}-\d{2}-\d{2})T\d{2}:\d{2}:\d{2}Z#'; 
+					if (!preg_match_all($patern_18_1,$page,$result_18_1,PREG_PATTERN_ORDER)) {	
+					    $result_18 = array('0' => '',array('0' => 'ptrn_18_ERR'));
+					    // return false;
+					    }
+					    $result_18 = array('0' => '',$result_18_1[1]);
+				    
 					}elseif (!is_string($result_18)){ 			
 									$arr = array_merge($result_18[2],$result_18[1],$result_18[5]);
 									$str = implode("-",$arr);
