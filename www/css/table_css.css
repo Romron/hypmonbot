@@ -38,5 +38,10 @@ td.NameHyp_Col{
 	float: right;
 }
 
-
+thead{
+	// width: 100%; 
+	background-color: white;
+	position: fixed;
+	display: block;
+}
 

@@ -32,142 +32,145 @@
 	<!-- /Блок кнопок -->
 
 	<!-- Шапка таблицы -->
-		<tr>
-			<td rowspan="5">
-				<p class="vertical"> Номер п/п </p>
-			</td>			
-			<td rowspan="5">
-				<p class="vertical"> Монитор </p>
-			</td>
-			<td rowspan="5">
-				ПРОЭКТ
-			</td>
-			<td colspan="9">
-				http://pr-cy.ru/
-			</td>
-			<td colspan="8">
-				http://www.alexa.com/siteinfo
-			</td>
-			<td colspan="3">
-				https://www.nic.ru/whois/
-			</td>																							
-		</tr>
-		<tr>
-			<td rowspan="3">
-				ТИЦ 
-			</td>
-			<td colspan="4">
-				Страницы
-			</td>
-			<td rowspan="3">
-				<p class="vertical"> Просмотры, шт. </p>
-			</td>
-			<td rowspan="3">
-				<p class="vertical"> max трафик из </p>
-			</td>
-			<td colspan="2">
-				Baclink
-			</td>			
+		<thead id="Shapka_table">	
+			<tr>
+				<td rowspan="5">
+					<p class="vertical"> Номер п/п </p>
+				</td>			
+				<td rowspan="5">
+					<p class="vertical"> Монитор </p>
+				</td>
+				<td rowspan="5">
+					ПРОЭКТ
+				</td>
+				<td colspan="9">
+					http://pr-cy.ru/
+				</td>
+				<td colspan="8">
+					http://www.alexa.com/siteinfo
+				</td>
+				<td colspan="3">
+					https://www.nic.ru/whois/
+				</td>																							
+			</tr>
+			<tr>
+				<td rowspan="3">
+					ТИЦ 
+				</td>
+				<td colspan="4">
+					Страницы
+				</td>
+				<td rowspan="3">
+					<p class="vertical"> Просмотры, шт. </p>
+				</td>
+				<td rowspan="3">
+					<p class="vertical"> max трафик из </p>
+				</td>
+				<td colspan="2">
+					Baclink
+				</td>			
 
 
 
 
-			<td colspan="3">
-				Популярность
-			</td>
-			<td colspan="3">
-				Активность пользователей
-			</td>
-			<td rowspan="3">
-				<p class="vertical"> Процент поискового трафика </p>
-			</td>
-			<td rowspan="3">
-				<p class="vertical"> baclink </p>
-			</td>
-			<td rowspan="3">
-				<p class="vertical"> Дата  регистрации домена </p>
-			</td>
-			<td rowspan="3">
-				<p class="vertical">  Дата окончания домена </p>
-			</td>
-			<td rowspan="3">
-				<p class="vertical"> Дата обновления домена </p>
-			</td>																						
-		</tr>
-		<tr>
-			<td colspan="2">
-				Яндекс
-			</td>
-			<td colspan="2">
-				Google
-			</td>
-			<td rowspan="2">
-				<p class="vertical"> Страницы </p>
-			</td>			
-			<td rowspan="2">
-				<p class="vertical"> Домены </p>
-			</td>
-			<td >
-				Global Rank
-			</td>
-			<td colspan="2">
-				Rank in country
-			</td>
-			<td rowspan="2">
-				<p class="vertical"> Показатель отказов </p>
-			</td>
-			<td rowspan="2">
-				<p class="vertical"> Страниц за везит </p>
-			</td>
-			<td rowspan="2">
-				<p class="vertical"> Ср. продолжит визита, м-с </p>
-			</td>																		
-		</tr>
-		<tr>
-			<td>
-				шт.
-			</td>
-			<td>
-				<p class="vertical">  Динамика </p>
-			</td>
-			<td>
-				<p class="vertical"> шт. </p>
-			</td>
-			<td>
-				<p class="vertical"> Динамика </p>
-			</td>
+				<td colspan="3">
+					Популярность
+				</td>
+				<td colspan="3">
+					Активность пользователей
+				</td>
+				<td rowspan="3">
+					<p class="vertical"> Процент поискового трафика </p>
+				</td>
+				<td rowspan="3">
+					<p class="vertical"> baclink </p>
+				</td>
+				<td rowspan="3">
+					<p class="vertical"> Дата  регистрации домена </p>
+				</td>
+				<td rowspan="3">
+					<p class="vertical">  Дата окончания домена </p>
+				</td>
+				<td rowspan="3">
+					<p class="vertical"> Дата обновления домена </p>
+				</td>																						
+			</tr>
+			<tr>
+				<td colspan="2">
+					Яндекс
+				</td>
+				<td colspan="2">
+					Google
+				</td>
+				<td rowspan="2">
+					<p class="vertical"> Страницы </p>
+				</td>			
+				<td rowspan="2">
+					<p class="vertical"> Домены </p>
+				</td>
+				<td >
+					Global Rank
+				</td>
+				<td colspan="2">
+					Rank in country
+				</td>
+				<td rowspan="2">
+					<p class="vertical"> Показатель отказов </p>
+				</td>
+				<td rowspan="2">
+					<p class="vertical"> Страниц за везит </p>
+				</td>
+				<td rowspan="2">
+					<p class="vertical"> Ср. продолжит визита, м-с </p>
+				</td>																		
+			</tr>
+			<tr>
+				<td>
+					шт.
+				</td>
+				<td>
+					<p class="vertical">  Динамика </p>
+				</td>
+				<td>
+					<p class="vertical"> шт. </p>
+				</td>
+				<td>
+					<p class="vertical"> Динамика </p>
+				</td>
 
-			<td>
-				<p class="vertical"> Значение </p>
-			</td>
+				<td>
+					<p class="vertical"> Значение </p>
+				</td>
 
-			<td>
-				<p class="vertical"> Страна </p>
-			</td>
-			<td>
-				<p class="vertical"> Значение </p>
-			</td>
-																						
-		</tr>
-		<tr>
-	
-			<?php 
-				for ($i=0; $i<20; $i++){
-				echo "<td class='Namber_column'>".$i."</td>";
-			} ?>
-						
+				<td>
+					<p class="vertical"> Страна </p>
+				</td>
+				<td>
+					<p class="vertical"> Значение </p>
+				</td>
+																							
+			</tr>
+			<tr>
+		
+				<?php 
+					for ($i=0; $i<20; $i++){
+					echo "<td class='Namber_column'>".$i."</td>";
+				} ?>
 							
-		</tr>
+								
+			</tr>
+		</thead>	
 	<!-- /Шапка таблицы -->
 		
 
 
 	<?php  
-
+		set_time_limit(0);
 		$ArrNameHyp = GetHypNam();
 
-		// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		for ($i=0; $i < 5; $i++) {			//	для тестов
+
+		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
+		// for ($i=0; $i < 5; $i++) {			//	для тестов
 			
 
 				if (is_array($ArrNameHyp[$i])) {

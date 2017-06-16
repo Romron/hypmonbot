@@ -76,11 +76,10 @@
 		// 		$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
 		// 		 // echo $url;
 
-		// 		set_time_limit(90);
-		// 		sleep(rand(2,8));
+		// 		sleep(rand(5,20));
 		// 		$page_2 = GetWebPage($url);
 
-		// 	}while ($n <= 6);
+		// 	}while ($n <= 2);
 
 		// 		$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
 		// 		array_unshift($result_2, $result_2c);
@@ -335,13 +334,6 @@
 
 
 		$arr_param_hyp = array_merge($result_0[1],$result_1[1],$result_2[1],$result_3[1],$result_4[1],$result_5[1],$result_6[1],$result_7[1],$result_8[1],$result_9[1],$result_10[1],$result_11[1],$result_12[1],$result_13[1],$result_14[1],$result_15[1],$result_16[1],$result_17[1],$result_18[1],$result_19[1]);
-
-		// echo "<br>-------------------------------------------------------------------------------------------------<br>";
-
-		// 	print_r($arr_param_hyp);
-
-		// echo "<br>-------------------------------------------------------------------------------------------------<br>";
-
 
 		return $arr_param_hyp;
 
