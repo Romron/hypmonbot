@@ -1,0 +1,33 @@
+
+
+table, td, th {
+	border: 1px solid #ffffff;
+	text-align: center;
+	
+}
+
+table {
+	// width: 100%;
+	border-collapse: collapse;
+}
+
+td, th {
+	padding: 5px;
+}
+ 
+#hed {
+	widht:300%;
+	background-color: green;
+	border: 2px #ffffff;
+
+}
+
+// .body {
+// 	background-color: red;
+// 	border: 2px #ccffff;
+// }
+
+.body_tabl {
+	background-color: black;
+	border: 4px #ccff55;
+}
