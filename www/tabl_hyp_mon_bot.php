@@ -32,7 +32,6 @@
 	<!-- /Блок кнопок -->
 
 	<!-- Шапка таблицы -->
-		<thead id="Shapka_table">	
 			<tr>
 				<td rowspan="5">
 					<p class="vertical"> Номер п/п </p>
@@ -156,8 +155,8 @@
 					for ($i=0; $i<20; $i++){
 					echo "<td class='Namber_column'>".$i."</td>";
 				} ?>
+						
 							
-								
 			</tr>
 		</thead>	
 	<!-- /Шапка таблицы -->
@@ -167,7 +166,6 @@
 	<?php  
 		set_time_limit(0);
 		$ArrNameHyp = GetHypNam();
-
 
 		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
 		// for ($i=0; $i < 5; $i++) {			//	для тестов
