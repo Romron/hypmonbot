@@ -10,6 +10,7 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script src="js/jquery-3.1.1.js"></script>
 	<script src="js/funktions.js"></script>
+	<script src="js/FixHeaderCol.js"></script>
 
 </head>
 <body>
@@ -22,8 +23,7 @@
 
 			<!-- Блок кнопок -->
 				<div class="BlocButton">
-					<button class="UpdateListHyp">
-
+					<button class="UpdateListHyp" onclick="FixAction(this)">
 						Обновить список хайпов
 					</button>			
 					<button class="UpdateParamHyp">
@@ -36,8 +36,8 @@
 			
 
 			<!-- Шапка таблицы -->
-			<div id="hed">
-				<table class="main_tabl">
+			<!-- <div id="hed"> -->
+				<table class="main_tabl" id="tabl_1">
 					<tr class="HedTab">
 						<th rowspan="4">
 							<p class="vertical"> Номер п/п </p>
@@ -172,13 +172,13 @@
 						</th>																						
 					</tr>
 				</table>
-			</div>
+			<!-- </div> -->
 			<!-- /Шапка таблицы -->
 
 
 		<!-- ******************************************************************************************* -->
 			
-			<div id="body">
+			<!-- <div id="body"> -->
 				<tabl class="body_tabl">
 
 					<?php  
@@ -213,7 +213,7 @@
 
 					?>
 				</table>
-			</div>
+			<!-- </div> -->
 	</div>
 
 	
