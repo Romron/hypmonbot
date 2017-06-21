@@ -134,7 +134,7 @@ function FixHeaderCol(tbl, fixRows, fixCols, ww, hh) {
 	var divHscroll = CEL('div'), d1 = CEL('div');
 	divHscroll.style.cssText = 'width:100%; bottom:0; overflow-x:auto; overflow-y:hidden; position:absolute; z-index:3;';
 	divHscroll.onscroll = function () {
-		var x = -this.scrollLeft + 10 + 'px';
+		var x = -this.scrollLeft + 8 + 'px';
 		bodyCont.style.left = x;
 		tblHead.style.left = x;
 	}
