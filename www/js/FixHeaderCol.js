@@ -1,4 +1,12 @@
-function gid(i) {return document.getElementById(i);}	//	поиск/получение элемента по id
+function gid(i) {
+
+	var k = document.getElementById(i)
+	// console.info(k);
+	return k;
+	}	//	поиск/получение элемента по id
+
+
+
 function CEL(s) {return document.createElement(s);}		//	Создает новый элемент с указанным тегом
 function ACH(p,c) {p.appendChild(c);}		//	добавляет дочерний элемент в конец дочерних элементов
 
@@ -17,7 +25,12 @@ function getScrollWidth() {
 	}
 
 function setSum(tbl, rr, cc) {
-	var rowCount = tbl.rows.length, sum = '';
+
+	// console.info("******  function setSum  *******");
+	// console.info(tbl);
+	debugger;
+	var rowCount = tbl.rows.length,sum = '';
+
 	for (var i=rr; i<rowCount; i++) {
 		var row = tbl.rows[i];
 		for (var j=cc; j < row.cells.length; j++) {
@@ -28,17 +41,24 @@ function setSum(tbl, rr, cc) {
 	}
 	}
 
-function FixAction(el) {
-	// FixHeaderCol(gid('t1'),1,1,400,170);
-	FixHeaderCol(gid('tabl_1'),2,1,400,214);
-	// FixHeaderCol(gid('t3'),10,6,1000,415);
-	// FixHeaderCol(gid('t4'),1,0,340,120);
-	// FixHeaderCol(gid('t5'),0,2,340,150);
+// function FixAction(el) {
+// 	// FixHeaderCol(gid('t1'),1,1,400,170);
 
-	el.parentNode.removeChild(el);
-	}
+// 		console.info("**** function FixAction:  ");
+// 		console.info(" el:  ");
+// 		console.info(el);
+
+// 	FixHeaderCol(gid('tabl_1'),3,3,400,214);
+// 	// FixHeaderCol(gid('t3'),10,6,1000,415);
+// 	// FixHeaderCol(gid('t4'),1,0,340,120);
+// 	// FixHeaderCol(gid('t5'),0,2,340,150);
+
+// 	el.parentNode.removeChild(el);		//	parentNode - возвращает родителя определенного элемента
+// 										// removeChild(el) - удаляет дочерний элемент из DOM. Возвращает удаленный элемент
+// 	}
 
 function FixHeaderCol(tbl, fixRows, fixCols, ww, hh) {
+
 	var scrollWidth = getScrollWidth(), cont = CEL('div'), tblHead = CEL('table'), tblCol = CEL('table'), tblFixCorner = CEL('table');
 	cont.className = 'divFixHeaderCol';	// cont (видимо сокращение от контейнер) это div обёртка в которой демонстрируеться работа скрипта
 	cont.style.width = ww + 'px'; cont.style.height = hh + 'px';	
@@ -49,12 +69,15 @@ function FixHeaderCol(tbl, fixRows, fixCols, ww, hh) {
 
 	var rows = tbl.rows, rowsCnt = rows.length, i=0, j=0, colspanCnt=0, columnCnt=0, newRow, newCell, td;
 		// tbl.rows - возвращает колекцию, надо понимать обычный масив, всех строк tbl
-		// rows.length - возвращает количество элементов в масиве
+		// rows.length - возвращает количество элементов в масиве rows т.е. количество строк в таблице
+
+		// console.info(rows.rowsCnt);
 
 	// Берем самую первую строку (это rows[0]) и получаем истинное число столбцов в ТАБЛИЦЕ (учитывается colspan)
 	for (j=0; j<rows[0].cells.length; j++) {columnCnt += rows[0].cells[j].colSpan;}
 		//	.cells - возвращает колекцию всех элементов <td> в данной строке
 		//	cells[j].colSpan - по видимуму возвращает кол-вообьединённыхячеек т.е. значение атрибута colspan длякаждого <td>
+
 	var delta = columnCnt - fixCols;
 
 	// Пробежимся один раз по всем строкам и построим наши фиксированные таблицы
@@ -77,6 +100,8 @@ function FixHeaderCol(tbl, fixRows, fixCols, ww, hh) {
 				newCell = td[j].cloneNode(true);
 				newCell.style.width = getComputedStyle(td[j]).width;
 				newCell.style.height = td[j].clientHeight - parseInt(getComputedStyle(td[j]).paddingBottom) - parseInt(getComputedStyle(td[j]).paddingTop) + 'px';
+
+
 				ACH(newRow,newCell);
 			}
 		}
@@ -84,9 +109,19 @@ function FixHeaderCol(tbl, fixRows, fixCols, ww, hh) {
 		ACH(tblCol,newRow.cloneNode(true));
 	} // Закончили пробегаться один раз по всем строкам и строить наши фиксированные таблицы
 
-	tblFixCorner.style.position = 'absolute'; tblFixCorner.style.zIndex = '3'; tblFixCorner.className = 'fixRegion';
-	tblHead.style.position = 'absolute'; tblHead.style.zIndex = '2'; tblHead.style.width = tbl.offsetWidth + 'px'; tblHead.className = 'fixRegion';
+	tblFixCorner.style.position = 'absolute'; 
+	tblFixCorner.style.zIndex = '3'; 
+	tblFixCorner.style.backgroundColor = 'white'; 
+	tblFixCorner.className = 'fixRegion';
+	
+	tblHead.style.position = 'absolute'; tblHead.style.zIndex = '2'; 
+	tblHead.style.width = tbl.offsetWidth + 'px'; 
+	tblHead.style.backgroundColor = 'white';
+	tblHead.className = 'fixRegion';
+	tblHead.style.backgroundColor = 'white';
+
 	tblCol.style.position = 'absolute'; tblCol.style.zIndex = '2'; tblCol.className = 'fixRegion';
+	tblCol.style.backgroundColor = 'white';
 
 	cont.insertBefore(tblHead,tbl);
 	cont.insertBefore(tblFixCorner,tbl);
@@ -99,7 +134,7 @@ function FixHeaderCol(tbl, fixRows, fixCols, ww, hh) {
 	var divHscroll = CEL('div'), d1 = CEL('div');
 	divHscroll.style.cssText = 'width:100%; bottom:0; overflow-x:auto; overflow-y:hidden; position:absolute; z-index:3;';
 	divHscroll.onscroll = function () {
-		var x = -this.scrollLeft + 'px';
+		var x = -this.scrollLeft + 10 + 'px';
 		bodyCont.style.left = x;
 		tblHead.style.left = x;
 	}
@@ -116,7 +151,7 @@ function FixHeaderCol(tbl, fixRows, fixCols, ww, hh) {
 	var divVscroll = CEL('div'), d2 = CEL('div');
 	divVscroll.style.cssText = 'height:100%; right:0; overflow-x:hidden; overflow-y:auto; position:absolute; z-index:3';
 	divVscroll.onscroll = function () {
-		var y = -this.scrollTop + 'px';
+		var y = -this.scrollTop + 29 +'px';
 		bodyCont.style.top = y;
 		tblCol.style.top = y;
 	}
@@ -138,7 +173,7 @@ function FixHeaderCol(tbl, fixRows, fixCols, ww, hh) {
 	} //FixHeaderCol
 
 // setSum(gid('t1'),0,0);
-setSum(gid('tabl_1'),2,1);
+//setSum(gid('tabl_1'),2,1);
 // setSum(gid('t3'),2,2);
 // setSum(gid('t4'),0,0);
 // setSum(gid('t5'),0,0);
