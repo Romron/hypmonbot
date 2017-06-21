@@ -1,31 +1,37 @@
 
 
 table, td, th {
-	border: 1px solid #ffffff;
-	text-align: center;
-	
-}
+	border: 1px solid red;
 
 table {
-	// width: 100%;
+
 	border-collapse: collapse;
 }
 
-td, th {
-	padding: 5px;
+#vrap {
+	border: 5px solid red;
 }
- 
+
 #hed {
-	widht:300%;
-	background-color: green;
-	border: 2px #ffffff;
+	width: 2500px;
+	border: 2px solid black;
+	background-color: white;
+	// position: fixed;
+	// right: 10px;
+	// left: 10px;
+	// overflow: auto;
+	// // display: block;
+	// z-index: 5;
+	// // float: left;
 
 }
 
-// .body {
-// 	background-color: red;
-// 	border: 2px #ccffff;
-// }
+#body {
+	// background-color: red;
+	border: 2px solid blue;
+	// position: relative;
+	margin: 200 50 20 50;
+}
 
 .body_tabl {
 	background-color: black;

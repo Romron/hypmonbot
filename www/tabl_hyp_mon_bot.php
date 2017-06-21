@@ -10,19 +10,19 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script src="js/jquery-3.1.1.js"></script>
 	<script src="js/funktions.js"></script>
-
+	<script src="js/FixHeaderCol.js"></script>
 
 </head>
 <body>
 
+	<script type="text/javascript">
+		
+	</script>
 
-
-	<table class="main_tabl">
 
 	<!-- Блок кнопок -->
-		<div class="BlocButton">
-			<button class="UpdateListHyp">
-
+		<div id="BlocButton">
+			<button id="UpdateListHyp" onclick="FixHeaderCol(gid('tabl_1'),4,3,1500,2000)">
 				Обновить список хайпов
 			</button>			
 			<button class="UpdateParamHyp">
@@ -31,186 +31,175 @@
 		</div>
 	<!-- /Блок кнопок -->
 
+
 	<!-- Шапка таблицы -->
-		<thead id="Shapka_table">	
-			<tr>
-				<td rowspan="5">
+		<table class="main_tabl" id="tabl_1">
+			<tr class="HedTab">
+				<th rowspan="4">
 					<p class="vertical"> Номер п/п </p>
-				</td>			
-				<td rowspan="5">
+				</th>			
+				<th rowspan="4">
 					<p class="vertical"> Монитор </p>
-				</td>
-				<td rowspan="5">
+				</th>
+				<th rowspan="4">
 					ПРОЭКТ
-				</td>
-				<td colspan="9">
+				</th>
+				<th colspan="11">
 					http://pr-cy.ru/
-				</td>
-				<td colspan="8">
+				</th>
+				<th colspan="12">
 					http://www.alexa.com/siteinfo
-				</td>
-				<td colspan="3">
+				</th>
+				<th colspan="3">
 					https://www.nic.ru/whois/
-				</td>																							
+				</th>																							
 			</tr>
+			
 			<tr>
-				<td rowspan="3">
+				<th rowspan="3">
 					ТИЦ 
-				</td>
-				<td colspan="4">
+				</th>
+				<th colspan="4">
 					Страницы
-				</td>
-				<td rowspan="3">
+				</th>
+				<th rowspan="3">
 					<p class="vertical"> Просмотры, шт. </p>
-				</td>
-				<td rowspan="3">
+				</th>
+				<th rowspan="3">
 					<p class="vertical"> max трафик из </p>
-				</td>
-				<td colspan="2">
+				</th>
+				<th colspan="2">
 					Baclink
-				</td>			
-
-
-
-
-				<td colspan="3">
+				</th>			
+				<th rowspan="3">
+					<p class="vertical"> Возраст </p>
+				</th>
+				<th rowspan="3">
+					<p class="vertical"> Продлён </p>
+				</th>
+				<th colspan="5">
 					Популярность
-				</td>
-				<td colspan="3">
+				</th>
+				<th colspan="2">
+					География трафика 
+				</th>
+				<th colspan="3">
 					Активность пользователей
-				</td>
-				<td rowspan="3">
+				</th>
+				<th rowspan="3">
 					<p class="vertical"> Процент поискового трафика </p>
-				</td>
-				<td rowspan="3">
+				</th>
+				<th rowspan="3">
 					<p class="vertical"> baclink </p>
-				</td>
-				<td rowspan="3">
+				</th>
+				<th rowspan="3">
 					<p class="vertical"> Дата  регистрации домена </p>
-				</td>
-				<td rowspan="3">
+				</th>
+				<th rowspan="3">
 					<p class="vertical">  Дата окончания домена </p>
-				</td>
-				<td rowspan="3">
+				</th>
+				<th rowspan="3">
 					<p class="vertical"> Дата обновления домена </p>
-				</td>																						
+				</th>																						
 			</tr>
 			<tr>
-				<td colspan="2">
+				<th colspan="2">
 					Яндекс
-				</td>
-				<td colspan="2">
+				</th>
+				<th colspan="2">
 					Google
-				</td>
-				<td rowspan="2">
+				</th>
+				<th rowspan="2">
 					<p class="vertical"> Страницы </p>
-				</td>			
-				<td rowspan="2">
+				</th>			
+				<th rowspan="2">
 					<p class="vertical"> Домены </p>
-				</td>
-				<td >
+				</th>
+				<th colspan="2">
 					Global Rank
-				</td>
-				<td colspan="2">
+				</th>
+				<th colspan="3">
 					Rank in country
-				</td>
-				<td rowspan="2">
+				</th>
+				<th rowspan="2">
+					<p class="vertical"> Максимум из </p>
+				</th>
+				<th rowspan="2">
+					%
+				</th>
+				<th rowspan="2">
 					<p class="vertical"> Показатель отказов </p>
-				</td>
-				<td rowspan="2">
+				</th>
+				<th rowspan="2">
 					<p class="vertical"> Страниц за везит </p>
-				</td>
-				<td rowspan="2">
+				</th>
+				<th rowspan="2">
 					<p class="vertical"> Ср. продолжит визита, м-с </p>
-				</td>																		
+				</th>																		
 			</tr>
 			<tr>
-				<td>
+				<th>
 					шт.
-				</td>
-				<td>
+				</th>
+				<th>
 					<p class="vertical">  Динамика </p>
-				</td>
-				<td>
+				</th>
+				<th>
 					<p class="vertical"> шт. </p>
-				</td>
-				<td>
+				</th>
+				<th>
 					<p class="vertical"> Динамика </p>
-				</td>
+				</th>
 
-				<td>
+				<th>
 					<p class="vertical"> Значение </p>
-				</td>
-
-				<td>
+				</th>
+				<th>
+					<p class="vertical"> Динамика </p>
+				</th>
+				<th>
 					<p class="vertical"> Страна </p>
-				</td>
-				<td>
+				</th>
+				<th>
 					<p class="vertical"> Значение </p>
-				</td>
-																							
+				</th>
+				<th>
+					<p class="vertical"> Динамика </p>
+				</th>																						
 			</tr>
-			<tr>
-		
-				<?php 
-					for ($i=0; $i<20; $i++){
-					echo "<td class='Namber_column'>".$i."</td>";
-				} ?>
-							
-								
-			</tr>
-		</thead>	
-	<!-- /Шапка таблицы -->
-		
 
+	<!-- /Шапка таблицы -->
 
 	<?php  
-		set_time_limit(0);
-		$ArrNameHyp = GetHypNam();
-
-
-		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		// for ($i=0; $i < 5; $i++) {			//	для тестов
-			
-
-				if (is_array($ArrNameHyp[$i])) {
-						$HypName = $ArrNameHyp[$i][1];
-						$HypCount = $ArrNameHyp[$i][2];					
-					echo '<tr>';
-						echo '<td class="NameHyp_Col" rowspan='.$HypCount.'>
-							<p class="vertical">'.$HypName.'</p>
+		for ($i=0; $i < 20; $i++) {			//	для тестов
+			echo '<tr>';
+				echo '<td>
+					<p>'.$i.'</p>
+					</td>';
+			echo 
+				'<td>
+					
+				</td>';
+					echo '<td>
+							<p class="NameHyp"></p>
 							</td>';
-					continue;						
+				for ($q=0; $q < 26; $q++) { 
+					echo '<td>';
+						echo '<p></p>';
+
+					echo "</td>";
 					}
-					echo 
-						'<td>
-							'.$i.'
-						</td>';
-							echo '<td>
-									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
-									</td>';
-
-						$patern_URL = '#https?:\/\/(.*)/#'; 				
-						if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
-						    echo "patern_URL ненайден или ошибка";
-						    return false;
-							} 
-
-
-
-						$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
-						for ($q=0; $q < 20; $q++) { 
-							echo "<td>";
-								echo '<p class="ParamHyp">'.strip_tags($ArrParamHype[$q]).'</p>';
-
-							echo "</td>";
-							}
-					echo '</tr>';
+			echo '</tr>';
 			}
+
+		
+
 	?>
+		</table>
+			<!-- </div> -->
+	<!-- </div> -->
 
-
-	</table>
+	
 
 
 </body>
