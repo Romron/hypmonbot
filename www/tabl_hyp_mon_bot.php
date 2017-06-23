@@ -33,7 +33,7 @@
 
 		<table class="main_tabl" id="tabl_1">
 				<tr>
-					<th rowspan="5" class="NameHyp_Col">
+					<th rowspan="5" class="NameHyp_Col" id="Had_NameHyp_Col">
 						<p class="vertical"> Монитор </p>
 					</th>			
 					<th rowspan="5">
@@ -156,32 +156,6 @@
 				</tr>
 
 	<!-- /Шапка таблицы -->
-
-	
-	<?php  
-		// for ($i=0; $i < 20; $i++) {			//	для тестов
-		// 	echo '<tr>';
-		// 		echo '<td>
-		// 			<p>'.$i.'</p>
-		// 			</td>';
-		// 	echo 
-		// 		'<td>
-					
-		// 		</td>';
-		// 			echo '<td>
-		// 					<p class="NameHyp"></p>
-		// 					</td>';
-		// 		for ($q=0; $q < 26; $q++) { 
-		// 			echo '<td>';
-		// 				echo '<p></p>';
-
-		// 			echo "</td>";
-		// 			}
-		// 	echo '</tr>';
-		// 	}
-	?>
-
-
 
 
 

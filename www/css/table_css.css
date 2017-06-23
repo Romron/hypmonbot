@@ -29,6 +29,14 @@ table {
 
 p.vertical{
   transform: rotate(-90deg);
+	margin: -5px;
+	-webkit-margin-after: 30px;
+	-webkit-margin-before: 30px;
+	color: red;
+}
+
+#Had_NameHyp_Col{
+	margin: -25px;
 }
 
 p.NameHyp{
@@ -38,7 +46,7 @@ p.NameHyp{
 	// color: red;
 }
 
-td.NameHyp_Col{
+.NameHyp_Col{
 	width: 5px;
 }
 
