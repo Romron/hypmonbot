@@ -37,6 +37,7 @@ p.vertical{
 
 #Had_NameHyp_Col{
 	margin: -25px;
+	width: 25px;
 }
 
 p.NameHyp{
@@ -48,6 +49,11 @@ p.NameHyp{
 
 .NameHyp_Col{
 	width: 5px;
+}
+
+.err_mess {
+	// color: rgb(49, 151, 116);
+	color: red;
 }
 
 

@@ -160,6 +160,8 @@
 
 
 	<?php  
+		
+		set_time_limit(0);
 		$ArrNameHyp = GetHypNam();
 		// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
 		for ($i=0; $i < 35; $i++) {			//	для тестов
@@ -188,7 +190,11 @@
 						$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
 						for ($q=0; $q < 20; $q++) { 
 							echo "<td>";
+						if (strpos($ArrParamHype[$q],"ERR")) { 
+								echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
+							}else{
 								echo '<p class="ParamHyp">'.strip_tags($ArrParamHype[$q]).'</p>';
+								}
 							echo "</td>";
 							}
 					echo '</tr>';
