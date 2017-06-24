@@ -30,9 +30,9 @@ table {
 p.vertical{
   transform: rotate(-90deg);
 	margin: -5px;
-	-webkit-margin-after: 30px;
-	-webkit-margin-before: 30px;
-	color: red;
+	-webkit-margin-after: 20px;
+	-webkit-margin-before: 20px;
+	// color: red;
 }
 
 #Had_NameHyp_Col{

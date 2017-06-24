@@ -163,8 +163,8 @@
 		
 		set_time_limit(0);
 		$ArrNameHyp = GetHypNam();
-		// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		for ($i=0; $i < 35; $i++) {			//	для тестов
+		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
+		// for ($i=0; $i < 35; $i++) {			//	для тестов
 			
 				if (is_array($ArrNameHyp[$i])) {
 						$HypName = $ArrNameHyp[$i][1];
@@ -182,7 +182,7 @@
 							echo '<td>
 									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
 									</td>';
-						$patern_URL = '#https?:\/\/(.*)/#'; 				
+						$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
 						if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
 						    echo "patern_URL ненайден или ошибка";
 						    return false;

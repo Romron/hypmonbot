@@ -44,6 +44,7 @@
 	function GetHypNam(){	
 		// $page_1 = file_get_contents("https://bitmakler.com/investmentfund");
 		$page_1 = GetWebPage("https://bitmakler.com/investmentfund");
+			if (is_array($page)) { $page = implode(" ", $page);}				
 				$patern_1 = '#<b onclick="openpage\(\'(https?://(?:www\.)?.*\.*/)#U'; 
 				if (!preg_match_all($patern_1,$page_1,$result_1a,PREG_PATTERN_ORDER)) { 
 				    echo "func GetHypNam:  patern_1 ненайден или ошибка";
@@ -57,53 +58,55 @@
 					$result_1c = array('1'=>'https://bitmakler.com/investmentfund','2' => count($result_1));
 					array_unshift($result_1, $result_1c);
 
-		// $page_2 = GetWebPage('http://allhyipmon.ru/rating');
-		// 	$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
-		// 	$n=0;
-		// 	$result_2 = array();
-		// 	do{
+		$page_2 = GetWebPage('http://allhyipmon.ru/rating');
+			if (is_array($page)) { $page = implode(" ", $page);}
+			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
+			$n=0;
+			$result_2 = array();
+			do{
 
-		// 		if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
-		// 		    echo "func GetHypNam:  patern_2 ненайден или ошибка";
-		// 		    return false;
-		// 			} 
+				if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
+				    echo "func GetHypNam:  patern_2 ненайден или ошибка";
+				    return false;
+					} 
 
-		// 		for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-		// 			$result_2b[$q] = $result_2a[1][$q];
-		// 			}
-		// 		$result_2 = array_merge($result_2,$result_2b);
+				for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+					$result_2b[$q] = $result_2a[1][$q];
+					}
+				$result_2 = array_merge($result_2,$result_2b);
 
-		// 		$n++;
-		// 		$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
-		// 		 // echo $url;
+				$n++;
+				$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
+				 // echo $url;
 
-		// 		sleep(rand(5,20));
-		// 		$page_2 = GetWebPage($url);
+				sleep(rand(5,20));
+				$page_2 = GetWebPage($url);
 
-		// 	}while ($n <= 2);
+			}while ($n <= 2);
 
-		// 		$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
-		// 		array_unshift($result_2, $result_2c);
+				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
+				array_unshift($result_2, $result_2c);
 
-		// $page_3 = GetWebPage('http://list4hyip.com/');
-		// 		$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 
-		// 		if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
-		// 		    echo "func GetHypNam:  patern_3 ненайден или ошибка";
-		// 		    return false;
-		// 			} 
-		// 		for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-		// 			if ($result_3a[1][$q] == "http://list4hyip.com/") {	//	удаляем не нужное
-		// 				continue;
-		// 				}
-		// 			$result_3[$q] = $result_3a[1][$q];
-		// 			}
+		$page_3 = GetWebPage('http://list4hyip.com/');
+				if (is_array($page)) { $page = implode(" ", $page);}	
+				$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 
+				if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
+				    echo "func GetHypNam:  patern_3 ненайден или ошибка";
+				    return false;
+					} 
+				for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+					if ($result_3a[1][$q] == "http://list4hyip.com/") {	//	удаляем не нужное
+						continue;
+						}
+					$result_3[$q] = $result_3a[1][$q];
+					}
 
-		// 			$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
-		// 			array_unshift($result_3, $result_3c);
+					$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
+					array_unshift($result_3, $result_3c);
 
-	    // $result = array_merge($result_1,$result_2,$result_3);
-        // return $result;
-        return $result_1;
+	    $result = array_merge($result_1,$result_2,$result_3);
+        return $result;
+        // return $result_1;
 		}
 
 	function Table(){     	//	создаём таблицу спомощью php
@@ -178,6 +181,7 @@
 		// заполняеться вся строка и только после этого переходм к другому хайпу 
 
 		$page = GetWebPage('https://a.pr-cy.ru/'.$URL_hyp);		
+			if (is_array($page)) { $page = implode(" ", $page);}		
 		
 			 // echo $page;
 			 // exit;
@@ -241,6 +245,9 @@
 						}		
 
 		$page = GetWebPage('http://www.alexa.com/siteinfo/'.$URL_hyp);	
+
+			if (is_array($page)) { $page = implode(" ", $page);}		
+			
 			// echo $page;
 
 			$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 		// Популярность - Global - Значение
@@ -291,6 +298,9 @@
 					} 	
 
 		$page = GetWebPage('https://www.nic.ru/whois/?query='.$URL_hyp);	
+
+			if (is_array($page)) { $page = implode(" ", $page);}
+
 			// echo $page;
 		
 			$patern_17 = '#Domain Registration Date.* (\w{3}) (\d{1,2}) (\d{2}:\d{2}:\d{2}) (GMT) (\d{4})#'; 
