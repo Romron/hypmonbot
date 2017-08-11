@@ -356,6 +356,41 @@
 		// на входе получаем данные в формате json 
 	}
 
+	function conect_DB(){
+		
+		    /* Соединяемся, выбираем базу данных */
+	    $link = mysql_connect("localhost", "root", "") or die("Could not connect : " . mysql_error());
+	    	print "Connected with BD successfully<br>";
+	    mysql_select_db("hypmonbot_test_1") or die("Could not select database");
+		    print "Select database successfully<br>";
+
+	    /* Выполняем SQL-запрос */
+	    $query = "SELECT * FROM test_1";
+	    $result = mysql_query($query) or die("Query failed : " . mysql_error());
+
+	    /* Выводим результаты в html */
+	    
+	    echo "<br><br><br>";
+
+	    print "<table>\n";
+	    while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	        print "\t<tr>\n";
+	        foreach ($line as $col_value) {
+	            print "\t\t<td>$col_value</td>\n";
+	        }
+	        print "\t</tr>\n";
+	    }
+	    print "</table>\n";
+
+	    /* Освобождаем память от результата */
+	    mysql_free_result($result);
+
+	    /* Закрываем соединение */
+	    mysql_close($link);
+
+
+	}
+
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
