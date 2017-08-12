@@ -359,7 +359,7 @@
 	function conect_DB(){
 		// база данных u232951389_hyp1 : Rom343714	создана на 	https://cpanel.hostinger.com.ua : U7vadDhkxk		
 		/* Соединяемся, выбираем базу данных */
-	    $link = mysqli_connect('localhost','root','','hypmonbot_test_1');
+	    $link = mysqli_connect('sql11.freemysqlhosting.net','sql11189828','4UVIZKBKhY','sql11189828');
 	    if (mysqli_connect_errno()) {
 	    	echo "Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
 	    	}
