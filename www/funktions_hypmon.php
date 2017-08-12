@@ -357,23 +357,21 @@
 	}
 
 	function conect_DB(){
-		
-		    /* Соединяемся, выбираем базу данных */
-	    $link = mysql_connect("localhost", "root", "") or die("Could not connect : " . mysql_error());
-	    	print "Connected with BD successfully<br>";
-	    mysql_select_db("hypmonbot_test_1") or die("Could not select database");
-		    print "Select database successfully<br>";
+		// база данных u232951389_hyp1 : Rom343714	создана на 	https://cpanel.hostinger.com.ua : U7vadDhkxk		
+		/* Соединяемся, выбираем базу данных */
+	    $link = mysqli_connect('localhost','root','','hypmonbot_test_1');
+	    if (mysqli_connect_errno()) {
+	    	echo "Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
+	    	}
 
 	    /* Выполняем SQL-запрос */
 	    $query = "SELECT * FROM test_1";
-	    $result = mysql_query($query) or die("Query failed : " . mysql_error());
+	    $result = mysqli_query($link,$query) or die("Query failed : " . mysql_error());	    
 
-	    /* Выводим результаты в html */
-	    
 	    echo "<br><br><br>";
 
 	    print "<table>\n";
-	    while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	    while ($line = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 	        print "\t<tr>\n";
 	        foreach ($line as $col_value) {
 	            print "\t\t<td>$col_value</td>\n";
@@ -383,13 +381,12 @@
 	    print "</table>\n";
 
 	    /* Освобождаем память от результата */
-	    mysql_free_result($result);
+	    mysqli_free_result($result);
 
 	    /* Закрываем соединение */
-	    mysql_close($link);
+	    mysqli_close($link);
 
-
-	}
+		}
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
