@@ -58,34 +58,34 @@
 					$result_1c = array('1'=>'https://bitmakler.com/investmentfund','2' => count($result_1));
 					array_unshift($result_1, $result_1c);
 
-		$page_2 = GetWebPage('http://allhyipmon.ru/rating');
-			if (is_array($page)) { $page = implode(" ", $page);}
-			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
-			$n=0;
-			$result_2 = array();
-			do{
+		// $page_2 = GetWebPage('http://allhyipmon.ru/rating');
+		// 	if (is_array($page)) { $page = implode(" ", $page);}
+		// 	$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
+		// 	$n=0;
+		// 	$result_2 = array();
+		// 	do{
 
-				if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
-				    echo "func GetHypNam:  patern_2 ненайден или ошибка";
-				    return false;
-					} 
+		// 		if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
+		// 		    echo "func GetHypNam:  patern_2 ненайден или ошибка";
+		// 		    return false;
+		// 			} 
 
-				for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-					$result_2b[$q] = $result_2a[1][$q];
-					}
-				$result_2 = array_merge($result_2,$result_2b);
+		// 		for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+		// 			$result_2b[$q] = $result_2a[1][$q];
+		// 			}
+		// 		$result_2 = array_merge($result_2,$result_2b);
 
-				$n++;
-				$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
-				 // echo $url;
+		// 		$n++;
+		// 		$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
+		// 		 // echo $url;
 
-				sleep(rand(5,20));
-				$page_2 = GetWebPage($url);
+		// 		sleep(rand(5,20));
+		// 		$page_2 = GetWebPage($url);
 
-			}while ($n <= 2);
+		// 	}while ($n <= 2);
 
-				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
-				array_unshift($result_2, $result_2c);
+		// 		$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
+		// 		array_unshift($result_2, $result_2c);
 
 		$page_3 = GetWebPage('http://list4hyip.com/');
 				if (is_array($page)) { $page = implode(" ", $page);}	
@@ -104,7 +104,7 @@
 					$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
 					array_unshift($result_3, $result_3c);
 
-	    $result = array_merge($result_1,$result_2,$result_3);
+	    $result = array_merge($result_1,/*$result_2,*/$result_3);
         return $result;
         // return $result_1;
 		}
@@ -350,44 +350,58 @@
 
 		}
 
-
-
-	function Excel_tabl(){
-		// на входе получаем данные в формате json ??
-		}
-
-	function conect_DB(){
-		
+	function conect_DB(){	
 		/* Соединяемся, выбираем базу данных */
-	    $link = mysqli_connect('sql11.freemysqlhosting.net','sql11189828','4UVIZKBKhY','sql11189828');
+	    $link_DB = mysqli_connect('sql11.freemysqlhosting.net','sql11189828','4UVIZKBKhY','sql11189828');
 	    if (mysqli_connect_errno()) {
 	    	echo "Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
 	    	}
+	    return $link_DB;	
+		}
 
-	    /* Выполняем SQL-запрос */
-	    $query = "SELECT * FROM test_1";
-	    $result = mysqli_query($link,$query) or die("Query failed : " . mysql_error());	    
-
-	    echo "<br><br><br>";
-
-	    print "<table>\n";
+	function OutputResultSQL($result){
+		print "<table>\n";
 	    while ($line = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 	        print "\t<tr>\n";
 	        foreach ($line as $col_value) {
 	            print "\t\t<td>$col_value</td>\n";
 	        }
 	        print "\t</tr>\n";
-	    }
+		    }
 	    print "</table>\n";
 
 	    /* Освобождаем память от результата */
 	    mysqli_free_result($result);
+		}	
 
-	    /* Закрываем соединение */
-	    mysqli_close($link);
+	function querySelectIntoDB($link_DB){	//	Данная функция будет только(!!) извликать данные в базу
+	    /* Выполняем SQL-запрос */
+	    $query = "SELECT * FROM test_2";
+	    $result = mysqli_query($link_DB,$query) or die("Query failed : " . mysql_error());	    
+	   	
+	   	return $result;
+		}
+
+	function queryInputIntoDB($link_DB,$arr_date){	//	Данная функция будет только(!!) добавлять данные в базу
+	    /* Выполняем SQL-запрос */
+
+	    for ($i=0; $i < count($arr_date); $i++) { 
+			if (is_array($arr_date[$i])) {
+				continue;						
+				}
+		    $query_input_HypName = "INSERT INTO `test_2`(`project`) VALUES ('".$arr_date[$i]."')";
+		    // $query_input_HypName = "INSERT INTO `test_2`(`project`) VALUES (`666666666666`)";
+		    $result = mysqli_query($link_DB,$query_input_HypName) or die("Query failed : " . mysqli_error($link_DB));	    
+	   		}
 
 		}
 
+
+
+
+	function ExcelTabl(){
+		// на входе получаем данные в формате json ??
+		}
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
