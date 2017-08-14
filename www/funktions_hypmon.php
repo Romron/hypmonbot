@@ -353,11 +353,11 @@
 
 
 	function Excel_tabl(){
-		// на входе получаем данные в формате json 
-	}
+		// на входе получаем данные в формате json ??
+		}
 
 	function conect_DB(){
-		// база данных u232951389_hyp1 : Rom343714	создана на 	https://cpanel.hostinger.com.ua : U7vadDhkxk		
+		
 		/* Соединяемся, выбираем базу данных */
 	    $link = mysqli_connect('sql11.freemysqlhosting.net','sql11189828','4UVIZKBKhY','sql11189828');
 	    if (mysqli_connect_errno()) {
