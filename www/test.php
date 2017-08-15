@@ -12,25 +12,23 @@
 <body>
 
 <?php
-	set_time_limit(0);
+
 	$link_DB = conect_DB();
 
-
-
-	// set_time_limit(0);
-	// $ArrNameHyp = GetHypNam();
-	// print_r($ArrNameHyp);
-
+	set_time_limit(0);
 	$ArrNameHyp = GetHypNam();
-	queryInputIntoDB($link_DB, $ArrNameHyp);
 	
-	
+	queryInputIntoDB($link_DB,$ArrNameHyp);
+
 	$result = querySelectIntoDB($link_DB);
 	OutputResultSQL($result);
 
 
 	/* Закрываем соединение с базой данных*/
 	mysqli_close($link_DB);
+
+
+
 ?>
 
 

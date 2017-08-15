@@ -188,13 +188,15 @@
 
 			$patern_0 = '#<a href="https://yaca.yandex.ru/yca/cy/ch/.*" target="_blank">(.*)</a>#'; 		//	ТИЦ 
 				if (!preg_match_all($patern_0,$page,$result_0,PREG_PATTERN_ORDER)) { 
-				    $result_0 = array('0' => '',array('0' => '<p class="err_mess">ptrn_0_ERR</p>'));
+				    // $result_0 = array('0' => '',array('0' => '<p class="err_mess">ptrn_0_ERR</p>'));		
+				    $result_0 = array('0' => '',array('0' => 0));		
 				    // return false;
 					} 
 
 			$patern_1 = '#href="http:\/\/yandex.ru\/yandsearch\?text=host%3A'.$URL_hyp.'.*target="_blank">(.*)</a>#sU'; 			// шт.  Яндекс
 				if (!preg_match_all($patern_1,$page,$result_1,PREG_PATTERN_ORDER)) { 
-				    $result_1 = array('0' => '',array('0' => '<p class="err_mess">ptrn_1_ERR</p>'));
+				    // $result_1 = array('0' => '',array('0' => '<p class="err_mess">ptrn_1_ERR</p>'));
+				    $result_1 = array('0' => '',array('0' => 0));
 				    // return false;
 					} 
 
@@ -206,7 +208,8 @@
 
 			$patern_3 = '#<a href="https:\/\/www\.google\.com\/search\?\e*q=site:.*" target="_blank">\e*(.*)</a>#sU'; 				// шт.		Гугл
 				if (!preg_match_all($patern_3,$page,$result_3,PREG_PATTERN_ORDER)) { 
-				    $result_3 = array('0' => '',array('0' => '<p class="err_mess">ptrn_3_ERR</p>'));
+				    // $result_3 = array('0' => '',array('0' => '<p class="err_mess">ptrn_3_ERR</p>'));
+				    $result_3 = array('0' => '',array('0' => 0));
 				    // return false;
 					} 		
 
@@ -351,6 +354,16 @@
 		}
 
 	function conect_DB(){	
+		
+					// Your account number is: 232379
+					// Your new database is now ready to use.
+					// To connect to your database use these details
+					// Server: sql11.freemysqlhosting.net
+					// Name: sql11189828
+					// Username: sql11189828
+					// Password: 4UVIZKBKhY
+					// Port number: 3306
+
 		/* Соединяемся, выбираем базу данных */
 	    $link_DB = mysqli_connect('sql11.freemysqlhosting.net','sql11189828','4UVIZKBKhY','sql11189828');
 	    if (mysqli_connect_errno()) {
@@ -374,7 +387,7 @@
 	    mysqli_free_result($result);
 		}	
 
-	function querySelectIntoDB($link_DB){	//	Данная функция будет только(!!) извликать данные в базу
+	function querySelectIntoDB($link_DB){	//	Данная функция будет только(!!) извликать данные из базу
 	    /* Выполняем SQL-запрос */
 	    $query = "SELECT * FROM test_2";
 	    $result = mysqli_query($link_DB,$query) or die("Query failed : " . mysql_error());	    
@@ -382,17 +395,77 @@
 	   	return $result;
 		}
 
-	function queryInputIntoDB($link_DB,$arr_date){	//	Данная функция будет только(!!) добавлять данные в базу
-	    /* Выполняем SQL-запрос */
+	function queryInputIntoDB($link_DB,$ArrNameHyp){	//	Данная функция будет только(!!) добавлять данные в базу
+	    
+		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
+		// for ($i=0; $i < 10; $i++) {			//	для тестов
+			
+				if (is_array($ArrNameHyp[$i])) {
+						$HypMonName = $ArrNameHyp[$i][1];
+					continue;						
+					}
+						$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
+						if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
+						    echo "patern_URL ненайден или ошибка";
+						    return false;
+							} 
+						$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
+						for ($q=0; $q < 20; $q++) { 
+								$ArrParamHype[$q] = strip_tags($ArrParamHype[$q]);
+								}
+			    $query_input = "INSERT INTO test_2(`monitor`, 
+			    									`project`,
+			    									`cy`,
+			    									`page_yndex_pc`,
+			    									`page_yndex_dynamics`, 
+			    									`page_google_pc`, 			    									
+													`page_google_dynamics`, 
+			    									`Views`, 
+			    									`max_traffic`, 
+			    									`Baclink_page`, 
+			    									`Baclink_domain`, 
+			    									`Global_Rank`, 
+			    									`Rank_in_country_country`, 
+			    									`Rank_in_country_value`, 
+			    									`Acidification_index`, 
+			    									`Pages_per_visit`, 
+			    									`The_average_will_continue_to_visit`, 
+			    									`Search_traffic_percentage`, 
+			    									`baclink_alexa`, 
+			    									`Domain_registration_date`, 
+			    									`Domain_end_date`, 
+			    									`Domain_renewal_date`			    									 
+			    							 )VALUES(
+			    							 		'".$HypMonName."',
+			    									'".$ArrNameHyp[$i]."',
+			    									'".$ArrParamHype[0]."',
+			    									'".$ArrParamHype[1]."',
+			    									'".$ArrParamHype[2]."',
+			    									'".$ArrParamHype[3]."',
+			    									'".$ArrParamHype[4]."',
+			    									'".$ArrParamHype[5]."',
+			    									'".$ArrParamHype[6]."',
+			    									'".$ArrParamHype[7]."',
+			    									'".$ArrParamHype[8]."',
+			    									'".$ArrParamHype[9]."',
+			    									'".$ArrParamHype[10]."',
+			    									'".$ArrParamHype[11]."',
+			    									'".$ArrParamHype[12]."',
+			    									'".$ArrParamHype[13]."',
+			    									'".$ArrParamHype[14]."',
+			    									'".$ArrParamHype[15]."',
+			    									'".$ArrParamHype[16]."',
+			    									'".$ArrParamHype[17]."',
+			    									'".$ArrParamHype[18]."',
+			    									'".$ArrParamHype[19]."'
+			    									)";
+			    /* Выполняем SQL-запрос */
+			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
+			}
 
-	    for ($i=0; $i < count($arr_date); $i++) { 
-			if (is_array($arr_date[$i])) {
-				continue;						
-				}
-		    $query_input_HypName = "INSERT INTO `test_2`(`project`) VALUES ('".$arr_date[$i]."')";
-		    // $query_input_HypName = "INSERT INTO `test_2`(`project`) VALUES (`666666666666`)";
-		    $result = mysqli_query($link_DB,$query_input_HypName) or die("Query failed : " . mysqli_error($link_DB));	    
-	   		}
+
+
+
 
 		}
 
