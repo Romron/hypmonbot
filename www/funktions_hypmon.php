@@ -58,34 +58,34 @@
 					$result_1c = array('1'=>'https://bitmakler.com/investmentfund','2' => count($result_1));
 					array_unshift($result_1, $result_1c);
 
-		// $page_2 = GetWebPage('http://allhyipmon.ru/rating');
-		// 	if (is_array($page)) { $page = implode(" ", $page);}
-		// 	$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
-		// 	$n=0;
-		// 	$result_2 = array();
-		// 	do{
+		$page_2 = GetWebPage('http://allhyipmon.ru/rating');
+			if (is_array($page)) { $page = implode(" ", $page);}
+			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
+			$n=0;
+			$result_2 = array();
+			do{
 
-		// 		if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
-		// 		    echo "func GetHypNam:  patern_2 ненайден или ошибка";
-		// 		    return false;
-		// 			} 
+				if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
+				    echo "func GetHypNam:  patern_2 ненайден или ошибка";
+				    return false;
+					} 
 
-		// 		for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-		// 			$result_2b[$q] = $result_2a[1][$q];
-		// 			}
-		// 		$result_2 = array_merge($result_2,$result_2b);
+				for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+					$result_2b[$q] = $result_2a[1][$q];
+					}
+				$result_2 = array_merge($result_2,$result_2b);
 
-		// 		$n++;
-		// 		$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
-		// 		 // echo $url;
+				$n++;
+				$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
+				 // echo $url;
 
-		// 		sleep(rand(5,20));
-		// 		$page_2 = GetWebPage($url);
+				sleep(rand(5,20));
+				$page_2 = GetWebPage($url);
 
-		// 	}while ($n <= 2);
+			}while ($n <= 2);
 
-		// 		$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
-		// 		array_unshift($result_2, $result_2c);
+				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
+				array_unshift($result_2, $result_2c);
 
 		$page_3 = GetWebPage('http://list4hyip.com/');
 				if (is_array($page)) { $page = implode(" ", $page);}	
@@ -355,14 +355,15 @@
 
 	function conect_DB(){	
 		
-					// Your account number is: 232379
-					// Your new database is now ready to use.
-					// To connect to your database use these details
-					// Server: sql11.freemysqlhosting.net
-					// Name: sql11189828
-					// Username: sql11189828
-					// Password: 4UVIZKBKhY
-					// Port number: 3306
+		// http://www.phpmyadmin.co 
+		// Your account number is: 232379
+		// Your new database is now ready to use.
+		// To connect to your database use these details
+		// Server: sql11.freemysqlhosting.net
+		// Name: sql11189828
+		// Username: sql11189828
+		// Password: 4UVIZKBKhY
+		// Port number: 3306
 
 		/* Соединяемся, выбираем базу данных */
 	    $link_DB = mysqli_connect('sql11.freemysqlhosting.net','sql11189828','4UVIZKBKhY','sql11189828');
@@ -397,8 +398,8 @@
 
 	function queryInputIntoDB($link_DB,$ArrNameHyp){	//	Данная функция будет только(!!) добавлять данные в базу
 	    
-		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		// for ($i=0; $i < 10; $i++) {			//	для тестов
+		// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
+		for ($i=0; $i < 10; $i++) {			//	для тестов
 			
 				if (is_array($ArrNameHyp[$i])) {
 						$HypMonName = $ArrNameHyp[$i][1];
@@ -409,11 +410,18 @@
 						    echo "patern_URL ненайден или ошибка";
 						    return false;
 							} 
+						// $date_today = date("m.d.y - H:i:s");
+						$date_today = date('m-d-y', time('h:i:s'));
+
+						echo "<br>".$i.".".$date_today;
+
+
 						$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
 						for ($q=0; $q < 20; $q++) { 
 								$ArrParamHype[$q] = strip_tags($ArrParamHype[$q]);
 								}
 			    $query_input = "INSERT INTO test_2(`monitor`, 
+			    									`date`,
 			    									`project`,
 			    									`cy`,
 			    									`page_yndex_pc`,
@@ -437,6 +445,7 @@
 			    									`Domain_renewal_date`			    									 
 			    							 )VALUES(
 			    							 		'".$HypMonName."',
+			    							 		'".$date_today."',
 			    									'".$ArrNameHyp[$i]."',
 			    									'".$ArrParamHype[0]."',
 			    									'".$ArrParamHype[1]."',

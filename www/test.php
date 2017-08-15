@@ -15,10 +15,24 @@
 
 	$link_DB = conect_DB();
 
-	set_time_limit(0);
-	$ArrNameHyp = GetHypNam();
+	// set_time_limit(0);
+	// $ArrNameHyp = GetHypNam();
 	
-	queryInputIntoDB($link_DB,$ArrNameHyp);
+	// queryInputIntoDB($link_DB,$ArrNameHyp);
+
+	// $date_today = date('m-d-y', time('h:i:s'));
+	// $date_today = date('U');
+	$date_today = date('Y-d-m');
+
+	echo $date_today;
+
+	$query_input = "INSERT INTO test_2(`date`) VALUES ('".$date_today."')";
+	mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
+
+
+	echo "<br>";
+	echo "<br>";
+	echo "<br>";
 
 	$result = querySelectIntoDB($link_DB);
 	OutputResultSQL($result);
