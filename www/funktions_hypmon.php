@@ -484,7 +484,22 @@
 
 			$objPHPExecel = new PHPExcel();
 			$objPHPExecel->setActiveSheetIndex(0);
+			$objPHPExecel->createSheet();
 			$active_sheet = $objPHPExecel->getActiveSheet();
+
+			$active_sheet->getPageSetup()
+						->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);				
+			$active_sheet->getPageSetup()
+						->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+			$active_sheet->getPageMargins()->setTop(0.5);
+			$active_sheet->getPageMargins()->setBottom(0.5);
+			$active_sheet->getPageMargins()->setRight(0.5);
+			$active_sheet->getPageMargins()->setLeft(0.5);
+			$active_sheet->setTitle("SEO параметры");
+			$active_sheet->getColumnDimension('A')->setWidth(7);
+			$active_sheet->getColumnDimension('B')->setWidth(7);
+			$active_sheet->getColumnDimension('C')->setWidth(70);
+
 
 			header("Content-Type:application/vnd.ms-excel");
 			header("Content-Disposition:attachment;filename='simple.xlsx'");
