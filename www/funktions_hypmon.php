@@ -456,8 +456,6 @@
 			}
 		}
 
-
-
 	function OutputResultSQL($result){
 		print "<table>\n";
 	    while ($line = mysqli_fetch_array($result, MYSQL_ASSOC)) {
@@ -496,9 +494,102 @@
 			$active_sheet->getPageMargins()->setRight(0.5);
 			$active_sheet->getPageMargins()->setLeft(0.5);
 			$active_sheet->setTitle("SEO параметры");
+				// ширина колонок 
 			$active_sheet->getColumnDimension('A')->setWidth(7);
 			$active_sheet->getColumnDimension('B')->setWidth(7);
-			$active_sheet->getColumnDimension('C')->setWidth(70);
+			$active_sheet->getColumnDimension('E')->setWidth(7);
+				// высота строк 
+			$active_sheet->getRowDimension(1)->setRowHeight(15);
+				// обьединение ячеек
+			$active_sheet->mergeCells('A1:A5');
+			$active_sheet->mergeCells('B1:B5');
+			$active_sheet->mergeCells('C1:C5');
+			$active_sheet->mergeCells('D1:D5');
+			$active_sheet->mergeCells('E1:M1');
+			$active_sheet->mergeCells('E2:E4');
+			$active_sheet->mergeCells('F2:I2');
+			$active_sheet->mergeCells('F3:G3');
+			$active_sheet->mergeCells('H3:I3');
+			$active_sheet->mergeCells('J2:J4');
+			$active_sheet->mergeCells('K2:K4');
+			$active_sheet->mergeCells('L2:M2');
+			$active_sheet->mergeCells('L3:L4');
+			$active_sheet->mergeCells('M3:M4');
+			$active_sheet->mergeCells('N1:U1');
+			$active_sheet->mergeCells('N2:P2');
+			$active_sheet->mergeCells('O3:P3');
+			$active_sheet->mergeCells('Q2:S2');
+			$active_sheet->mergeCells('Q3:Q4');
+			$active_sheet->mergeCells('R3:R4');
+			$active_sheet->mergeCells('S3:S4');
+			$active_sheet->mergeCells('T2:T4');
+			$active_sheet->mergeCells('U2:U4');
+			$active_sheet->mergeCells('V1:X1');
+			$active_sheet->mergeCells('V2:V4');
+			$active_sheet->mergeCells('W2:W4');
+			$active_sheet->mergeCells('X2:X4');
+
+
+
+				// установить значение ячейки
+			$active_sheet->setCellValue('A1','Монитор');
+			$active_sheet->setCellValue('B1','Номер п/п');
+			$active_sheet->setCellValue('C1','Дата');
+			$active_sheet->setCellValue('D1','Проэкт');
+			$active_sheet->setCellValue('E1','http://pr-cy.ru/');
+			$active_sheet->setCellValue('E2','ТИЦ');
+			$active_sheet->setCellValue('E5',0);
+			$active_sheet->setCellValue('F2','Страницы');
+			$active_sheet->setCellValue('F3','Яндекс');
+			$active_sheet->setCellValue('H3','Google');
+			$active_sheet->setCellValue('F4','шт.');
+			$active_sheet->setCellValue('F5',1);			
+			$active_sheet->setCellValue('G4','Динамика');
+			$active_sheet->setCellValue('G5',2);
+			$active_sheet->setCellValue('H4','шт.');
+			$active_sheet->setCellValue('H5',3);			
+			$active_sheet->setCellValue('I4','Динамика');
+			$active_sheet->setCellValue('I5',4);
+			$active_sheet->setCellValue('J2','Просмотры');
+			$active_sheet->setCellValue('J5',5);
+			$active_sheet->setCellValue('K2','max трафик из');
+			$active_sheet->setCellValue('K5',6);
+			$active_sheet->setCellValue('L2','Baclink');
+			$active_sheet->setCellValue('L3','Страницы');
+			$active_sheet->setCellValue('M3','Домены');
+			$active_sheet->setCellValue('L5',7);
+			$active_sheet->setCellValue('M5',8);
+			$active_sheet->setCellValue('N1','http://www.alexa.com/siteinfo');
+			$active_sheet->setCellValue('N2','Популярность');
+			$active_sheet->setCellValue('N3','Global Rank');
+			$active_sheet->setCellValue('N4','Значение');
+			$active_sheet->setCellValue('N5',9);
+			$active_sheet->setCellValue('O3','Rank in country');
+			$active_sheet->setCellValue('O4','Страна');
+			$active_sheet->setCellValue('O5',10);
+			$active_sheet->setCellValue('P4','Значение');
+			$active_sheet->setCellValue('P5',11);
+			$active_sheet->setCellValue('Q2','Активность пользователей');
+			$active_sheet->setCellValue('Q3','Показатель отказов');
+			$active_sheet->setCellValue('R3','Страниц за визит');
+			$active_sheet->setCellValue('S3','Ср. продолжит визита');
+			$active_sheet->setCellValue('Q5',12);
+			$active_sheet->setCellValue('R5',13);
+			$active_sheet->setCellValue('S5',14);
+			$active_sheet->setCellValue('T2','Процент поискового трафика');
+			$active_sheet->setCellValue('U2','Baclink');
+			$active_sheet->setCellValue('T5',15);
+			$active_sheet->setCellValue('U5',16);
+			$active_sheet->setCellValue('V1','https://www.nic.ru/whois/');
+			$active_sheet->setCellValue('V2','Дата регистрации домена');
+			$active_sheet->setCellValue('W2','Дата окончания домена');
+			$active_sheet->setCellValue('X2','Дата обновления домена');
+			$active_sheet->setCellValue('V5',17);
+			$active_sheet->setCellValue('W5',18);
+			$active_sheet->setCellValue('X5',19);
+
+
+
 
 
 			header("Content-Type:application/vnd.ms-excel");
