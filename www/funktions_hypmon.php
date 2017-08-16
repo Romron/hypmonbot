@@ -487,10 +487,12 @@
 			$active_sheet = $objPHPExecel->getActiveSheet();
 
 			header("Content-Type:application/vnd.ms-excel");
-			header("Content-Disposition:attachment:filename='simple.xls'");
+			header("Content-Disposition:attachment;filename='simple.xlsx'");
 
-			$objWriter = PHPExcel_IOFactory::createteWriter($objPHPExecel, 'Excel2007');
+			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExecel, 'Excel2007');
 			$objWriter->save('php://output');
+
+			exit();
 
 		}			
 
