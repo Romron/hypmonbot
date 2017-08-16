@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Test page</title>
+	<title>Test_excel page</title>
 	<meta charset="utf-8">
 	<meta description="Главная таблица монитора">
 
@@ -12,24 +12,16 @@
 <body>
 
 <?php
+	require_once 'Classes/PHPExcel.php';
 
 	$link_DB = conect_DB();
+	$result_query_SQL = querySelectFromDB($link_DB);
+	OutputResultSQL_InExcel($result_query_SQL);
 
-	set_time_limit(0);
-	$ArrNameHyp = GetHypNam();
 	
-	queryInputIntoDB($link_DB,$ArrNameHyp);
-	$result = querySelectFromDB($link_DB);
-	OutputResultSQL($result);
 
 
-
-
-	/* Закрываем соединение с базой данных*/
 	mysqli_close($link_DB);
-
-
-
 ?>
 
 

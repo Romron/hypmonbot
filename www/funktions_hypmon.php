@@ -373,22 +373,7 @@
 	    return $link_DB;	
 		}
 
-	function OutputResultSQL($result){
-		print "<table>\n";
-	    while ($line = mysqli_fetch_array($result, MYSQL_ASSOC)) {
-	        print "\t<tr>\n";
-	        foreach ($line as $col_value) {
-	            print "\t\t<td>$col_value</td>\n";
-	        }
-	        print "\t</tr>\n";
-		    }
-	    print "</table>\n";
-
-	    /* Освобождаем память от результата */
-	    mysqli_free_result($result);
-		}	
-
-	function querySelectIntoDB($link_DB){	//	Данная функция будет только(!!) извликать данные из базу
+	function querySelectFromDB($link_DB){	//	Данная функция будет только(!!) извликать данные из базу
 	    /* Выполняем SQL-запрос */
 	    $query = "SELECT * FROM test_2";
 	    $result = mysqli_query($link_DB,$query) or die("Query failed : " . mysql_error());	    
@@ -396,30 +381,28 @@
 	   	return $result;
 		}
 
-	function queryInputIntoDB($link_DB,$ArrNameHyp){	//	Данная функция будет только(!!) добавлять данные в базу
+	function queryInputIntoDB($link_DB,$ArrNameHyp) {	//	Данная функция будет только(!!) добавлять данные в базу
 	    
 		// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
 		for ($i=0; $i < 10; $i++) {			//	для тестов
 			
 				if (is_array($ArrNameHyp[$i])) {
-						$HypMonName = $ArrNameHyp[$i][1];
+					$HypMonName = $ArrNameHyp[$i][1];
 					continue;						
 					}
-						$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
-						if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
-						    echo "patern_URL ненайден или ошибка";
-						    return false;
-							} 
-						// $date_today = date("m.d.y - H:i:s");
-						$date_today = date('m-d-y', time('h:i:s'));
+				$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
+				if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
+				    echo "patern_URL ненайден или ошибка";
+				    return false;
+					} 
 
-						echo "<br>".$i.".".$date_today;
+				$date_today = time();	//	получаем текушее кол-во секунд в эпохе Юникс
+				$query_input_date = "INSERT INTO test_2(`date`) VALUES ('".$date_today."')";
 
-
-						$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
-						for ($q=0; $q < 20; $q++) { 
-								$ArrParamHype[$q] = strip_tags($ArrParamHype[$q]);
-								}
+				$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
+				for ($q=0; $q < 20; $q++) { 
+						$ArrParamHype[$q] = strip_tags($ArrParamHype[$q]);
+						}
 			    $query_input = "INSERT INTO test_2(`monitor`, 
 			    									`date`,
 			    									`project`,
@@ -471,13 +454,45 @@
 			    /* Выполняем SQL-запрос */
 			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
 			}
-
-
-
-
-
 		}
 
+
+
+	function OutputResultSQL($result){
+		print "<table>\n";
+	    while ($line = mysqli_fetch_array($result, MYSQL_ASSOC)) {
+	        print "\t<tr>\n";
+	        foreach ($line as $col_value) {
+	            print "\t\t<td>$col_value</td>\n";
+	        }
+	        print "\t</tr>\n";
+		    }
+	    print "</table>\n";
+
+	    /* Освобождаем память от результата */
+	    mysqli_free_result($result);
+		}	
+
+	function OutputResultSQL_InExcel($result_query_SQL){
+		
+		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 
+			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
+			
+			}
+		
+			// print_r($arr_row);
+
+			$objPHPExecel = new PHPExcel();
+			$objPHPExecel->setActiveSheetIndex(0);
+			$active_sheet = $objPHPExecel->getActiveSheet();
+
+			header("Content-Type:application/vnd.ms-excel");
+			header("Content-Disposition:attachment:filename='simple.xls'");
+
+			$objWriter = PHPExcel_IOFactory::createteWriter($objPHPExecel, 'Excel2007');
+			$objWriter->save('php://output');
+
+		}			
 
 
 
