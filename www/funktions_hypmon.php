@@ -253,7 +253,7 @@
 			
 			// echo $page;
 
-			$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 		// Популярность - Global - Значение
+			$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 		// Популярность - Global - Знач
 				if (!preg_match_all($patern_9,$page,$result_9,PREG_PATTERN_ORDER)) { 
 				    $result_9 = array('0' => '',array('0' => '<p class="err_mess">ptrn_9_ERR</p>'));
 				    // return false;
@@ -477,37 +477,38 @@
 			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
 			}
 
-		$objPHPExecel = new PHPExcel();		//	блок создания и получения активного экселевского листа 
-		$objPHPExecel->setActiveSheetIndex(0);
-		$objPHPExecel->createSheet();
-		$active_sheet = $objPHPExecel->getActiveSheet();
+		//	блок создания и получения активного экселевского листа
+			$objPHPExecel = new PHPExcel();		 
+			$objPHPExecel->setActiveSheetIndex(0);
+			$objPHPExecel->createSheet();
+			$active_sheet = $objPHPExecel->getActiveSheet();
 
-		$active_sheet->getPageSetup()		//	блок формирования параметров страницы активного листа
-					->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);				
-		$active_sheet->getPageSetup()
-					->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
-		$active_sheet->getPageMargins()->setTop(0.1);
-		$active_sheet->getPageMargins()->setBottom(0.1);
-		$active_sheet->getPageMargins()->setRight(0.1);
-		$active_sheet->getPageMargins()->setLeft(0.1);
-		$active_sheet->setTitle("SEO параметры");
+			$active_sheet->getPageSetup()		//	блок формирования параметров страницы активного листа
+						->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);				
+			$active_sheet->getPageSetup()
+						->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+			$active_sheet->getPageMargins()->setTop(0.1);
+			$active_sheet->getPageMargins()->setBottom(0.1);
+			$active_sheet->getPageMargins()->setRight(0.1);
+			$active_sheet->getPageMargins()->setLeft(0.1);
+			$active_sheet->setTitle("SEO параметры");
 
-		//	устанавливаем автоматическую ширину колонок для всей таблицы для интервалов типа А:Х не действует!!?? 	
-			// $active_sheet->getColumnDimension('A')->setAutoSize(true);
+		//	устанавливаем ширину колонок для всей таблицы, автоматическая ширина для интервалов типа А:Х не действует!!?? 	
 			$active_sheet->getColumnDimension('A')->setWidth(20);
 			$active_sheet->getColumnDimension('B')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('C')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('D')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('C')->setWidth(13);		
+			$active_sheet->getColumnDimension('D')->setWidth(20);
+			$active_sheet->getColumnDimension('E')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('F')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('G')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('H')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('I')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('J')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('K')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('K')->setWidth(10);		
 			$active_sheet->getColumnDimension('L')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('M')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('N')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('O')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('O')->setWidth(13);		
 			$active_sheet->getColumnDimension('P')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('Q')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('R')->setAutoSize(true);		
@@ -518,14 +519,6 @@
 			$active_sheet->getColumnDimension('W')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('X')->setAutoSize(true);		
 
-		// 	ПРИМЕРЫ
-			// ширина колонок 
-			// $active_sheet->getColumnDimension('A')->setWidth(7);
-			// $active_sheet->getColumnDimension('B')->setWidth(7);
-			// $active_sheet->getColumnDimension('E')->setWidth(7);
-			// 	// высота строк 
-			// $active_sheet->getRowDimension(1)->setRowHeight(15);
-		
 		// шапка таблицы начало 
 			$active_sheet->mergeCells('A1:A5');
 			$active_sheet->mergeCells('B1:B5');
@@ -554,7 +547,7 @@
 			$active_sheet->mergeCells('V2:V4');
 			$active_sheet->mergeCells('W2:W4');
 			$active_sheet->mergeCells('X2:X4');
-				// установить значение ячейки
+				// установить Знач ячейки
 			$active_sheet->setCellValue('A1','Монитор');
 			$active_sheet->setCellValue('B1','п/п');
 			$active_sheet->setCellValue('C1','Дата');
@@ -567,30 +560,30 @@
 			$active_sheet->setCellValue('H3','Google');
 			$active_sheet->setCellValue('F4','шт.');
 			$active_sheet->setCellValue('F5',1);			
-			$active_sheet->setCellValue('G4','Динамика');
+			$active_sheet->setCellValue('G4','Д-ка');
 			$active_sheet->setCellValue('G5',2);
 			$active_sheet->setCellValue('H4','шт.');
 			$active_sheet->setCellValue('H5',3);			
-			$active_sheet->setCellValue('I4','Динамика');
+			$active_sheet->setCellValue('I4','Д-ка');
 			$active_sheet->setCellValue('I5',4);
 			$active_sheet->setCellValue('J2','Просмотры');
 			$active_sheet->setCellValue('J5',5);
 			$active_sheet->setCellValue('K2','max трафик из');
 			$active_sheet->setCellValue('K5',6);
 			$active_sheet->setCellValue('L2','Baclink');
-			$active_sheet->setCellValue('L3','Страницы');
-			$active_sheet->setCellValue('M3','Домены');
+			$active_sheet->setCellValue('L3','Стр.');
+			$active_sheet->setCellValue('M3','Д-ны');
 			$active_sheet->setCellValue('L5',7);
 			$active_sheet->setCellValue('M5',8);
 			$active_sheet->setCellValue('N1','http://www.alexa.com/siteinfo');
 			$active_sheet->setCellValue('N2','Популярность');
-			$active_sheet->setCellValue('N3','Global Rank');
-			$active_sheet->setCellValue('N4','Значение');
+			$active_sheet->setCellValue('N3','Gl.Rank');
+			$active_sheet->setCellValue('N4','Знач');
 			$active_sheet->setCellValue('N5',9);
 			$active_sheet->setCellValue('O3','Rank in country');
 			$active_sheet->setCellValue('O4','Страна');
 			$active_sheet->setCellValue('O5',10);
-			$active_sheet->setCellValue('P4','Значение');
+			$active_sheet->setCellValue('P4','Знач');
 			$active_sheet->setCellValue('P5',11);
 			$active_sheet->setCellValue('Q2','Активность пользователей');
 			$active_sheet->setCellValue('Q3','Показатель отказов');
@@ -645,7 +638,6 @@
 		// заполняем тело таблицы конец
 
 		// Форматирование (задание стилей) таблицы начало 
-			
 			$style_all_table = array(		//	стили для всей таблицы
 				'borders'=>array(
 					'outline'=>array(
@@ -670,7 +662,7 @@
 				);
 				$active_sheet->getStyle('A1:X'.($i-1))->applyFromArray($style_all_table);
 
-			$style_header = array(		//	стили для всей таблицы
+			$style_header = array(		//	стили для шапки таблицы
 				'font'=>array(
 					'bold'=>true,
 					'name'=>'Times New Roman',
@@ -679,7 +671,7 @@
 				);
 				$active_sheet->getStyle('A1:X5')->applyFromArray($style_header);
 
-			$style_vertical_text = array(		//	стили для всей таблицы
+			$style_vertical_text = array(		//	стили для вертикального текста
 				'alignment'=>array(
 					'rotation'=>90
 					),
@@ -687,6 +679,7 @@
 					'size'=>8
 					)												
 				);
+				$active_sheet->getStyle('E2')->applyFromArray($style_vertical_text);				
 				$active_sheet->getStyle('J2')->applyFromArray($style_vertical_text);				
 				$active_sheet->getStyle('L3')->applyFromArray($style_vertical_text);				
 				$active_sheet->getStyle('M3')->applyFromArray($style_vertical_text);				
@@ -694,13 +687,32 @@
 				$active_sheet->getStyle('R3')->applyFromArray($style_vertical_text);				
 				$active_sheet->getStyle('S3')->applyFromArray($style_vertical_text);				
 				$active_sheet->getStyle('T2')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('U2')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('U2')->applyFromArray($style_vertical_text);	
+			
+			$style_left_text = array(		//	стили для ячеек с выравниванием по левому краю
+				'alignment'=>array(
+					'horizontal'=>PHPExcel_STYLE_ALIGNMENT::HORIZONTAL_LEFT
+					)								
+				);
+				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_left_text);							
+				$active_sheet->getStyle('D6:D'.($i-1))->applyFromArray($style_left_text);							
+		
+			$style_text_small_size = array(		//	стили для ячеек с маленьким размером текста 
+				'font'=>array(
+					'size'=>8
+					),								
+				);
+				$active_sheet->getStyle('A5:X5')->applyFromArray($style_text_small_size);
+				$active_sheet->getStyle('K5:K'.($i-1))->applyFromArray($style_text_small_size);
+
+			$style_line_wrap = array(		//	стили для ячеек с переносом строк
+				'alignment'=>array(
+					'wrap'=> TRUE,
+					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER
+					)								
+				);
+				$active_sheet->getStyle('F1:X'.($i-1))->applyFromArray($style_line_wrap);				
 		// Форматирование (задание стилей) таблицы конец 		
-
-
-
-
-
 
 		//	даём команду браузеру отдать на скачивание файл в формате эксель, указываем его имя и даём команду сохранить
 		// header("Content-Type:application/vnd.ms-excel");
@@ -714,10 +726,6 @@
 		}			
 
 
-
-	function ExcelTabl(){
-		// на входе получаем данные в формате json ??
-		}
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
