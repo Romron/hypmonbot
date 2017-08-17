@@ -473,167 +473,224 @@
 
 	function OutputResultSQL_InExcel($result_query_SQL){
 		
-		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 
+		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
 			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
-			
 			}
+
+		$objPHPExecel = new PHPExcel();		//	блок создания и получения активного экселевского листа 
+		$objPHPExecel->setActiveSheetIndex(0);
+		$objPHPExecel->createSheet();
+		$active_sheet = $objPHPExecel->getActiveSheet();
+
+		$active_sheet->getPageSetup()		//	блок формирования параметров страницы активного листа
+					->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);				
+		$active_sheet->getPageSetup()
+					->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+		$active_sheet->getPageMargins()->setTop(0.1);
+		$active_sheet->getPageMargins()->setBottom(0.1);
+		$active_sheet->getPageMargins()->setRight(0.1);
+		$active_sheet->getPageMargins()->setLeft(0.1);
+		$active_sheet->setTitle("SEO параметры");
+
+		//	устанавливаем автоматическую ширину колонок для всей таблицы для интервалов типа А:Х не действует!!?? 	
+			$active_sheet->getColumnDimension('A')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('B')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('C')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('D')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('F')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('G')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('H')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('I')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('J')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('K')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('L')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('M')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('N')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('O')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('P')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('Q')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('R')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('S')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('T')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('U')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('V')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('W')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('X')->setAutoSize(true);		
+
+		// 	ПРИМЕРЫ
+			// ширина колонок 
+			// $active_sheet->getColumnDimension('A')->setWidth(7);
+			// $active_sheet->getColumnDimension('B')->setWidth(7);
+			// $active_sheet->getColumnDimension('E')->setWidth(7);
+			// 	// высота строк 
+			// $active_sheet->getRowDimension(1)->setRowHeight(15);
 		
-			// print_r($arr_row);
+		// шапка таблицы начало 
+			$active_sheet->mergeCells('A1:A5');
+			$active_sheet->mergeCells('B1:B5');
+			$active_sheet->mergeCells('C1:C5');
+			$active_sheet->mergeCells('D1:D5');
+			$active_sheet->mergeCells('E1:M1');
+			$active_sheet->mergeCells('E2:E4');
+			$active_sheet->mergeCells('F2:I2');
+			$active_sheet->mergeCells('F3:G3');
+			$active_sheet->mergeCells('H3:I3');
+			$active_sheet->mergeCells('J2:J4');
+			$active_sheet->mergeCells('K2:K4');
+			$active_sheet->mergeCells('L2:M2');
+			$active_sheet->mergeCells('L3:L4');
+			$active_sheet->mergeCells('M3:M4');
+			$active_sheet->mergeCells('N1:U1');
+			$active_sheet->mergeCells('N2:P2');
+			$active_sheet->mergeCells('O3:P3');
+			$active_sheet->mergeCells('Q2:S2');
+			$active_sheet->mergeCells('Q3:Q4');
+			$active_sheet->mergeCells('R3:R4');
+			$active_sheet->mergeCells('S3:S4');
+			$active_sheet->mergeCells('T2:T4');
+			$active_sheet->mergeCells('U2:U4');
+			$active_sheet->mergeCells('V1:X1');
+			$active_sheet->mergeCells('V2:V4');
+			$active_sheet->mergeCells('W2:W4');
+			$active_sheet->mergeCells('X2:X4');
+				// установить значение ячейки
+			$active_sheet->setCellValue('A1','Монитор');
+			$active_sheet->setCellValue('B1','п/п');
+			$active_sheet->setCellValue('C1','Дата');
+			$active_sheet->setCellValue('D1','Проэкт');
+			$active_sheet->setCellValue('E1','http://pr-cy.ru/');
+			$active_sheet->setCellValue('E2','ТИЦ');
+			$active_sheet->setCellValue('E5',0);
+			$active_sheet->setCellValue('F2','Страницы');
+			$active_sheet->setCellValue('F3','Яндекс');
+			$active_sheet->setCellValue('H3','Google');
+			$active_sheet->setCellValue('F4','шт.');
+			$active_sheet->setCellValue('F5',1);			
+			$active_sheet->setCellValue('G4','Динамика');
+			$active_sheet->setCellValue('G5',2);
+			$active_sheet->setCellValue('H4','шт.');
+			$active_sheet->setCellValue('H5',3);			
+			$active_sheet->setCellValue('I4','Динамика');
+			$active_sheet->setCellValue('I5',4);
+			$active_sheet->setCellValue('J2','Просмотры');
+			$active_sheet->setCellValue('J5',5);
+			$active_sheet->setCellValue('K2','max трафик из');
+			$active_sheet->setCellValue('K5',6);
+			$active_sheet->setCellValue('L2','Baclink');
+			$active_sheet->setCellValue('L3','Страницы');
+			$active_sheet->setCellValue('M3','Домены');
+			$active_sheet->setCellValue('L5',7);
+			$active_sheet->setCellValue('M5',8);
+			$active_sheet->setCellValue('N1','http://www.alexa.com/siteinfo');
+			$active_sheet->setCellValue('N2','Популярность');
+			$active_sheet->setCellValue('N3','Global Rank');
+			$active_sheet->setCellValue('N4','Значение');
+			$active_sheet->setCellValue('N5',9);
+			$active_sheet->setCellValue('O3','Rank in country');
+			$active_sheet->setCellValue('O4','Страна');
+			$active_sheet->setCellValue('O5',10);
+			$active_sheet->setCellValue('P4','Значение');
+			$active_sheet->setCellValue('P5',11);
+			$active_sheet->setCellValue('Q2','Активность пользователей');
+			$active_sheet->setCellValue('Q3','Показатель отказов');
+			$active_sheet->setCellValue('R3','Страниц за визит');
+			$active_sheet->setCellValue('S3','Ср. продолжит визита');
+			$active_sheet->setCellValue('Q5',12);
+			$active_sheet->setCellValue('R5',13);
+			$active_sheet->setCellValue('S5',14);
+			$active_sheet->setCellValue('T2','Процент поискового трафика');
+			$active_sheet->setCellValue('U2','Baclink');
+			$active_sheet->setCellValue('T5',15);
+			$active_sheet->setCellValue('U5',16);
+			$active_sheet->setCellValue('V1','https://www.nic.ru/whois/');
+			$active_sheet->setCellValue('V2','Дата регистрации домена');
+			$active_sheet->setCellValue('W2','Дата окончания домена');
+			$active_sheet->setCellValue('X2','Дата обновления домена');
+			$active_sheet->setCellValue('V5',17);
+			$active_sheet->setCellValue('W5',18);
+			$active_sheet->setCellValue('X5',19);
+		// шапка таблицы конец  
 
-			$objPHPExecel = new PHPExcel();
-			$objPHPExecel->setActiveSheetIndex(0);
-			$objPHPExecel->createSheet();
-			$active_sheet = $objPHPExecel->getActiveSheet();
-
-			$active_sheet->getPageSetup()
-						->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);				
-			$active_sheet->getPageSetup()
-						->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
-			$active_sheet->getPageMargins()->setTop(0.5);
-			$active_sheet->getPageMargins()->setBottom(0.5);
-			$active_sheet->getPageMargins()->setRight(0.5);
-			$active_sheet->getPageMargins()->setLeft(0.5);
-			$active_sheet->setTitle("SEO параметры");
-				// ширина колонок 
-			$active_sheet->getColumnDimension('A')->setWidth(7);
-			$active_sheet->getColumnDimension('B')->setWidth(7);
-			$active_sheet->getColumnDimension('E')->setWidth(7);
-				// высота строк 
-			$active_sheet->getRowDimension(1)->setRowHeight(15);
-				// обьединение ячеек
-			
-
-			// шапка таблицы начало --------------------------------------------
-				$active_sheet->mergeCells('A1:A5');
-				$active_sheet->mergeCells('B1:B5');
-				$active_sheet->mergeCells('C1:C5');
-				$active_sheet->mergeCells('D1:D5');
-				$active_sheet->mergeCells('E1:M1');
-				$active_sheet->mergeCells('E2:E4');
-				$active_sheet->mergeCells('F2:I2');
-				$active_sheet->mergeCells('F3:G3');
-				$active_sheet->mergeCells('H3:I3');
-				$active_sheet->mergeCells('J2:J4');
-				$active_sheet->mergeCells('K2:K4');
-				$active_sheet->mergeCells('L2:M2');
-				$active_sheet->mergeCells('L3:L4');
-				$active_sheet->mergeCells('M3:M4');
-				$active_sheet->mergeCells('N1:U1');
-				$active_sheet->mergeCells('N2:P2');
-				$active_sheet->mergeCells('O3:P3');
-				$active_sheet->mergeCells('Q2:S2');
-				$active_sheet->mergeCells('Q3:Q4');
-				$active_sheet->mergeCells('R3:R4');
-				$active_sheet->mergeCells('S3:S4');
-				$active_sheet->mergeCells('T2:T4');
-				$active_sheet->mergeCells('U2:U4');
-				$active_sheet->mergeCells('V1:X1');
-				$active_sheet->mergeCells('V2:V4');
-				$active_sheet->mergeCells('W2:W4');
-				$active_sheet->mergeCells('X2:X4');
-
-					// установить значение ячейки
-				$active_sheet->setCellValue('A1','Монитор');
-				$active_sheet->setCellValue('B1','Номер п/п');
-				$active_sheet->setCellValue('C1','Дата');
-				$active_sheet->setCellValue('D1','Проэкт');
-				$active_sheet->setCellValue('E1','http://pr-cy.ru/');
-				$active_sheet->setCellValue('E2','ТИЦ');
-				$active_sheet->setCellValue('E5',0);
-				$active_sheet->setCellValue('F2','Страницы');
-				$active_sheet->setCellValue('F3','Яндекс');
-				$active_sheet->setCellValue('H3','Google');
-				$active_sheet->setCellValue('F4','шт.');
-				$active_sheet->setCellValue('F5',1);			
-				$active_sheet->setCellValue('G4','Динамика');
-				$active_sheet->setCellValue('G5',2);
-				$active_sheet->setCellValue('H4','шт.');
-				$active_sheet->setCellValue('H5',3);			
-				$active_sheet->setCellValue('I4','Динамика');
-				$active_sheet->setCellValue('I5',4);
-				$active_sheet->setCellValue('J2','Просмотры');
-				$active_sheet->setCellValue('J5',5);
-				$active_sheet->setCellValue('K2','max трафик из');
-				$active_sheet->setCellValue('K5',6);
-				$active_sheet->setCellValue('L2','Baclink');
-				$active_sheet->setCellValue('L3','Страницы');
-				$active_sheet->setCellValue('M3','Домены');
-				$active_sheet->setCellValue('L5',7);
-				$active_sheet->setCellValue('M5',8);
-				$active_sheet->setCellValue('N1','http://www.alexa.com/siteinfo');
-				$active_sheet->setCellValue('N2','Популярность');
-				$active_sheet->setCellValue('N3','Global Rank');
-				$active_sheet->setCellValue('N4','Значение');
-				$active_sheet->setCellValue('N5',9);
-				$active_sheet->setCellValue('O3','Rank in country');
-				$active_sheet->setCellValue('O4','Страна');
-				$active_sheet->setCellValue('O5',10);
-				$active_sheet->setCellValue('P4','Значение');
-				$active_sheet->setCellValue('P5',11);
-				$active_sheet->setCellValue('Q2','Активность пользователей');
-				$active_sheet->setCellValue('Q3','Показатель отказов');
-				$active_sheet->setCellValue('R3','Страниц за визит');
-				$active_sheet->setCellValue('S3','Ср. продолжит визита');
-				$active_sheet->setCellValue('Q5',12);
-				$active_sheet->setCellValue('R5',13);
-				$active_sheet->setCellValue('S5',14);
-				$active_sheet->setCellValue('T2','Процент поискового трафика');
-				$active_sheet->setCellValue('U2','Baclink');
-				$active_sheet->setCellValue('T5',15);
-				$active_sheet->setCellValue('U5',16);
-				$active_sheet->setCellValue('V1','https://www.nic.ru/whois/');
-				$active_sheet->setCellValue('V2','Дата регистрации домена');
-				$active_sheet->setCellValue('W2','Дата окончания домена');
-				$active_sheet->setCellValue('X2','Дата обновления домена');
-				$active_sheet->setCellValue('V5',17);
-				$active_sheet->setCellValue('W5',18);
-				$active_sheet->setCellValue('X5',19);
-			// шапка таблицы конец  --------------------------------------------
-
-			// тело таблицы 
-				$i = 6;
-				foreach ($arr_row as $item) {
-					$row_next = $row_start + $i;
-					$active_sheet->setCellValue('A'.$row_next,$item['monitor']);
-					$active_sheet->setCellValue('B'.$row_next,$item['id']);
-					$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s', time($item['Date'])));			//	date('d.m.y H:i:s', time($result_D))
-					$active_sheet->setCellValue('D'.$row_next,$item['project']);
-					$active_sheet->setCellValue('E'.$row_next,$item['cy']);
-					$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_pc']);
-					$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_dynamics']);
-					$active_sheet->setCellValue('H'.$row_next,$item['page_google_pc']);
-					$active_sheet->setCellValue('I'.$row_next,$item['page_google_dynamics']);
-					$active_sheet->setCellValue('J'.$row_next,$item['Views']);
-					$active_sheet->setCellValue('K'.$row_next,$item['max_traffic']);
-					$active_sheet->setCellValue('L'.$row_next,$item['Baclink_page']);
-					$active_sheet->setCellValue('M'.$row_next,$item['Baclink_domain']);
-					$active_sheet->setCellValue('N'.$row_next,$item['Global_Rank']);
-					$active_sheet->setCellValue('O'.$row_next,$item['Rank_in_country_country']);
-					$active_sheet->setCellValue('P'.$row_next,$item['Rank_in_country_value']);
-					$active_sheet->setCellValue('Q'.$row_next,$item['Acidification_index']);
-					$active_sheet->setCellValue('R'.$row_next,$item['Pages_per_visit']);
-					$active_sheet->setCellValue('S'.$row_next,$item['The_average_will_continue_to_visit']);
-					$active_sheet->setCellValue('T'.$row_next,$item['Search_traffic_percentage']);
-					$active_sheet->setCellValue('U'.$row_next,$item['baclink_alexa']);
-					$active_sheet->setCellValue('V'.$row_next,$item['Domain_registration_date']);
-					$active_sheet->setCellValue('W'.$row_next,$item['Domain_end_date']);
-					$active_sheet->setCellValue('X'.$row_next,$item['Domain_renewal_date']);
-					
-
-
-
-					$i++;
+		// заполняем тело таблицы начало
+			$i = 6;		 
+			foreach ($arr_row as $item) {
+				$row_next = $row_start + $i;
+				$active_sheet->setCellValue('A'.$row_next,$item['monitor']);
+				$active_sheet->setCellValue('B'.$row_next,$item['id']);
+				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s', time($item['Date'])));			
+				$active_sheet->setCellValue('D'.$row_next,$item['project']);
+				$active_sheet->setCellValue('E'.$row_next,$item['cy']);
+				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_pc']);
+				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_dynamics']);
+				$active_sheet->setCellValue('H'.$row_next,$item['page_google_pc']);
+				$active_sheet->setCellValue('I'.$row_next,$item['page_google_dynamics']);
+				$active_sheet->setCellValue('J'.$row_next,$item['Views']);
+				$active_sheet->setCellValue('K'.$row_next,$item['max_traffic']);
+				$active_sheet->setCellValue('L'.$row_next,$item['Baclink_page']);
+				$active_sheet->setCellValue('M'.$row_next,$item['Baclink_domain']);
+				$active_sheet->setCellValue('N'.$row_next,$item['Global_Rank']);
+				$active_sheet->setCellValue('O'.$row_next,$item['Rank_in_country_country']);
+				$active_sheet->setCellValue('P'.$row_next,$item['Rank_in_country_value']);
+				$active_sheet->setCellValue('Q'.$row_next,$item['Acidification_index']);
+				$active_sheet->setCellValue('R'.$row_next,$item['Pages_per_visit']);
+				$active_sheet->setCellValue('S'.$row_next,$item['The_average_will_continue_to_visit']);
+				$active_sheet->setCellValue('T'.$row_next,$item['Search_traffic_percentage']);
+				$active_sheet->setCellValue('U'.$row_next,$item['baclink_alexa']);
+				$active_sheet->setCellValue('V'.$row_next,$item['Domain_registration_date']);
+				$active_sheet->setCellValue('W'.$row_next,$item['Domain_end_date']);
+				$active_sheet->setCellValue('X'.$row_next,$item['Domain_renewal_date']);
+				$i++;
 				}
+		// заполняем тело таблицы конец
+
+		// Форматирование (задание стилей) таблицы начало 
+			
+			$style_all_table = array(		//	стили для всей таблицы
+				'borders'=>array(
+					'outline'=>array(
+						'style'=>PHPExcel_Style_Border::BORDER_THICK
+						),
+					'allborders'=>array(
+						'style'=>PHPExcel_Style_Border::BORDER_THIN,
+						'color'=>array(
+							'rgb'=>'000000'
+							)
+						)
+					),
+				'font'=>array(
+					'name'=>'Times New Roman',
+					'size'=>10
+					),
+				'alignment'=>array(
+					'horizontal'=>PHPExcel_STYLE_ALIGNMENT::HORIZONTAL_CENTER,
+					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER
+					)								
+				);
+				$active_sheet->getStyle('A1:X'.($i-1))->applyFromArray($style_all_table);
+
+			$style_header = array(		//	стили для всей таблицы
+				'font'=>array(
+					'bold'=>true,
+					'name'=>'Times New Roman',
+					'size'=>12
+					),
+				);
+				$active_sheet->getStyle('A1:X5')->applyFromArray($style_header);
+		// Форматирование (задание стилей) таблицы конец 		
 
 
 
-			header("Content-Type:application/vnd.ms-excel");
-			header("Content-Disposition:attachment;filename='simple.xlsx'");
 
-			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExecel, 'Excel2007');
-			$objWriter->save('php://output');
 
-			exit();
+
+		//	даём команду браузеру отдать на скачивание файл в формате эксель, указываем его имя и даём команду сохранить
+		// header("Content-Type:application/vnd.ms-excel");
+		// header("Content-Disposition:attachment;filename='simple.xlsx'");
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExecel, 'Excel2007');
+		// $objWriter->save('php://output');	//	Сохраняет браузер через форму "Сохранить файл"
+		$objWriter->save('C:\OpenServer\domains\hypmonbot\www\simple.xlsx');
+
+		exit();
 
 		}			
 
