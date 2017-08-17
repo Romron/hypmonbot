@@ -596,7 +596,7 @@
 					$row_next = $row_start + $i;
 					$active_sheet->setCellValue('A'.$row_next,$item['monitor']);
 					$active_sheet->setCellValue('B'.$row_next,$item['id']);
-					$active_sheet->setCellValue('C'.$row_next,$item['Date']);
+					$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s', time($item['Date'])));			//	date('d.m.y H:i:s', time($result_D))
 					$active_sheet->setCellValue('D'.$row_next,$item['project']);
 					$active_sheet->setCellValue('E'.$row_next,$item['cy']);
 					$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_pc']);
