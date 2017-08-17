@@ -82,7 +82,7 @@
 				sleep(rand(5,20));
 				$page_2 = GetWebPage($url);
 
-			}while ($n <= 2);
+			}while ($n <= 5);
 
 				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
 				array_unshift($result_2, $result_2c);
@@ -104,7 +104,7 @@
 					$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
 					array_unshift($result_3, $result_3c);
 
-	    $result = array_merge($result_1,/*$result_2,*/$result_3);
+	    $result = array_merge($result_1,$result_2,$result_3);
         return $result;
         // return $result_1;
 		}
@@ -373,7 +373,7 @@
 	    return $link_DB;	
 		}
 
-	function querySelectFromDB($link_DB){	//	Данная функция будет только(!!) извликать данные из базу
+	function querySelectFromDB($link_DB){	//	Данная функция извликает данные из базы
 	    /* Выполняем SQL-запрос */
 	    $query = "SELECT * FROM test_2";
 	    $result = mysqli_query($link_DB,$query) or die("Query failed : " . mysql_error());	    
@@ -381,10 +381,10 @@
 	   	return $result;
 		}
 
-	function queryInputIntoDB($link_DB,$ArrNameHyp) {	//	Данная функция будет только(!!) добавлять данные в базу
+	function queryInputIntoDB($link_DB,$ArrNameHyp) {	//	Данная функция добавляет данные в базу
 	    
-		// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		for ($i=0; $i < 10; $i++) {			//	для тестов
+		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
+		// for ($i=0; $i < 10; $i++) {			//	для тестов
 			
 				if (is_array($ArrNameHyp[$i])) {
 					$HypMonName = $ArrNameHyp[$i][1];
@@ -727,34 +727,7 @@
 
 
 
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
-
-function GetHypNam_TEST(){
-
-		// $result = array(array('0' => '00000'),'1','2','3','4',array('5' => '55555'),'6','7','8','9','10','11',array('12' => '121212112'),'13','14','15','16','17','18','19','20');
-		
-		$result = array('1','2','3','4','6','7','8','9','10','11','13','14','15','16','17','18','19','20');
-
-		print_r($result);
-
-		return $result;
-	}
-
-function Test_ajax($test_data)
-	{
-		
-		$str = "<br>************ с файла js на сервер пришло".$test_data." ****************<br>";
-		return $str;
-
-	}	
-
-
-//	Добавить кнопку "обновить список хайпов" и понему запускать эту ф-цию
-//	добавить кнопку "обновить параметры хайпов" и выполнять обновление БЕЗ(!!!!) перезагрузки всей страницы,
-//  а также возможность обновить только выбраные строчки отдельно
 
 
 

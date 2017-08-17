@@ -4,10 +4,10 @@
 
 
 		$link_DB = conect_DB();
+		
 		$result_query_SQL = querySelectFromDB($link_DB);
 		OutputResultSQL_InExcel($result_query_SQL);
-
-		
+	
 		mysqli_close($link_DB);
 
 
