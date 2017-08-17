@@ -493,7 +493,8 @@
 		$active_sheet->setTitle("SEO параметры");
 
 		//	устанавливаем автоматическую ширину колонок для всей таблицы для интервалов типа А:Х не действует!!?? 	
-			$active_sheet->getColumnDimension('A')->setAutoSize(true);		
+			// $active_sheet->getColumnDimension('A')->setAutoSize(true);
+			$active_sheet->getColumnDimension('A')->setWidth(20);
 			$active_sheet->getColumnDimension('B')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('C')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('D')->setAutoSize(true);		
@@ -663,7 +664,8 @@
 					),
 				'alignment'=>array(
 					'horizontal'=>PHPExcel_STYLE_ALIGNMENT::HORIZONTAL_CENTER,
-					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER
+					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER,
+					'rotation'=>0
 					)								
 				);
 				$active_sheet->getStyle('A1:X'.($i-1))->applyFromArray($style_all_table);
@@ -676,6 +678,23 @@
 					),
 				);
 				$active_sheet->getStyle('A1:X5')->applyFromArray($style_header);
+
+			$style_vertical_text = array(		//	стили для всей таблицы
+				'alignment'=>array(
+					'rotation'=>90
+					),
+				'font'=>array(
+					'size'=>8
+					)												
+				);
+				$active_sheet->getStyle('J2')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('L3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('M3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('Q3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('R3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('S3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('T2')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('U2')->applyFromArray($style_vertical_text);				
 		// Форматирование (задание стилей) таблицы конец 		
 
 
@@ -688,7 +707,7 @@
 		// header("Content-Disposition:attachment;filename='simple.xlsx'");
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExecel, 'Excel2007');
 		// $objWriter->save('php://output');	//	Сохраняет браузер через форму "Сохранить файл"
-		$objWriter->save('C:\OpenServer\domains\hypmonbot\www\simple.xlsx');
+		$objWriter->save('simple.xlsx');
 
 		exit();
 
