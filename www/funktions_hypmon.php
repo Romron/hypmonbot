@@ -58,55 +58,55 @@
 					$result_1c = array('1'=>'https://bitmakler.com/investmentfund','2' => count($result_1));
 					array_unshift($result_1, $result_1c);
 
-		// $page_2 = GetWebPage('http://allhyipmon.ru/rating');
-		// 	if (is_array($page)) { $page = implode(" ", $page);}
-		// 	$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
-		// 	$n=0;
-		// 	$result_2 = array();
-		// 	do{
+		$page_2 = GetWebPage('http://allhyipmon.ru/rating');
+			if (is_array($page)) { $page = implode(" ", $page);}
+			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
+			$n=0;
+			$result_2 = array();
+			do{
 
-		// 		if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
-		// 		    echo "func GetHypNam:  patern_2 ненайден или ошибка";
-		// 		    return false;
-		// 			} 
+				if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
+				    echo "func GetHypNam:  patern_2 ненайден или ошибка";
+				    return false;
+					} 
 
-		// 		for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-		// 			$result_2b[$q] = $result_2a[1][$q];
-		// 			}
-		// 		$result_2 = array_merge($result_2,$result_2b);
+				for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+					$result_2b[$q] = $result_2a[1][$q];
+					}
+				$result_2 = array_merge($result_2,$result_2b);
 
-		// 		$n++;
-		// 		$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
-		// 		 // echo $url;
+				$n++;
+				$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
+				 // echo $url;
 
-		// 		sleep(rand(5,20));
-		// 		$page_2 = GetWebPage($url);
+				sleep(rand(5,20));
+				$page_2 = GetWebPage($url);
 
-		// 	}while ($n <= 5);
+			}while ($n <= 5);
 
-		// 		$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
-		// 		array_unshift($result_2, $result_2c);
+				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
+				array_unshift($result_2, $result_2c);
 
-		// $page_3 = GetWebPage('http://list4hyip.com/');
-		// 		if (is_array($page)) { $page = implode(" ", $page);}	
-		// 		$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 
-		// 		if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
-		// 		    echo "func GetHypNam:  patern_3 ненайден или ошибка";
-		// 		    return false;
-		// 			} 
-		// 		for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-		// 			if ($result_3a[1][$q] == "http://list4hyip.com/") {	//	удаляем не нужное
-		// 				continue;
-		// 				}
-		// 			$result_3[$q] = $result_3a[1][$q];
-		// 			}
+		$page_3 = GetWebPage('http://list4hyip.com/');
+				if (is_array($page)) { $page = implode(" ", $page);}	
+				$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 
+				if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
+				    echo "func GetHypNam:  patern_3 ненайден или ошибка";
+				    return false;
+					} 
+				for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+					if ($result_3a[1][$q] == "http://list4hyip.com/") {	//	удаляем не нужное
+						continue;
+						}
+					$result_3[$q] = $result_3a[1][$q];
+					}
 
-		// 			$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
-		// 			array_unshift($result_3, $result_3c);
+					$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
+					array_unshift($result_3, $result_3c);
 
-	 //    $result = array_merge($result_1,$result_2,$result_3);
-  //       return $result;
-        return $result_1;
+	    $result = array_merge($result_1,$result_2,$result_3);
+         return $result;
+        // return $result_1;
 		}
 
 	function Table(){     	//	создаём таблицу спомощью php
@@ -390,28 +390,13 @@
 					$ArrParamHype[$q] = htmlentities($ArrParamHype[$q]);
 					$ArrParamHype[$q] = str_replace ("&nbsp;",'',$ArrParamHype[$q]);
 					$ArrParamHype[$q] = str_replace (",",'.',$ArrParamHype[$q]);
+					// $ArrParamHype[$q] = str_replace (":",'.',$ArrParamHype[$q]);
 
 						$patern = '#(\d)+:(\d)+#';
 					if (preg_match_all($patern,$ArrParamHype[$q],$result,PREG_PATTERN_ORDER)) { 
-					    echo "<br><br><br><br>+++++".$ArrParamHype[$q];
-					    	print_r($result);					    
-					    echo "+++<br><br><br><br><br>";
-						
-
+					    $ArrParamHype[$q] = $result[1][0].'.'.$result[2][0];
 						} 						
-
-
 					}
-
-				// echo "<br> Параметры функции:<br>";
-				// echo "HypMonName:".$HypMonName."<br>";
-				// echo "NameHyp:".$NameHyp."<br>";
-
-
-				echo "<br> Начало массива параметров<br>";
-				print_r($ArrParamHype);
-				echo "<br> Конец массива параметров<br><br>";
-
 
 			    $query_input = "INSERT INTO test_2(`monitor`, 
 			    									`date`,
@@ -732,7 +717,8 @@
 					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER
 					)								
 				);
-				$active_sheet->getStyle('F1:X'.($i-1))->applyFromArray($style_line_wrap);				
+				$active_sheet->getStyle('F1:J'.($i-1))->applyFromArray($style_line_wrap);				
+				$active_sheet->getStyle('L1:X'.($i-1))->applyFromArray($style_line_wrap);				
 		
 			$style_cell_fill = array(		//	стили для ячеек с заливкой
 				'fill'=>array(	
@@ -748,14 +734,23 @@
 				$active_sheet->getStyle('Q2:Q'.($i-1))->applyFromArray($style_cell_fill);
 				$active_sheet->getStyle('T2:T'.($i-1))->applyFromArray($style_cell_fill);
 
-			$style_text_color = array(		//	стили для ячеек с текстом выделенным отдельным цветом
+			$style_text_color_1 = array(		//	стили для ячеек с текстом выделенным зелёным цветом
 				'font'=>array(
 					'color'   => array(
-						'rgb' => '00FF00'
+						'rgb' => '388A33'
 						)
 					),							
 				);
-				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color);
+				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color_1);
+
+				$style_text_color_2 = array(		//	стили для ячеек с текстом выделенным зелёным цветом
+				'font'=>array(
+					'color'   => array(
+						'rgb' => '0F1071'
+						)
+					),							
+				);
+				$active_sheet->getStyle('D6:D'.($i-1))->applyFromArray($style_text_color_2);
 
 		// Форматирование (задание стилей) таблицы конец 		
 
