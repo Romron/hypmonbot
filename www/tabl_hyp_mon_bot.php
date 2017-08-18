@@ -17,12 +17,16 @@
 
 	<!-- Блок кнопок -->
 		<div id="BlocButton">
-			<button id="UpdateListHyp" onclick="FixHeaderCol(gid('tabl_1'),5,3,1500,2000)">
+			<button id="Fix_table_header" onclick="FixHeaderCol(gid('tabl_1'),5,3,1500,2000)">
 				Закрипить шапку таблицы
 			</button>			
 			
-			<button class="Export_in_Excel" onclick="location.href='export_in_excel.php'">
+			<button id="Export_in_Excel" onclick="location.href='export_in_excel.php'">
 				Экспортировать в Эксель
+			</button>			
+
+			<button id="Start">
+				Начать сбор данных
 			</button>
 		</div>
 	<!-- /Блок кнопок -->  
@@ -162,19 +166,19 @@
 			$ArrNameHyp = GetHypNam();
 			
 			$link_DB = conect_DB();		// наполнение результатами БД
-			queryInputIntoDB($link_DB,$ArrNameHyp);
-			mysqli_close($link_DB);
+			// queryInputIntoDB($link_DB,$ArrNameHyp);
+			
 			
 			// наполнение результатами таблицы на html странице 
-			for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-			// for ($i=0; $i < 35; $i++) {			//	для тестов
+			// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
+			for ($i=0; $i < 15; $i++) {			//	для тестов
 				
 					if (is_array($ArrNameHyp[$i])) {
-							$HypName = $ArrNameHyp[$i][1];
+							$HypMonName = $ArrNameHyp[$i][1];
 							$HypCount = $ArrNameHyp[$i][2];					
 						echo '<tr>';
 							echo '<td class="NameHyp_Col" rowspan='.$HypCount.'>
-								<p class="vertical">'.$HypName.'</p>
+								<p class="vertical">'.$HypMonName.'</p>
 								</td>';
 						continue;						
 						}
@@ -190,20 +194,24 @@
 							    echo "patern_URL ненайден или ошибка";
 							    return false;
 								} 
+							
 							$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
+							
+							queryInputIntoDB($link_DB,$HypMonName,$ArrNameHyp[$i],$ArrParamHype);
+							
 							for ($q=0; $q < 20; $q++) { 
 								echo "<td>";
 							if (strpos($ArrParamHype[$q],"ERR")) { 
 									echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
 								}else{
-									echo '<p class="ParamHyp">'.strip_tags($ArrParamHype[$q]).'</p>';
+									echo '<p class="ParamHyp">'.trim(strip_tags($ArrParamHype[$q])).'</p>';
 									}
 								echo "</td>";
 								}
 						echo '</tr>';
 				}
 	
-
+				mysqli_close($link_DB);
 
 	?>
 	

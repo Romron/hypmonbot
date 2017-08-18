@@ -58,55 +58,55 @@
 					$result_1c = array('1'=>'https://bitmakler.com/investmentfund','2' => count($result_1));
 					array_unshift($result_1, $result_1c);
 
-		$page_2 = GetWebPage('http://allhyipmon.ru/rating');
-			if (is_array($page)) { $page = implode(" ", $page);}
-			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
-			$n=0;
-			$result_2 = array();
-			do{
+		// $page_2 = GetWebPage('http://allhyipmon.ru/rating');
+		// 	if (is_array($page)) { $page = implode(" ", $page);}
+		// 	$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
+		// 	$n=0;
+		// 	$result_2 = array();
+		// 	do{
 
-				if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
-				    echo "func GetHypNam:  patern_2 ненайден или ошибка";
-				    return false;
-					} 
+		// 		if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
+		// 		    echo "func GetHypNam:  patern_2 ненайден или ошибка";
+		// 		    return false;
+		// 			} 
 
-				for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-					$result_2b[$q] = $result_2a[1][$q];
-					}
-				$result_2 = array_merge($result_2,$result_2b);
+		// 		for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+		// 			$result_2b[$q] = $result_2a[1][$q];
+		// 			}
+		// 		$result_2 = array_merge($result_2,$result_2b);
 
-				$n++;
-				$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
-				 // echo $url;
+		// 		$n++;
+		// 		$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
+		// 		 // echo $url;
 
-				sleep(rand(5,20));
-				$page_2 = GetWebPage($url);
+		// 		sleep(rand(5,20));
+		// 		$page_2 = GetWebPage($url);
 
-			}while ($n <= 5);
+		// 	}while ($n <= 5);
 
-				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
-				array_unshift($result_2, $result_2c);
+		// 		$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
+		// 		array_unshift($result_2, $result_2c);
 
-		$page_3 = GetWebPage('http://list4hyip.com/');
-				if (is_array($page)) { $page = implode(" ", $page);}	
-				$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 
-				if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
-				    echo "func GetHypNam:  patern_3 ненайден или ошибка";
-				    return false;
-					} 
-				for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-					if ($result_3a[1][$q] == "http://list4hyip.com/") {	//	удаляем не нужное
-						continue;
-						}
-					$result_3[$q] = $result_3a[1][$q];
-					}
+		// $page_3 = GetWebPage('http://list4hyip.com/');
+		// 		if (is_array($page)) { $page = implode(" ", $page);}	
+		// 		$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 
+		// 		if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
+		// 		    echo "func GetHypNam:  patern_3 ненайден или ошибка";
+		// 		    return false;
+		// 			} 
+		// 		for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+		// 			if ($result_3a[1][$q] == "http://list4hyip.com/") {	//	удаляем не нужное
+		// 				continue;
+		// 				}
+		// 			$result_3[$q] = $result_3a[1][$q];
+		// 			}
 
-					$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
-					array_unshift($result_3, $result_3c);
+		// 			$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
+		// 			array_unshift($result_3, $result_3c);
 
-	    $result = array_merge($result_1,$result_2,$result_3);
-        return $result;
-        // return $result_1;
+	 //    $result = array_merge($result_1,$result_2,$result_3);
+  //       return $result;
+        return $result_1;
 		}
 
 	function Table(){     	//	создаём таблицу спомощью php
@@ -381,28 +381,38 @@
 	   	return $result;
 		}
 
-	function queryInputIntoDB($link_DB,$ArrNameHyp) {	//	Данная функция добавляет данные в базу
+	function queryInputIntoDB($link_DB,$HypMonName,$NameHyp,$ArrParamHype) {	//	Данная функция добавляет данные в базу
 	    
-		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		// for ($i=0; $i < 10; $i++) {			//	для тестов
-			
-				if (is_array($ArrNameHyp[$i])) {
-					$HypMonName = $ArrNameHyp[$i][1];
-					continue;						
-					}
-				$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
-				if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
-				    echo "patern_URL ненайден или ошибка";
-				    return false;
-					} 
-
 				$date_today = time();	//	получаем текушее кол-во секунд в эпохе Юникс
-				$query_input_date = "INSERT INTO test_2(`date`) VALUES ('".$date_today."')";
 
-				$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
 				for ($q=0; $q < 20; $q++) { 
-						$ArrParamHype[$q] = strip_tags($ArrParamHype[$q]);
-						}
+					$ArrParamHype[$q] = trim(strip_tags($ArrParamHype[$q]));		// убираем все лишние символы
+					$ArrParamHype[$q] = htmlentities($ArrParamHype[$q]);
+					$ArrParamHype[$q] = str_replace ("&nbsp;",'',$ArrParamHype[$q]);
+					$ArrParamHype[$q] = str_replace (",",'.',$ArrParamHype[$q]);
+
+						$patern = '#(\d)+:(\d)+#';
+					if (preg_match_all($patern,$ArrParamHype[$q],$result,PREG_PATTERN_ORDER)) { 
+					    echo "<br><br><br><br>+++++".$ArrParamHype[$q];
+					    	print_r($result);					    
+					    echo "+++<br><br><br><br><br>";
+						
+
+						} 						
+
+
+					}
+
+				// echo "<br> Параметры функции:<br>";
+				// echo "HypMonName:".$HypMonName."<br>";
+				// echo "NameHyp:".$NameHyp."<br>";
+
+
+				echo "<br> Начало массива параметров<br>";
+				print_r($ArrParamHype);
+				echo "<br> Конец массива параметров<br><br>";
+
+
 			    $query_input = "INSERT INTO test_2(`monitor`, 
 			    									`date`,
 			    									`project`,
@@ -429,7 +439,7 @@
 			    							 )VALUES(
 			    							 		'".$HypMonName."',
 			    							 		'".$date_today."',
-			    									'".$ArrNameHyp[$i]."',
+			    									'".$NameHyp."',
 			    									'".$ArrParamHype[0]."',
 			    									'".$ArrParamHype[1]."',
 			    									'".$ArrParamHype[2]."',
@@ -439,7 +449,7 @@
 			    									'".$ArrParamHype[6]."',
 			    									'".$ArrParamHype[7]."',
 			    									'".$ArrParamHype[8]."',
-			    									'".$ArrParamHype[9]."',
+			    									'".$ArrParamHype[9]."',		
 			    									'".$ArrParamHype[10]."',
 			    									'".$ArrParamHype[11]."',
 			    									'".$ArrParamHype[12]."',
@@ -454,7 +464,7 @@
 			    /* Выполняем SQL-запрос */
 			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
 			}
-		}
+
 
 	function OutputResultSQL($result){
 		print "<table>\n";
@@ -477,6 +487,9 @@
 			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
 			}
 
+			// print_r($arr_row);
+
+
 		//	блок создания и получения активного экселевского листа
 			$objPHPExecel = new PHPExcel();		 
 			$objPHPExecel->setActiveSheetIndex(0);
@@ -497,7 +510,7 @@
 			$active_sheet->getColumnDimension('A')->setWidth(20);
 			$active_sheet->getColumnDimension('B')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('C')->setWidth(13);		
-			$active_sheet->getColumnDimension('D')->setWidth(20);
+			$active_sheet->getColumnDimension('D')->setWidth(30);
 			$active_sheet->getColumnDimension('E')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('F')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('G')->setAutoSize(true);		
@@ -510,9 +523,9 @@
 			$active_sheet->getColumnDimension('N')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('O')->setWidth(13);		
 			$active_sheet->getColumnDimension('P')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('Q')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('R')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('S')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('Q')->setWidth(10);		
+			$active_sheet->getColumnDimension('R')->setWidth(10);		
+			$active_sheet->getColumnDimension('S')->setWidth(10);		
 			$active_sheet->getColumnDimension('T')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('U')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('V')->setAutoSize(true);		
@@ -611,7 +624,7 @@
 				$row_next = $row_start + $i;
 				$active_sheet->setCellValue('A'.$row_next,$item['monitor']);
 				$active_sheet->setCellValue('B'.$row_next,$item['id']);
-				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s', time($item['Date'])));			
+				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s',$item['Date']));			
 				$active_sheet->setCellValue('D'.$row_next,$item['project']);
 				$active_sheet->setCellValue('E'.$row_next,$item['cy']);
 				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_pc']);
@@ -652,7 +665,8 @@
 					),
 				'font'=>array(
 					'name'=>'Times New Roman',
-					'size'=>10
+					'size'=>10,
+					'indent'=>1
 					),
 				'alignment'=>array(
 					'horizontal'=>PHPExcel_STYLE_ALIGNMENT::HORIZONTAL_CENTER,
@@ -705,6 +719,13 @@
 				$active_sheet->getStyle('A5:X5')->applyFromArray($style_text_small_size);
 				$active_sheet->getStyle('K5:K'.($i-1))->applyFromArray($style_text_small_size);
 
+			$style_text_large_size = array(		//	стили для ячеек с большим размером текста 
+				'font'=>array(
+					'size'=>14
+					),								
+				);
+				$active_sheet->getStyle('D5:D'.($i-1))->applyFromArray($style_text_large_size);
+
 			$style_line_wrap = array(		//	стили для ячеек с переносом строк
 				'alignment'=>array(
 					'wrap'=> TRUE,
@@ -712,6 +733,30 @@
 					)								
 				);
 				$active_sheet->getStyle('F1:X'.($i-1))->applyFromArray($style_line_wrap);				
+		
+			$style_cell_fill = array(		//	стили для ячеек с заливкой
+				'fill'=>array(	
+					'type'       => PHPExcel_Style_Fill::FILL_SOLID,
+					'color'   => array(
+						'rgb' => 'D5FBF0'
+						)
+					)
+				);
+				$active_sheet->getStyle('E2:E'.($i-1))->applyFromArray($style_cell_fill);
+				$active_sheet->getStyle('J2:J'.($i-1))->applyFromArray($style_cell_fill);
+				$active_sheet->getStyle('N2:N'.($i-1))->applyFromArray($style_cell_fill);
+				$active_sheet->getStyle('Q2:Q'.($i-1))->applyFromArray($style_cell_fill);
+				$active_sheet->getStyle('T2:T'.($i-1))->applyFromArray($style_cell_fill);
+
+			$style_text_color = array(		//	стили для ячеек с текстом выделенным отдельным цветом
+				'font'=>array(
+					'color'   => array(
+						'rgb' => '00FF00'
+						)
+					),							
+				);
+				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color);
+
 		// Форматирование (задание стилей) таблицы конец 		
 
 		//	даём команду браузеру отдать на скачивание файл в формате эксель, указываем его имя и даём команду сохранить

@@ -10,6 +10,9 @@
 	
 		mysqli_close($link_DB);
 
+		echo '<script>location.replace("http://hypmonbot/www/tabl_hyp_mon_bot.php");</script>'; 
+		exit();
+
 
 ?>
 
