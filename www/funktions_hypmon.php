@@ -79,10 +79,10 @@
 				$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
 				 // echo $url;
 
-				sleep(rand(7,40));
+				sleep(rand(5,20));
 				$page_2 = GetWebPage($url);
 
-			}while ($n <= 8);
+			}while ($n <= 5);
 
 				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
 				array_unshift($result_2, $result_2c);
@@ -456,7 +456,7 @@
 
 
 	function OutputResultSQL_InExcel($result_query_SQL){
-		
+
 		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
 			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
 			}
