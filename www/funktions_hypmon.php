@@ -79,10 +79,10 @@
 				$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
 				 // echo $url;
 
-				sleep(rand(5,20));
+				sleep(rand(7,40));
 				$page_2 = GetWebPage($url);
 
-			}while ($n <= 5);
+			}while ($n <= 8);
 
 				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
 				array_unshift($result_2, $result_2c);
@@ -105,7 +105,7 @@
 					array_unshift($result_3, $result_3c);
 
 	    $result = array_merge($result_1,$result_2,$result_3);
-         return $result;
+        return $result;
         // return $result_1;
 		}
 
@@ -383,88 +383,71 @@
 
 	function queryInputIntoDB($link_DB,$HypMonName,$NameHyp,$ArrParamHype) {	//	Данная функция добавляет данные в базу
 	    
-				$date_today = time();	//	получаем текушее кол-во секунд в эпохе Юникс
+		$date_today = time();	//	получаем текушее кол-во секунд в эпохе Юникс
 
-				for ($q=0; $q < 20; $q++) { 
-					$ArrParamHype[$q] = trim(strip_tags($ArrParamHype[$q]));		// убираем все лишние символы
-					$ArrParamHype[$q] = htmlentities($ArrParamHype[$q]);
-					$ArrParamHype[$q] = str_replace ("&nbsp;",'',$ArrParamHype[$q]);
-					$ArrParamHype[$q] = str_replace (",",'.',$ArrParamHype[$q]);
-					// $ArrParamHype[$q] = str_replace (":",'.',$ArrParamHype[$q]);
-
-						$patern = '#(\d)+:(\d)+#';
-					if (preg_match_all($patern,$ArrParamHype[$q],$result,PREG_PATTERN_ORDER)) { 
-					    $ArrParamHype[$q] = $result[1][0].'.'.$result[2][0];
-						} 						
-					}
-
-			    $query_input = "INSERT INTO test_2(`monitor`, 
-			    									`date`,
-			    									`project`,
-			    									`cy`,
-			    									`page_yndex_pc`,
-			    									`page_yndex_dynamics`, 
-			    									`page_google_pc`, 			    									
-													`page_google_dynamics`, 
-			    									`Views`, 
-			    									`max_traffic`, 
-			    									`Baclink_page`, 
-			    									`Baclink_domain`, 
-			    									`Global_Rank`, 
-			    									`Rank_in_country_country`, 
-			    									`Rank_in_country_value`, 
-			    									`Acidification_index`, 
-			    									`Pages_per_visit`, 
-			    									`The_average_will_continue_to_visit`, 
-			    									`Search_traffic_percentage`, 
-			    									`baclink_alexa`, 
-			    									`Domain_registration_date`, 
-			    									`Domain_end_date`, 
-			    									`Domain_renewal_date`			    									 
-			    							 )VALUES(
-			    							 		'".$HypMonName."',
-			    							 		'".$date_today."',
-			    									'".$NameHyp."',
-			    									'".$ArrParamHype[0]."',
-			    									'".$ArrParamHype[1]."',
-			    									'".$ArrParamHype[2]."',
-			    									'".$ArrParamHype[3]."',
-			    									'".$ArrParamHype[4]."',
-			    									'".$ArrParamHype[5]."',
-			    									'".$ArrParamHype[6]."',
-			    									'".$ArrParamHype[7]."',
-			    									'".$ArrParamHype[8]."',
-			    									'".$ArrParamHype[9]."',		
-			    									'".$ArrParamHype[10]."',
-			    									'".$ArrParamHype[11]."',
-			    									'".$ArrParamHype[12]."',
-			    									'".$ArrParamHype[13]."',
-			    									'".$ArrParamHype[14]."',
-			    									'".$ArrParamHype[15]."',
-			    									'".$ArrParamHype[16]."',
-			    									'".$ArrParamHype[17]."',
-			    									'".$ArrParamHype[18]."',
-			    									'".$ArrParamHype[19]."'
-			    									)";
-			    /* Выполняем SQL-запрос */
-			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
+		for ($q=0; $q < 20; $q++) { 
+			$ArrParamHype[$q] = trim(strip_tags($ArrParamHype[$q]));		// убираем все лишние символы
+			$ArrParamHype[$q] = htmlentities($ArrParamHype[$q]);
+			$ArrParamHype[$q] = str_replace ("&nbsp;",'',$ArrParamHype[$q]);
+			if (preg_match_all('#(\d+):(\d+)#',$ArrParamHype[$q],$result_2,PREG_PATTERN_ORDER)) { //время в формате "m:s" переводим в "m.s" для корректного отображения в базе данных 
+				$ArrParamHype[$q] = $result_2[1][0].".".$result_2[2][0];
+				} 				
+			if (preg_match_all('#(\d+),(\d+)(?:,(\d+))*#',$ArrParamHype[$q],$result_3,PREG_PATTERN_ORDER)) {  // милины в формате "2,362,696" переводим в нормальный вид
+				$ArrParamHype[$q] = $result_3[1][0].$result_3[2][0].$result_3[3][0];
+				} 						
 			}
 
-
-	function OutputResultSQL($result){
-		print "<table>\n";
-	    while ($line = mysqli_fetch_array($result, MYSQL_ASSOC)) {
-	        print "\t<tr>\n";
-	        foreach ($line as $col_value) {
-	            print "\t\t<td>$col_value</td>\n";
-	        }
-	        print "\t</tr>\n";
-		    }
-	    print "</table>\n";
-
-	    /* Освобождаем память от результата */
-	    mysqli_free_result($result);
-		}	
+	    $query_input = "INSERT INTO test_2(`monitor`, 
+	    									`date`,
+	    									`project`,
+	    									`cy`,
+	    									`page_yndex_pc`,
+	    									`page_yndex_dynamics`, 
+	    									`page_google_pc`, 			    									
+											`page_google_dynamics`, 
+	    									`Views`, 
+	    									`max_traffic`, 
+	    									`Baclink_page`, 
+	    									`Baclink_domain`, 
+	    									`Global_Rank`, 
+	    									`Rank_in_country_country`, 
+	    									`Rank_in_country_value`, 
+	    									`Acidification_index`, 
+	    									`Pages_per_visit`, 
+	    									`The_average_will_continue_to_visit`, 
+	    									`Search_traffic_percentage`, 
+	    									`baclink_alexa`, 
+	    									`Domain_registration_date`, 
+	    									`Domain_end_date`, 
+	    									`Domain_renewal_date`			    									 
+	    							 )VALUES(
+	    							 		'".$HypMonName."',
+	    							 		'".$date_today."',
+	    									'".$NameHyp."',
+	    									'".$ArrParamHype[0]."',
+	    									'".$ArrParamHype[1]."',
+	    									'".$ArrParamHype[2]."',
+	    									'".$ArrParamHype[3]."',
+	    									'".$ArrParamHype[4]."',
+	    									'".$ArrParamHype[5]."',
+	    									'".$ArrParamHype[6]."',
+	    									'".$ArrParamHype[7]."',
+	    									'".$ArrParamHype[8]."',
+	    									'".$ArrParamHype[9]."',		
+	    									'".$ArrParamHype[10]."',
+	    									'".$ArrParamHype[11]."',
+	    									'".$ArrParamHype[12]."',
+	    									'".$ArrParamHype[13]."',
+	    									'".$ArrParamHype[14]."',
+	    									'".$ArrParamHype[15]."',
+	    									'".$ArrParamHype[16]."',
+	    									'".$ArrParamHype[17]."',
+	    									'".$ArrParamHype[18]."',
+	    									'".$ArrParamHype[19]."'
+	    									)";
+	    /* Выполняем SQL-запрос */
+	    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
+		}
 
 	function OutputResultSQL_InExcel($result_query_SQL){
 		
@@ -717,7 +700,7 @@
 					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER
 					)								
 				);
-				$active_sheet->getStyle('F1:J'.($i-1))->applyFromArray($style_line_wrap);				
+				$active_sheet->getStyle('F1:X'.($i-1))->applyFromArray($style_line_wrap);				
 				$active_sheet->getStyle('L1:X'.($i-1))->applyFromArray($style_line_wrap);				
 		
 			$style_cell_fill = array(		//	стили для ячеек с заливкой
@@ -734,14 +717,14 @@
 				$active_sheet->getStyle('Q2:Q'.($i-1))->applyFromArray($style_cell_fill);
 				$active_sheet->getStyle('T2:T'.($i-1))->applyFromArray($style_cell_fill);
 
-			$style_text_color_1 = array(		//	стили для ячеек с текстом выделенным зелёным цветом
+			$style_text_color = array(		//	стили для ячеек с текстом выделенным отдельным цветом
 				'font'=>array(
 					'color'   => array(
-						'rgb' => '388A33'
+						'rgb' => '00FF00'
 						)
 					),							
 				);
-				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color_1);
+				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color);
 
 				$style_text_color_2 = array(		//	стили для ячеек с текстом выделенным зелёным цветом
 				'font'=>array(
@@ -765,10 +748,20 @@
 
 		}			
 
+	function OutputResultSQL($result){
+		print "<table>\n";
+	    while ($line = mysqli_fetch_array($result, MYSQL_ASSOC)) {
+	        print "\t<tr>\n";
+	        foreach ($line as $col_value) {
+	            print "\t\t<td>$col_value</td>\n";
+	        }
+	        print "\t</tr>\n";
+		    }
+	    print "</table>\n";
 
-
-
-
+	    /* Освобождаем память от результата */
+	    mysqli_free_result($result);
+		}	
 
 
 
