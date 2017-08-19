@@ -701,7 +701,6 @@
 					)								
 				);
 				$active_sheet->getStyle('F1:X'.($i-1))->applyFromArray($style_line_wrap);				
-				$active_sheet->getStyle('L1:X'.($i-1))->applyFromArray($style_line_wrap);				
 		
 			$style_cell_fill = array(		//	стили для ячеек с заливкой
 				'fill'=>array(	
@@ -725,15 +724,6 @@
 					),							
 				);
 				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color);
-
-				$style_text_color_2 = array(		//	стили для ячеек с текстом выделенным зелёным цветом
-				'font'=>array(
-					'color'   => array(
-						'rgb' => '0F1071'
-						)
-					),							
-				);
-				$active_sheet->getStyle('D6:D'.($i-1))->applyFromArray($style_text_color_2);
 
 		// Форматирование (задание стилей) таблицы конец 		
 
