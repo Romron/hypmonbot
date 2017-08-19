@@ -382,7 +382,7 @@
 		}
 
 	function queryInputIntoDB($link_DB,$HypMonName,$NameHyp,$ArrParamHype) {	//	Данная функция добавляет данные в базу
-	    
+		
 		$date_today = time();	//	получаем текушее кол-во секунд в эпохе Юникс
 
 		for ($q=0; $q < 20; $q++) { 
@@ -395,59 +395,65 @@
 			if (preg_match_all('#(\d+),(\d+)(?:,(\d+))*#',$ArrParamHype[$q],$result_3,PREG_PATTERN_ORDER)) {  // милины в формате "2,362,696" переводим в нормальный вид
 				$ArrParamHype[$q] = $result_3[1][0].$result_3[2][0].$result_3[3][0];
 				} 						
+
+						$patern = '#(\d)+:(\d)+#';
+					if (preg_match_all($patern,$ArrParamHype[$q],$result,PREG_PATTERN_ORDER)) { 
+					    $ArrParamHype[$q] = $result[1][0].'.'.$result[2][0];
+						} 						
+					}
+
+			    $query_input = "INSERT INTO test_2(`monitor`, 
+			    									`date`,
+			    									`project`,
+			    									`cy`,
+			    									`page_yndex_pc`,
+			    									`page_yndex_dynamics`, 
+			    									`page_google_pc`, 			    									
+													`page_google_dynamics`, 
+			    									`Views`, 
+			    									`max_traffic`, 
+			    									`Baclink_page`, 
+			    									`Baclink_domain`, 
+			    									`Global_Rank`, 
+			    									`Rank_in_country_country`, 
+			    									`Rank_in_country_value`, 
+			    									`Acidification_index`, 
+			    									`Pages_per_visit`, 
+			    									`The_average_will_continue_to_visit`, 
+			    									`Search_traffic_percentage`, 
+			    									`baclink_alexa`, 
+			    									`Domain_registration_date`, 
+			    									`Domain_end_date`, 
+			    									`Domain_renewal_date`			    									 
+			    							 )VALUES(
+			    							 		'".$HypMonName."',
+			    							 		'".$date_today."',
+			    									'".$NameHyp."',
+			    									'".$ArrParamHype[0]."',
+			    									'".$ArrParamHype[1]."',
+			    									'".$ArrParamHype[2]."',
+			    									'".$ArrParamHype[3]."',
+			    									'".$ArrParamHype[4]."',
+			    									'".$ArrParamHype[5]."',
+			    									'".$ArrParamHype[6]."',
+			    									'".$ArrParamHype[7]."',
+			    									'".$ArrParamHype[8]."',
+			    									'".$ArrParamHype[9]."',		
+			    									'".$ArrParamHype[10]."',
+			    									'".$ArrParamHype[11]."',
+			    									'".$ArrParamHype[12]."',
+			    									'".$ArrParamHype[13]."',
+			    									'".$ArrParamHype[14]."',
+			    									'".$ArrParamHype[15]."',
+			    									'".$ArrParamHype[16]."',
+			    									'".$ArrParamHype[17]."',
+			    									'".$ArrParamHype[18]."',
+			    									'".$ArrParamHype[19]."'
+			    									)";
+			    /* Выполняем SQL-запрос */
+			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
 			}
 
-	    $query_input = "INSERT INTO test_2(`monitor`, 
-	    									`date`,
-	    									`project`,
-	    									`cy`,
-	    									`page_yndex_pc`,
-	    									`page_yndex_dynamics`, 
-	    									`page_google_pc`, 			    									
-											`page_google_dynamics`, 
-	    									`Views`, 
-	    									`max_traffic`, 
-	    									`Baclink_page`, 
-	    									`Baclink_domain`, 
-	    									`Global_Rank`, 
-	    									`Rank_in_country_country`, 
-	    									`Rank_in_country_value`, 
-	    									`Acidification_index`, 
-	    									`Pages_per_visit`, 
-	    									`The_average_will_continue_to_visit`, 
-	    									`Search_traffic_percentage`, 
-	    									`baclink_alexa`, 
-	    									`Domain_registration_date`, 
-	    									`Domain_end_date`, 
-	    									`Domain_renewal_date`			    									 
-	    							 )VALUES(
-	    							 		'".$HypMonName."',
-	    							 		'".$date_today."',
-	    									'".$NameHyp."',
-	    									'".$ArrParamHype[0]."',
-	    									'".$ArrParamHype[1]."',
-	    									'".$ArrParamHype[2]."',
-	    									'".$ArrParamHype[3]."',
-	    									'".$ArrParamHype[4]."',
-	    									'".$ArrParamHype[5]."',
-	    									'".$ArrParamHype[6]."',
-	    									'".$ArrParamHype[7]."',
-	    									'".$ArrParamHype[8]."',
-	    									'".$ArrParamHype[9]."',		
-	    									'".$ArrParamHype[10]."',
-	    									'".$ArrParamHype[11]."',
-	    									'".$ArrParamHype[12]."',
-	    									'".$ArrParamHype[13]."',
-	    									'".$ArrParamHype[14]."',
-	    									'".$ArrParamHype[15]."',
-	    									'".$ArrParamHype[16]."',
-	    									'".$ArrParamHype[17]."',
-	    									'".$ArrParamHype[18]."',
-	    									'".$ArrParamHype[19]."'
-	    									)";
-	    /* Выполняем SQL-запрос */
-	    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
-		}
 
 	function OutputResultSQL_InExcel($result_query_SQL){
 		
