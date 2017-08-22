@@ -16,23 +16,13 @@
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HEADER, true);		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
-		curl_setopt($ch, CURLOPT_COOKIESESSION, true);  
+		// curl_setopt($ch, CURLOPT_COOKIESESSION, true);  
         curl_setopt($ch, CURLOPT_COOKIE,    "ukraine22=599ad1007dd9002c1347d80f");	//	Имя файла, в котором будут сохранены все внутренние cookies текущей передачи после закрытия дескриптора.
-        curl_setopt($ch, CURLOPT_COOKIEJAR,    "cookies/cookies.txt");	//	Имя файла, в котором будут сохранены все внутренние cookies текущей передачи после закрытия дескриптора.
-        curl_setopt($ch, CURLOPT_COOKIEFILE,   "cookies/cookies.txt");  //	Имя файла, содержащего cookies       
+        // curl_setopt($ch, CURLOPT_COOKIEJAR,    "cookies/cookies.txt");	//	Имя файла, в котором будут сохранены все внутренние cookies текущей передачи после закрытия дескриптора.
+        // curl_setopt($ch, CURLOPT_COOKIEFILE,   "cookies/cookies.txt");  //	Имя файла, содержащего cookies       
         curl_setopt($ch, CURLOPT_REFERER, "https://www.google.com.ua/search");       
-        curl_setopt($ch, CURLOPT_ENCODING, "");        // обрабатывает все кодировки
 
 
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);   // возвращает веб-страницу
-        // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);   // переходит по редиректам
-        // curl_setopt($ch, CURLOPT_USERAGENT, $uagent);  // useragent
-        // curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $conect_out); // таймаут соединения
-        // curl_setopt($ch, CURLOPT_TIMEOUT, $tim_out);        // таймаут ответа
-        // curl_setopt($ch, CURLOPT_MAXREDIRS, 10);       // останавливаться после 10-ого редиректа
-        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        // curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-        // curl_setopt($ch, CURLOPT_HTTPGET, true);
        
 
         $content = curl_exec($ch);
