@@ -166,15 +166,15 @@
 	<?php  
 
 			// $URL = "https://bitmakler.com/investmentfund";
-			// $URL = "https://bitmakler.com/";
+			$URL = "https://bitmakler.com/";
 			
-			// $URL = "http://allhyipmon.ru/rating";
+			// $URL = "http://allhyipmon.ru";
 			// $URL = "http://list4hyip.com/";
 
 
-			$URL = "http://rian.com.ua";
+			// $URL = "http://rian.com.ua";
 			
-
+			
 			$page = GetWebPage($URL);
 			echo $page;
 			

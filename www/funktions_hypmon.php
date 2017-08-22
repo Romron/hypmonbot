@@ -8,7 +8,7 @@
 			'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
 		                  application/vnd.ms-excel, application/msword, */*',
 			'Accept-Language: ru,zh-cn;q=0.7,zh;q=0.3',
-			// 'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
+			'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
 			// 'Proxy-Connection: Keep-Alive'
 			);
 
@@ -17,11 +17,11 @@
         
 
 		curl_setopt($ch, CURLOPT_COOKIESESSION, true);  
-        curl_setopt($ch, CURLOPT_COOKIEJAR,    "C:/OpenServer/domains/hypmonbot/www/cookies/cookies.txt");
-        curl_setopt($ch, CURLOPT_COOKIEFILE,   "C:/OpenServer/domains/hypmonbot/www/cookies/cookies.txt");  
+        curl_setopt($ch, CURLOPT_COOKIEJAR,    __DIR__."/cookies/cookies.txt");
+        curl_setopt($ch, CURLOPT_COOKIEFILE,   __DIR__."/cookies/cookies.txt");  
       
 
-
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HEADER, true);		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
         curl_setopt($ch, CURLOPT_REFERER, "https://www.google.com.ua/search");       
