@@ -172,7 +172,7 @@
 			// $URL = "http://list4hyip.com/";
 
 
-			$URL = "http://rian.com.ua/analytics/20160714/1013145888.html";
+			$URL = "http://rian.com.ua";
 			
 
 			$page = GetWebPage($URL);
