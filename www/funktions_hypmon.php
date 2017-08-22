@@ -54,20 +54,20 @@
 
 	function GetHypNam(){	
 		// $page_1 = file_get_contents("https://bitmakler.com/investmentfund");
-		$page_1 = GetWebPage("https://bitmakler.com/investmentfund");
-			if (is_array($page)) { $page = implode(" ", $page);}				
-				$patern_1 = '#<b onclick="openpage\(\'(https?://(?:www\.)?.*\.*/)#U'; 
-				if (!preg_match_all($patern_1,$page_1,$result_1a,PREG_PATTERN_ORDER)) { 
-				    echo "func GetHypNam:  patern_1 ненайден или ошибка";
-				    return false;
-					} 		
+		// $page_1 = GetWebPage("https://bitmakler.com/investmentfund");
+		// 	if (is_array($page)) { $page = implode(" ", $page);}				
+		// 		$patern_1 = '#<b onclick="openpage\(\'(https?://(?:www\.)?.*\.*/)#U'; 
+		// 		if (!preg_match_all($patern_1,$page_1,$result_1a,PREG_PATTERN_ORDER)) { 
+		// 		    echo "func GetHypNam:  patern_1 ненайден или ошибка";
+		// 		    return false;
+		// 			} 		
 	 
-				for ($q=0; $q < count($result_1a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-					$result_1[$q] = $result_1a[1][$q];
-					}
+		// 		for ($q=0; $q < count($result_1a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+		// 			$result_1[$q] = $result_1a[1][$q];
+		// 			}
 
-					$result_1c = array('1'=>'https://bitmakler.com/investmentfund','2' => count($result_1));
-					array_unshift($result_1, $result_1c);
+		// 			$result_1c = array('1'=>'https://bitmakler.com/investmentfund','2' => count($result_1));
+		// 			array_unshift($result_1, $result_1c);
 
 		$page_2 = GetWebPage('http://allhyipmon.ru/rating');
 			if (is_array($page)) { $page = implode(" ", $page);}
@@ -115,7 +115,7 @@
 					$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
 					array_unshift($result_3, $result_3c);
 
-	    $result = array_merge($result_1,$result_2,$result_3);
+	    $result = array_merge(/*$result_1,*/$result_2,$result_3);
         return $result;
         // return $result_1;
 		}
