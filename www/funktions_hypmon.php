@@ -1,27 +1,28 @@
 <?php 
 	function GetWebPage( $url, $conect_out = 120, $tim_out = 120){    
-        $uagent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36" ; // "Opera/9.80 (Windows NT 6.1; WOW64) Presto/2.12.388 Version/12.14"; 
-
        
 		$headers = array(
 			'GET ' . $url . ' HTTP/1.0',
 			'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
 		                  application/vnd.ms-excel, application/msword, */*',
 			'Accept-Language: ru,zh-cn;q=0.7,zh;q=0.3',
-			'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
+			'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)'
 			// 'Proxy-Connection: Keep-Alive'
 			);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);   // возвращает веб-страницу
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);   // переходит по редиректам
+        curl_setopt($ch, CURLOPT_ENCODING, "");        // обрабатывает все кодировки
 
 		curl_setopt($ch, CURLOPT_COOKIESESSION, true);  
         curl_setopt($ch, CURLOPT_COOKIEJAR,    __DIR__."/cookies/cookies.txt");
         curl_setopt($ch, CURLOPT_COOKIEFILE,   __DIR__."/cookies/cookies.txt");  
       
 
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
         curl_setopt($ch, CURLOPT_REFERER, "https://www.google.com.ua/search");       
@@ -42,6 +43,8 @@
         if (($result['errno'] != 0 )||($result['http_code'] != 200))  // если ошибка
           {
            echo "<br>"."Код ошибки:&nbsp".$result['errmsg']."<br>";       // если ошибка....
+           		print_r($result);
+
            return $result;
           }
         else  // если не ошибка
