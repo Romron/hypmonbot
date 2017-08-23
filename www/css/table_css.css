@@ -22,6 +22,19 @@ table {
 	margin: 0;
 }
 
+button {
+	top: 10px;
+	color: blue;
+}
+
+
+
+/*----------------------------------------------------*/
+
+
+
+
+
 #UpdateListHyp {
 	position: relative;
 	margin: 10px;

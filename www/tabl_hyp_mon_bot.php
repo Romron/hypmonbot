@@ -16,7 +16,7 @@
 <body>
 
 	<!-- Блок кнопок -->
-		<div id="BlocButton">
+				<div id="BlocButton">
 			<button id="Fix_table_header" onclick="FixHeaderCol(gid('tabl_1'),5,3,1500,2000)">
 				Закрипить шапку таблицы
 			</button>			
@@ -32,7 +32,7 @@
 	<!-- /Блок кнопок -->  
 
 	<!-- Шапка таблицы -->
-
+		 
 		<table class="main_tabl" id="tabl_1">
 				<tr>
 					<th rowspan="5" class="NameHyp_Col" id="Had_NameHyp_Col">
@@ -157,61 +157,83 @@
 								
 									
 				</tr>
-
+ 		
 	<!-- /Шапка таблицы -->
+
+
+
 
 	<?php  
 
-			set_time_limit(0);
-			$ArrNameHyp = GetHypNam();
+		# блок тестов 
+			// $URL = "https://bitmakler.com/investmentfund";
+			// $URL = "https://bitmakler.com/";
 			
-			$link_DB = conect_DB();		// наполнение результатами БД
-			// queryInputIntoDB($link_DB,$ArrNameHyp);
+			// $URL = "http://allhyipmon.ru";
+			// $URL = "http://list4hyip.com/";
+
+
+			// $URL = "http://rian.com.ua";
+
+			// $page = GetWebPage($URL);
+			// echo $page;
 			
+
+
+		set_time_limit(0);
+		$ArrNameHyp = GetHypNam();
+
+		
+		$link_DB = conect_DB();		// наполнение результатами БД
+		// queryInputIntoDB($link_DB,$ArrNameHyp);
+		
+		
+		// наполнение результатами таблицы на html странице 
+		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
+		// for ($i=0; $i < 11; $i++) {			//	для тестов
 			
-			// наполнение результатами таблицы на html странице 
-			for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-			// for ($i=0; $i < 11; $i++) {			//	для тестов
-				
-					if (is_array($ArrNameHyp[$i])) {
-							$HypMonName = $ArrNameHyp[$i][1];
-							$HypCount = $ArrNameHyp[$i][2];					
-						echo '<tr>';
-							echo '<td class="NameHyp_Col" rowspan='.$HypCount.'>
-								<p class="vertical">'.$HypMonName.'</p>
-								</td>';
-						continue;						
-						}
-						echo 
-							'<td>
-								'.$i.'
+				if (is_array($ArrNameHyp[$i])) {
+						$HypMonName = $ArrNameHyp[$i][1];
+						$HypCount = $ArrNameHyp[$i][2];					
+					echo '<tr>';
+						echo '<td class="NameHyp_Col" rowspan='.$HypCount.'>
+							<p class="vertical">'.$HypMonName.'</p>
 							</td>';
-								echo '<td>
-										<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
-										</td>';
-							$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
-							if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
-							    echo "patern_URL ненайден или ошибка";
-							    return false;
-								} 
-							
-							$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
-							
-							queryInputIntoDB($link_DB,$HypMonName,$ArrNameHyp[$i],$ArrParamHype);
-							
-							for ($q=0; $q < 20; $q++) { 
-								echo "<td>";
-							if (strpos($ArrParamHype[$q],"ERR")) { 
-									echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
-								}else{
-									echo '<p class="ParamHyp">'.trim(strip_tags($ArrParamHype[$q])).'</p>';
-									}
-								echo "</td>";
+					continue;						
+					}
+					echo 
+						'<td>
+							'.$i.'
+						</td>';
+							echo '<td>
+									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
+									</td>';
+						$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
+						if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
+						    echo "patern_URL ненайден или ошибка";
+						    return false;
+							} 
+						
+						$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
+						
+						queryInputIntoDB($link_DB,$HypMonName,$ArrNameHyp[$i],$ArrParamHype);
+						
+						for ($q=0; $q < 20; $q++) { 
+							echo "<td>";
+						if (strpos($ArrParamHype[$q],"ERR")) { 
+								echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
+							}else{
+								echo '<p class="ParamHyp">'.trim(strip_tags($ArrParamHype[$q])).'</p>';
 								}
-						echo '</tr>';
-				}
+							echo "</td>";
+							}
+					echo '</tr>';
+			}
+
+			mysqli_close($link_DB);
+
 	
-				mysqli_close($link_DB);
+
 
 	?>
 	

@@ -1,20 +1,32 @@
 <?php 
 	function GetWebPage( $url, $conect_out = 120, $tim_out = 120){    
-        $uagent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36" ; // "Opera/9.80 (Windows NT 6.1; WOW64) Presto/2.12.388 Version/12.14"; 
+       
+		$headers = array(
+			'GET ' . $url . ' HTTP/1.0',
+			'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
+		                  application/vnd.ms-excel, application/msword, */*',
+			'Accept-Language: ru,zh-cn;q=0.7,zh;q=0.3',
+			'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)'
+			// 'Proxy-Connection: Keep-Alive'
+			);
 
-        $ch = curl_init( $url );
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);   // возвращает веб-страницу
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);   // переходит по редиректам
         curl_setopt($ch, CURLOPT_ENCODING, "");        // обрабатывает все кодировки
-        curl_setopt($ch, CURLOPT_USERAGENT, $uagent);  // useragent
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $conect_out); // таймаут соединения
-        curl_setopt($ch, CURLOPT_TIMEOUT, $tim_out);        // таймаут ответа
-        curl_setopt($ch, CURLOPT_MAXREDIRS, 10);       // останавливаться после 10-ого редиректа
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_COOKIEJAR,    "cookies/cookies.txt");
-        curl_setopt($ch, CURLOPT_COOKIEFILE,   "cookies/cookies.txt");         
-        curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-        curl_setopt($ch, CURLOPT_HTTPGET, true);
+
+		curl_setopt($ch, CURLOPT_COOKIESESSION, true);  
+        curl_setopt($ch, CURLOPT_COOKIEJAR,    __DIR__."/cookies/cookies.txt");
+        curl_setopt($ch, CURLOPT_COOKIEFILE,   __DIR__."/cookies/cookies.txt");  
+      
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);		
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
+        curl_setopt($ch, CURLOPT_REFERER, "https://www.google.com.ua/search");       
+
         $content = curl_exec($ch);
         $err     = curl_errno($ch);
         $errmsg  = curl_error($ch);
@@ -31,32 +43,34 @@
         if (($result['errno'] != 0 )||($result['http_code'] != 200))  // если ошибка
           {
            echo "<br>"."Код ошибки:&nbsp".$result['errmsg']."<br>";       // если ошибка....
+           		print_r($result);
+
            return $result;
           }
         else  // если не ошибка
           {
             $page = $result['content'];
             return $page;
-            //echo $page;
+            // echo $page;
           }
       }
 
 	function GetHypNam(){	
 		// $page_1 = file_get_contents("https://bitmakler.com/investmentfund");
-		$page_1 = GetWebPage("https://bitmakler.com/investmentfund");
-			if (is_array($page)) { $page = implode(" ", $page);}				
-				$patern_1 = '#<b onclick="openpage\(\'(https?://(?:www\.)?.*\.*/)#U'; 
-				if (!preg_match_all($patern_1,$page_1,$result_1a,PREG_PATTERN_ORDER)) { 
-				    echo "func GetHypNam:  patern_1 ненайден или ошибка";
-				    return false;
-					} 		
+		// $page_1 = GetWebPage("https://bitmakler.com/investmentfund");
+		// 	if (is_array($page)) { $page = implode(" ", $page);}				
+		// 		$patern_1 = '#<b onclick="openpage\(\'(https?://(?:www\.)?.*\.*/)#U'; 
+		// 		if (!preg_match_all($patern_1,$page_1,$result_1a,PREG_PATTERN_ORDER)) { 
+		// 		    echo "func GetHypNam:  patern_1 ненайден или ошибка";
+		// 		    return false;
+		// 			} 		
 	 
-				for ($q=0; $q < count($result_1a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-					$result_1[$q] = $result_1a[1][$q];
-					}
+		// 		for ($q=0; $q < count($result_1a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+		// 			$result_1[$q] = $result_1a[1][$q];
+		// 			}
 
-					$result_1c = array('1'=>'https://bitmakler.com/investmentfund','2' => count($result_1));
-					array_unshift($result_1, $result_1c);
+		// 			$result_1c = array('1'=>'https://bitmakler.com/investmentfund','2' => count($result_1));
+		// 			array_unshift($result_1, $result_1c);
 
 		$page_2 = GetWebPage('http://allhyipmon.ru/rating');
 			if (is_array($page)) { $page = implode(" ", $page);}
@@ -104,7 +118,7 @@
 					$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
 					array_unshift($result_3, $result_3c);
 
-	    $result = array_merge($result_1,$result_2,$result_3);
+	    $result = array_merge(/*$result_1,*/$result_2,$result_3);
         return $result;
         // return $result_1;
 		}
