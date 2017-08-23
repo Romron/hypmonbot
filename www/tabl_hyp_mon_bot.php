@@ -16,7 +16,7 @@
 <body>
 
 	<!-- Блок кнопок -->
-				<div id="BlocButton">
+		<div id="BlocButton">
 			<button id="Fix_table_header" onclick="FixHeaderCol(gid('tabl_1'),5,3,1500,2000)">
 				Закрипить шапку таблицы
 			</button>			
@@ -31,8 +31,7 @@
 		</div>
 	<!-- /Блок кнопок -->  
 
-	<!-- Шапка таблицы -->
-		 
+	<!-- Шапка таблицы --> 
 		<table class="main_tabl" id="tabl_1">
 				<tr>
 					<th rowspan="5" class="NameHyp_Col" id="Had_NameHyp_Col">
@@ -157,28 +156,12 @@
 								
 									
 				</tr>
- 		
 	<!-- /Шапка таблицы -->
 
 
 
 
 	<?php  
-
-		# блок тестов 
-			// $URL = "https://bitmakler.com/investmentfund";
-			// $URL = "https://bitmakler.com/";
-			
-			// $URL = "http://allhyipmon.ru";
-			// $URL = "http://list4hyip.com/";
-
-
-			// $URL = "http://rian.com.ua";
-
-			// $page = GetWebPage($URL);
-			// echo $page;
-			
-
 
 		set_time_limit(0);
 		$ArrNameHyp = GetHypNam();

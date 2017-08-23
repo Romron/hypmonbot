@@ -23,9 +23,10 @@
       
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        
         curl_setopt($ch, CURLOPT_HEADER, true);		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
-        curl_setopt($ch, CURLOPT_REFERER, "https://www.google.com.ua/search");       
+        curl_setopt($ch, CURLOPT_REFERER, $url);       
 
         $content = curl_exec($ch);
         $err     = curl_errno($ch);
@@ -58,7 +59,7 @@
 	function GetHypNam(){	
 		// $page_1 = file_get_contents("https://bitmakler.com/investmentfund");
 		// $page_1 = GetWebPage("https://bitmakler.com/investmentfund");
-		// 	if (is_array($page)) { $page = implode(" ", $page);}				
+		// 	if (is_array($page_1)) { $page_1 = implode(" ", $page_1);}				
 		// 		$patern_1 = '#<b onclick="openpage\(\'(https?://(?:www\.)?.*\.*/)#U'; 
 		// 		if (!preg_match_all($patern_1,$page_1,$result_1a,PREG_PATTERN_ORDER)) { 
 		// 		    echo "func GetHypNam:  patern_1 ненайден или ошибка";
@@ -73,7 +74,7 @@
 		// 			array_unshift($result_1, $result_1c);
 
 		$page_2 = GetWebPage('http://allhyipmon.ru/rating');
-			if (is_array($page)) { $page = implode(" ", $page);}
+			if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
 			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
 			$n=0;
 			$result_2 = array();
@@ -102,7 +103,7 @@
 				array_unshift($result_2, $result_2c);
 
 		$page_3 = GetWebPage('http://list4hyip.com/');
-				if (is_array($page)) { $page = implode(" ", $page);}	
+				if (is_array($page_3)) { $page_3 = implode(" ", $page_3);}	
 				$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 
 				if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
 				    echo "func GetHypNam:  patern_3 ненайден или ошибка";
