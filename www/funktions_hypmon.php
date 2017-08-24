@@ -388,11 +388,14 @@
 	    return $link_DB;	
 		}
 
-	function querySelectFromDB($link_DB){	//	Данная функция извликает данные из базы
+	function querySelectFromDB($link_DB,$name_field="*"){	//	Данная функция извликает данные из базы
 	    /* Выполняем SQL-запрос */
-	    $query = "SELECT * FROM test_2";
-	    $result = mysqli_query($link_DB,$query) or die("Query failed : " . mysql_error());	    
-	   	
+	    
+	    echo "<br>".__FUNCTION__."&nbsp&nbsp получено поле: &nbsp&nbsp".$name_field;
+
+	    $query = "SELECT `".$name_field."` FROM test_2";
+	    $result = mysqli_query($link_DB,$query) or die(__FUNCTION__."&nbsp&nbspQuery failed : " . mysql_error());	    
+
 	   	return $result;
 		}
 
@@ -470,22 +473,21 @@
 			}
 
 
-	function OutputResultSQL_InExcel($result_query_SQL){
-
-		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
-			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
-			}
-
-			// print_r($arr_row);
+	function OutputResultSQL_InExcel($arr_data_query_SQL,$name_exls_file="simple.xlsx",$arr_name_sheets=0,$name_active_sheet=""){
+		// для болие широкого испльзования данной ф-ции, например в ф-ции DataProcessing(), вводим новые параметры:
+		// $name_exls_file - для того чтобы различать файлы созданные в разных ф-циях и вразное время
+		// $arr_name_sheets - для создания многих листов в данном файле. т.е. предполагаеться возможность экспорта данных на разные листы
 
 
 		//	блок создания и получения активного экселевского листа
-			$objPHPExecel = new PHPExcel();		 
-			$objPHPExecel->setActiveSheetIndex(0);
-			$objPHPExecel->createSheet();
-			$active_sheet = $objPHPExecel->getActiveSheet();
+			$objPHPExcel = new PHPExcel();		 
+			$objPHPExcel->createSheet();
+			// $objPHPExcel->setActiveSheetIndex(0);
+			$active_sheet = $objPHPExcel->getActiveSheet(0);
+			$active_sheet->setTitle("SEO параметры");
 
-			$active_sheet->getPageSetup()		//	блок формирования параметров страницы активного листа
+		//	блок формирования параметров страницы, при выводе на печать, активного листа
+			$active_sheet->getPageSetup()		
 						->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);				
 			$active_sheet->getPageSetup()
 						->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
@@ -493,7 +495,40 @@
 			$active_sheet->getPageMargins()->setBottom(0.1);
 			$active_sheet->getPageMargins()->setRight(0.1);
 			$active_sheet->getPageMargins()->setLeft(0.1);
-			$active_sheet->setTitle("SEO параметры");
+
+		// //	добавляем листы в количестве и с названиями казаными в массиве $arr_name_sheets
+		// 	for ($i=0; $i <count($arr_name_sheets) ; $i++) { 
+		// 		// Create a new worksheet called “My Data”
+		// 		$WorkSheet = new PHPExcel_Worksheet($objPHPExcel, $arr_name_sheets[$i]);
+		// 		// Attach the “My Data” worksheet as the first worksheet in the PHPExcel object
+		// 		$objPHPExcel->addSheet($WorkSheet,1);
+		// 		}
+
+			$w = 0;		//для отладки
+
+		//	Из полученного массива обьектов базы данных формируем (!??)АССОЦИАТИВНЫЙ массив(ы) которые перебираем в цыкле 
+			foreach ($arr_data_query_SQL as $key => $value){ 
+			
+			echo "<br><br>foreach&nbsp;&nbsp;".$w++."<br>";
+				echo $key."&nbsp;=>&nbsp;";
+				print_r($value);
+
+
+			echo "<br><br><br>";				
+
+
+				$result_query_SQL = $value[0];
+				for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	
+					$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
+					}
+				
+				// Create a new worksheet called “My Data”
+				$WorkSheet = new PHPExcel_Worksheet($objPHPExcel,$key);
+				// Attach the “My Data” worksheet as the first worksheet in the PHPExcel object
+				$objPHPExcel->addSheet($WorkSheet,1);
+				$active_sheet = $objPHPExcel->setActiveSheetIndexByName($key);
+
+
 
 		//	устанавливаем ширину колонок для всей таблицы, автоматическая ширина для интервалов типа А:Х не действует!!?? 	
 			$active_sheet->getColumnDimension('A')->setWidth(20);
@@ -745,15 +780,21 @@
 					),							
 				);
 				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color);
-
 		// Форматирование (задание стилей) таблицы конец 		
+
+				}
+
+
+
+
+
 
 		//	даём команду браузеру отдать на скачивание файл в формате эксель, указываем его имя и даём команду сохранить
 		// header("Content-Type:application/vnd.ms-excel");
 		// header("Content-Disposition:attachment;filename='simple.xlsx'");
-		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExecel, 'Excel2007');
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 		// $objWriter->save('php://output');	//	Сохраняет браузер через форму "Сохранить файл"
-		$objWriter->save('simple.xlsx');
+		$objWriter->save($name_exls_file);
 
 		exit();
 
@@ -774,7 +815,9 @@
 	    mysqli_free_result($result);
 		}	
 
+	function DataProcessing(){
 
+		}
 
 
 
