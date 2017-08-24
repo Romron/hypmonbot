@@ -22,7 +22,7 @@
         curl_setopt($ch, CURLOPT_COOKIEFILE,   __DIR__."/cookies/cookies.txt");  
       
 
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         
         curl_setopt($ch, CURLOPT_HEADER, true);		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
@@ -740,7 +740,7 @@
 			$style_text_color = array(		//	стили для ячеек с текстом выделенным отдельным цветом
 				'font'=>array(
 					'color'   => array(
-						'rgb' => '00FF00'
+						'rgb' => '219118'
 						)
 					),							
 				);

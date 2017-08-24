@@ -2,6 +2,7 @@
 	require_once'funktions_hypmon.php';
 	require_once 'Classes/PHPExcel.php';	
 
+		set_time_limit(60);
 
 		$link_DB = conect_DB();
 		
