@@ -381,7 +381,7 @@
 		// Port number: 3306
 
 		/* Соединяемся, выбираем базу данных */
-	    $link_DB = mysqli_connect('sql11.freemysqlhosting.net','sql11189828','4UVIZKBKhY','sql11189828');
+	    $link_DB = mysqli_connect('mysql.zzz.com.ua','romron','Rom343714','romron');
 	    if (mysqli_connect_errno()) {
 	    	echo "Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
 	    	}
@@ -433,7 +433,7 @@
 			    									`Baclink_page`, 
 			    									`Baclink_domain`, 
 			    									`Global_Rank`, 
-			    									`Rank_in_country_country`, 
+			    									`Rank_in_country`, 
 			    									`Rank_in_country_value`, 
 			    									`Acidification_index`, 
 			    									`Pages_per_visit`, 
@@ -471,7 +471,6 @@
 			    /* Выполняем SQL-запрос */
 			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
 			}
-
 
 	function OutputResultSQL_InExcel($arr_data_query_SQL,$name_exls_file="simple.xlsx",$arr_name_sheets=0,$name_active_sheet=""){
 		// для болие широкого испльзования данной ф-ции, например в ф-ции DataProcessing(), вводим новые параметры:
@@ -782,7 +781,7 @@
 				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color);
 		// Форматирование (задание стилей) таблицы конец 		
 
-				}
+		}
 
 
 
