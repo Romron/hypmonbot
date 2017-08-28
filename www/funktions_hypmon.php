@@ -17,7 +17,7 @@
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);   // переходит по редиректам
         curl_setopt($ch, CURLOPT_ENCODING, "");        // обрабатывает все кодировки
 
-		curl_setopt($ch, CURLOPT_COOKIESESSION, true);  
+		// curl_setopt($ch, CURLOPT_COOKIESESSION, true);  
         curl_setopt($ch, CURLOPT_COOKIEJAR,    __DIR__."/cookies/cookies.txt");
         curl_setopt($ch, CURLOPT_COOKIEFILE,   __DIR__."/cookies/cookies.txt");  
       
@@ -35,13 +35,22 @@
 
         curl_close($ch);
 
+        // echo "<br> *****************header:<br>";
+        // echo $header;       
+        
+        // echo "<br> *****************err:<br>";
+        // echo $err;        
+
+        // echo "<br> ******************errmsg:<br>";
+        // echo $errmsg;
+
         $header['errno']   = $err;
         $header['errmsg']  = $errmsg;
         $header['content'] = $content;
         $header['$ch'] = $ch;
         $result = $header;
 
-        if (($result['errno'] != 0 )||($result['http_code'] != 200))  // если ошибка
+        if (($result['errno'] != 0 )/*||($result['http_code'] != 200)*/)  // если ошибка
           {
            echo "<br>"."Код ошибки:&nbsp".$result['errmsg']."<br>";       // если ошибка....
            		print_r($result);
@@ -52,7 +61,7 @@
           {
             $page = $result['content'];
             return $page;
-            // echo $page;
+            echo $page;
           }
       }
 
@@ -508,12 +517,15 @@
 		//	Из полученного массива обьектов базы данных формируем (!??)АССОЦИАТИВНЫЙ массив(ы) которые перебираем в цыкле 
 			foreach ($arr_data_query_SQL as $key => $value){ 
 			
-			echo "<br><br>foreach&nbsp;&nbsp;".$w++."<br>";
-				echo $key."&nbsp;=>&nbsp;";
-				print_r($value);
+			$memory = memory_get_usage(true);		
+			echo "<br> ".__FUNCTION__.":&nbsp;&nbsp;Объём памяти ДО очистки= &nbsp;&nbsp;".$memory;
+
+			// echo "<br><br>foreach&nbsp;&nbsp;".$w++."<br>";
+			// 	echo $key."&nbsp;=>&nbsp;";
+			// 	print_r($value);
 
 
-			echo "<br><br><br>";				
+			// echo "<br><br><br>";				
 
 
 				$result_query_SQL = $value[0];
@@ -781,7 +793,16 @@
 				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color);
 		// Форматирование (задание стилей) таблицы конец 		
 
-		}
+		unset($value);	
+		unset($result_query_SQL);	
+		unset($result_query_SQL);	
+		gc_collect_cycles($WorkSheet);
+
+			$memory = memory_get_usage(true);		
+			echo "<br> ".__FUNCTION__.":&nbsp;&nbsp;Объём памяти ПОСЛЕ очистки= &nbsp;&nbsp;".$memory;	
+
+
+				}
 
 
 

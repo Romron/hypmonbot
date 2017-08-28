@@ -160,6 +160,10 @@
 
 	<?php  
 
+		
+		// echo(phpinfo());
+
+
 		set_time_limit(0);
 		$ArrNameHyp = GetHypNam();
 
