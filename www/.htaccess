@@ -1,0 +1,5 @@
+Order deny,allow
+deny from all
+allow from 195.62.14.184
+# 2000 секунд
+php_value max_execution_time 2000

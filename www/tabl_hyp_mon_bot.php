@@ -160,10 +160,14 @@
 
 	<?php  
 
-		// // set_time_limit(0);
-		ini_set ('max_execution_time',6000);
+		// set_time_limit(6000);
+		error_reporting(-1);		//	выводить все возможные ошибки
+		ini_set ('max_execution_time',1800);
 		ini_set('display_errors', TRUE);
 		ini_set('display_startup_errors', TRUE);
+
+		echo ini_get('max_execution_time');
+		echo "<br><br>";
 
 		$ArrNameHyp = GetHypNam();
 
@@ -198,7 +202,7 @@
 					    return false;
 						} 
 					
-					// $ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
+					$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
 					
 					// queryInputIntoDB($link_DB,$HypMonName,$ArrNameHyp[$i],$ArrParamHype);
 					
