@@ -1,6 +1,9 @@
 <?php 
 	function GetWebPage( $url, $conect_out = 120, $tim_out = 120){    
        
+       echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
+
+
 		$headers = array(
 			'GET ' . $url . ' HTTP/1.0',
 			'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
@@ -14,7 +17,7 @@
         curl_setopt($ch, CURLOPT_URL, $url);
         
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);   // возвращает веб-страницу
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);   // переходит по редиректам
+        // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);   // переходит по редиректам
         curl_setopt($ch, CURLOPT_ENCODING, "");        // обрабатывает все кодировки
 
 		// curl_setopt($ch, CURLOPT_COOKIESESSION, true);  
@@ -35,15 +38,6 @@
 
         curl_close($ch);
 
-        // echo "<br> *****************header:<br>";
-        // echo $header;       
-        
-        // echo "<br> *****************err:<br>";
-        // echo $err;        
-
-        // echo "<br> ******************errmsg:<br>";
-        // echo $errmsg;
-
         $header['errno']   = $err;
         $header['errmsg']  = $errmsg;
         $header['content'] = $content;
@@ -60,12 +54,16 @@
         else  // если не ошибка
           {
             $page = $result['content'];
+            // echo $page;
             return $page;
-            echo $page;
           }
       }
 
-	function GetHypNam(){	
+	function GetHypNam(){
+
+       echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
+
+
 		// $page_1 = file_get_contents("https://bitmakler.com/investmentfund");
 		// $page_1 = GetWebPage("https://bitmakler.com/investmentfund");
 		// 	if (is_array($page_1)) { $page_1 = implode(" ", $page_1);}				
@@ -88,6 +86,7 @@
 			$n=0;
 			$result_2 = array();
 			do{
+       			echo $n."&nbsp;&nbsp; итерация цыкла DO-WHILE в функции: ".__FUNCTION__."<br><br><br>";		
 
 				if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
 				    echo "func GetHypNam:  patern_2 ненайден или ошибка";
@@ -101,9 +100,10 @@
 
 				$n++;
 				$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
-				 // echo $url;
+		// 		 // echo $url;
 
-				sleep(rand(5,20));
+				// sleep(rand(1,5));
+				sleep(mt_rand(1,5));
 				$page_2 = GetWebPage($url);
 
 			}while ($n <= 5);
@@ -131,6 +131,8 @@
 	    $result = array_merge(/*$result_1,*/$result_2,$result_3);
         return $result;
         // return $result_1;
+        // return $result_2;
+         // return $result_3;
 		}
 
 	function Table(){     	//	создаём таблицу спомощью php
@@ -379,18 +381,9 @@
 
 	function conect_DB(){	
 		
-		// http://www.phpmyadmin.co 
-		// Your account number is: 232379
-		// Your new database is now ready to use.
-		// To connect to your database use these details
-		// Server: sql11.freemysqlhosting.net
-		// Name: sql11189828
-		// Username: sql11189828
-		// Password: 4UVIZKBKhY
-		// Port number: 3306
-
 		/* Соединяемся, выбираем базу данных */
-	    $link_DB = mysqli_connect('mysql.zzz.com.ua','romron','Rom343714','romron');
+	    // $link_DB = mysqli_connect('mysql.zzz.com.ua','romron','Rom343714','romron');
+	    $link_DB = mysqli_connect('mysql.hostinger.com.ua','u148824033_hyp1','Rom343714','u148824033_hyp1');
 	    if (mysqli_connect_errno()) {
 	    	echo "Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
 	    	}

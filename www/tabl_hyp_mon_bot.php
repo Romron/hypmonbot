@@ -160,11 +160,11 @@
 
 	<?php  
 
-		
-		// echo(phpinfo());
+		// // set_time_limit(0);
+		ini_set ('max_execution_time',6000);
+		ini_set('display_errors', TRUE);
+		ini_set('display_startup_errors', TRUE);
 
-
-		set_time_limit(0);
 		$ArrNameHyp = GetHypNam();
 
 		
@@ -185,33 +185,33 @@
 							</td>';
 					continue;						
 					}
-					echo 
-						'<td>
-							'.$i.'
-						</td>';
-							echo '<td>
-									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
-									</td>';
-						$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
-						if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
-						    echo "patern_URL ненайден или ошибка";
-						    return false;
-							} 
-						
-						$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
-						
-						queryInputIntoDB($link_DB,$HypMonName,$ArrNameHyp[$i],$ArrParamHype);
-						
-						for ($q=0; $q < 20; $q++) { 
-							echo "<td>";
-						if (strpos($ArrParamHype[$q],"ERR")) { 
-								echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
-							}else{
-								echo '<p class="ParamHyp">'.trim(strip_tags($ArrParamHype[$q])).'</p>';
-								}
-							echo "</td>";
+				echo 
+					'<td>
+						'.$i.'
+					</td>';
+						echo '<td>
+								<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
+								</td>';
+					$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
+					if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
+					    echo "patern_URL ненайден или ошибка";
+					    return false;
+						} 
+					
+					// $ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
+					
+					// queryInputIntoDB($link_DB,$HypMonName,$ArrNameHyp[$i],$ArrParamHype);
+					
+					for ($q=0; $q < 20; $q++) { 
+						echo "<td>";
+					if (strpos($ArrParamHype[$q],"ERR")) { 
+							echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
+						}else{
+							echo '<p class="ParamHyp">'.trim(strip_tags($ArrParamHype[$q])).'</p>';
 							}
-					echo '</tr>';
+						echo "</td>";
+						}
+				echo '</tr>';
 			}
 
 			mysqli_close($link_DB);
