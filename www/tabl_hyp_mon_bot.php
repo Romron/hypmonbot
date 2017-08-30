@@ -160,13 +160,17 @@
 
 	<?php  
 
+		// адрес скрипта на хостингере http://pogodaplus.pe.hu/
+
+
 		// set_time_limit(6000);
 		error_reporting(-1);		//	выводить все возможные ошибки
-		ini_set ('max_execution_time',1800);
-		ini_set('display_errors', TRUE);
-		ini_set('display_startup_errors', TRUE);
-
-		echo ini_get('max_execution_time');
+		ini_set ('max_execution_time',1800);	//	время выполнения скрипта не более 30 мин
+		// ini_set('display_errors', TRUE);
+		// ini_set('display_startup_errors', TRUE);
+		echo "Начало работы скрипта.<br>";
+		echo "Максимальное время выполнения скрипта &nbsp-&nbsp<br>".ini_get('max_execution_time');
+		echo "Объём оперативной память занимаемый скриптом &nbsp-&nbsp<br>".(memory_get_usage()/1000);
 		echo "<br><br>";
 
 		$ArrNameHyp = GetHypNam();

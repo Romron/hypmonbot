@@ -87,7 +87,7 @@
 			$result_2 = array();
 			do{
        
-       				echo $n."&nbsp;&nbsp; итерация цыкла DO-WHILE в функции: ".__FUNCTION__."<br><br><br>";		
+       				// echo $n."&nbsp;&nbsp; итерация цыкла DO-WHILE в функции: ".__FUNCTION__."<br><br><br>";		
 
 				if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
 				    echo "func GetHypNam:  patern_2 ненайден или ошибка";
