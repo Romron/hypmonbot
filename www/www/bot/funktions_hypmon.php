@@ -42,14 +42,13 @@
         $header['$ch'] = $ch;
         $result = $header;
 
-        if (($result['errno'] != 0 )||($result['http_code'] != 200))  // если ошибка
-          {
-           echo "<br>Код ошибки:&nbsp"/*.$result['errmsg']*/."<br>";       // если ошибка....
-           		print_r($result['errmsg']);
-           		
-           	echo "<br>----------------------<br>";
-
+        if ($result['errno'] != 0) {  // если ошибка
+         	echo "<br>Код ошибки: &nbsp".$result['errmsg']; 
            return $result;
+          }     
+        if ($result['http_code'] != 200){
+           	echo "<br>Код ответа сервера: &nbsp".$result['http_code'];       // если ошибка....
+          	return $result;
           }
         else  // если не ошибка
           {
@@ -61,7 +60,7 @@
 
 	function GetHypNam(){
 
-       echo "<br> Вход в функцию: ".__FUNCTION__."<br>";		
+       // echo "<br> Вход в функцию: ".__FUNCTION__."<br>";		
 
 
 		// $page_1 = file_get_contents("https://bitmakler.com/investmentfund");
@@ -130,9 +129,6 @@
 					array_unshift($result_3, $result_3c);
 
 	    $result = array_merge(/*$result_1,*/$result_2,$result_3);
-
-       echo "<br> Выход из функции: ".__FUNCTION__."<br>";		
-
         return $result;
         // return $result_1;
         // return $result_2;
@@ -210,8 +206,8 @@
 		// т.е один хайп проганяется поочерёдно по всем сераисам анализа сайтов
 		// заполняеться вся строка и только после этого переходм к другому хайпу 
 
-       echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
-		
+       	echo "<br>Вход в функцию: ".__FUNCTION__;		
+		echo "<br>&nbsp&nbsp&nbsp&nbsp Объём оперативной память занимаемый скриптом &nbsp-&nbsp".round((memory_get_usage()/1000000),2)."M";
 
 		$page = GetWebPage('https://a.pr-cy.ru/'.$URL_hyp);		
 			if (is_array($page)) { $page = implode(" ", $page);}		
