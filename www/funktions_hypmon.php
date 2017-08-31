@@ -1,67 +1,68 @@
 <?php 
-	function GetWebPage( $url, $conect_out = 120, $tim_out = 120){    
+	// function GetWebPage( $url, $conect_out = 120, $tim_out = 120){    
        
-       echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
+ //       echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
 
+	// 	$headers = array(
+	// 		'GET ' . $url . ' HTTP/1.0',
+	// 		'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
+	// 	                  application/vnd.ms-excel, application/msword, */*',
+	// 		'Accept-Language: ru,zh-cn;q=0.7,zh;q=0.3',
+	// 		'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)'
+	// 		// 'Proxy-Connection: Keep-Alive'
+	// 		);
 
-		$headers = array(
-			'GET ' . $url . ' HTTP/1.0',
-			'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
-		                  application/vnd.ms-excel, application/msword, */*',
-			'Accept-Language: ru,zh-cn;q=0.7,zh;q=0.3',
-			'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)'
-			// 'Proxy-Connection: Keep-Alive'
-			);
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
+ //        $ch = curl_init();
+ //        curl_setopt($ch, CURLOPT_URL, $url);
         
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);   // возвращает веб-страницу
-        // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);   // переходит по редиректам
-        curl_setopt($ch, CURLOPT_ENCODING, "");        // обрабатывает все кодировки
+ //        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);   // возвращает веб-страницу
+ //        // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);   // переходит по редиректам
+ //        curl_setopt($ch, CURLOPT_ENCODING, "");        // обрабатывает все кодировки
 
-		// curl_setopt($ch, CURLOPT_COOKIESESSION, true);  
-        curl_setopt($ch, CURLOPT_COOKIEJAR,    __DIR__."/cookies/cookies.txt");
-        curl_setopt($ch, CURLOPT_COOKIEFILE,   __DIR__."/cookies/cookies.txt");  
+	// 	// curl_setopt($ch, CURLOPT_COOKIESESSION, true);  
+ //        curl_setopt($ch, CURLOPT_COOKIEJAR,    __DIR__."/cookies/cookies.txt");
+ //        curl_setopt($ch, CURLOPT_COOKIEFILE,   __DIR__."/cookies/cookies.txt");  
       
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+ //        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         
-        curl_setopt($ch, CURLOPT_HEADER, true);		
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
-        curl_setopt($ch, CURLOPT_REFERER, $url);       
+ //        curl_setopt($ch, CURLOPT_HEADER, true);		
+	// 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
+ //        curl_setopt($ch, CURLOPT_REFERER, $url);       
 
-        $content = curl_exec($ch);
-        $err     = curl_errno($ch);
-        $errmsg  = curl_error($ch);
-        $header  = curl_getinfo($ch);
+ //        $content = curl_exec($ch);
+ //        $err     = curl_errno($ch);
+ //        $errmsg  = curl_error($ch);
+ //        $header  = curl_getinfo($ch);
 
-        curl_close($ch);
+ //        curl_close($ch);
 
-        $header['errno']   = $err;
-        $header['errmsg']  = $errmsg;
-        $header['content'] = $content;
-        $header['$ch'] = $ch;
-        $result = $header;
+ //        $header['errno']   = $err;
+ //        $header['errmsg']  = $errmsg;
+ //        $header['content'] = $content;
+ //        $header['$ch'] = $ch;
+ //        $result = $header;
 
-        if (($result['errno'] != 0 )/*||($result['http_code'] != 200)*/)  // если ошибка
-          {
-           echo "<br>"."Код ошибки:&nbsp".$result['errmsg']."<br>";       // если ошибка....
-           		print_r($result);
+ //        if (($result['errno'] != 0 )||($result['http_code'] != 200))  // если ошибка
+ //          {
+ //           echo "<br>"."Код ошибки:&nbsp".$result['errmsg']."<br>";       // если ошибка....
+ //           		print_r($result);
 
-           return $result;
-          }
-        else  // если не ошибка
-          {
-            $page = $result['content'];
-            // echo $page;
-            return $page;
-          }
-      }
+ //           return $result;
+ //          }
+ //        else  // если не ошибка
+ //          {
+ //            $page = $result['content'];
+ //            // echo $page;
+ //            return $page;
+ //          }
+             
+ //        echo "Выход из функции: ".__FUNCTION__."<br><br><br>";		
+
+ //      }
 
 	function GetHypNam(){
 
-       // echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
+       echo "<br> Вход в функцию: ".__FUNCTION__."<br>";		
 
 
 		// $page_1 = file_get_contents("https://bitmakler.com/investmentfund");
@@ -87,7 +88,7 @@
 			$result_2 = array();
 			do{
        
-       				// echo $n."&nbsp;&nbsp; итерация цыкла DO-WHILE в функции: ".__FUNCTION__."<br><br><br>";		
+       				echo $n."&nbsp;&nbsp; итерация цыкла DO-WHILE в функции: ".__FUNCTION__."<br><br><br>";		
 
 				if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
 				    echo "func GetHypNam:  patern_2 ненайден или ошибка";
@@ -130,6 +131,9 @@
 					array_unshift($result_3, $result_3c);
 
 	    $result = array_merge(/*$result_1,*/$result_2,$result_3);
+
+       echo "<br> Выход из функции: ".__FUNCTION__."<br>";		
+
         return $result;
         // return $result_1;
         // return $result_2;
