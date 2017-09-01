@@ -164,68 +164,69 @@
 
 
 		ini_set ('max_execution_time',1800);	//	время выполнения скрипта не более 30 мин
+		$arr_ini = ini_get_all();
 		// ini_set('display_errors', TRUE);
 		// ini_set('display_startup_errors', TRUE);
-		echo "Начало работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time())."<br>";
-		echo "Установлено максимальное время выполнения скрипта &nbsp-&nbsp".ini_get('max_execution_time')."&nbsp сек.<br>";
-		echo "Объём оперативной память занимаемый скриптом &nbsp-&nbsp".round((memory_get_usage()/1000000),2)."&nbsp Mb";
-		echo "<br><br>";
+		echo "Начало работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time());
+			echo "<br>******";
+		echo "<br> Установлено максимальное время выполнения скрипта &nbsp-&nbsp".ini_get('max_execution_time')."&nbsp сек.";
+		echo "<br> Объём оперативной память выделенный скрипту &nbsp-&nbsp &nbsp".$arr_ini[memory_limit][global_value];
+		echo "<br> Объём оперативной память занимаемый скриптом &nbsp-&nbsp".round((memory_get_usage()/1000000),2)."M";
+			echo "<br>******";
 
-		echo "<br>******<br> CURL:".curl_version()."<br><br>";
 
-		// $ArrNameHyp = GetHypNam();
+		$ArrNameHyp = GetHypNam();
 
 		
-		// $link_DB = conect_DB();		// наполнение результатами БД
-		// // queryInputIntoDB($link_DB,$ArrNameHyp);
+		$link_DB = conect_DB();		// наполнение результатами БД
+		// queryInputIntoDB($link_DB,$ArrNameHyp);
 		
 		
-		// // наполнение результатами таблицы на html странице 
+		// наполнение результатами таблицы на html странице 
 		// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		// // for ($i=0; $i < 11; $i++) {			//	для тестов
+		for ($i=0; $i < 11; $i++) {			//	для тестов
 			
-		// 		if (is_array($ArrNameHyp[$i])) {
-		// 				$HypMonName = $ArrNameHyp[$i][1];
-		// 				$HypCount = $ArrNameHyp[$i][2];					
-		// 			echo '<tr>';
-		// 				echo '<td class="NameHyp_Col" rowspan='.$HypCount.'>
-		// 					<p class="vertical">'.$HypMonName.'</p>
-		// 					</td>';
-		// 			continue;						
-		// 			}
-		// 		echo 
-		// 			'<td>
-		// 				'.$i.'
-		// 			</td>';
-		// 				echo '<td>
-		// 						<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
-		// 						</td>';
-		// 			$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
-		// 			if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
-		// 			    echo "patern_URL ненайден или ошибка";
-		// 			    return false;
-		// 				} 
+				if (is_array($ArrNameHyp[$i])) {
+						$HypMonName = $ArrNameHyp[$i][1];
+						$HypCount = $ArrNameHyp[$i][2];					
+					echo '<tr>';
+						echo '<td class="NameHyp_Col" rowspan='.$HypCount.'>
+							<p class="vertical">'.$HypMonName.'</p>
+							</td>';
+					continue;						
+					}
+				echo 
+					'<td>
+						'.$i.'
+					</td>';
+						echo '<td>
+								<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
+								</td>';
+					$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
+					if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
+					    echo "patern_URL ненайден или ошибка";
+					    return false;
+						} 
 					
-		// 			// $ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
+					$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
+					queryInputIntoDB($link_DB,$HypMonName,$ArrNameHyp[$i],$ArrParamHype);
 					
-		// 			// queryInputIntoDB($link_DB,$HypMonName,$ArrNameHyp[$i],$ArrParamHype);
-					
-		// 			for ($q=0; $q < 20; $q++) { 
-		// 				echo "<td>";
-		// 			if (strpos($ArrParamHype[$q],"ERR")) { 
-		// 					echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
-		// 				}else{
-		// 					echo '<p class="ParamHyp">'.trim(strip_tags($ArrParamHype[$q])).'</p>';
-		// 					}
-		// 				echo "</td>";
-		// 				}
-		// 		echo '</tr>';
-		// 	}
+					for ($q=0; $q < 20; $q++) { 
+						echo "<td>";
+					if (strpos($ArrParamHype[$q],"ERR")) { 
+							echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
+						}else{
+							echo '<p class="ParamHyp">'.trim(strip_tags($ArrParamHype[$q])).'</p>';
+							}
+						echo "</td>";
+						}
+				echo '</tr>';
+			}
 
-			// mysqli_close($link_DB);
+			mysqli_close($link_DB);
 		
 
-		echo "<br><br><br><br> Конец работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time())."<br>";
+		echo "<br> Конец работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time())."<br><br>";
 
 	
 
