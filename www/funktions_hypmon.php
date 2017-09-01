@@ -27,7 +27,7 @@
         
         curl_setopt($ch, CURLOPT_HEADER, true);		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
-        // curl_setopt($ch, CURLOPT_REFERER, $url);       
+        curl_setopt($ch, CURLOPT_REFERER, $url);       
 
         $content = curl_exec($ch);
         $err     = curl_errno($ch);
@@ -48,15 +48,14 @@
           }     
         if ($result['http_code'] != 200){
            	echo "<br>Запрос по адресу: &nbsp-&nbsp".$url;
-           	echo "<br>&nbsp&nbsp&nbsp&nbsp Код ответа сервера: &nbsp".$result['http_code'];       // если ошибка....
+           	echo "<br>&nbsp&nbsp&nbsp&nbsp Код ответа сервера: &nbsp".$result['http_code']."<br>";       // если ошибка....
           	return $result;
           }
-        else  // если не ошибка
-          {
+        // если не ошибка
+        
             $page = $result['content'];
             // echo $page;
             return $page;
-          }
       }
 
 	function GetHypNam(){
@@ -279,7 +278,7 @@
 
 			if (is_array($page)) { $page = implode(" ", $page);}		
 			
-			// echo $page;
+			echo "<br><br>".$page;
 
 			$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 		// Популярность - Global - Знач
 				if (!preg_match_all($patern_9,$page,$result_9,PREG_PATTERN_ORDER)) { 

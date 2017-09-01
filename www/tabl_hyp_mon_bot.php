@@ -228,6 +228,7 @@
 					    return false;
 						} 
 					
+					sleep(mt_rand(1,5));
 					$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
 					queryInputIntoDB($link_DB,$HypMonName,$ArrNameHyp[$i],$ArrParamHype);
 					
