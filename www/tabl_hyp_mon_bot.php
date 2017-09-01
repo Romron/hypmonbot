@@ -12,6 +12,21 @@
 	<!-- <script src="js/funktions.js"></script> -->
 	<script src="js/FixHeaderCol.js"></script>
 
+	<script type="text/javascript">
+	  function digitalWatch() {
+	    var date = new Date();
+	    var hours = date.getHours();
+	    var minutes = date.getMinutes();
+	    var seconds = date.getSeconds();
+	    if (hours < 10) hours = "0" + hours;
+	    if (minutes < 10) minutes = "0" + minutes;
+	    if (seconds < 10) seconds = "0" + seconds;
+	    document.getElementById("digital_watch").innerHTML = hours + ":" + minutes + ":" + seconds;
+	    setTimeout("digitalWatch()", 1000);
+	  }
+
+	</script>
+
 </head>
 <body>
 
@@ -158,6 +173,11 @@
 				</tr>
 	<!-- /Шапка таблицы -->
 
+	
+	<body onload="digitalWatch()"> 
+		<p id="digital_watch" style="color: #f00; font-size: 120%; font-weight: bold;"></p>
+	</body>
+
 	<?php  
 
 		// адрес скрипта на хостингере http://pogodaplus.pe.hu/
@@ -183,8 +203,8 @@
 		
 		
 		// наполнение результатами таблицы на html странице 
-		// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		for ($i=0; $i < 11; $i++) {			//	для тестов
+		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
+		// for ($i=0; $i < 11; $i++) {			//	для тестов
 			
 				if (is_array($ArrNameHyp[$i])) {
 						$HypMonName = $ArrNameHyp[$i][1];

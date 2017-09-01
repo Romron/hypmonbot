@@ -27,7 +27,7 @@
         
         curl_setopt($ch, CURLOPT_HEADER, true);		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
-        curl_setopt($ch, CURLOPT_REFERER, $url);       
+        // curl_setopt($ch, CURLOPT_REFERER, $url);       
 
         $content = curl_exec($ch);
         $err     = curl_errno($ch);
@@ -207,7 +207,7 @@
 		// т.е один хайп проганяется поочерёдно по всем сераисам анализа сайтов
 		// заполняеться вся строка и только после этого переходм к другому хайпу 
 
-       	echo "<br>Вход в функцию: ".__FUNCTION__;		
+       	// echo "<br>Вход в функцию: ".__FUNCTION__;		
 		// echo "<br>Начало выполнения функции &nbsp - &nbsp".date("d.m.y H:i:s",time());
 		// echo "<br>&nbsp&nbsp&nbsp&nbsp Объём оперативной память занимаемый скриптом &nbsp-&nbsp".round((memory_get_usage()/1000000),2)."M";
 
@@ -328,7 +328,8 @@
 				    // return false;
 					} 	
 
-		$page = GetWebPage('https://www.nic.ru/whois/?query='.$URL_hyp);	
+		// $page = GetWebPage('https://www.nic.ru/whois/?query='.$URL_hyp);	
+		$page = GetWebPage('http://hoston.com.ua/domains/whois?domain='.$URL_hyp);	
 
 			if (is_array($page)) { $page = implode(" ", $page);}
 
