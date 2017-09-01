@@ -370,18 +370,11 @@
 
 	function conect_DB(){	
 		
-		// http://www.phpmyadmin.co 
-		// Your account number is: 232379
-		// Your new database is now ready to use.
-		// To connect to your database use these details
-		// Server: sql11.freemysqlhosting.net
-		// Name: sql11189828
-		// Username: sql11189828
-		// Password: 4UVIZKBKhY
-		// Port number: 3306
+
 
 		/* Соединяемся, выбираем базу данных */
-	    $link_DB = mysqli_connect('sql11.freemysqlhosting.net','sql11189828','4UVIZKBKhY','sql11189828');
+	    // $link_DB = mysqli_connect('sql11.freemysqlhosting.net','sql11189828','4UVIZKBKhY','sql11189828');
+	    $link_DB = mysqli_connect('hypmon.mysql.ukraine.com.ua','hypmon_1','Rom343714','hypmon_1');
 	    if (mysqli_connect_errno()) {
 	    	echo "Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
 	    	}
@@ -430,7 +423,7 @@
 			    									`Baclink_page`, 
 			    									`Baclink_domain`, 
 			    									`Global_Rank`, 
-			    									`Rank_in_country_country`, 
+			    									`Rank_in_country`, 
 			    									`Rank_in_country_value`, 
 			    									`Acidification_index`, 
 			    									`Pages_per_visit`, 
