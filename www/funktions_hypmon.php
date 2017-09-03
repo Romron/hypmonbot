@@ -135,72 +135,6 @@
          // return $result_3;
 		}
 
-	function Table(){     	//	создаём таблицу спомощью php
-		// $ArrNameHyp = GetHypNam();
-		$ArrNameHyp = GetHypNam_TEST();
-
-		for ($i=0; $i < count($ArrNameHyp); $i++) {	
-			
-				echo '<tr>';
-				if (is_array($ArrNameHyp[$i])) {
-						$HypName = $ArrNameHyp[$i][1];
-						$HypCount = $ArrNameHyp[$i][2];					
-
-						echo '<td class="NameHyp_Col" rowspan='.$HypCount.'>
-							<p class="vertical">'.$HypName.'</p>
-							</td>';
-					continue;						
-					}
-					echo 
-						'<td>
-							'.$i.'
-						</td>';
-							echo '<td>
-									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
-									</td>';
-						for ($q=0; $q < 27; $q++) { 
-							echo "<td></td>";
-							}
-					echo '</tr>';
-			}		
-		}
-
-	function Table_in_str(){ 		//	создаёт таблицу и преобразует её в строку для последующей передачи с помощью ajax в скрипт js 
-		// $ArrNameHyp = GetHypNam();
-		$ArrNameHyp = GetHypNam_TEST();
-
-		for ($i=0; $i < count($ArrNameHyp); $i++) {	
-			
-				$str_1 = '<tr>';
-				
-				if (is_array($ArrNameHyp[$i])) {
-						$HypName = $ArrNameHyp[$i][1];
-						$HypCount = $ArrNameHyp[$i][2];					
-					
-
-					$str_2 = '<td class="NameHyp_Col" rowspan='.$HypCount.'>
-							<p class="vertical">'.$HypName.'</p>
-							</td>';
-					continue;						
-					}
-					$str_3 =  
-						'<td>
-							'.$i.'
-						</td>';
-							$str_4 =  '<td>
-									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
-									</td>';
-						for ($q=0; $q < 27; $q++) { 
-							$str_5 = $str_5."<td></td>";
-							}
-					$str_6 = '</tr>';
-
-				$str = $str.$str_1.$str_2.$str_3.$str_4.$str_5.$str_6;
-				$str_5 = "";
-			}	
-			return $str;
-		}
-
 	function ParsParamHaypWithServAnalSite($URL_hyp){     
 		// предполагаеться вызов в теле ф-ции GetHypNam поочерёдно для каждого массива хайпов отдельно.
 		// т.е один хайп проганяется поочерёдно по всем сераисам анализа сайтов
@@ -278,7 +212,7 @@
 
 			if (is_array($page)) { $page = implode(" ", $page);}		
 			
-			echo "<br><br>".$page;
+			// echo "<br><br>".$page;
 
 			$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 		// Популярность - Global - Знач
 				if (!preg_match_all($patern_9,$page,$result_9,PREG_PATTERN_ORDER)) { 
@@ -383,12 +317,16 @@
 		}
 
 	function conect_DB(){	
-		
 		/* Соединяемся, выбираем базу данных */
 	    // $link_DB = mysqli_connect('mysql.zzz.com.ua','romron','Rom343714','romron');
+	    // $link_DB = mysqli_connect('db3.ho.ua','hypmonbot','Rom343714','hypmonbot',3306);
 	    $link_DB = mysqli_connect('hypmon.mysql.ukraine.com.ua','hypmon_1','Rom343714','hypmon_1');
+	    
+
 	    if (mysqli_connect_errno()) {
 	    	echo "Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
+	    	}else{
+	    	echo 'Соединение установлено... ' . mysqli_get_host_info($link_DB) . "<br><br>";
 	    	}
 	    return $link_DB;	
 		}
@@ -833,6 +771,72 @@
 
 	function DataProcessing(){
 
+		}
+
+	function Table(){     	//	создаём таблицу спомощью php
+		// $ArrNameHyp = GetHypNam();
+		$ArrNameHyp = GetHypNam_TEST();
+
+		for ($i=0; $i < count($ArrNameHyp); $i++) {	
+			
+				echo '<tr>';
+				if (is_array($ArrNameHyp[$i])) {
+						$HypName = $ArrNameHyp[$i][1];
+						$HypCount = $ArrNameHyp[$i][2];					
+
+						echo '<td class="NameHyp_Col" rowspan='.$HypCount.'>
+							<p class="vertical">'.$HypName.'</p>
+							</td>';
+					continue;						
+					}
+					echo 
+						'<td>
+							'.$i.'
+						</td>';
+							echo '<td>
+									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
+									</td>';
+						for ($q=0; $q < 27; $q++) { 
+							echo "<td></td>";
+							}
+					echo '</tr>';
+			}		
+		}
+
+	function Table_in_str(){ 		//	создаёт таблицу и преобразует её в строку для последующей передачи с помощью ajax в скрипт js 
+		// $ArrNameHyp = GetHypNam();
+		$ArrNameHyp = GetHypNam_TEST();
+
+		for ($i=0; $i < count($ArrNameHyp); $i++) {	
+			
+				$str_1 = '<tr>';
+				
+				if (is_array($ArrNameHyp[$i])) {
+						$HypName = $ArrNameHyp[$i][1];
+						$HypCount = $ArrNameHyp[$i][2];					
+					
+
+					$str_2 = '<td class="NameHyp_Col" rowspan='.$HypCount.'>
+							<p class="vertical">'.$HypName.'</p>
+							</td>';
+					continue;						
+					}
+					$str_3 =  
+						'<td>
+							'.$i.'
+						</td>';
+							$str_4 =  '<td>
+									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
+									</td>';
+						for ($q=0; $q < 27; $q++) { 
+							$str_5 = $str_5."<td></td>";
+							}
+					$str_6 = '</tr>';
+
+				$str = $str.$str_1.$str_2.$str_3.$str_4.$str_5.$str_6;
+				$str_5 = "";
+			}	
+			return $str;
 		}
 
 
