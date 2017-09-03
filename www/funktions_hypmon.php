@@ -24,6 +24,7 @@
         curl_setopt($ch, CURLOPT_COOKIEFILE,   __DIR__."/cookies/cookies.txt");  
       
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         
         curl_setopt($ch, CURLOPT_HEADER, true);		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
@@ -324,9 +325,9 @@
 	    
 
 	    if (mysqli_connect_errno()) {
-	    	echo "Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
+	    	echo "<br> Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
 	    	}else{
-	    	echo 'Соединение установлено... ' . mysqli_get_host_info($link_DB) . "<br><br>";
+	    	echo '<br> Соединение установлено... ' . mysqli_get_host_info($link_DB) . "<br><br>";
 	    	}
 	    return $link_DB;	
 		}
@@ -342,7 +343,7 @@
 	   	return $result;
 		}
 
-	function queryInputIntoDB($link_DB,$HypMonName,$NameHyp,$ArrParamHype) {	//	Данная функция добавляет данные в базу
+	function queryInputIntoDB($name_table,$link_DB,$HypMonName,$NameHyp,$ArrParamHype) {	//	Данная функция добавляет данные в базу
 		
 		$date_today = time();	//	получаем текушее кол-во секунд в эпохе Юникс
 
@@ -363,7 +364,7 @@
 						} 						
 					}
 
-			    $query_input = "INSERT INTO test_2(`monitor`, 
+			    $query_input = "INSERT INTO ".$name_table."(`monitor`, 
 			    									`date`,
 			    									`project`,
 			    									`cy`,
