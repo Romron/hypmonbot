@@ -1,6 +1,8 @@
 <?php 
 	function GetWebPage( $url, $conect_out = 120, $tim_out = 120){    
        
+       // echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
+
 		$headers = array(
 			'GET ' . $url . ' HTTP/1.0',
 			'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
@@ -21,7 +23,6 @@
         curl_setopt($ch, CURLOPT_COOKIEJAR,    __DIR__."/cookies/cookies.txt");
         curl_setopt($ch, CURLOPT_COOKIEFILE,   __DIR__."/cookies/cookies.txt");  
       
-
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         
         curl_setopt($ch, CURLOPT_HEADER, true);		
@@ -41,22 +42,27 @@
         $header['$ch'] = $ch;
         $result = $header;
 
-        if (($result['errno'] != 0 )||($result['http_code'] != 200))  // если ошибка
-          {
-           echo "<br>"."Код ошибки:&nbsp".$result['errmsg']."<br>";       // если ошибка....
-           		print_r($result);
-
+        if ($result['errno'] != 0) {  // если ошибка
+         	echo "<br>Код ошибки: &nbsp".$result['errmsg']; 
            return $result;
+          }     
+        if ($result['http_code'] != 200){
+           	echo "<br>Запрос по адресу: &nbsp-&nbsp".$url;
+           	echo "<br>&nbsp&nbsp&nbsp&nbsp Код ответа сервера: &nbsp".$result['http_code']."<br>";       // если ошибка....
+          	return $result;
           }
-        else  // если не ошибка
-          {
+        // если не ошибка
+        
             $page = $result['content'];
-            return $page;
             // echo $page;
-          }
+            return $page;
       }
 
-	function GetHypNam(){	
+	function GetHypNam(){
+
+       // echo "<br> Вход в функцию: ".__FUNCTION__."<br>";		
+
+
 		// $page_1 = file_get_contents("https://bitmakler.com/investmentfund");
 		// $page_1 = GetWebPage("https://bitmakler.com/investmentfund");
 		// 	if (is_array($page_1)) { $page_1 = implode(" ", $page_1);}				
@@ -79,6 +85,8 @@
 			$n=0;
 			$result_2 = array();
 			do{
+       
+       				// echo $n."&nbsp;&nbsp; итерация цыкла DO-WHILE в функции: ".__FUNCTION__."<br><br><br>";		
 
 				if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
 				    echo "func GetHypNam:  patern_2 ненайден или ошибка";
@@ -92,9 +100,10 @@
 
 				$n++;
 				$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
-				 // echo $url;
+		// 		 // echo $url;
 
-				sleep(rand(5,20));
+				// sleep(rand(1,5));
+				sleep(mt_rand(1,5));
 				$page_2 = GetWebPage($url);
 
 			}while ($n <= 5);
@@ -122,72 +131,8 @@
 	    $result = array_merge(/*$result_1,*/$result_2,$result_3);
         return $result;
         // return $result_1;
-		}
-
-	function Table(){     	//	создаём таблицу спомощью php
-		// $ArrNameHyp = GetHypNam();
-		$ArrNameHyp = GetHypNam_TEST();
-
-		for ($i=0; $i < count($ArrNameHyp); $i++) {	
-			
-				echo '<tr>';
-				if (is_array($ArrNameHyp[$i])) {
-						$HypName = $ArrNameHyp[$i][1];
-						$HypCount = $ArrNameHyp[$i][2];					
-
-						echo '<td class="NameHyp_Col" rowspan='.$HypCount.'>
-							<p class="vertical">'.$HypName.'</p>
-							</td>';
-					continue;						
-					}
-					echo 
-						'<td>
-							'.$i.'
-						</td>';
-							echo '<td>
-									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
-									</td>';
-						for ($q=0; $q < 27; $q++) { 
-							echo "<td></td>";
-							}
-					echo '</tr>';
-			}		
-		}
-
-	function Table_in_str(){ 		//	создаёт таблицу и преобразует её в строку для последующей передачи с помощью ajax в скрипт js 
-		// $ArrNameHyp = GetHypNam();
-		$ArrNameHyp = GetHypNam_TEST();
-
-		for ($i=0; $i < count($ArrNameHyp); $i++) {	
-			
-				$str_1 = '<tr>';
-				
-				if (is_array($ArrNameHyp[$i])) {
-						$HypName = $ArrNameHyp[$i][1];
-						$HypCount = $ArrNameHyp[$i][2];					
-					
-
-					$str_2 = '<td class="NameHyp_Col" rowspan='.$HypCount.'>
-							<p class="vertical">'.$HypName.'</p>
-							</td>';
-					continue;						
-					}
-					$str_3 =  
-						'<td>
-							'.$i.'
-						</td>';
-							$str_4 =  '<td>
-									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
-									</td>';
-						for ($q=0; $q < 27; $q++) { 
-							$str_5 = $str_5."<td></td>";
-							}
-					$str_6 = '</tr>';
-
-				$str = $str.$str_1.$str_2.$str_3.$str_4.$str_5.$str_6;
-				$str_5 = "";
-			}	
-			return $str;
+        // return $result_2;
+         // return $result_3;
 		}
 
 	function ParsParamHaypWithServAnalSite($URL_hyp){     
@@ -195,11 +140,12 @@
 		// т.е один хайп проганяется поочерёдно по всем сераисам анализа сайтов
 		// заполняеться вся строка и только после этого переходм к другому хайпу 
 
+       	// echo "<br>Вход в функцию: ".__FUNCTION__;		
+		// echo "<br>Начало выполнения функции &nbsp - &nbsp".date("d.m.y H:i:s",time());
+		// echo "<br>&nbsp&nbsp&nbsp&nbsp Объём оперативной память занимаемый скриптом &nbsp-&nbsp".round((memory_get_usage()/1000000),2)."M";
+
 		$page = GetWebPage('https://a.pr-cy.ru/'.$URL_hyp);		
 			if (is_array($page)) { $page = implode(" ", $page);}		
-		
-			 // echo $page;
-			 // exit;
 
 			$patern_0 = '#<a href="https://yaca.yandex.ru/yca/cy/ch/.*" target="_blank">(.*)</a>#'; 		//	ТИЦ 
 				if (!preg_match_all($patern_0,$page,$result_0,PREG_PATTERN_ORDER)) { 
@@ -266,7 +212,7 @@
 
 			if (is_array($page)) { $page = implode(" ", $page);}		
 			
-			// echo $page;
+			// echo "<br><br>".$page;
 
 			$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 		// Популярность - Global - Знач
 				if (!preg_match_all($patern_9,$page,$result_9,PREG_PATTERN_ORDER)) { 
@@ -315,7 +261,8 @@
 				    // return false;
 					} 	
 
-		$page = GetWebPage('https://www.nic.ru/whois/?query='.$URL_hyp);	
+		// $page = GetWebPage('https://www.nic.ru/whois/?query='.$URL_hyp);	
+		$page = GetWebPage('http://hoston.com.ua/domains/whois?domain='.$URL_hyp);	
 
 			if (is_array($page)) { $page = implode(" ", $page);}
 
@@ -364,28 +311,34 @@
 
 		$arr_param_hyp = array_merge($result_0[1],$result_1[1],$result_2[1],$result_3[1],$result_4[1],$result_5[1],$result_6[1],$result_7[1],$result_8[1],$result_9[1],$result_10[1],$result_11[1],$result_12[1],$result_13[1],$result_14[1],$result_15[1],$result_16[1],$result_17[1],$result_18[1],$result_19[1]);
 
+		// echo "<br> Конец выполнения функции &nbsp - &nbsp".date("d.m.y H:i:s",time());
 		return $arr_param_hyp;
 
 		}
 
 	function conect_DB(){	
-		
-
-
 		/* Соединяемся, выбираем базу данных */
-	    // $link_DB = mysqli_connect('sql11.freemysqlhosting.net','sql11189828','4UVIZKBKhY','sql11189828');
+	    // $link_DB = mysqli_connect('mysql.zzz.com.ua','romron','Rom343714','romron');
+	    // $link_DB = mysqli_connect('db3.ho.ua','hypmonbot','Rom343714','hypmonbot',3306);
 	    $link_DB = mysqli_connect('hypmon.mysql.ukraine.com.ua','hypmon_1','Rom343714','hypmon_1');
+	    
+
 	    if (mysqli_connect_errno()) {
 	    	echo "Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
+	    	}else{
+	    	echo 'Соединение установлено... ' . mysqli_get_host_info($link_DB) . "<br><br>";
 	    	}
 	    return $link_DB;	
 		}
 
-	function querySelectFromDB($link_DB){	//	Данная функция извликает данные из базы
+	function querySelectFromDB($link_DB,$name_field="*"){	//	Данная функция извликает данные из базы
 	    /* Выполняем SQL-запрос */
-	    $query = "SELECT * FROM test_2";
-	    $result = mysqli_query($link_DB,$query) or die("Query failed : " . mysql_error());	    
-	   	
+	    
+	    echo "<br>".__FUNCTION__."&nbsp&nbsp получено поле: &nbsp&nbsp".$name_field;
+
+	    $query = "SELECT `".$name_field."` FROM test_2";
+	    $result = mysqli_query($link_DB,$query) or die(__FUNCTION__."&nbsp&nbspQuery failed : " . mysql_error());	    
+
 	   	return $result;
 		}
 
@@ -462,23 +415,21 @@
 			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
 			}
 
-
-	function OutputResultSQL_InExcel($result_query_SQL){
-
-		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
-			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
-			}
-
-			// print_r($arr_row);
+	function OutputResultSQL_InExcel($arr_data_query_SQL,$name_exls_file="simple.xlsx",$arr_name_sheets=0,$name_active_sheet=""){
+		// для болие широкого испльзования данной ф-ции, например в ф-ции DataProcessing(), вводим новые параметры:
+		// $name_exls_file - для того чтобы различать файлы созданные в разных ф-циях и вразное время
+		// $arr_name_sheets - для создания многих листов в данном файле. т.е. предполагаеться возможность экспорта данных на разные листы
 
 
 		//	блок создания и получения активного экселевского листа
-			$objPHPExecel = new PHPExcel();		 
-			$objPHPExecel->setActiveSheetIndex(0);
-			$objPHPExecel->createSheet();
-			$active_sheet = $objPHPExecel->getActiveSheet();
+			$objPHPExcel = new PHPExcel();		 
+			$objPHPExcel->createSheet();
+			// $objPHPExcel->setActiveSheetIndex(0);
+			$active_sheet = $objPHPExcel->getActiveSheet(0);
+			$active_sheet->setTitle("SEO параметры");
 
-			$active_sheet->getPageSetup()		//	блок формирования параметров страницы активного листа
+		//	блок формирования параметров страницы, при выводе на печать, активного листа
+			$active_sheet->getPageSetup()		
 						->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);				
 			$active_sheet->getPageSetup()
 						->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
@@ -486,7 +437,43 @@
 			$active_sheet->getPageMargins()->setBottom(0.1);
 			$active_sheet->getPageMargins()->setRight(0.1);
 			$active_sheet->getPageMargins()->setLeft(0.1);
-			$active_sheet->setTitle("SEO параметры");
+
+		// //	добавляем листы в количестве и с названиями казаными в массиве $arr_name_sheets
+		// 	for ($i=0; $i <count($arr_name_sheets) ; $i++) { 
+		// 		// Create a new worksheet called “My Data”
+		// 		$WorkSheet = new PHPExcel_Worksheet($objPHPExcel, $arr_name_sheets[$i]);
+		// 		// Attach the “My Data” worksheet as the first worksheet in the PHPExcel object
+		// 		$objPHPExcel->addSheet($WorkSheet,1);
+		// 		}
+
+			$w = 0;		//для отладки
+
+		//	Из полученного массива обьектов базы данных формируем (!??)АССОЦИАТИВНЫЙ массив(ы) которые перебираем в цыкле 
+			foreach ($arr_data_query_SQL as $key => $value){ 
+			
+			$memory = memory_get_usage(true);		
+			echo "<br> ".__FUNCTION__.":&nbsp;&nbsp;Объём памяти ДО очистки= &nbsp;&nbsp;".$memory;
+
+			// echo "<br><br>foreach&nbsp;&nbsp;".$w++."<br>";
+			// 	echo $key."&nbsp;=>&nbsp;";
+			// 	print_r($value);
+
+
+			// echo "<br><br><br>";				
+
+
+				$result_query_SQL = $value[0];
+				for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	
+					$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
+					}
+				
+				// Create a new worksheet called “My Data”
+				$WorkSheet = new PHPExcel_Worksheet($objPHPExcel,$key);
+				// Attach the “My Data” worksheet as the first worksheet in the PHPExcel object
+				$objPHPExcel->addSheet($WorkSheet,1);
+				$active_sheet = $objPHPExcel->setActiveSheetIndexByName($key);
+
+
 
 		//	устанавливаем ширину колонок для всей таблицы, автоматическая ширина для интервалов типа А:Х не действует!!?? 	
 			$active_sheet->getColumnDimension('A')->setWidth(20);
@@ -738,15 +725,30 @@
 					),							
 				);
 				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color);
-
 		// Форматирование (задание стилей) таблицы конец 		
+
+		unset($value);	
+		unset($result_query_SQL);	
+		unset($result_query_SQL);	
+		gc_collect_cycles($WorkSheet);
+
+			$memory = memory_get_usage(true);		
+			echo "<br> ".__FUNCTION__.":&nbsp;&nbsp;Объём памяти ПОСЛЕ очистки= &nbsp;&nbsp;".$memory;	
+
+
+				}
+
+
+
+
+
 
 		//	даём команду браузеру отдать на скачивание файл в формате эксель, указываем его имя и даём команду сохранить
 		// header("Content-Type:application/vnd.ms-excel");
 		// header("Content-Disposition:attachment;filename='simple.xlsx'");
-		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExecel, 'Excel2007');
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 		// $objWriter->save('php://output');	//	Сохраняет браузер через форму "Сохранить файл"
-		$objWriter->save('simple.xlsx');
+		$objWriter->save($name_exls_file);
 
 		exit();
 
@@ -767,7 +769,75 @@
 	    mysqli_free_result($result);
 		}	
 
+	function DataProcessing(){
 
+		}
+
+	function Table(){     	//	создаём таблицу спомощью php
+		// $ArrNameHyp = GetHypNam();
+		$ArrNameHyp = GetHypNam_TEST();
+
+		for ($i=0; $i < count($ArrNameHyp); $i++) {	
+			
+				echo '<tr>';
+				if (is_array($ArrNameHyp[$i])) {
+						$HypName = $ArrNameHyp[$i][1];
+						$HypCount = $ArrNameHyp[$i][2];					
+
+						echo '<td class="NameHyp_Col" rowspan='.$HypCount.'>
+							<p class="vertical">'.$HypName.'</p>
+							</td>';
+					continue;						
+					}
+					echo 
+						'<td>
+							'.$i.'
+						</td>';
+							echo '<td>
+									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
+									</td>';
+						for ($q=0; $q < 27; $q++) { 
+							echo "<td></td>";
+							}
+					echo '</tr>';
+			}		
+		}
+
+	function Table_in_str(){ 		//	создаёт таблицу и преобразует её в строку для последующей передачи с помощью ajax в скрипт js 
+		// $ArrNameHyp = GetHypNam();
+		$ArrNameHyp = GetHypNam_TEST();
+
+		for ($i=0; $i < count($ArrNameHyp); $i++) {	
+			
+				$str_1 = '<tr>';
+				
+				if (is_array($ArrNameHyp[$i])) {
+						$HypName = $ArrNameHyp[$i][1];
+						$HypCount = $ArrNameHyp[$i][2];					
+					
+
+					$str_2 = '<td class="NameHyp_Col" rowspan='.$HypCount.'>
+							<p class="vertical">'.$HypName.'</p>
+							</td>';
+					continue;						
+					}
+					$str_3 =  
+						'<td>
+							'.$i.'
+						</td>';
+							$str_4 =  '<td>
+									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
+									</td>';
+						for ($q=0; $q < 27; $q++) { 
+							$str_5 = $str_5."<td></td>";
+							}
+					$str_6 = '</tr>';
+
+				$str = $str.$str_1.$str_2.$str_3.$str_4.$str_5.$str_6;
+				$str_5 = "";
+			}	
+			return $str;
+		}
 
 
 

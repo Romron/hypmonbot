@@ -12,6 +12,21 @@
 	<!-- <script src="js/funktions.js"></script> -->
 	<script src="js/FixHeaderCol.js"></script>
 
+	<script type="text/javascript">
+	  function digitalWatch() {
+	    var date = new Date();
+	    var hours = date.getHours();
+	    var minutes = date.getMinutes();
+	    var seconds = date.getSeconds();
+	    if (hours < 10) hours = "0" + hours;
+	    if (minutes < 10) minutes = "0" + minutes;
+	    if (seconds < 10) seconds = "0" + seconds;
+	    document.getElementById("digital_watch").innerHTML = hours + ":" + minutes + ":" + seconds;
+	    setTimeout("digitalWatch()", 1000);
+	  }
+
+	</script>
+
 </head>
 <body>
 
@@ -158,12 +173,28 @@
 				</tr>
 	<!-- /Шапка таблицы -->
 
-
-
+	
+	<body onload="digitalWatch()"> 
+		<p id="digital_watch" style="color: #f00; font-size: 120%; font-weight: bold;"></p>
+	</body>
 
 	<?php  
 
-		set_time_limit(0);
+		// адрес скрипта на хостингере http://pogodaplus.pe.hu/
+
+
+		ini_set ('max_execution_time',1800);	//	время выполнения скрипта не более 30 мин
+		$arr_ini = ini_get_all();
+		// ini_set('display_errors', TRUE);
+		// ini_set('display_startup_errors', TRUE);
+		echo "Начало работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time());
+			echo "<br>******";
+		echo "<br> Установлено максимальное время выполнения скрипта &nbsp-&nbsp".ini_get('max_execution_time')."&nbsp сек.";
+		echo "<br> Объём оперативной память выделенный скрипту &nbsp-&nbsp &nbsp".$arr_ini[memory_limit][global_value];
+		echo "<br> Объём оперативной память занимаемый скриптом &nbsp-&nbsp".round((memory_get_usage()/1000000),2)."M";
+			echo "<br>******";
+
+
 		$ArrNameHyp = GetHypNam();
 
 		
@@ -184,36 +215,39 @@
 							</td>';
 					continue;						
 					}
-					echo 
-						'<td>
-							'.$i.'
-						</td>';
-							echo '<td>
-									<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
-									</td>';
-						$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
-						if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
-						    echo "patern_URL ненайден или ошибка";
-						    return false;
-							} 
-						
-						$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
-						
-						queryInputIntoDB($link_DB,$HypMonName,$ArrNameHyp[$i],$ArrParamHype);
-						
-						for ($q=0; $q < 20; $q++) { 
-							echo "<td>";
-						if (strpos($ArrParamHype[$q],"ERR")) { 
-								echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
-							}else{
-								echo '<p class="ParamHyp">'.trim(strip_tags($ArrParamHype[$q])).'</p>';
-								}
-							echo "</td>";
+				echo 
+					'<td>
+						'.$i.'
+					</td>';
+						echo '<td>
+								<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
+								</td>';
+					$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
+					if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
+					    echo "patern_URL ненайден или ошибка";
+					    return false;
+						} 
+					
+					sleep(mt_rand(1,5));
+					$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
+					queryInputIntoDB($link_DB,$HypMonName,$ArrNameHyp[$i],$ArrParamHype);
+					
+					for ($q=0; $q < 20; $q++) { 
+						echo "<td>";
+					if (strpos($ArrParamHype[$q],"ERR")) { 
+							echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
+						}else{
+							echo '<p class="ParamHyp">'.trim(strip_tags($ArrParamHype[$q])).'</p>';
 							}
-					echo '</tr>';
+						echo "</td>";
+						}
+				echo '</tr>';
 			}
 
 			mysqli_close($link_DB);
+		
+
+		echo "<br> Конец работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time())."<br><br>";
 
 	
 
