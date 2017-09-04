@@ -7,6 +7,7 @@ list4hyip.com	FALSE	/	FALSE	2134147718	CameFrom	https%3A%2F%2Fwww.google.com.ua%
 #HttpOnly_.allhyipmon.ru	TRUE	/	FALSE	1534961167	__cfduid	d9ce5b21868efbf0983d37f6f0658ea251503425167
 .allhyipmon.ru	TRUE	/	FALSE	1505425109	SESSf199dbb3263bf6a9d72b6911c038db65	i4qi6dscicbqk3u690rsfnnq91
 #HttpOnly_.bitmakler.com	TRUE	/	FALSE	1534963835	__cfduid	d32d7856931f68c6df47be569459ebfc51503427835
-a.pr-cy.ru	FALSE	/	FALSE	1504550130	avc	3
-.alexa.com	TRUE	/siteinfo/	FALSE	1504638331	rpt	%21
-.alexa.com	TRUE	/	FALSE	1536105931	lv	1504548331
+a.pr-cy.ru	FALSE	/	FALSE	1504552522	avc	210
+.alexa.com	TRUE	/siteinfo/	FALSE	1504640722	rpt	%21
+.alexa.com	TRUE	/	FALSE	1536108322	lv	1504550722
+.alexa.com	TRUE	/	FALSE	1504638905	rpt	%21
