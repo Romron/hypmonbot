@@ -332,12 +332,12 @@
 	    return $link_DB;	
 		}
 
-	function querySelectFromDB($link_DB,$name_field="*"){	//	Данная функция извликает данные из базы
+	function querySelectFromDB($name_table,$link_DB,$name_field="*"){	//	Данная функция извликает данные из базы
 	    /* Выполняем SQL-запрос */
 	    
-	    echo "<br>".__FUNCTION__."&nbsp&nbsp получено поле: &nbsp&nbsp".$name_field;
+	    echo "<br>".__FUNCTION__."&nbsp&nbsp получено поле: &nbsp&nbsp".$name_field."<br>";
 
-	    $query = "SELECT `".$name_field."` FROM test_2";
+	    $query = "SELECT `".$name_field."` FROM`".$name_table."`";
 	    $result = mysqli_query($link_DB,$query) or die(__FUNCTION__."&nbsp&nbspQuery failed : " . mysql_error());	    
 
 	   	return $result;
@@ -495,7 +495,7 @@
 			$active_sheet->mergeCells('V2:V4');
 			$active_sheet->mergeCells('W2:W4');
 			$active_sheet->mergeCells('X2:X4');
-				// установить Знач ячейки
+		// установить Знач ячейки
 			$active_sheet->setCellValue('A1','Монитор');
 			$active_sheet->setCellValue('B1','п/п');
 			$active_sheet->setCellValue('C1','Дата');
@@ -559,7 +559,7 @@
 				$row_next = $row_start + $i;
 				$active_sheet->setCellValue('A'.$row_next,$item['monitor']);
 				$active_sheet->setCellValue('B'.$row_next,$item['id']);
-				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s',$item['Date']));			
+				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s',$item['date']));			
 				$active_sheet->setCellValue('D'.$row_next,$item['project']);
 				$active_sheet->setCellValue('E'.$row_next,$item['cy']);
 				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_pc']);
