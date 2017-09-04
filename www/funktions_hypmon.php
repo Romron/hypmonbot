@@ -24,6 +24,7 @@
         curl_setopt($ch, CURLOPT_COOKIEFILE,   __DIR__."/cookies/cookies.txt");  
       
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         
         curl_setopt($ch, CURLOPT_HEADER, true);		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
@@ -324,25 +325,25 @@
 	    
 
 	    if (mysqli_connect_errno()) {
-	    	echo "Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
+	    	echo "<br> Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
 	    	}else{
-	    	echo 'Соединение установлено... ' . mysqli_get_host_info($link_DB) . "<br><br>";
+	    	echo '<br> Соединение установлено... ' . mysqli_get_host_info($link_DB) . "<br><br>";
 	    	}
 	    return $link_DB;	
 		}
 
-	function querySelectFromDB($link_DB,$name_field="*"){	//	Данная функция извликает данные из базы
+	function querySelectFromDB($name_table,$link_DB,$name_field="*"){	//	Данная функция извликает данные из базы
 	    /* Выполняем SQL-запрос */
 	    
-	    echo "<br>".__FUNCTION__."&nbsp&nbsp получено поле: &nbsp&nbsp".$name_field;
+	    echo "<br>".__FUNCTION__."&nbsp&nbsp получено поле: &nbsp&nbsp".$name_field."<br>";
 
-	    $query = "SELECT `".$name_field."` FROM test_2";
+	    $query = "SELECT `".$name_field."` FROM`".$name_table."`";
 	    $result = mysqli_query($link_DB,$query) or die(__FUNCTION__."&nbsp&nbspQuery failed : " . mysql_error());	    
 
 	   	return $result;
 		}
 
-	function queryInputIntoDB($link_DB,$HypMonName,$NameHyp,$ArrParamHype) {	//	Данная функция добавляет данные в базу
+	function queryInputIntoDB($name_table,$link_DB,$HypMonName,$NameHyp,$ArrParamHype) {	//	Данная функция добавляет данные в базу
 		
 		$date_today = time();	//	получаем текушее кол-во секунд в эпохе Юникс
 
@@ -363,7 +364,7 @@
 						} 						
 					}
 
-			    $query_input = "INSERT INTO test_2(`monitor`, 
+			    $query_input = "INSERT INTO ".$name_table."(`monitor`, 
 			    									`date`,
 			    									`project`,
 			    									`cy`,
@@ -415,21 +416,22 @@
 			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
 			}
 
-	function OutputResultSQL_InExcel($arr_data_query_SQL,$name_exls_file="simple.xlsx",$arr_name_sheets=0,$name_active_sheet=""){
-		// для болие широкого испльзования данной ф-ции, например в ф-ции DataProcessing(), вводим новые параметры:
-		// $name_exls_file - для того чтобы различать файлы созданные в разных ф-циях и вразное время
-		// $arr_name_sheets - для создания многих листов в данном файле. т.е. предполагаеться возможность экспорта данных на разные листы
+	function OutputResultSQL_InExcel($result_query_SQL){
+
+		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
+			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
+			}
+
+			// print_r($arr_row);
 
 
 		//	блок создания и получения активного экселевского листа
-			$objPHPExcel = new PHPExcel();		 
-			$objPHPExcel->createSheet();
-			// $objPHPExcel->setActiveSheetIndex(0);
-			$active_sheet = $objPHPExcel->getActiveSheet(0);
-			$active_sheet->setTitle("SEO параметры");
+			$objPHPExecel = new PHPExcel();		 
+			$objPHPExecel->setActiveSheetIndex(0);
+			$objPHPExecel->createSheet();
+			$active_sheet = $objPHPExecel->getActiveSheet();
 
-		//	блок формирования параметров страницы, при выводе на печать, активного листа
-			$active_sheet->getPageSetup()		
+			$active_sheet->getPageSetup()		//	блок формирования параметров страницы активного листа
 						->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);				
 			$active_sheet->getPageSetup()
 						->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
@@ -437,43 +439,7 @@
 			$active_sheet->getPageMargins()->setBottom(0.1);
 			$active_sheet->getPageMargins()->setRight(0.1);
 			$active_sheet->getPageMargins()->setLeft(0.1);
-
-		// //	добавляем листы в количестве и с названиями казаными в массиве $arr_name_sheets
-		// 	for ($i=0; $i <count($arr_name_sheets) ; $i++) { 
-		// 		// Create a new worksheet called “My Data”
-		// 		$WorkSheet = new PHPExcel_Worksheet($objPHPExcel, $arr_name_sheets[$i]);
-		// 		// Attach the “My Data” worksheet as the first worksheet in the PHPExcel object
-		// 		$objPHPExcel->addSheet($WorkSheet,1);
-		// 		}
-
-			$w = 0;		//для отладки
-
-		//	Из полученного массива обьектов базы данных формируем (!??)АССОЦИАТИВНЫЙ массив(ы) которые перебираем в цыкле 
-			foreach ($arr_data_query_SQL as $key => $value){ 
-			
-			$memory = memory_get_usage(true);		
-			echo "<br> ".__FUNCTION__.":&nbsp;&nbsp;Объём памяти ДО очистки= &nbsp;&nbsp;".$memory;
-
-			// echo "<br><br>foreach&nbsp;&nbsp;".$w++."<br>";
-			// 	echo $key."&nbsp;=>&nbsp;";
-			// 	print_r($value);
-
-
-			// echo "<br><br><br>";				
-
-
-				$result_query_SQL = $value[0];
-				for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	
-					$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
-					}
-				
-				// Create a new worksheet called “My Data”
-				$WorkSheet = new PHPExcel_Worksheet($objPHPExcel,$key);
-				// Attach the “My Data” worksheet as the first worksheet in the PHPExcel object
-				$objPHPExcel->addSheet($WorkSheet,1);
-				$active_sheet = $objPHPExcel->setActiveSheetIndexByName($key);
-
-
+			$active_sheet->setTitle("SEO параметры");
 
 		//	устанавливаем ширину колонок для всей таблицы, автоматическая ширина для интервалов типа А:Х не действует!!?? 	
 			$active_sheet->getColumnDimension('A')->setWidth(20);
@@ -529,7 +495,7 @@
 			$active_sheet->mergeCells('V2:V4');
 			$active_sheet->mergeCells('W2:W4');
 			$active_sheet->mergeCells('X2:X4');
-				// установить Знач ячейки
+		// установить Знач ячейки
 			$active_sheet->setCellValue('A1','Монитор');
 			$active_sheet->setCellValue('B1','п/п');
 			$active_sheet->setCellValue('C1','Дата');
@@ -593,7 +559,7 @@
 				$row_next = $row_start + $i;
 				$active_sheet->setCellValue('A'.$row_next,$item['monitor']);
 				$active_sheet->setCellValue('B'.$row_next,$item['id']);
-				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s',$item['Date']));			
+				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s',$item['date']));			
 				$active_sheet->setCellValue('D'.$row_next,$item['project']);
 				$active_sheet->setCellValue('E'.$row_next,$item['cy']);
 				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_pc']);
@@ -720,35 +686,20 @@
 			$style_text_color = array(		//	стили для ячеек с текстом выделенным отдельным цветом
 				'font'=>array(
 					'color'   => array(
-						'rgb' => '219118'
+						'rgb' => '00FF00'
 						)
 					),							
 				);
 				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color);
+
 		// Форматирование (задание стилей) таблицы конец 		
-
-		unset($value);	
-		unset($result_query_SQL);	
-		unset($result_query_SQL);	
-		gc_collect_cycles($WorkSheet);
-
-			$memory = memory_get_usage(true);		
-			echo "<br> ".__FUNCTION__.":&nbsp;&nbsp;Объём памяти ПОСЛЕ очистки= &nbsp;&nbsp;".$memory;	
-
-
-				}
-
-
-
-
-
 
 		//	даём команду браузеру отдать на скачивание файл в формате эксель, указываем его имя и даём команду сохранить
 		// header("Content-Type:application/vnd.ms-excel");
 		// header("Content-Disposition:attachment;filename='simple.xlsx'");
-		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExecel, 'Excel2007');
 		// $objWriter->save('php://output');	//	Сохраняет браузер через форму "Сохранить файл"
-		$objWriter->save($name_exls_file);
+		$objWriter->save('simple.xlsx');
 
 		exit();
 

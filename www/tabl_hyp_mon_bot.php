@@ -180,10 +180,13 @@
 
 	<?php  
 
-		// адрес скрипта на хостингере http://pogodaplus.pe.hu/
+		//	Установки скрипта:
+		$name_table = 'Work_table_1';	//	Выбор таблицы в базе данных
+								
+		ignore_user_abort(true);	// Игнорирует отключение пользователя 
+		set_time_limit(0);			// позволяет скрипту быть запущенным постоянно
 
-
-		ini_set ('max_execution_time',1800);	//	время выполнения скрипта не более 30 мин
+		// ini_set ('max_execution_time',1800);	//	время выполнения скрипта не более 30 мин
 		$arr_ini = ini_get_all();
 		// ini_set('display_errors', TRUE);
 		// ini_set('display_startup_errors', TRUE);
@@ -230,7 +233,7 @@
 					
 					sleep(mt_rand(1,5));
 					$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
-					queryInputIntoDB($link_DB,$HypMonName,$ArrNameHyp[$i],$ArrParamHype);
+					queryInputIntoDB($name_table,$link_DB,$HypMonName,$ArrNameHyp[$i],$ArrParamHype);
 					
 					for ($q=0; $q < 20; $q++) { 
 						echo "<td>";
@@ -246,7 +249,7 @@
 
 			mysqli_close($link_DB);
 		
-
+		echo "<br>======";
 		echo "<br> Конец работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time())."<br><br>";
 
 	
