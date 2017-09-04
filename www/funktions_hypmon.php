@@ -720,6 +720,17 @@
 	    mysqli_free_result($result);
 		}	
 
+	function ProxyChecker(){
+		// парсим прокси с спец сайтов
+		// слаживаем их в массив 
+		// проверяем полученные прокси
+		
+			echo phpinfo();
+
+		}
+
+
+
 	function DataProcessing(){
 
 		}

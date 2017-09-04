@@ -191,7 +191,7 @@
 		// ini_set('display_errors', TRUE);
 		// ini_set('display_startup_errors', TRUE);
 		echo "Начало работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time());
-			echo "<br>******";
+		echo "<br>======";
 		echo "<br> Установлено максимальное время выполнения скрипта &nbsp-&nbsp".ini_get('max_execution_time')."&nbsp сек.";
 		echo "<br> Объём оперативной память выделенный скрипту &nbsp-&nbsp &nbsp".$arr_ini[memory_limit][global_value];
 		echo "<br> Объём оперативной память занимаемый скриптом &nbsp-&nbsp".round((memory_get_usage()/1000000),2)."M";
