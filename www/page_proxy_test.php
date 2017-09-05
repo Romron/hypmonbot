@@ -28,7 +28,7 @@
 	    $result_proxy = '<p class="err_mess">patern_amount_list_proxy_ERR</p>';	
 		} 
 	
-	for ($i=1; $i < 20; $i++) { 
+	for ($i=1; $i < $amount_list_proxy[1][0]; $i++) { 
 
 		$page_with_proxy = GetWebPage('https://premproxy.com/socks-list/ip-port/'.$i.'.htm');
 			// echo $page_with_proxy;
@@ -39,20 +39,13 @@
 			} 
 		
 		sleep(mt_rand(1,2));
-		$arr_proxy = array_unshift($arr_proxy,$result_proxy);
+		$arr_proxy = array_merge($arr_proxy,$result_proxy[0]);
+
+
+
 		}
+
 	
-
-
-
-	var_dump($amount_list_proxy);
-	
-		echo "<br>";
-		echo "<br>";
-		echo "<br>";
-
-	// var_dump($result_proxy);
-	print_r($arr_proxy);
 
 
 
