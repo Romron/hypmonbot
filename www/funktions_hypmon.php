@@ -1,5 +1,5 @@
 <?php 
-	function GetWebPage( $url, $conect_out = 120, $tim_out = 120){    
+	function GetWebPage( $url,$proxy=false,$http=false){    
        
        // echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
 
@@ -28,7 +28,11 @@
         
         curl_setopt($ch, CURLOPT_HEADER, true);		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
-        curl_setopt($ch, CURLOPT_REFERER, $url);       
+        curl_setopt($ch, CURLOPT_REFERER, $url);   
+
+        if ($proxy) {
+            curl_setopt($ch, CURLOPT_PROXY, $proxy);
+            }    
 
         $content = curl_exec($ch);
         $err     = curl_errno($ch);
@@ -54,6 +58,10 @@
           }
         // если не ошибка
         
+        if ($http) {
+           	return $result['$http'];
+            }             
+
             $page = $result['content'];
             // echo $page;
             return $page;
