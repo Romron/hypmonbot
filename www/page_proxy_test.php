@@ -38,14 +38,30 @@
 		    $result_proxy = '<p class="err_mess">ptrn_proxy_ERR</p>';	
 			} 
 		
-		sleep(mt_rand(1,2));
-		$arr_proxy = array_merge($arr_proxy,$result_proxy[0]);
+		$arr_proxy = array_merge($arr_proxy,$result_proxy[0]);	
+
+		//	ProxyChecker(){
+			// проверка работоспособности
+			// проверка анонимности
+			// проверка внешнего IP на уникальность
+			// проверка DNS 
 
 
 
+
+		// }
+
+
+		sleep(mt_rand(1,2));	//	без этой строчки не работает
 		}
 
+		// здесь $arr_proxy можно писать в файл
 	
+
+
+
+
+
 
 
 
