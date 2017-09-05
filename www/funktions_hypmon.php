@@ -1,5 +1,5 @@
 <?php 
-	function GetWebPage( $url,$proxy=false,$http=false){    
+	function GetWebPage( $url,$proxy=false,$http_only=false){    
        
        // echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
 
@@ -48,7 +48,7 @@
         $result = $header;
 
         if ($result['errno'] != 0) {  // если ошибка
-         	echo "<br>Код ошибки: &nbsp".$result['errmsg']; 
+         	echo "<br>Код ошибки: &nbsp".$result['errmsg']."<br>"; 
            return $result;
           }     
         if ($result['http_code'] != 200){
@@ -64,7 +64,8 @@
 
             $page = $result['content'];
             // echo $page;
-            return $page;
+            // return $page;
+            return $result;
       }
 
 	function GetHypNam(){
