@@ -327,7 +327,7 @@
 	    if (mysqli_connect_errno()) {
 	    	echo "<br> Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
 	    	}else{
-	    	echo '<br> Соединение установлено... ' . mysqli_get_host_info($link_DB) . "<br><br>";
+	    	echo '<br> Соединение с базой данных установлено... ' . mysqli_get_host_info($link_DB) . "<br><br>";
 	    	}
 	    return $link_DB;	
 		}
