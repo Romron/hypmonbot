@@ -424,9 +424,21 @@
 
 		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
 			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
+			
+				if ($i>10) {
+					break;
+				}
+
 			}
 
-			// print_r($arr_row);
+		// Групировка строк по названию проэкта
+		print_r($arr_row);
+		echo "<br>";
+
+		// print_arr($arr_row);
+
+			Build_tree($arr_row);
+
 
 
 		//	блок создания и получения активного экселевского листа
@@ -707,7 +719,50 @@
 
 		exit();
 
+		}
+
+	function print_arr($arr){
+		
+		foreach ($arr as $arr_1 => $value_1) {
+		echo "<br>&nbspArray[".$arr_1."]<br>";
+			
+			if (is_array($value_1)){
+				foreach ($value_1 as $key => $value) {
+				 	for ($W=0; $W < 6; $W++) { 
+				 		echo "&nbsp;";
+				 		}						
+					echo $key."=>".$value;
+					echo "<br>";
+					} 
+				}
+			}
+
+		exit();
 		}			
+
+	
+	function Build_tree($arr_0)	{
+		
+			echo "1<br>";
+
+		if(is_array($arr_0)){
+			echo "2<br>";
+		$resalt_str = 'Array ( ';
+		foreach($arr_0 as $key => $value){
+			echo "3<br>";
+			$resalt_str .= $key."=>";
+			$resalt_str .= Build_tree($value);
+			}
+		$resalt_str .= ')';
+		} 
+
+
+		echo $resalt_str;
+
+		exit();
+		}
+
+
 
 	function OutputResultSQL($result){
 		print "<table>\n";
@@ -725,13 +780,11 @@
 		}	
 
 	function DataProcessing(){
-			// 	1.	Проэкты групируються в блоки строк с объединённой ячейкой с названием проэкта после этого
-			//  2.	Сортировка блоков строк от большого к малому:
-				// 		Лист "Анализ ТИЦ" по ТИЦ 
-				// 		Лист "Анализ индекса Alexa" 
-				// 		Лист "Просмотры"
-
-
+		// 	1.	Проэкты групируються в блоки строк с объединённой ячейкой с названием проэкта после этого
+		//  2.	Сортировка блоков строк от большого к малому:
+			// 		Лист "Анализ ТИЦ" по ТИЦ 
+			// 		Лист "Анализ индекса Alexa" 
+			// 		Лист "Просмотры"
 		}
 
 	function Table(){     	//	создаём таблицу спомощью php
