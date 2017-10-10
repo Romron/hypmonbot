@@ -437,7 +437,7 @@
 
 		// print_arr($arr_row);
 
-			Build_tree($arr_row);
+			Build_tree($arr_row,0);
 
 
 
@@ -741,25 +741,26 @@
 		}			
 
 	
-	function Build_tree($arr_0)	{
-		
-			echo "1<br>";
+	function Build_tree($arr_0,$value_0)	{
 
-		if(is_array($arr_0)){
-			echo "2<br>";
-		$resalt_str = 'Array ( ';
-		foreach($arr_0 as $key => $value){
-			echo "3<br>";
-			$resalt_str .= $key."=>";
-			$resalt_str .= Build_tree($value);
-			}
-		$resalt_str .= ')';
-		} 
-
-
+			echo "*";
+			$resalt_str = 'Array ( ';
+			foreach ($arr_0 as $kye_1 => $value_1) {
+				// echo $kye_1 ."=>". $value_1 ."*<br>";
+				if (is_array($value_1)) {
+					$resalt_str = Build_tree($value_1,0);
+					}else{
+						// echo "2<br>";
+						// print_r($arr_0);
+						// var_dump($value_1);
+						$resalt_str .= $value_1;
+						}
+				}
+		$resalt_str .= ")<br>";
 		echo $resalt_str;
+		return $resalt_str;
 
-		exit();
+		
 		}
 
 
