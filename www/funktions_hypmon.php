@@ -425,19 +425,19 @@
 		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
 			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
 			
-				if ($i>10) {
-					break;
-				}
+				// if ($i>10) {
+				// 	break;
+				// }
 
 			}
 
 		// Групировка строк по названию проэкта
-		print_r($arr_row);
-		echo "<br>";
+		// print_r($arr_row);
+		// echo "<br>";
 
 		// print_arr($arr_row);
 
-			Build_tree($arr_row);
+			Build_tree_arr($arr_row);
 
 
 
@@ -741,19 +741,17 @@
 		}			
 
 	
-	function Build_tree($arr_0,$value_0)	{
+	function Build_tree_arr($arr_0)	{
 
-			echo "*";
-			$resalt_str = 'Array ( ';
+			$resalt_str = 'Array ( <br>';
 			foreach ($arr_0 as $kye_1 => $value_1) {
-				// echo $kye_1 ."=>". $value_1 ."*<br>";
 				if (is_array($value_1)) {
-					$resalt_str = Build_tree($value_1,0);
+					$resalt_str = Build_tree_arr($value_1);
 					}else{
-						// echo "2<br>";
-						// print_r($arr_0);
-						// var_dump($value_1);
-						$resalt_str .= $value_1;
+						for ($W=0; $W < 6; $W++) { 
+					 		$resalt_str .= "&nbsp;";
+					 		}
+						$resalt_str .= $kye_1 ."&nbsp;&nbsp; => &nbsp;&nbsp;". $value_1 ."<br>";
 						}
 				}
 		$resalt_str .= ")<br>";
