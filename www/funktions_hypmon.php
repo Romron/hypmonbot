@@ -425,20 +425,34 @@
 		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
 			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
 			
-				// if ($i>10) {
-				// 	break;
-				// }
+				if ($i>100) {
+					break;
+				}
 
 			}
 
 		// Групировка строк по названию проэкта
-		// print_r($arr_row);
-		// echo "<br>";
 
-		// print_arr($arr_row);
+		
+		
+		$prb_arr = array('qq' => 11,
+					'ww' => 22,
+					'ee' => 33,
+						'xxx' => $rr = array('ss' => 44,
+						'dd' => 55,
+						'ff' => 77),
+					'tt' => 00,
+					'yy' => 01,		 			
+		 			);
 
-			Build_tree_arr($arr_row);
+		
+		// print_r($prb_arr);
+		// echo "<br><br>*******************************************<br>";
+		// Build_tree_arr($prb_arr);
 
+
+
+		Build_tree_arr($arr_row);
 
 
 		//	блок создания и получения активного экселевского листа
@@ -721,44 +735,26 @@
 
 		}
 
-	function print_arr($arr){
-		
-		foreach ($arr as $arr_1 => $value_1) {
-		echo "<br>&nbspArray[".$arr_1."]<br>";
-			
-			if (is_array($value_1)){
-				foreach ($value_1 as $key => $value) {
-				 	for ($W=0; $W < 6; $W++) { 
-				 		echo "&nbsp;";
-				 		}						
-					echo $key."=>".$value;
-					echo "<br>";
-					} 
-				}
-			}
-
-		exit();
-		}			
-
 	
-	function Build_tree_arr($arr_0)	{
+	function Build_tree_arr($arr_0,$n = 0)	{
 
-			$resalt_str = 'Array ( <br>';
-			foreach ($arr_0 as $kye_1 => $value_1) {
-				if (is_array($value_1)) {
-					$resalt_str = Build_tree_arr($value_1);
-					}else{
-						for ($W=0; $W < 6; $W++) { 
-					 		$resalt_str .= "&nbsp;";
-					 		}
-						$resalt_str .= $kye_1 ."&nbsp;&nbsp; => &nbsp;&nbsp;". $value_1 ."<br>";
-						}
-				}
+		if ($GLOBALS["n"] == 0) { $GLOBALS["n"] = 1; }
+		$resalt_str = $GLOBALS["n"].'. &nbsp;&nbsp; Array ( <br>';
+		foreach ($arr_0 as $kye_1 => $value_1) {
+			if (is_array($value_1)) {
+				$resalt_str = Build_tree_arr($value_1,$n);
+				}else{
+					for ($W=0; $W < 6; $W++) { 
+				 		$resalt_str .= "&nbsp;";
+				 		}
+					$resalt_str .= $kye_1 ."&nbsp;&nbsp; => &nbsp;&nbsp;". $value_1 ."<br>";
+					}
+			if ($n !== 0 and $GLOBALS["n"] > $n) {exit();}
+			}
 		$resalt_str .= ")<br>";
+		$GLOBALS["n"]++;
 		echo $resalt_str;
 		return $resalt_str;
-
-		
 		}
 
 
