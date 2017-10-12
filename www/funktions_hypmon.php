@@ -434,25 +434,7 @@
 		// Групировка строк по названию проэкта
 
 		
-		
-		$prb_arr = array('qq' => 11,
-					'ww' => 22,
-					'ee' => 33,
-						'xxx' => $rr = array('ss' => 44,
-						'dd' => 55,
-						'ff' => 77),
-					'tt' => 00,
-					'yy' => 01,		 			
-		 			);
-
-		
-		// print_r($prb_arr);
-		// echo "<br><br>*******************************************<br>";
-		// Build_tree_arr($prb_arr);
-
-
-
-		Build_tree_arr($arr_row);
+		echo Build_tree_arr($arr_row,10);
 
 
 		//	блок создания и получения активного экселевского листа
@@ -736,24 +718,28 @@
 		}
 
 	
-	function Build_tree_arr($arr_0,$n = 0)	{
+	function Build_tree_arr($arr_0,$n=0)	{
 
-		if ($GLOBALS["n"] == 0) { $GLOBALS["n"] = 1; }
-		$resalt_str = $GLOBALS["n"].'. &nbsp;&nbsp; Array ( <br>';
-		foreach ($arr_0 as $kye_1 => $value_1) {
-			if (is_array($value_1)) {
-				$resalt_str = Build_tree_arr($value_1,$n);
+		if ($GLOBALS["n"] == 0) { 
+			$resalt_str .= "Array &nbsp;( <br>";
+			// $GLOBALS["n"] = 1; 
+		}
+		$GLOBALS["n"]++;		
+		if(is_array($arr_0)) {
+			foreach ($arr_0 as $key => $value) {
+				if (is_array($value)) {
+					for ($W=0; $W < 3*$GLOBALS["n"]; $W++) { $resalt_str .= "&nbsp;"; }	
+					$resalt_str .= "[".$key."] => "./*$GLOBALS["n"].*/"&nbsp;Array (<br> ";
+					$resalt_str .= Build_tree_arr($value,$n);
+					for ($W=0; $W < 3*$GLOBALS["n"]; $W++) { $resalt_str .= "&nbsp;"; }	
+					$resalt_str .= ")<br>";
+					if ($n !== 0 and $GLOBALS["n"]-1 > $n) {return $resalt_str;}
 				}else{
-					for ($W=0; $W < 6; $W++) { 
-				 		$resalt_str .= "&nbsp;";
-				 		}
-					$resalt_str .= $kye_1 ."&nbsp;&nbsp; => &nbsp;&nbsp;". $value_1 ."<br>";
+						for ($W=0; $W < 3*$GLOBALS["n"]; $W++) { $resalt_str .= "&nbsp;"; }
+						$resalt_str .= "[".$key."] &nbsp; => &nbsp;".$value."<br>";
 					}
-			if ($n !== 0 and $GLOBALS["n"] > $n) {exit();}
 			}
-		$resalt_str .= ")<br>";
-		$GLOBALS["n"]++;
-		echo $resalt_str;
+		}
 		return $resalt_str;
 		}
 
