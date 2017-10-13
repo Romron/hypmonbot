@@ -82,7 +82,7 @@
 
 		$page_2 = GetWebPage('http://allhyipmon.ru/rating');
 			if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
-			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
+			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
 			$n=0;
 			$result_2 = array();
 			do{
@@ -107,7 +107,8 @@
 				sleep(mt_rand(1,5));
 				$page_2 = GetWebPage($url);
 
-			}while ($n <= 5);
+			}while ($n <= 5);		//	рабочий вариант строки
+			// }while ($n <= 1);		//	для тестов
 
 				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
 				array_unshift($result_2, $result_2c);
@@ -722,7 +723,6 @@
 
 		}
 
-	
 	function Build_tree_arr($arr_0,$n=0)	{
 
 		if ($GLOBALS["n"] == 0) { 
