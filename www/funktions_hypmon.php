@@ -332,12 +332,17 @@
 	    return $link_DB;	
 		}
 
-	function querySelectFromDB($name_table,$link_DB,$name_field="*"){	//	Данная функция извликает данные из базы
+	function querySelectFromDB($name_table,$link_DB,$name_field="*",$text_query=""){	//	Данная функция извликает данные из базы
 	    /* Выполняем SQL-запрос */
 	    
 	    echo "<br>".__FUNCTION__."&nbsp&nbsp получено поле: &nbsp&nbsp".$name_field."<br>";
 
-	    $query = "SELECT `".$name_field."` FROM`".$name_table."`";
+	    $query = "SELECT `".$name_field."` FROM`".$name_table."`".$text_query;
+
+	    //        SELECT `ORDER BY `project`` FROM`Work_table_1`
+	    //        SELECT      *            FROM `test_2` ORDER BY `project`
+	    echo "<br>".$query."<br>";
+
 	    $result = mysqli_query($link_DB,$query) or die(__FUNCTION__."&nbsp&nbspQuery failed : " . mysql_error());	    
 
 	   	return $result;
@@ -425,16 +430,16 @@
 		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
 			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
 			
-				if ($i>100) {
-					break;
-				}
+				// if ($i>100) {
+				// 	break;
+				// }
 
 			}
 
 		// Групировка строк по названию проэкта
 
 		
-		echo Build_tree_arr($arr_row,10);
+		// echo Build_tree_arr($arr_row,10);
 
 
 		//	блок создания и получения активного экселевского листа
@@ -742,8 +747,6 @@
 		}
 		return $resalt_str;
 		}
-
-
 
 	function OutputResultSQL($result){
 		print "<table>\n";
