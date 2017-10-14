@@ -342,7 +342,7 @@
 
 	    //        SELECT `ORDER BY `project`` FROM`Work_table_1`
 	    //        SELECT      *            FROM `test_2` ORDER BY `project`
-	    echo "<br>".$query."<br>";
+	    echo "<br>".$query."<br><br>";
 
 	    $result = mysqli_query($link_DB,$query) or die(__FUNCTION__."&nbsp&nbspQuery failed : " . mysql_error());	    
 
@@ -431,16 +431,9 @@
 		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
 			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
 			
-				// if ($i>100) {
-				// 	break;
-				// }
+				// if ($i>100) { break; }		// для тестов
 
 			}
-
-		// Групировка строк по названию проэкта
-
-		
-		// echo Build_tree_arr($arr_row,10);
 
 
 		//	блок создания и получения активного экселевского листа
@@ -733,14 +726,14 @@
 		if(is_array($arr_0)) {
 			foreach ($arr_0 as $key => $value) {
 				if (is_array($value)) {
-					for ($W=0; $W < 3*$GLOBALS["n"]; $W++) { $resalt_str .= "&nbsp;"; }	
+					// for ($W=0; $W < 3*$GLOBALS["n"]; $W++) { $resalt_str .= "&nbsp;"; }	
 					$resalt_str .= "[".$key."] => "./*$GLOBALS["n"].*/"&nbsp;Array (<br> ";
 					$resalt_str .= Build_tree_arr($value,$n);
-					for ($W=0; $W < 3*$GLOBALS["n"]; $W++) { $resalt_str .= "&nbsp;"; }	
+					for ($W=0; $W < 4/**$GLOBALS["n"]*/; $W++) { $resalt_str .= "&nbsp;"; }	
 					$resalt_str .= ")<br>";
 					if ($n !== 0 and $GLOBALS["n"]-1 > $n) {return $resalt_str;}
 				}else{
-						for ($W=0; $W < 3*$GLOBALS["n"]; $W++) { $resalt_str .= "&nbsp;"; }
+						for ($W=0; $W < 4/**$GLOBALS["n"]*/; $W++) { $resalt_str .= "&nbsp;"; }
 						$resalt_str .= "[".$key."] &nbsp; => &nbsp;".$value."<br>";
 					}
 			}
