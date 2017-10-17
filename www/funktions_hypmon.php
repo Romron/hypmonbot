@@ -82,7 +82,7 @@
 
 		$page_2 = GetWebPage('http://allhyipmon.ru/rating');
 			if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
-			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
+			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
 			$n=0;
 			$result_2 = array();
 			do{
@@ -107,7 +107,8 @@
 				sleep(mt_rand(1,5));
 				$page_2 = GetWebPage($url);
 
-			}while ($n <= 5);
+			}while ($n <= 5);		//	рабочий вариант строки
+			// }while ($n <= 1);		//	для тестов
 
 				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
 				array_unshift($result_2, $result_2c);
@@ -332,12 +333,17 @@
 	    return $link_DB;	
 		}
 
-	function querySelectFromDB($name_table,$link_DB,$name_field="*"){	//	Данная функция извликает данные из базы
+	function querySelectFromDB($name_table,$link_DB,$name_field="*",$text_query=""){	//	Данная функция извликает данные из базы
 	    /* Выполняем SQL-запрос */
 	    
 	    echo "<br>".__FUNCTION__."&nbsp&nbsp получено поле: &nbsp&nbsp".$name_field."<br>";
 
-	    $query = "SELECT `".$name_field."` FROM`".$name_table."`";
+	    $query = "SELECT `".$name_field."` FROM`".$name_table."`".$text_query;
+
+	    //        SELECT `ORDER BY `project`` FROM`Work_table_1`
+	    //        SELECT      *            FROM `test_2` ORDER BY `project`
+	    echo "<br>".$query."<br><br>";
+
 	    $result = mysqli_query($link_DB,$query) or die(__FUNCTION__."&nbsp&nbspQuery failed : " . mysql_error());	    
 
 	   	return $result;
@@ -418,11 +424,16 @@
 
 	function OutputResultSQL_InExcel($result_query_SQL){
 
+		// 	добавить в стили:
+			// 	фиксированую шапку по умолчанию
+			// 	столбцы J и N --- разделить группы разрядов
+
 		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
 			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
-			}
+			
+				// if ($i>100) { break; }		// для тестов
 
-			// print_r($arr_row);
+			}
 
 
 		//	блок создания и получения активного экселевского листа
@@ -703,7 +714,32 @@
 
 		exit();
 
-		}			
+		}
+
+	function Build_tree_arr($arr_0,$n=0)	{
+
+		if ($GLOBALS["n"] == 0) { 
+			$resalt_str .= "Array &nbsp;( <br>";
+			// $GLOBALS["n"] = 1; 
+		}
+		$GLOBALS["n"]++;		
+		if(is_array($arr_0)) {
+			foreach ($arr_0 as $key => $value) {
+				if (is_array($value)) {
+					// for ($W=0; $W < 3*$GLOBALS["n"]; $W++) { $resalt_str .= "&nbsp;"; }	
+					$resalt_str .= "[".$key."] => "./*$GLOBALS["n"].*/"&nbsp;Array (<br> ";
+					$resalt_str .= Build_tree_arr($value,$n);
+					for ($W=0; $W < 4/**$GLOBALS["n"]*/; $W++) { $resalt_str .= "&nbsp;"; }	
+					$resalt_str .= ")<br>";
+					if ($n !== 0 and $GLOBALS["n"]-1 > $n) {return $resalt_str;}
+				}else{
+						for ($W=0; $W < 4/**$GLOBALS["n"]*/; $W++) { $resalt_str .= "&nbsp;"; }
+						$resalt_str .= "[".$key."] &nbsp; => &nbsp;".$value."<br>";
+					}
+			}
+		}
+		return $resalt_str;
+		}
 
 	function OutputResultSQL($result){
 		print "<table>\n";
@@ -721,7 +757,11 @@
 		}	
 
 	function DataProcessing(){
-
+		// 	1.	Проэкты групируються в блоки строк с объединённой ячейкой с названием проэкта после этого
+		//  2.	Сортировка блоков строк от большого к малому:
+			// 		Лист "Анализ ТИЦ" по ТИЦ 
+			// 		Лист "Анализ индекса Alexa" 
+			// 		Лист "Просмотры"
 		}
 
 	function Table(){     	//	создаём таблицу спомощью php

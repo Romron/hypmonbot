@@ -26,7 +26,6 @@
 	  }
 
 	</script>
-
 </head>
 <body>
 
@@ -181,7 +180,7 @@
 	<?php  
 
 		//	Установки скрипта:
-		$name_table = 'Work_table_1';	//	Выбор таблицы в базе данных
+		$name_table = 'Work_table_2';	//	Выбор таблицы в базе данных
 								
 		ignore_user_abort(true);	// Игнорирует отключение пользователя 
 		set_time_limit(0);			// позволяет скрипту быть запущенным постоянно
@@ -207,7 +206,7 @@
 		
 		// наполнение результатами таблицы на html странице 
 		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		// for ($i=0; $i < 11; $i++) {			//	для тестов
+		// for ($i=0; $i < 50; $i++) {			//	для тестов
 			
 				if (is_array($ArrNameHyp[$i])) {
 						$HypMonName = $ArrNameHyp[$i][1];
@@ -218,22 +217,21 @@
 							</td>';
 					continue;						
 					}
+					$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
+					if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
+					    echo "patern_URL ненайден или ошибка";
+					    return false;
+						} 				
 				echo 
 					'<td>
 						'.$i.'
 					</td>';
 						echo '<td>
-								<p class="NameHyp">'.$ArrNameHyp[$i].'</p>
-								</td>';
-					$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
-					if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
-					    echo "patern_URL ненайден или ошибка";
-					    return false;
-						} 
-					
+								<p class="NameHyp">'.$result_str_name_site[1][0].'</p>
+								</td>';				
 					sleep(mt_rand(1,5));
 					$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
-					queryInputIntoDB($name_table,$link_DB,$HypMonName,$ArrNameHyp[$i],$ArrParamHype);
+					queryInputIntoDB($name_table,$link_DB,$HypMonName,$result_str_name_site[1][0],$ArrParamHype);
 					
 					for ($q=0; $q < 20; $q++) { 
 						echo "<td>";
