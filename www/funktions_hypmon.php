@@ -113,6 +113,7 @@
 				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
 				array_unshift($result_2, $result_2c);
 
+// ************************************	в разработке ****************************************************
 		$page_3 = GetWebPage('http://list4hyip.com/');
 				if (is_array($page_3)) { $page_3 = implode(" ", $page_3);}	
 				$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 
@@ -129,6 +130,7 @@
 
 					$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
 					array_unshift($result_3, $result_3c);
+// ********************************************************************************************************
 
 	    $result = array_merge(/*$result_1,*/$result_2,$result_3);
         return $result;
@@ -734,7 +736,7 @@
 					if ($n !== 0 and $GLOBALS["n"]-1 > $n) {return $resalt_str;}
 				}else{
 						for ($W=0; $W < 4/**$GLOBALS["n"]*/; $W++) { $resalt_str .= "&nbsp;"; }
-						$resalt_str .= "[".$key."] &nbsp; => &nbsp;".$value."<br>";
+						$resalt_str .= "[".$key."] &nbsp; => &nbsp;".trim(strip_tags($value))."<br>";
 					}
 			}
 		}
