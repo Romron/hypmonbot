@@ -113,10 +113,10 @@
 				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
 				array_unshift($result_2, $result_2c);
 
-// ************************************	в разработке ****************************************************
 		$page_3 = GetWebPage('http://list4hyip.com/');
 				if (is_array($page_3)) { $page_3 = implode(" ", $page_3);}	
-				$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 
+				// $patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 	// рабочая строка
+				$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*)/#sU'; 	// для тестов
 				if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
 				    echo "func GetHypNam:  patern_3 ненайден или ошибка";
 				    return false;
@@ -130,8 +130,6 @@
 
 					$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
 					array_unshift($result_3, $result_3c);
-// ********************************************************************************************************
-
 	    $result = array_merge(/*$result_1,*/$result_2,$result_3);
         return $result;
         // return $result_1;
@@ -426,9 +424,31 @@
 
 	function OutputResultSQL_InExcel($result_query_SQL){
 
-		// 	добавить в стили:
-			// 	фиксированую шапку по умолчанию
-			// 	столбцы J и N --- разделить группы разрядов
+
+		//	1.	В общей таблице отмечать цветом (482сf0 - синий) и размером 11 дату возникновения проэкта всю остальную строку - цветом и жирным шрифтом
+		//	2.	В общей таблице отмечать цветом (B47908 - коричневый) и размером 11 последнюю дату ищезнувшего проэкта (т.е. в скаме нет и проэкта нет. Статус - "ПРОБЛЕМА") 
+		//	3.	В общей таблице отмечать цветом (F9FED6 - светло жолтый) фон проэктов который ведётся по разным мониторам  
+		//	4.	В общей таблице отмечать жирным шрифтом и размером 11 сегодняшнюю дату всю остальную строку - только жирным шрифтом 
+		//	5.	В общей таблице отмечать обычным шрифтом и размером 8 все даты от возникновения проэкта до сегоднешней даты
+		//	6.	В общей таблице отмечать цветом и размером 11 дату и монитор по которому выпал проэкт в скам. 
+		//		Определяеться по нахождению проэкта на скам-странице сайта. всю остальную строку - цветом и жирным шрифтом (Статус - "СКАМ")
+		//	7.	Сформировать на отдельных листах таблицы по пунктам СКАМ и ПРОБЛЕМА
+		//	8.	Групировать строки одного проэкта между начальной и конечной датами	
+		
+		// 	8.	фиксированую шапку по умолчанию
+		// 	9.	столбцы J и N --- разделить группы разрядов
+		//	10.	Установить одинаковую высоту строк
+
+
+
+
+
+
+
+
+
+
+
 
 		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
 			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
@@ -479,7 +499,6 @@
 			$active_sheet->getColumnDimension('V')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('W')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('X')->setAutoSize(true);		
-
 		// шапка таблицы начало 
 			$active_sheet->mergeCells('A1:A5');
 			$active_sheet->mergeCells('B1:B5');
@@ -508,62 +527,62 @@
 			$active_sheet->mergeCells('V2:V4');
 			$active_sheet->mergeCells('W2:W4');
 			$active_sheet->mergeCells('X2:X4');
-		// установить Знач ячейки
-			$active_sheet->setCellValue('A1','Монитор');
-			$active_sheet->setCellValue('B1','п/п');
-			$active_sheet->setCellValue('C1','Дата');
-			$active_sheet->setCellValue('D1','Проэкт');
-			$active_sheet->setCellValue('E1','http://pr-cy.ru/');
-			$active_sheet->setCellValue('E2','ТИЦ');
-			$active_sheet->setCellValue('E5',0);
-			$active_sheet->setCellValue('F2','Страницы');
-			$active_sheet->setCellValue('F3','Яндекс');
-			$active_sheet->setCellValue('H3','Google');
-			$active_sheet->setCellValue('F4','шт.');
-			$active_sheet->setCellValue('F5',1);			
-			$active_sheet->setCellValue('G4','Д-ка');
-			$active_sheet->setCellValue('G5',2);
-			$active_sheet->setCellValue('H4','шт.');
-			$active_sheet->setCellValue('H5',3);			
-			$active_sheet->setCellValue('I4','Д-ка');
-			$active_sheet->setCellValue('I5',4);
-			$active_sheet->setCellValue('J2','Просмотры');
-			$active_sheet->setCellValue('J5',5);
-			$active_sheet->setCellValue('K2','max трафик из');
-			$active_sheet->setCellValue('K5',6);
-			$active_sheet->setCellValue('L2','Baclink');
-			$active_sheet->setCellValue('L3','Стр.');
-			$active_sheet->setCellValue('M3','Д-ны');
-			$active_sheet->setCellValue('L5',7);
-			$active_sheet->setCellValue('M5',8);
-			$active_sheet->setCellValue('N1','http://www.alexa.com/siteinfo');
-			$active_sheet->setCellValue('N2','Популярность');
-			$active_sheet->setCellValue('N3','Gl.Rank');
-			$active_sheet->setCellValue('N4','Знач');
-			$active_sheet->setCellValue('N5',9);
-			$active_sheet->setCellValue('O3','Rank in country');
-			$active_sheet->setCellValue('O4','Страна');
-			$active_sheet->setCellValue('O5',10);
-			$active_sheet->setCellValue('P4','Знач');
-			$active_sheet->setCellValue('P5',11);
-			$active_sheet->setCellValue('Q2','Активность пользователей');
-			$active_sheet->setCellValue('Q3','Показатель отказов');
-			$active_sheet->setCellValue('R3','Страниц за визит');
-			$active_sheet->setCellValue('S3','Ср. продолжит визита');
-			$active_sheet->setCellValue('Q5',12);
-			$active_sheet->setCellValue('R5',13);
-			$active_sheet->setCellValue('S5',14);
-			$active_sheet->setCellValue('T2','Процент поискового трафика');
-			$active_sheet->setCellValue('U2','Baclink');
-			$active_sheet->setCellValue('T5',15);
-			$active_sheet->setCellValue('U5',16);
-			$active_sheet->setCellValue('V1','https://www.nic.ru/whois/');
-			$active_sheet->setCellValue('V2','Дата регистрации домена');
-			$active_sheet->setCellValue('W2','Дата окончания домена');
-			$active_sheet->setCellValue('X2','Дата обновления домена');
-			$active_sheet->setCellValue('V5',17);
-			$active_sheet->setCellValue('W5',18);
-			$active_sheet->setCellValue('X5',19);
+			// установить Знач ячейки
+				$active_sheet->setCellValue('A1','Монитор');
+				$active_sheet->setCellValue('B1','п/п');
+				$active_sheet->setCellValue('C1','Дата');
+				$active_sheet->setCellValue('D1','Проэкт');
+				$active_sheet->setCellValue('E1','http://pr-cy.ru/');
+				$active_sheet->setCellValue('E2','ТИЦ');
+				$active_sheet->setCellValue('E5',0);
+				$active_sheet->setCellValue('F2','Страницы');
+				$active_sheet->setCellValue('F3','Яндекс');
+				$active_sheet->setCellValue('H3','Google');
+				$active_sheet->setCellValue('F4','шт.');
+				$active_sheet->setCellValue('F5',1);			
+				$active_sheet->setCellValue('G4','Д-ка');
+				$active_sheet->setCellValue('G5',2);
+				$active_sheet->setCellValue('H4','шт.');
+				$active_sheet->setCellValue('H5',3);			
+				$active_sheet->setCellValue('I4','Д-ка');
+				$active_sheet->setCellValue('I5',4);
+				$active_sheet->setCellValue('J2','Просмотры');
+				$active_sheet->setCellValue('J5',5);
+				$active_sheet->setCellValue('K2','max трафик из');
+				$active_sheet->setCellValue('K5',6);
+				$active_sheet->setCellValue('L2','Baclink');
+				$active_sheet->setCellValue('L3','Стр.');
+				$active_sheet->setCellValue('M3','Д-ны');
+				$active_sheet->setCellValue('L5',7);
+				$active_sheet->setCellValue('M5',8);
+				$active_sheet->setCellValue('N1','http://www.alexa.com/siteinfo');
+				$active_sheet->setCellValue('N2','Популярность');
+				$active_sheet->setCellValue('N3','Gl.Rank');
+				$active_sheet->setCellValue('N4','Знач');
+				$active_sheet->setCellValue('N5',9);
+				$active_sheet->setCellValue('O3','Rank in country');
+				$active_sheet->setCellValue('O4','Страна');
+				$active_sheet->setCellValue('O5',10);
+				$active_sheet->setCellValue('P4','Знач');
+				$active_sheet->setCellValue('P5',11);
+				$active_sheet->setCellValue('Q2','Активность пользователей');
+				$active_sheet->setCellValue('Q3','Показатель отказов');
+				$active_sheet->setCellValue('R3','Страниц за визит');
+				$active_sheet->setCellValue('S3','Ср. продолжит визита');
+				$active_sheet->setCellValue('Q5',12);
+				$active_sheet->setCellValue('R5',13);
+				$active_sheet->setCellValue('S5',14);
+				$active_sheet->setCellValue('T2','Процент поискового трафика');
+				$active_sheet->setCellValue('U2','Baclink');
+				$active_sheet->setCellValue('T5',15);
+				$active_sheet->setCellValue('U5',16);
+				$active_sheet->setCellValue('V1','https://www.nic.ru/whois/');
+				$active_sheet->setCellValue('V2','Дата регистрации домена');
+				$active_sheet->setCellValue('W2','Дата окончания домена');
+				$active_sheet->setCellValue('X2','Дата обновления домена');
+				$active_sheet->setCellValue('V5',17);
+				$active_sheet->setCellValue('W5',18);
+				$active_sheet->setCellValue('X5',19);
 		// шапка таблицы конец  
 
 		// заполняем тело таблицы начало
@@ -699,7 +718,7 @@
 			$style_text_color = array(		//	стили для ячеек с текстом выделенным отдельным цветом
 				'font'=>array(
 					'color'   => array(
-						'rgb' => '00FF00'
+						'rgb' => '195912'
 						)
 					),							
 				);
@@ -759,11 +778,9 @@
 		}	
 
 	function DataProcessing(){
-		// 	1.	Проэкты групируються в блоки строк с объединённой ячейкой с названием проэкта после этого
-		//  2.	Сортировка блоков строк от большого к малому:
-			// 		Лист "Анализ ТИЦ" по ТИЦ 
-			// 		Лист "Анализ индекса Alexa" 
-			// 		Лист "Просмотры"
+
+
+
 		}
 
 	function Table(){     	//	создаём таблицу спомощью php
