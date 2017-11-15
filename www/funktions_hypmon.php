@@ -425,8 +425,7 @@
 	function OutputResultSQL_InExcel($result_query_SQL){
 
 
-		// 		фиксированую шапку по умолчанию
-		// 		столбцы J и N --- разделить группы разрядов
+
 		//		Установить одинаковую высоту строк
 
 		//	1.	Групировать строки одного проэкта между начальной и конечной датами	
@@ -726,6 +725,10 @@
 					),							
 				);
 				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color);
+
+			$active_sheet->getStyle('N6:N'.($i-1))->getNumberFormat()->setFormatCode('#,##0');	//	разделяем группы разрядов
+			$active_sheet->getStyle('J6:J'.($i-1))->getNumberFormat()->setFormatCode('#,##0');	
+
 
 		// Форматирование (задание стилей) таблицы конец 		
 

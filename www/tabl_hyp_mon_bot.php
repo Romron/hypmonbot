@@ -47,129 +47,129 @@
 
 	<!-- Шапка таблицы --> 
 		<table class="main_tabl" id="tabl_1">
-				<tr>
-					<th rowspan="5" class="NameHyp_Col" id="Had_NameHyp_Col">
-						<p class="vertical"> Монитор </p>
-					</th>			
-					<th rowspan="5">
-						<p class="vertical"> Номер п/п </p>
-					</th>
-					<th rowspan="5">
-						ПРОЭКТ
-					</th>
-					<th colspan="9">
-						http://pr-cy.ru/
-					</th>
-					<th colspan="8">
-						http://www.alexa.com/siteinfo
-					</th>
-					<th colspan="3">
-						https://www.nic.ru/whois/
-					</th>																							
-				</tr>
-				<tr>
-					<th rowspan="3">
-						ТИЦ 
-					</th>
-					<th colspan="4">
-						Страницы
-					</th>
-					<th rowspan="3">
-						<p class="vertical"> Просмотры, шт. </p>
-					</th>
-					<th rowspan="3">
-						<p class="vertical"> max трафик из </p>
-					</th>
-					<th colspan="2">
-						Baclink
-					</th>			
-					<th colspan="3">
-						Популярность
-					</th>
-					<th colspan="3">
-						Активность пользователей
-					</th>
-					<th rowspan="3">
-						<p class="vertical"> Процент поискового трафика </p>
-					</th>
-					<th rowspan="3">
-						<p class="vertical"> baclink </p>
-					</th>
-					<th rowspan="3">
-						<p class="vertical"> Дата  регистрации домена </p>
-					</th>
-					<th rowspan="3">
-						<p class="vertical">  Дата окончания домена </p>
-					</th>
-					<th rowspan="3">
-						<p class="vertical"> Дата обновления домена </p>
-					</th>																						
-				</tr>
-				<tr>
-					<th colspan="2">
-						Яндекс
-					</th>
-					<th colspan="2">
-						Google
-					</th>
-					<th rowspan="2">
-						<p class="vertical"> Страницы </p>
-					</th>			
-					<th rowspan="2">
-						<p class="vertical"> Домены </p>
-					</th>
-					<th >
-						Global Rank
-					</th>
-					<th colspan="2">
-						Rank in country
-					</th>
-					<th rowspan="2">
-						<p class="vertical"> Показатель отказов </p>
-					</th>
-					<th rowspan="2">
-						<p class="vertical"> Страниц за везит </p>
-					</th>
-					<th rowspan="2">
-						<p class="vertical"> Ср. продолжит визита, м-с </p>
-					</th>																		
-				</tr>
-				<tr>
-					<th>
-						шт.
-					</th>
-					<th>
-						<p class="vertical">  Динамика </p>
-					</th>
-					<th>
-						<p class="vertical"> шт. </p>
-					</th>
-					<th>
-						<p class="vertical"> Динамика </p>
-					</th>
+		<tr>
+			<th rowspan="5" class="NameHyp_Col" id="Had_NameHyp_Col">
+				<p class="vertical"> Монитор </p>
+			</th>			
+			<th rowspan="5">
+				<p class="vertical"> Номер п/п </p>
+			</th>
+			<th rowspan="5">
+				ПРОЭКТ
+			</th>
+			<th colspan="9">
+				http://pr-cy.ru/
+			</th>
+			<th colspan="8">
+				http://www.alexa.com/siteinfo
+			</th>
+			<th colspan="3">
+				https://www.nic.ru/whois/
+			</th>																							
+		</tr>
+		<tr>
+			<th rowspan="3">
+				ТИЦ 
+			</th>
+			<th colspan="4">
+				Страницы
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> Просмотры, шт. </p>
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> max трафик из </p>
+			</th>
+			<th colspan="2">
+				Baclink
+			</th>			
+			<th colspan="3">
+				Популярность
+			</th>
+			<th colspan="3">
+				Активность пользователей
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> Процент поискового трафика </p>
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> baclink </p>
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> Дата  регистрации домена </p>
+			</th>
+			<th rowspan="3">
+				<p class="vertical">  Дата окончания домена </p>
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> Дата обновления домена </p>
+			</th>																						
+		</tr>
+		<tr>
+			<th colspan="2">
+				Яндекс
+			</th>
+			<th colspan="2">
+				Google
+			</th>
+			<th rowspan="2">
+				<p class="vertical"> Страницы </p>
+			</th>			
+			<th rowspan="2">
+				<p class="vertical"> Домены </p>
+			</th>
+			<th >
+				Global Rank
+			</th>
+			<th colspan="2">
+				Rank in country
+			</th>
+			<th rowspan="2">
+				<p class="vertical"> Показатель отказов </p>
+			</th>
+			<th rowspan="2">
+				<p class="vertical"> Страниц за везит </p>
+			</th>
+			<th rowspan="2">
+				<p class="vertical"> Ср. продолжит визита, м-с </p>
+			</th>																		
+		</tr>
+		<tr>
+			<th>
+				шт.
+			</th>
+			<th>
+				<p class="vertical">  Динамика </p>
+			</th>
+			<th>
+				<p class="vertical"> шт. </p>
+			</th>
+			<th>
+				<p class="vertical"> Динамика </p>
+			</th>
 
-					<th>
-						<p class="vertical"> Значение </p>
-					</th>
+			<th>
+				<p class="vertical"> Значение </p>
+			</th>
 
-					<th>
-						<p class="vertical"> Страна </p>
-					</th>
-					<th>
-						<p class="vertical"> Значение </p>
-					</th>
-																								
-				</tr>
-				<tr>
-			
-					<?php 
-						for ($i=0; $i<20; $i++){
-						echo "<td class='Namber_column'>".$i."</td>";
-						} 
-					?>
-								
-									
-				</tr>
+			<th>
+				<p class="vertical"> Страна </p>
+			</th>
+			<th>
+				<p class="vertical"> Значение </p>
+			</th>
+																						
+		</tr>
+		<tr>
+	
+			<?php 
+				for ($i=0; $i<20; $i++){
+				echo "<td class='Namber_column'>".$i."</td>";
+				} 
+			?>
+						
+							
+		</tr>
 	<!-- /Шапка таблицы -->
 
 	
@@ -180,7 +180,8 @@
 	<?php  
 
 		//	Установки скрипта:
-		$name_table = 'Work_table_2';	//	Выбор таблицы в базе данных
+		// $name_table = 'Work_table_2';	//	Выбор таблицы в базе данных	  ----  рабочий вариант
+		$name_table = 'Work_table_1';	//	Выбор таблицы в базе данных	  ----  для тестов            
 								
 		ignore_user_abort(true);	// Игнорирует отключение пользователя 
 		set_time_limit(0);			// позволяет скрипту быть запущенным постоянно
