@@ -592,15 +592,22 @@
 				$row_next = $row_start + $i;
 				$active_sheet->setCellValue('A'.$row_next,$item['monitor']);
 				$active_sheet->setCellValue('B'.$row_next,$item['id']);
-				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s',$item['date']));			
+				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s',$item['date']));
+
 				$active_sheet->setCellValue('D'.$row_next,$item['project']);
+				
+				//	групировка строк
+				$active_sheet->getRowDimension('6')->setOutlineLevel(1);	
+				$active_sheet->setShowSummaryBelow(false);
+
+
 				$active_sheet->setCellValue('E'.$row_next,$item['cy']);
 				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_pc']);
 				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_dynamics']);
 				$active_sheet->setCellValue('H'.$row_next,$item['page_google_pc']);
 				$active_sheet->setCellValue('I'.$row_next,$item['page_google_dynamics']);
 				$active_sheet->setCellValue('J'.$row_next,$item['Views']);
-				$active_sheet->setCellValue('K'.$row_next,$item['max_traffic']);
+				// $active_sheet->setCellValue('K'.$row_next,$item['max_traffic']);
 				$active_sheet->setCellValue('L'.$row_next,$item['Baclink_page']);
 				$active_sheet->setCellValue('M'.$row_next,$item['Baclink_domain']);
 				$active_sheet->setCellValue('N'.$row_next,$item['Global_Rank']);
@@ -728,6 +735,8 @@
 
 			$active_sheet->getStyle('N6:N'.($i-1))->getNumberFormat()->setFormatCode('#,##0');	//	разделяем группы разрядов
 			$active_sheet->getStyle('J6:J'.($i-1))->getNumberFormat()->setFormatCode('#,##0');	
+
+
 
 
 		// Форматирование (задание стилей) таблицы конец 		
