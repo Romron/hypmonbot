@@ -424,32 +424,21 @@
 
 	function OutputResultSQL_InExcel($result_query_SQL){
 
-
-
 		//		Установить одинаковую высоту строк
 
-		//	1.	Групировать строки одного проэкта между начальной и конечной датами	
-		//	2.	В общей таблице отмечать цветом (482сf0 - синий) и размером 11 дату возникновения проэкта всю остальную строку - цветом и жирным шрифтом -- ПЕРВАЯ СТРОКА БЛОКА
-		//	3.	В общей таблице отмечать обычным шрифтом и размером 8 все даты от возникновения проэкта до сегоднешней даты
-		//	4.	В общей таблице отмечать жирным шрифтом и размером 11 сегодняшнюю дату всю остальную строку - только жирным шрифтом -- ПОСЛЕДНЯЯ СТРОКА БЛОКА 
-		//	5.	В общей таблице отмечать цветом (B47908 - коричневый) и размером 11 последнюю дату ищезнувшего проэкта (т.е. в скаме нет и проэкта нет. Статус - "ПРОБЛЕМА") 
+		//	+.	В общей таблице отмечать цветом (0F0DD3 - синий) и размером 11 дату возникновения проэкта всю остальную строку - цветом и жирным шрифтом -- ПЕРВАЯ СТРОКА БЛОКА
+		//	+.	В общей таблице отмечать обычным шрифтом и размером 8 все строки от возникновения проэкта до сегоднешней даты
+		//	+.	В общей таблице отмечать жирным шрифтом и размером 11 сегодняшнюю дату всю остальную строку - только жирным шрифтом -- ПОСЛЕДНЯЯ СТРОКА БЛОКА 
+		//	+.	Установить фильтры на 5-ю строку
+		// 	5.	В общей таблице отмечать цветом (B47908 - коричневый) и размером 11 последнюю дату ищезнувшего проэкта (т.е. в скаме нет и проэкта нет. Статус - "ПРОБЛЕМА") 
 		//		-- может быть ПОСЛЕДНЕЙ СТРОКОЙ БЛОКА
 		//	6.	В общей таблице отмечать цветом (F9FED6 - светло жолтый) фон проэктов который ведётся по разным мониторам  
 		//	7.	В общей таблице отмечать цветом и размером 11 дату и монитор по которому выпал проэкт в скам -- ПОСЛЕДНЯЯ СТРОКА БЛОКА 
 		//		Определяеться по нахождению проэкта на скам-странице сайта. всю остальную строку - цветом и жирным шрифтом (Статус - "СКАМ")
 		//	8.	Сформировать на отдельных листах таблицы по пунктам СКАМ и ПРОБЛЕМА
+		// 	9.	Колонки блоков проэктов с наблюдаемой динамикой выдилять фоном (понижение один фон повышение второй фон) чем выше динамика тем ярче фон 
 		
-
-
-
-
-
-
-
-
-
-
-
+		$current_date = time();
 
 		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
 			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
@@ -457,7 +446,6 @@
 				// if ($i>100) { break; }		// для тестов
 
 			}
-
 
 		//	блок создания и получения активного экселевского листа
 			$objPHPExecel = new PHPExcel();		 
@@ -478,8 +466,8 @@
 		//	устанавливаем ширину колонок для всей таблицы, автоматическая ширина для интервалов типа А:Х не действует!!?? 	
 			$active_sheet->getColumnDimension('A')->setWidth(20);
 			$active_sheet->getColumnDimension('B')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('C')->setWidth(13);		
-			$active_sheet->getColumnDimension('D')->setWidth(30);
+			$active_sheet->getColumnDimension('C')->setWidth(18);		
+			$active_sheet->getColumnDimension('D')->setWidth(18);
 			$active_sheet->getColumnDimension('E')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('F')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('G')->setAutoSize(true);		
@@ -587,7 +575,8 @@
 		// шапка таблицы конец  
 
 		// заполняем тело таблицы начало
-			$i = 6;		 
+			$i = 6;	
+			$q = 0;	 
 			foreach ($arr_row as $item) {
 				$row_next = $row_start + $i;
 
@@ -599,16 +588,67 @@
 				
 				//	групировка строк
 				if ($item['project'] == $previous_item_project) {
-					$q = $q + $i;
-
-					$active_sheet->getRowDimension($i)->setOutlineLevel(1);	//	Какая строка и на какой уровень свернуть
-					$active_sheet->getRowDimension($i)->setVisible(false);		//	Скрыть свёрнутую строку
-					$active_sheet->setShowSummaryBelow(false);					//	указатель свёрнутой строки, крестик, сверху
+					$active_sheet->getRowDimension($i-1)->setOutlineLevel(1);		//	Какая строка и на какой уровень свернуть
+					$active_sheet->getRowDimension($i-1)->setVisible(false);		//	Скрыть свёрнутую строку
+					// $active_sheet->setShowSummaryBelow(false);					//	указатель свёрнутой строки, крестик, сверху тогда на виду оста'ться первая строка блока, '
+					if ($q == 0) {								//	Cтили первой строки блока
+						$style_first_str_block = array(		
+							'font'=>array(
+								'bold'=>true,
+								'size'=>10,
+								'color'   => array(
+									// 'rgb' => '0F0DD3'
+									'rgb' => '3C7BAF'
+									),								
+								),
+							);
+						$style_first_str_cell_date = array(		
+							'font'=>array(
+								'size'=>12
+								),
+							);
+						$active_sheet->getStyle('C'.($i-1).':X'.($i-1))->applyFromArray($style_first_str_block);						
+						$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_first_str_cell_date);							
+						}
+					$style_str_in_middle_block = array(			//	Стили строк в середине блока		
+						'font'=>array(
+							'size'=>8,
+							'color'   => array(
+								'rgb' => '000000'
+								),								
+							),
+						);						
+					$active_sheet->getStyle('C'.$i.':X'.$i)->applyFromArray($style_str_in_middle_block);							
+					$q = 1;
 				}elseif ($q != 0) {
-					$active_sheet->getRowDimension($q+1)->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
+					$active_sheet->getRowDimension($i+1)->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
 					$q = 0;
-				
-				}
+					//	Cтили последней строки блока  сдесь проверять текущий статус проэкта: OK, PROBLEM, SCAM
+					if ($PROBLEM == 1) {
+						# code...
+						}elseif ($SCAM == 1) {
+						# code...
+						}else{
+							$style_last_str_block = array(		
+								'font'=>array(
+									'bold'=>true,
+									'size'=>10,
+									'color'   => array(
+										'rgb' => '000000'
+										),								
+									),
+								);
+							$style_last_str_cell_date = array(		
+								'font'=>array(
+									'size'=>11
+									),
+								);
+							$active_sheet->getStyle('C'.($i-1).':X'.($i-1))->applyFromArray($style_last_str_block);						
+							$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_last_str_cell_date);									
+							}
+
+
+					}
 
 
 				$active_sheet->setCellValue('E'.$row_next,$item['cy']);
@@ -652,7 +692,7 @@
 					),
 				'font'=>array(
 					'name'=>'Times New Roman',
-					'size'=>10,
+					// 'size'=>10,
 					'indent'=>1
 					),
 				'alignment'=>array(
@@ -671,7 +711,8 @@
 					),
 				);
 				$active_sheet->getStyle('A1:X5')->applyFromArray($style_header);
-			$active_sheet->freezePane('A6');
+
+			$active_sheet->freezePane('A6');	//	закрепляем шапку т.е. всё что выше и левее указаной ячейки будет зафиксировано
 
 			$style_vertical_text = array(		//	стили для вертикального текста
 				'alignment'=>array(
@@ -707,12 +748,12 @@
 				$active_sheet->getStyle('A5:X5')->applyFromArray($style_text_small_size);
 				$active_sheet->getStyle('K5:K'.($i-1))->applyFromArray($style_text_small_size);
 
-			$style_text_large_size = array(		//	стили для ячеек с большим размером текста 
-				'font'=>array(
-					'size'=>14
-					),								
-				);
-				$active_sheet->getStyle('D5:D'.($i-1))->applyFromArray($style_text_large_size);
+			// $style_text_large_size = array(		//	стили для ячеек с большим размером текста 
+			// 	'font'=>array(
+			// 		'size'=>14
+			// 		),								
+			// 	);
+			// 	$active_sheet->getStyle('D5:D'.($i-1))->applyFromArray($style_text_large_size);
 
 			$style_line_wrap = array(		//	стили для ячеек с переносом строк
 				'alignment'=>array(
@@ -748,7 +789,12 @@
 			$active_sheet->getStyle('N6:N'.($i-1))->getNumberFormat()->setFormatCode('#,##0');	//	разделяем группы разрядов
 			$active_sheet->getStyle('J6:J'.($i-1))->getNumberFormat()->setFormatCode('#,##0');	
 
+			//	Скрываем столбцы
+			$active_sheet->getColumnDimension('A')->setVisible(true);
+			$active_sheet->getColumnDimension('B')->setVisible(false);
 
+			//	устанока фильтров
+			$active_sheet->setAutoFilter('E5:X5');
 
 
 		// Форматирование (задание стилей) таблицы конец 		
