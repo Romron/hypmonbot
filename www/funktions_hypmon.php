@@ -590,6 +590,7 @@
 			$i = 6;		 
 			foreach ($arr_row as $item) {
 				$row_next = $row_start + $i;
+
 				$active_sheet->setCellValue('A'.$row_next,$item['monitor']);
 				$active_sheet->setCellValue('B'.$row_next,$item['id']);
 				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s',$item['date']));
@@ -597,8 +598,17 @@
 				$active_sheet->setCellValue('D'.$row_next,$item['project']);
 				
 				//	групировка строк
-				$active_sheet->getRowDimension('6')->setOutlineLevel(1);	
-				$active_sheet->setShowSummaryBelow(false);
+				if ($item['project'] == $previous_item_project) {
+					$q = $q + $i;
+
+					$active_sheet->getRowDimension($i)->setOutlineLevel(1);	//	Какая строка и на какой уровень свернуть
+					$active_sheet->getRowDimension($i)->setVisible(false);		//	Скрыть свёрнутую строку
+					$active_sheet->setShowSummaryBelow(false);					//	указатель свёрнутой строки, крестик, сверху
+				}elseif ($q != 0) {
+					$active_sheet->getRowDimension($q+1)->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
+					$q = 0;
+				
+				}
 
 
 				$active_sheet->setCellValue('E'.$row_next,$item['cy']);
@@ -621,6 +631,8 @@
 				$active_sheet->setCellValue('V'.$row_next,$item['Domain_registration_date']);
 				$active_sheet->setCellValue('W'.$row_next,$item['Domain_end_date']);
 				$active_sheet->setCellValue('X'.$row_next,$item['Domain_renewal_date']);
+				
+				$previous_item_project = $item['project'];
 				$i++;
 				}
 		// заполняем тело таблицы конец
