@@ -61,6 +61,9 @@
 
 	function GetHypNam(){
 
+       	// Добавить мониторы для сбора хайпов:
+		// 		1. https://fairmonitor.com/home/ 
+
        // echo "<br> Вход в функцию: ".__FUNCTION__."<br>";		
 
 
@@ -432,11 +435,12 @@
 		//	+.	Установить фильтры на 5-ю строку
 		// 	5.	В общей таблице отмечать цветом (B47908 - коричневый) и размером 11 последнюю дату ищезнувшего проэкта (т.е. в скаме нет и проэкта нет. Статус - "ПРОБЛЕМА") 
 		//		-- может быть ПОСЛЕДНЕЙ СТРОКОЙ БЛОКА
-		//	6.	В общей таблице отмечать цветом (F9FED6 - светло жолтый) фон проэктов который ведётся по разным мониторам  
 		//	7.	В общей таблице отмечать цветом и размером 11 дату и монитор по которому выпал проэкт в скам -- ПОСЛЕДНЯЯ СТРОКА БЛОКА 
+		//	6.	В общей таблице отмечать цветом (F9FED6 - светло жолтый) фон проэктов который ведётся по разным мониторам  
 		//		Определяеться по нахождению проэкта на скам-странице сайта. всю остальную строку - цветом и жирным шрифтом (Статус - "СКАМ")
 		//	8.	Сформировать на отдельных листах таблицы по пунктам СКАМ и ПРОБЛЕМА
 		// 	9.	Колонки блоков проэктов с наблюдаемой динамикой выдилять фоном (понижение один фон повышение второй фон) чем выше динамика тем ярче фон 
+		// 	10.	Строки с новыми проэктами выделять 
 		
 		$current_date = time();
 
@@ -621,7 +625,7 @@
 					$active_sheet->getStyle('C'.$i.':X'.$i)->applyFromArray($style_str_in_middle_block);							
 					$q = 1;
 				}elseif ($q != 0) {
-					$active_sheet->getRowDimension($i+1)->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
+					$active_sheet->getRowDimension($i)->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
 					$q = 0;
 					//	Cтили последней строки блока  сдесь проверять текущий статус проэкта: OK, PROBLEM, SCAM
 					if ($PROBLEM == 1) {
@@ -646,8 +650,6 @@
 							$active_sheet->getStyle('C'.($i-1).':X'.($i-1))->applyFromArray($style_last_str_block);						
 							$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_last_str_cell_date);									
 							}
-
-
 					}
 
 
@@ -792,6 +794,27 @@
 			//	Скрываем столбцы
 			$active_sheet->getColumnDimension('A')->setVisible(true);
 			$active_sheet->getColumnDimension('B')->setVisible(false);
+
+			$active_sheet->getColumnDimension('F')->setVisible(true);
+			$active_sheet->getColumnDimension('G')->setVisible(false);	
+
+			$active_sheet->getColumnDimension('H')->setVisible(true);
+			$active_sheet->getColumnDimension('I')->setVisible(false);	
+
+			$active_sheet->getColumnDimension('J')->setVisible(true);
+			$active_sheet->getColumnDimension('K')->setVisible(false);	
+
+			$active_sheet->getColumnDimension('N')->setVisible(true);
+			$active_sheet->getColumnDimension('O')->setVisible(false);			
+
+			// групируем столбцы 
+			$active_sheet->getColumnDimension('V')->setOutlineLevel(1);
+			$active_sheet->getColumnDimension('W')->setOutlineLevel(1);
+			$active_sheet->getColumnDimension('X')->setOutlineLevel(1);
+			$active_sheet->getColumnDimension('V')->setVisible(false);		//	Скрыть свёрнутую строку
+			$active_sheet->getColumnDimension('W')->setVisible(false);		//	Скрыть свёрнутую строку
+			$active_sheet->getColumnDimension('X')->setVisible(false);		//	Скрыть свёрнутую строку
+			$active_sheet->getColumnDimension('Y')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
 
 			//	устанока фильтров
 			$active_sheet->setAutoFilter('E5:X5');

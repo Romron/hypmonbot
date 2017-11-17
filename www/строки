@@ -1,0 +1,17 @@
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10$ / </b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">$ 5</b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10$ / </b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10</b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10$ / </b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">0.005฿</b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10$</b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10$ / </b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">5</b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10$</b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">$30</b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10</b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">0.003 </b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">$10</b></td></tr>
+
+
+#<tr class="polz".*Минимальный вклад.*;">\$? ?([\d\.]+).*<\/b><\/td><\/tr>#
