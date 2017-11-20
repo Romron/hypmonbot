@@ -65,6 +65,9 @@
 			</th>
 			<th colspan="3">
 				https://www.nic.ru/whois/
+			</th>			
+			<th colspan="12">
+				Экономические показатели
 			</th>																							
 		</tr>
 		<tr>
@@ -103,7 +106,47 @@
 			</th>
 			<th rowspan="3">
 				<p class="vertical"> Дата обновления домена </p>
-			</th>																						
+			</th>			
+			<th rowspan="3">
+				<p class="vertical"> Процент на ввод/вывод средств </p>
+			</th>			
+			<th rowspan="3">
+				<p class="vertical"> Возврат депозита </p>
+			</th>			
+			<th rowspan="3">
+				<p class="vertical"> Проц. Ставка, % </p>
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> Мин. вклад  </p>
+			</th>			
+			<th rowspan="3">
+				<p class="vertical"> Мин. срок вклада </p>
+			</th>
+				<p class="vertical"> Срок окупаемости, дней </p>
+			</th>			
+			<th rowspan="3">
+				<p class="vertical"> Прибыль за весь периуд, $ </p>
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> Прибыль в день, $ </p>
+			</th>			
+			<th rowspan="3">
+				<p class="vertical"> ROI, % </p>
+			</th>
+				<p class="vertical"> Доходность, % </p>
+			</th>			
+			<th rowspan="3">
+				<p class="vertical"> Доходность в процентах годовых, % </p>
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> ******* </p>
+			</th>			
+			<th rowspan="3">
+				<p class="vertical"> ******* </p>
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> ******* </p>
+			</th>																																		
 		</tr>
 		<tr>
 			<th colspan="2">
@@ -163,7 +206,7 @@
 		<tr>
 	
 			<?php 
-				for ($i=0; $i<20; $i++){
+				for ($i=0; $i<32; $i++){
 				echo "<td class='Namber_column'>".$i."</td>";
 				} 
 			?>
@@ -198,58 +241,58 @@
 			echo "<br>******";
 
 
-		$ArrNameHyp = GetHypNam();
+		// $ArrNameHyp = GetHypNam();
 
 		
-		$link_DB = conect_DB();		// наполнение результатами БД
-		// queryInputIntoDB($link_DB,$ArrNameHyp);
+		// $link_DB = conect_DB();		// наполнение результатами БД
+		// // queryInputIntoDB($link_DB,$ArrNameHyp);
 		
 		
-		// наполнение результатами таблицы на html странице 
-		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		// for ($i=0; $i < 50; $i++) {			//	для тестов
+		// // наполнение результатами таблицы на html странице 
+		// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
+		// // for ($i=0; $i < 50; $i++) {			//	для тестов
 			
-				if (is_array($ArrNameHyp[$i])) {
-						$HypMonName = $ArrNameHyp[$i][1];
-						$HypCount = $ArrNameHyp[$i][2];					
-					echo '<tr>';
-						echo '<td class="NameHyp_Col" rowspan='.$HypCount.'>
-							<p class="vertical">'.$HypMonName.'</p>
-							</td>';
-					continue;						
-					}
-					$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
-					if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
-					    echo "patern_URL ненайден или ошибка";
-					    return false;
-						} 				
-				echo 
-					'<td>
-						'.$i.'
-					</td>';
-						echo '<td>
-								<p class="NameHyp">'.$result_str_name_site[1][0].'</p>
-								</td>';				
-					sleep(mt_rand(1,5));
-					$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
-					queryInputIntoDB($name_table,$link_DB,$HypMonName,$result_str_name_site[1][0],$ArrParamHype);
+		// 		if (is_array($ArrNameHyp[$i])) {
+		// 				$HypMonName = $ArrNameHyp[$i][1];
+		// 				$HypCount = $ArrNameHyp[$i][2];					
+		// 			echo '<tr>';
+		// 				echo '<td class="NameHyp_Col" rowspan='.$HypCount.'>
+		// 					<p class="vertical">'.$HypMonName.'</p>
+		// 					</td>';
+		// 			continue;						
+		// 			}
+		// 			$patern_URL = '#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#'; 				
+		// 			if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_str_name_site,PREG_PATTERN_ORDER)) { 
+		// 			    echo "patern_URL ненайден или ошибка";
+		// 			    return false;
+		// 				} 				
+		// 		echo 
+		// 			'<td>
+		// 				'.$i.'
+		// 			</td>';
+		// 				echo '<td>
+		// 						<p class="NameHyp">'.$result_str_name_site[1][0].'</p>
+		// 						</td>';				
+		// 			sleep(mt_rand(1,5));
+		// 			$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
+		// 			queryInputIntoDB($name_table,$link_DB,$HypMonName,$result_str_name_site[1][0],$ArrParamHype);
 					
-					for ($q=0; $q < 20; $q++) { 
-						echo "<td>";
-					if (strpos($ArrParamHype[$q],"ERR")) { 
-							echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
-						}else{
-							echo '<p class="ParamHyp">'.trim(strip_tags($ArrParamHype[$q])).'</p>';
-							}
-						echo "</td>";
-						}
-				echo '</tr>';
-			}
+		// 			for ($q=0; $q < 20; $q++) { 
+		// 				echo "<td>";
+		// 			if (strpos($ArrParamHype[$q],"ERR")) { 
+		// 					echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
+		// 				}else{
+		// 					echo '<p class="ParamHyp">'.trim(strip_tags($ArrParamHype[$q])).'</p>';
+		// 					}
+		// 				echo "</td>";
+		// 				}
+		// 		echo '</tr>';
+		// 	}
 
-			mysqli_close($link_DB);
+		// 	mysqli_close($link_DB);
 		
-		echo "<br>======";
-		echo "<br> Конец работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time())."<br><br>";
+		// echo "<br>======";
+		// echo "<br> Конец работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time())."<br><br>";
 
 	
 

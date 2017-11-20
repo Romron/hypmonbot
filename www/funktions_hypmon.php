@@ -110,8 +110,8 @@
 				sleep(mt_rand(1,5));
 				$page_2 = GetWebPage($url);
 
-			}while ($n <= 5);		//	рабочий вариант строки
-			// }while ($n <= 1);		//	для тестов
+			// }while ($n <= 5);		//	рабочий вариант строки
+			}while ($n <= 1);		//	для тестов
 
 				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
 				array_unshift($result_2, $result_2c);
