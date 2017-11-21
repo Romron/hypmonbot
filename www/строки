@@ -1,17 +1,20 @@
-<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10$ / </b></td></tr>
-<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">$ 5</b></td></tr>
-<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10$ / </b></td></tr>
-<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10</b></td></tr>
-<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10$ / </b></td></tr>
-<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">0.005฿</b></td></tr>
-<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10$</b></td></tr>
-<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10$ / </b></td></tr>
-<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">5</b></td></tr>
-<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10$</b></td></tr>
-<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">$30</b></td></tr>
-<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">10</b></td></tr>
-<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">0.003 </b></td></tr>
-<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Минимальный вклад:</td><td><b style="color:#155a9e;">$10</b></td></tr>
+
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Планы:</td><td><b style="color:#155a9e;">0.1-10% daily, depends on a Trade Group offer</b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Планы:</td><td><b style="color:#155a9e;">2.0% to 3.44% daily</b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Планы:</td><td><b style="color:#155a9e;">2.2% Daily for 60 Days</b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Планы:</td><td><b style="color:#155a9e;">0.8% - 1% daily for 400  days,  7.67% daily for 15 days</b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Планы:</td><td><b style="color:#155a9e;">4-5% daily for 50 days, accrual every hour</b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Планы:</td><td><b style="color:#155a9e;">101.5% -110% after 1 day, 106% - 150% after 3 days, 116% - 300% after 3 days</b></td></tr>
+<tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Планы:</td><td><b style="color:#155a9e;">1% daily for 30 days
+ 2% daily for 50 days 
+ 3% daily for 100 days</b></td></tr>
+ <tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Планы:</td><td><b style="color:#155a9e;">1.18%-1.27% Hourly for 90 hours, 2.75%-3.25% Hourly for 40 hours, 12%-16% Hourly for 20 hours</b></td></tr>
+ <tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Планы:</td><td><b style="color:#155a9e;">1.5% в день бессрочно</b></td></tr>
+ <tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Планы:</td><td><b style="color:#155a9e;">2% daily for 25 days.</b></td></tr>
+ <tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Планы:</td><td><b style="color:#155a9e;">2.3-2.6% daily for 15-25 days, + extreme "after plans"</b></td></tr>
+ <tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="/gv.jpg"></td><td>Планы:</td><td><b style="color:#155a9e;">1.2% - 2% в день, ежедневно на 15 - 35 дней</b></td></tr>
 
 
-#<tr class="polz".*Минимальный вклад.*;">\$? ?([\d\.]+).*<\/b><\/td><\/tr>#
+
+
+ <tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="\/gv.jpg"><\/td><td>Планы:<\/td><td><b style="color:#155a9e;">(.*)<\/b>
