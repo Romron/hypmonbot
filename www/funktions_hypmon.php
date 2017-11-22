@@ -140,7 +140,7 @@
          // return $result_3;
 		}
 
-	function ParsParamHaypWithServAnalSite($URL_hyp){     
+	function ParsSeoParamHayp($URL_hyp){     
 		// предполагаеться вызов в теле ф-ции GetHypNam поочерёдно для каждого массива хайпов отдельно.
 		// т.е один хайп проганяется поочерёдно по всем сераисам анализа сайтов
 		// заполняеться вся строка и только после этого переходм к другому хайпу 
@@ -395,7 +395,12 @@
 			    									`baclink_alexa`, 
 			    									`Domain_registration_date`, 
 			    									`Domain_end_date`, 
-			    									`Domain_renewal_date`			    									 
+			    									`Domain_renewal_date`,
+			    									`Interest_rate_in_value`,			    									 
+			    									`Interest_rate_period`,			    									 
+			    									`Min_deposit`,			    									 
+			    									`Min_term_of_deposit`,			    									 
+			    									`Hour_day_week`			    									 
 			    							 )VALUES(
 			    							 		'".$HypMonName."',
 			    							 		'".$date_today."',
@@ -419,7 +424,12 @@
 			    									'".$ArrParamHype[16]."',
 			    									'".$ArrParamHype[17]."',
 			    									'".$ArrParamHype[18]."',
-			    									'".$ArrParamHype[19]."'
+			    									'".$ArrParamHype[19]."',
+			    									'".$ArrParamHype[20]."',
+			    									'".$ArrParamHype[21]."',
+			    									'".$ArrParamHype[22]."',
+			    									'".$ArrParamHype[23]."',
+			    									'".$ArrParamHype[24]."'
 			    									)";
 			    /* Выполняем SQL-запрос */
 			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
@@ -832,6 +842,71 @@
 		exit();
 
 		}
+
+	function ParsFinParamHyp($URL_hyp){
+
+		$str_URL = 'http://allhyipmon.ru/';
+		$arr_result = array();
+		$arr_fin_param_hyp = array();
+
+		$patern_URL ='#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#';
+			if (!preg_match_all($patern_URL,$URL_hyp,$result_URL,PREG_PATTERN_ORDER)) { 
+			    echo "func TEST:  $patern_URL ненайден или ошибка";
+			    return false;
+				} 			
+		
+		$str_URL = 'http://allhyipmon.ru/monitor/'.$result_URL[1][0];		// формирую URL страницы подробностей для данного хайпа
+		$page_details = GetWebPage($str_URL);		// получаю страницы подробностей для данного хайпа
+		
+		$patern_1 = '#<tr class="polz".*Минимальный вклад.*;">\$? ?([\d\.]+)<\/b>#';	//	минимальный вклад
+			if (!preg_match_all($patern_1,$page_details,$result_1,PREG_PATTERN_ORDER)) { 
+			    // echo "func TEST:  patern_1 ненайден или ошибка";
+				} 	
+			$result_1[1] = str_replace('.',',',$result_1[1]);								
+	
+		$patern_2 = '#<td>Планы:<\/td><td><b style="color:\#155a9e;">(.*)<\/b>#';		//	остальные фин паказатели
+			if (!preg_match_all($patern_2,$page_details,$result_2,PREG_PATTERN_ORDER)) { 
+			    // echo "func TEST:  patern_2 ненайден или ошибка";
+				// exit();
+				} 				
+		
+			$patern_2_1 = '#^-? ?(\d+\.?,?\d{0,3})%?#m';								//	процентная ставка
+				if (!preg_match_all($patern_2_1,$result_2[1][0],$result_2_1,PREG_PATTERN_ORDER)) { 
+				    // echo "func TEST:  patern_2_1 ненайден или ошибка<br>";
+					// exit();
+					} 	
+				$result_2_1[1] = str_replace('.',',',$result_2_1[1]);									
+		
+			$patern_2_2 = '#^.*([dD]aily|день|[Hh]ourly|[dD]ays?|monthly)#m';			//	периуд мин процентной ставки
+				if (!preg_match_all($patern_2_2,$result_2[1][0],$result_2_2,PREG_PATTERN_ORDER)) { 
+				    // echo "func TEST:  patern_2_2 ненайден или ошибка<br>";
+					// exit();
+					} 	
+	
+			$patern_2_3 = '#^.*(?:(?:в день)|на|[Ff]or|to) +(\d{0,}(бессрочно)?)#m';	//	Мин. срок вклада
+				if (!preg_match_all($patern_2_3,$result_2[1][0],$result_2_3,PREG_PATTERN_ORDER)) { 
+				    // echo "func TEST:  patern_2_2_2 ненайден или ошибка<br>";
+					// exit();
+					} 	
+	
+			$patern_2_4 = '#^.*\d+ +(день|дней|дня|days?|hours?|года?|months?)#mi';		//	час,  день, неделя...
+				if (!preg_match_all($patern_2_4,$result_2[1][0],$result_2_4,PREG_PATTERN_ORDER)) { 
+				    // echo "func TEST:  patern_2_2_4 ненайден или ошибка<br>";
+					// exit();
+					} 	
+
+		array_push($arr_result,$result_1[1][0],$result_2_1[1][0],$result_2_2[1][0],$result_2_3[1][0],$result_2_4[1][0]);
+		array_push($arr_fin_param_hyp,$arr_result);
+		$str_URL = '';
+		array_splice($arr_result,0);
+
+		return $arr_fin_param_hyp[0];
+		}
+
+
+
+
+
 
 	function Build_tree_arr($arr_0,$n=0)	{
 

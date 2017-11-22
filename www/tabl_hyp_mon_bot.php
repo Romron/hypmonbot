@@ -66,7 +66,7 @@
 			<th colspan="3">
 				https://www.nic.ru/whois/
 			</th>			
-			<th colspan="12">
+			<th colspan="11">
 				Экономические показатели
 			</th>																							
 		</tr>
@@ -106,9 +106,6 @@
 			</th>
 			<th rowspan="3">
 				<p class="vertical"> Дата обновления домена </p>
-			</th>			
-			<th rowspan="3">
-				<p class="vertical"> Процент на ввод/вывод средств </p>
 			</th>			
 			<th rowspan="3">
 				<p class="vertical"> Возврат депозита </p>
@@ -206,7 +203,7 @@
 		<tr>
 	
 			<?php 
-				for ($i=0; $i<32; $i++){
+				for ($i=0; $i<31; $i++){
 				echo "<td class='Namber_column'>".$i."</td>";
 				} 
 			?>
@@ -249,8 +246,8 @@
 		
 		
 		// наполнение результатами таблицы на html странице 
-		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		// for ($i=0; $i < 50; $i++) {			//	для тестов
+		// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
+		for ($i=0; $i < 5; $i++) {			//	для тестов
 			
 				if (is_array($ArrNameHyp[$i])) {
 						$HypMonName = $ArrNameHyp[$i][1];
@@ -274,12 +271,21 @@
 								<p class="NameHyp">'.$result_str_name_site[1][0].'</p>
 								</td>';				
 					sleep(mt_rand(1,5));
-					$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
-					queryInputIntoDB($name_table,$link_DB,$HypMonName,$result_str_name_site[1][0],$ArrParamHype);
+					
+					$SeoParamHype = ParsSeoParamHayp($result_str_name_site[1][0]);
+					$FinParamHyp = ParsFinParamHyp($result_str_name_site[1][0]);
+					
+					echo '*****<br>'.Build_tree_arr($SeoParamHype);
+					echo '+++++<br>'.Build_tree_arr($FinParamHyp);
+
+					// $ArrParamHype =	$SeoParamHype+$FinParamHyp;
+					$ArrParamHype =	array_merge($SeoParamHype,$FinParamHyp);
+					
+					echo '-------<br>'.Build_tree_arr($ArrParamHype);
+					// queryInputIntoDB($name_table,$link_DB,$HypMonName,$result_str_name_site[1][0],$ArrParamHype);
 
 					
-					
-					for ($q=0; $q < 20; $q++) { 
+					for ($q=0; $q < 25; $q++) { 
 						echo "<td>";
 					if (strpos($ArrParamHype[$q],"ERR")) { 
 							echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
@@ -290,6 +296,15 @@
 						}
 				echo '</tr>';
 			}
+
+		echo "<br><br><br><br>//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////<br>";	
+		echo Build_tree_arr($ArrParamHype);	
+
+
+
+
+
+
 
 			mysqli_close($link_DB);
 		
