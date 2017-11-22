@@ -133,8 +133,8 @@
 
 		// 			$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
 		// 			array_unshift($result_3, $result_3c);
-	 //    $result = array_merge(/*$result_1,*/$result_2,$result_3);
-  //       return $result;
+	 	//  $result = array_merge(/*$result_1,*/$result_2,$result_3);
+ 		//  return $result;
         // return $result_1;
         return $result_2;
          // return $result_3;

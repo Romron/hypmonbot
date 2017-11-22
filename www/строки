@@ -18,3 +18,44 @@
 
 
  <tr class="polz" style="display: table-row;"><td align="left"><img alt="" src="\/gv.jpg"><\/td><td>Планы:<\/td><td><b style="color:#155a9e;">(.*)<\/b>
+
+
+
+
+
+ 	|	1	|						|	2		|									|	3		|		|	4	|
+ ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------		
+ 	|0.1	|-1-10%					|daily  	|, depends on a Trade Group offer	|			|		|		|
+	|1.25	|% - 1.55% в			|день		|, на 								|200		|- 260 	|дней	|
+- 	|1.2	|%						|Daily 		|for								|60 		| 		|Days   |- 1.4% Daily for 120 Days
+	|1.2	|% - 2% в 				|день		|, ежедневно на 					|15			|- 35 	|дней	|
+	|2.3	| -2.6% 				|daily 		|for 								|15 		|-25 	|days	|, + extreme "after plans"
+	|2		|%						|daily 		|for 								|25 		| 		|days 	|.
+	|1.5	|% в 					|день 		|									|бессрочно	|		|		|
+	|1.18	|%-1.27% 				|Hourly 	|for 								|90 	 	|		|Hours	|, 2.75%-3.25% Hourly for 40 hours, 12%-16% Hourly for 20 hours
+	|1		|% 						|daily 		|for 								|30 		|		|days 	|2% daily for 50 days 3% daily for 100 days
+	|101.5	|% -110% after 1		|day 		|, 106% - 150% after 				|3 			|		|days 	|, 116% - 300% after 3 days
+	|0.8	|% - 1% 				|daily 		|for 								|400 		|		|days	|, 7.67% daily for 15 days
+	|4-5	|% 						|daily 		|for 								|50  		|		|days	|, accrual every hour
+	|2.0	|% to 3.44% 			|daily 		|									|			|		|		|
+	|2.2	|% 						|Daily 		|for 								|60  		|		|Days	|
+	|0.8	|% per 					|day 		|for 								|7   		|		|days	|, 14% per day for 8 days, 15% per day for 9 days
+	|17		|% - 31% 				|monthly	|									|    		|		|		|
+	|0.87	|%-1.00% 				|hourly 	|for 								|120 		|		|hours	|, 1.5%-2.5% hourly for 72 hours, 10.0%-20.0% hourly for 24 hours
+	|5		|% 						|hourly 	|for 								|35  		|		|hours	| 200% after 1 day 800% after 3 days
+	|8		|% 						|hourly 	|for 								|36  		|		|hours	| (Instantly Withdraw) 180% daily for 3 days(Instant Withdrawal)
+	|2		|% 						|Weekly, 	|for 								|777 		|		|days	|; 12500%-400% after 160-20 Business Days; 7%-20% Daily, for 120-14 Business Days.
+	|0,5	|% в 					|день 		|на 								|1   		|		|год 	|: 3,8% - 6,2% в неделю на 1 год
+	|1		|% 						|daily 		|for 								|20  		|		|days 	|
+	|2		|% - 5.5% в 			|день 		|на 								|7			| - 42 	|дней 	|: 150% - 300% на 15 - 30 дней
+	|0.65	|% - 1.2% 				|hourly 	|for 								|160 		|		|hours 	|3% - 5% hourly for 72 hours 25% - 30% hourly for 20 hours
+	|3.3	| % - 7.0% Profit In 	|Days 		|									|			|		|		|
+	|6		|% 						|Hourly 	|For 								|48  		|		|Hours 	|5% Hourly For 96 Hours 250% after 3 days
+
+
+1.	'#^-? ?(\d+\.?,?\d{0,3})%?#gm'
+2.	'#^.*([dD]aily|день|[Hh]ourly|[dD]ays?|monthly)#gm'
+3.	'#^.*(?:(?:в день)|на|[Ff]or|to) +(\d{0,}(бессрочно)?)#gm'
+4	'#^.*\d+ +([Дд]е?н[ьяей]+|[Dd]ays?|[Hh]ours?|[Гг]ода?|[Mm]onths?)#gm'
+
+	
