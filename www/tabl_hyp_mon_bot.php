@@ -66,7 +66,7 @@
 			<th colspan="3">
 				https://www.nic.ru/whois/
 			</th>			
-			<th colspan="11">
+			<th colspan="10">
 				Экономические показатели
 			</th>																							
 		</tr>
@@ -108,42 +108,33 @@
 				<p class="vertical"> Дата обновления домена </p>
 			</th>			
 			<th rowspan="3">
-				<p class="vertical"> Возврат депозита </p>
+				<p class="vertical"> Мин. депозит  </p>
 			</th>			
-			<th rowspan="3">
-				<p class="vertical"> Проц. Ставка, % </p>
+			<th colspan="2">
+				Проц. Ставка, % 
 			</th>
-			<th rowspan="3">
-				<p class="vertical"> Мин. вклад  </p>
-			</th>			
-			<th rowspan="3">
-				<p class="vertical"> Мин. срок вклада </p>
+			<th colspan="2">
+				Мин. срок вклада
 			</th>
 				<p class="vertical"> Срок окупаемости, дней </p>
 			</th>			
 			<th rowspan="3">
-				<p class="vertical"> Прибыль за весь периуд, $ </p>
-			</th>
-			<th rowspan="3">
 				<p class="vertical"> Прибыль в день, $ </p>
 			</th>			
 			<th rowspan="3">
+				<p class="vertical"> Прибыль за весь срок, $ </p>
+			</th>
+			<th rowspan="3">
 				<p class="vertical"> ROI, % </p>
 			</th>
-				<p class="vertical"> Доходность, % </p>
+				<p class="vertical"> ***Доходность, % </p>
 			</th>			
 			<th rowspan="3">
-				<p class="vertical"> Доходность в процентах годовых, % </p>
+				<p class="vertical"> ***Доходность в процентах годовых, % </p>
 			</th>
 			<th rowspan="3">
 				<p class="vertical"> ******* </p>
 			</th>			
-			<th rowspan="3">
-				<p class="vertical"> ******* </p>
-			</th>
-			<th rowspan="3">
-				<p class="vertical"> ******* </p>
-			</th>																																		
 		</tr>
 		<tr>
 			<th colspan="2">
@@ -172,6 +163,18 @@
 			</th>
 			<th rowspan="2">
 				<p class="vertical"> Ср. продолжит визита, м-с </p>
+			</th>			
+			<th rowspan="2">
+				<p class="vertical"> Значение </p> 				
+			</th>
+			<th rowspan="2">
+				Периуд выплаты процентов 				
+			</th>	
+			<th rowspan="2">
+				<p class="vertical"> Значение </p>		
+			</th>			
+			<th rowspan="2">
+				<p class="vertical"> Единицы измерения </p> 				
 			</th>																		
 		</tr>
 		<tr>
@@ -203,7 +206,7 @@
 		<tr>
 	
 			<?php 
-				for ($i=0; $i<31; $i++){
+				for ($i=0; $i<30; $i++){
 				echo "<td class='Namber_column'>".$i."</td>";
 				} 
 			?>
@@ -246,8 +249,8 @@
 		
 		
 		// наполнение результатами таблицы на html странице 
-		// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		for ($i=0; $i < 5; $i++) {			//	для тестов
+		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
+		// for ($i=0; $i < 5; $i++) {			//	для тестов
 			
 				if (is_array($ArrNameHyp[$i])) {
 						$HypMonName = $ArrNameHyp[$i][1];
@@ -274,16 +277,10 @@
 					
 					$SeoParamHype = ParsSeoParamHayp($result_str_name_site[1][0]);
 					$FinParamHyp = ParsFinParamHyp($result_str_name_site[1][0]);
-					
-					echo '*****<br>'.Build_tree_arr($SeoParamHype);
-					echo '+++++<br>'.Build_tree_arr($FinParamHyp);
 
-					// $ArrParamHype =	$SeoParamHype+$FinParamHyp;
 					$ArrParamHype =	array_merge($SeoParamHype,$FinParamHyp);
 					
-					echo '-------<br>'.Build_tree_arr($ArrParamHype);
-					// queryInputIntoDB($name_table,$link_DB,$HypMonName,$result_str_name_site[1][0],$ArrParamHype);
-
+					queryInputIntoDB($name_table,$link_DB,$HypMonName,$result_str_name_site[1][0],$ArrParamHype);
 					
 					for ($q=0; $q < 25; $q++) { 
 						echo "<td>";
@@ -296,16 +293,6 @@
 						}
 				echo '</tr>';
 			}
-
-		echo "<br><br><br><br>//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////<br>";	
-		echo Build_tree_arr($ArrParamHype);	
-
-
-
-
-
-
-
 			mysqli_close($link_DB);
 		
 		echo "<br>======";

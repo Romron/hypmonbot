@@ -316,6 +316,11 @@
 
 		$arr_param_hyp = array_merge($result_0[1],$result_1[1],$result_2[1],$result_3[1],$result_4[1],$result_5[1],$result_6[1],$result_7[1],$result_8[1],$result_9[1],$result_10[1],$result_11[1],$result_12[1],$result_13[1],$result_14[1],$result_15[1],$result_16[1],$result_17[1],$result_18[1],$result_19[1]);
 
+		for ($i=count($arr_param_hyp); $i < 20; $i++) { 
+			array_push($arr_param_hyp, 'X');
+			}
+
+
 		// echo "<br> Конец выполнения функции &nbsp - &nbsp".date("d.m.y H:i:s",time());
 		return $arr_param_hyp;
 
@@ -396,11 +401,11 @@
 			    									`Domain_registration_date`, 
 			    									`Domain_end_date`, 
 			    									`Domain_renewal_date`,
-			    									`Interest_rate_in_value`,			    									 
-			    									`Interest_rate_period`,			    									 
 			    									`Min_deposit`,			    									 
-			    									`Min_term_of_deposit`,			    									 
-			    									`Hour_day_week`			    									 
+			    									`Interest_rate_in_value`,			    									 
+			    									`Period_of_payment_of_interest`,			    									 
+			    									`Min_term_of_deposit_value`,			    									 
+			    									`Min_term_of_deposit_units`			    									 
 			    							 )VALUES(
 			    							 		'".$HypMonName."',
 			    							 		'".$date_today."',
@@ -502,6 +507,11 @@
 			$active_sheet->getColumnDimension('V')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('W')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('X')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('Y')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('Z')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('AA')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('AB')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('AC')->setAutoSize(true);		
 		// шапка таблицы начало 
 			$active_sheet->mergeCells('A1:A5');
 			$active_sheet->mergeCells('B1:B5');
@@ -530,6 +540,9 @@
 			$active_sheet->mergeCells('V2:V4');
 			$active_sheet->mergeCells('W2:W4');
 			$active_sheet->mergeCells('X2:X4');
+			$active_sheet->mergeCells('Y3:Y4');
+			$active_sheet->mergeCells('Z3:AA3');
+			$active_sheet->mergeCells('AB3:AC3');
 			// установить Знач ячейки
 				$active_sheet->setCellValue('A1','Монитор');
 				$active_sheet->setCellValue('B1','п/п');
@@ -583,9 +596,21 @@
 				$active_sheet->setCellValue('V2','Дата регистрации домена');
 				$active_sheet->setCellValue('W2','Дата окончания домена');
 				$active_sheet->setCellValue('X2','Дата обновления домена');
+				$active_sheet->setCellValue('Y3','Мин. депозит');
+				$active_sheet->setCellValue('Z3','Проц. Ставка, %');
+				$active_sheet->setCellValue('AB3','Мин. срок вклада');
+				$active_sheet->setCellValue('Z4','Значение');
+				$active_sheet->setCellValue('AA4','Период выплаты процентов');
+				$active_sheet->setCellValue('AB4','Значение');
+				$active_sheet->setCellValue('AC4','Единицы измерения');
 				$active_sheet->setCellValue('V5',17);
 				$active_sheet->setCellValue('W5',18);
 				$active_sheet->setCellValue('X5',19);
+				$active_sheet->setCellValue('Y5',20);
+				$active_sheet->setCellValue('Z5',21);
+				$active_sheet->setCellValue('AA5',22);
+				$active_sheet->setCellValue('AB5',23);
+				$active_sheet->setCellValue('AC5',24);
 		// шапка таблицы конец  
 
 		// заполняем тело таблицы начало
@@ -597,71 +622,69 @@
 				$active_sheet->setCellValue('A'.$row_next,$item['monitor']);
 				$active_sheet->setCellValue('B'.$row_next,$item['id']);
 				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s',$item['date']));
-
 				$active_sheet->setCellValue('D'.$row_next,$item['project']);
 				
 				//	групировка строк
-				if ($item['project'] == $previous_item_project) {
-					$active_sheet->getRowDimension($i-1)->setOutlineLevel(1);		//	Какая строка и на какой уровень свернуть
-					$active_sheet->getRowDimension($i-1)->setVisible(false);		//	Скрыть свёрнутую строку
-					// $active_sheet->setShowSummaryBelow(false);					//	указатель свёрнутой строки, крестик, сверху тогда на виду оста'ться первая строка блока, '
-					if ($q == 0) {								//	Cтили первой строки блока
-						$style_first_str_block = array(		
-							'font'=>array(
-								'bold'=>true,
-								'size'=>10,
-								'color'   => array(
-									// 'rgb' => '0F0DD3'
-									'rgb' => '3C7BAF'
-									),								
-								),
-							);
-						$style_first_str_cell_date = array(		
-							'font'=>array(
-								'size'=>12
-								),
-							);
-						$active_sheet->getStyle('C'.($i-1).':X'.($i-1))->applyFromArray($style_first_str_block);						
-						$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_first_str_cell_date);							
-						}
-					$style_str_in_middle_block = array(			//	Стили строк в середине блока		
-						'font'=>array(
-							'size'=>8,
-							'color'   => array(
-								'rgb' => '000000'
-								),								
-							),
-						);						
-					$active_sheet->getStyle('C'.$i.':X'.$i)->applyFromArray($style_str_in_middle_block);							
-					$q = 1;
-				}elseif ($q != 0) {
-					$active_sheet->getRowDimension($i)->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
-					$q = 0;
-					//	Cтили последней строки блока  сдесь проверять текущий статус проэкта: OK, PROBLEM, SCAM
-					if ($PROBLEM == 1) {
-						# code...
-						}elseif ($SCAM == 1) {
-						# code...
-						}else{
-							$style_last_str_block = array(		
+					if ($item['project'] == $previous_item_project) {
+						$active_sheet->getRowDimension($i-1)->setOutlineLevel(1);		//	Какая строка и на какой уровень свернуть
+						$active_sheet->getRowDimension($i-1)->setVisible(false);		//	Скрыть свёрнутую строку
+						// $active_sheet->setShowSummaryBelow(false);					//	указатель свёрнутой строки, крестик, сверху тогда на виду оста'ться первая строка блока, '
+						if ($q == 0) {								//	Cтили первой строки блока
+							$style_first_str_block = array(		
 								'font'=>array(
 									'bold'=>true,
 									'size'=>10,
 									'color'   => array(
-										'rgb' => '000000'
+										// 'rgb' => '0F0DD3'
+										'rgb' => '3C7BAF'
 										),								
 									),
 								);
-							$style_last_str_cell_date = array(		
+							$style_first_str_cell_date = array(		
 								'font'=>array(
-									'size'=>11
+									'size'=>12
 									),
 								);
-							$active_sheet->getStyle('C'.($i-1).':X'.($i-1))->applyFromArray($style_last_str_block);						
-							$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_last_str_cell_date);									
+							$active_sheet->getStyle('C'.($i-1).':X'.($i-1))->applyFromArray($style_first_str_block);						
+							$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_first_str_cell_date);							
 							}
-					}
-
+						$style_str_in_middle_block = array(			//	Стили строк в середине блока		
+							'font'=>array(
+								'size'=>8,
+								'color'   => array(
+									'rgb' => '000000'
+									),								
+								),
+							);						
+						$active_sheet->getStyle('C'.$i.':X'.$i)->applyFromArray($style_str_in_middle_block);							
+						$q = 1;
+					}elseif ($q != 0) {
+						$active_sheet->getRowDimension($i)->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
+						$q = 0;
+						//	Cтили последней строки блока  сдесь проверять текущий статус проэкта: OK, PROBLEM, SCAM
+						if ($PROBLEM == 1) {
+							# code...
+							}elseif ($SCAM == 1) {
+							# code...
+							}else{
+								$style_last_str_block = array(		
+									'font'=>array(
+										'bold'=>true,
+										'size'=>10,
+										'color'   => array(
+											'rgb' => '000000'
+											),								
+										),
+									);
+								$style_last_str_cell_date = array(		
+									'font'=>array(
+										'size'=>11
+										),
+									);
+								$active_sheet->getStyle('C'.($i-1).':X'.($i-1))->applyFromArray($style_last_str_block);						
+								$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_last_str_cell_date);									
+								}
+						}
 
 				$active_sheet->setCellValue('E'.$row_next,$item['cy']);
 				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_pc']);
@@ -683,6 +706,11 @@
 				$active_sheet->setCellValue('V'.$row_next,$item['Domain_registration_date']);
 				$active_sheet->setCellValue('W'.$row_next,$item['Domain_end_date']);
 				$active_sheet->setCellValue('X'.$row_next,$item['Domain_renewal_date']);
+				$active_sheet->setCellValue('Y'.$row_next,$item['Min_deposit']);
+				$active_sheet->setCellValue('Z'.$row_next,$item['Interest_rate_in_value']);
+				$active_sheet->setCellValue('AA'.$row_next,$item['Period_of_payment_of_interest']);
+				$active_sheet->setCellValue('AB'.$row_next,$item['Min_term_of_deposit_value']);
+				$active_sheet->setCellValue('AC'.$row_next,$item['Min_term_of_deposit_Units']);
 				
 				$previous_item_project = $item['project'];
 				$i++;
@@ -713,7 +741,7 @@
 					'rotation'=>0
 					)								
 				);
-				$active_sheet->getStyle('A1:X'.($i-1))->applyFromArray($style_all_table);
+				$active_sheet->getStyle('A1:AC'.($i-1))->applyFromArray($style_all_table);
 
 			$style_header = array(		//	стили для шапки таблицы
 				'font'=>array(
@@ -743,6 +771,11 @@
 				$active_sheet->getStyle('S3')->applyFromArray($style_vertical_text);				
 				$active_sheet->getStyle('T2')->applyFromArray($style_vertical_text);				
 				$active_sheet->getStyle('U2')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('Y3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('Z4')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AA4')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AB4')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AC4')->applyFromArray($style_vertical_text);	
 			
 			$style_left_text = array(		//	стили для ячеек с выравниванием по левому краю
 				'alignment'=>array(
@@ -843,7 +876,7 @@
 
 		}
 
-	function ParsFinParamHyp($URL_hyp){
+	function ParsFinParamHyp($URL_hyp)    {
 
 		$str_URL = 'http://allhyipmon.ru/';
 		$arr_result = array();
@@ -903,12 +936,7 @@
 		return $arr_fin_param_hyp[0];
 		}
 
-
-
-
-
-
-	function Build_tree_arr($arr_0,$n=0)	{
+	function Build_tree_arr($arr_0,$n=0)  {
 
 		if ($GLOBALS["n"] == 0) { 
 			$resalt_str .= "Array &nbsp;( <br>";
