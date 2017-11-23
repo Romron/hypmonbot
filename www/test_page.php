@@ -14,79 +14,60 @@
 <body>
 
 <?php
+	$link_DB = conect_DB();
+	$result_query_SQL = querySelectFromDB('Work_table_1',$link_DB,"*",$text_query);
 
-
-	$ArrNameHyp = GetHypNam();
-	
-
-
-	$str_URL = 'http://allhyipmon.ru/';
-	$patern_URL ='#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#';
-	$arr_result = array();
-	$arr_fin_param_hyp = array();
-
-	for ($i=1; $i < $ArrNameHyp[0][2]; $i++) {	// $ArrNameHyp[$i][2];	количество хайпов взятых с данного монитора
-			if (!preg_match_all($patern_URL,$ArrNameHyp[$i],$result_URL,PREG_PATTERN_ORDER)) { 
-			    echo "func TEST:  $patern_URL ненайден или ошибка";
-			    return false;
-				} 			
-			$str_URL = 'http://allhyipmon.ru/monitor/'.$result_URL[1][0];		// формирую URL страницы подробностей для данного хайпа
-			$page_details = GetWebPage($str_URL);		// получаю страницы подробностей для данного хайпа
-			
-			$patern_1 = '#<tr class="polz".*Минимальный вклад.*;">\$? ?([\d\.]+)<\/b>#';	//	минимальный вклад
-				if (!preg_match_all($patern_1,$page_details,$result_1,PREG_PATTERN_ORDER)) { 
-				    // echo "func TEST:  patern_1 ненайден или ошибка";
-					} 	
-				$result_1[1] = str_replace('.',',',$result_1[1]);								
-		
-			$patern_2 = '#<td>Планы:<\/td><td><b style="color:\#155a9e;">(.*)<\/b>#';		
-				if (!preg_match_all($patern_2,$page_details,$result_2,PREG_PATTERN_ORDER)) { 
-				    // echo "func TEST:  patern_2 ненайден или ошибка";
-					// exit();
-					} 				
-			
-				$patern_2_1 = '#^-? ?(\d+\.?,?\d{0,3})%?#m';								//	процентная ставка
-					if (!preg_match_all($patern_2_1,$result_2[1][0],$result_2_1,PREG_PATTERN_ORDER)) { 
-					    // echo "func TEST:  patern_2_1 ненайден или ошибка<br>";
-						// exit();
-						} 	
-					$result_2_1[1] = str_replace('.',',',$result_2_1[1]);									
-			
-				$patern_2_2 = '#^.*([dD]aily|день|[Hh]ourly|[dD]ays?|monthly)#m';			//	периуд мин процентной ставки
-					if (!preg_match_all($patern_2_2,$result_2[1][0],$result_2_2,PREG_PATTERN_ORDER)) { 
-					    // echo "func TEST:  patern_2_2 ненайден или ошибка<br>";
-						// exit();
-						} 	
-		
-				$patern_2_3 = '#^.*(?:(?:в день)|на|[Ff]or|to) +(\d{0,}(бессрочно)?)#m';	//	Мин. срок вклада
-					if (!preg_match_all($patern_2_3,$result_2[1][0],$result_2_3,PREG_PATTERN_ORDER)) { 
-					    // echo "func TEST:  patern_2_2_2 ненайден или ошибка<br>";
-						// exit();
-						} 	
-		
-				$patern_2_4 = '#^.*\d+ +(день|дней|дня|days?|hours?|года?|months?)#mi';		//	час,  день, неделя...
-					if (!preg_match_all($patern_2_4,$result_2[1][0],$result_2_4,PREG_PATTERN_ORDER)) { 
-					    // echo "func TEST:  patern_2_2_4 ненайден или ошибка<br>";
-						// exit();
-						} 	
-		
-				echo Build_tree_arr($result_2);
-				echo "<br>**************<br>";
-
-
-
-			array_push($arr_result,$result_1[1][0],$result_2_1[1][0],$result_2_2[1][0],$result_2_3[1][0],$result_2_4[1][0]);
-			array_push($arr_fin_param_hyp,$arr_result);
-			$str_URL = '';
-			array_splice($arr_result,0);
+	for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
+		$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
+		// if ($i>100) { break; }		// для тестов
 		}
 
+	foreach ($arr_row as $item) {
 
 
-	echo "<br>-------------------------------<br><br>";
-	echo Build_tree_arr($arr_fin_param_hyp);
-				
+		echo "Min_deposit &nbsp; =>&nbsp;&nbsp;";
+		var_dump($item['Min_deposit']);
+			echo "<br>";
+		echo "echoInterest_rate_in_value &nbsp; =>&nbsp;&nbsp;";
+		var_dump($item['Interest_rate_in_value']);
+			echo "<br>";
+		echo "Period_of_payment_of_interest &nbsp; =>&nbsp;&nbsp;";
+		var_dump($item['Period_of_payment_of_interest']);
+			echo "<br>";
+		echo "Min_term_of_deposit_value &nbsp; =>&nbsp;&nbsp;";
+		var_dump($item['Min_term_of_deposit_value']);
+			echo "<br>";
+		echo "Min_term_of_deposit_units &nbsp; =>&nbsp;&nbsp;";
+		var_dump($item['Min_term_of_deposit_units']);
+			echo "<br>";
 
+		echo "<br>==========<br>";
+
+
+		if ($item['Min_deposit'] == '0' or $item['Min_deposit'] == '' or
+			$item['Interest_rate_in_value'] == '0' or $item['Interest_rate_in_value'] == '' or
+			$item['Min_term_of_deposit_value'] == '0' or $item['Min_term_of_deposit_value'] == '') {
+				echo "000000000000<br>";
+				echo "=====================================<br>";
+				continue;	
+				}
+
+		$payback_period = 100 / ($item['Interest_rate_in_value'] / $item['Min_term_of_deposit_value']);
+		$profit_for_the_whole_period = $item['Min_deposit'] * $item['Interest_rate_in_value'] / 100 - $item['Min_deposit'];
+		$profit_per_day = $profit_for_the_whole_period / $item['Min_term_of_deposit_value'];
+		$ROI = ($item['Min_deposit'] * $item['Interest_rate_in_value'] / 100 - $item['Min_deposit']) / $item['Min_deposit'] * 100;
+		$profitability = $profit_for_the_whole_period / $item['Min_deposit'] * 100;
+		$profitability_per_cent_per_year = $profit_for_the_whole_period / $item['Min_deposit'] * 365 / $item['Min_term_of_deposit_value'] * 100;
+
+		echo "НЕ НУЛЬ =><br>";
+		echo "payback_period &nbsp; = &nbsp;".$payback_period."<br>";
+		echo "profit_for_the_whole_period &nbsp; = &nbsp;".$profit_for_the_whole_period."<br>";
+		echo "profit_per_day &nbsp; = &nbsp;".$profit_per_day."<br>";
+		echo "ROI &nbsp; = &nbsp;".$ROI."<br>";
+		echo "profitability &nbsp; = &nbsp;".$profitability."<br>";
+		echo "profitability_per_cent_per_year &nbsp; = &nbsp;".$profitability_per_cent_per_year."<br>";
+
+		}
 
 
 

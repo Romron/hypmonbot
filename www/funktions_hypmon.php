@@ -457,10 +457,8 @@
 
 		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
 			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
-			
 				// if ($i>100) { break; }		// для тестов
-
-			}
+				}
 
 		//	блок создания и получения активного экселевского листа
 			$objPHPExecel = new PHPExcel();		 
@@ -622,6 +620,7 @@
 							$item[$key] = '';
 							}
 					}
+				
 				$active_sheet->setCellValue('A'.$row_next,$item['monitor']);
 				$active_sheet->setCellValue('B'.$row_next,$item['id']);
 				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s',$item['date']));
