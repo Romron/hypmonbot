@@ -145,10 +145,6 @@
 		// т.е один хайп проганяется поочерёдно по всем сераисам анализа сайтов
 		// заполняеться вся строка и только после этого переходм к другому хайпу 
 
-       	// echo "<br>Вход в функцию: ".__FUNCTION__;		
-		// echo "<br>Начало выполнения функции &nbsp - &nbsp".date("d.m.y H:i:s",time());
-		// echo "<br>&nbsp&nbsp&nbsp&nbsp Объём оперативной память занимаемый скриптом &nbsp-&nbsp".round((memory_get_usage()/1000000),2)."M";
-
 		$page = GetWebPage('https://a.pr-cy.ru/'.$URL_hyp);		
 			if (is_array($page)) { $page = implode(" ", $page);}		
 
@@ -507,11 +503,11 @@
 			$active_sheet->getColumnDimension('V')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('W')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('X')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('Y')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('Z')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('Y')->setWidth(6);		
+			$active_sheet->getColumnDimension('Z')->setWidth(9);		
 			$active_sheet->getColumnDimension('AA')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('AB')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('AC')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('AC')->setWidth(8);		
 		// шапка таблицы начало 
 			$active_sheet->mergeCells('A1:A5');
 			$active_sheet->mergeCells('B1:B5');
@@ -540,6 +536,7 @@
 			$active_sheet->mergeCells('V2:V4');
 			$active_sheet->mergeCells('W2:W4');
 			$active_sheet->mergeCells('X2:X4');
+			$active_sheet->mergeCells('Y2:AC2');
 			$active_sheet->mergeCells('Y3:Y4');
 			$active_sheet->mergeCells('Z3:AA3');
 			$active_sheet->mergeCells('AB3:AC3');
@@ -596,6 +593,7 @@
 				$active_sheet->setCellValue('V2','Дата регистрации домена');
 				$active_sheet->setCellValue('W2','Дата окончания домена');
 				$active_sheet->setCellValue('X2','Дата обновления домена');
+				$active_sheet->setCellValue('Y2','Финансовые показатели проэктов');
 				$active_sheet->setCellValue('Y3','Мин. депозит');
 				$active_sheet->setCellValue('Z3','Проц. Ставка, %');
 				$active_sheet->setCellValue('AB3','Мин. срок вклада');
@@ -618,12 +616,16 @@
 			$q = 0;	 
 			foreach ($arr_row as $item) {
 				$row_next = $row_start + $i;
-
+				
+				foreach ($item as $key => $value) {		// вместо нулей ставлю пустые строки 
+					if ($value == '0' or is_null($value)) {
+							$item[$key] = '';
+							}
+					}
 				$active_sheet->setCellValue('A'.$row_next,$item['monitor']);
 				$active_sheet->setCellValue('B'.$row_next,$item['id']);
 				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s',$item['date']));
 				$active_sheet->setCellValue('D'.$row_next,$item['project']);
-				
 				//	групировка строк
 					if ($item['project'] == $previous_item_project) {
 						$active_sheet->getRowDimension($i-1)->setOutlineLevel(1);		//	Какая строка и на какой уровень свернуть
@@ -685,7 +687,6 @@
 								$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_last_str_cell_date);									
 								}
 						}
-
 				$active_sheet->setCellValue('E'.$row_next,$item['cy']);
 				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_pc']);
 				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_dynamics']);
@@ -710,8 +711,7 @@
 				$active_sheet->setCellValue('Z'.$row_next,$item['Interest_rate_in_value']);
 				$active_sheet->setCellValue('AA'.$row_next,$item['Period_of_payment_of_interest']);
 				$active_sheet->setCellValue('AB'.$row_next,$item['Min_term_of_deposit_value']);
-				$active_sheet->setCellValue('AC'.$row_next,$item['Min_term_of_deposit_Units']);
-				
+				$active_sheet->setCellValue('AC'.$row_next,$item['Min_term_of_deposit_units']);
 				$previous_item_project = $item['project'];
 				$i++;
 				}
@@ -750,7 +750,7 @@
 					'size'=>12
 					),
 				);
-				$active_sheet->getStyle('A1:X5')->applyFromArray($style_header);
+				$active_sheet->getStyle('A1:AC5')->applyFromArray($style_header);
 
 			$active_sheet->freezePane('A6');	//	закрепляем шапку т.е. всё что выше и левее указаной ячейки будет зафиксировано
 
@@ -790,7 +790,7 @@
 					'size'=>8
 					),								
 				);
-				$active_sheet->getStyle('A5:X5')->applyFromArray($style_text_small_size);
+				$active_sheet->getStyle('A5:AC5')->applyFromArray($style_text_small_size);
 				$active_sheet->getStyle('K5:K'.($i-1))->applyFromArray($style_text_small_size);
 
 			// $style_text_large_size = array(		//	стили для ячеек с большим размером текста 
@@ -860,9 +860,7 @@
 			$active_sheet->getColumnDimension('Y')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
 
 			//	устанока фильтров
-			$active_sheet->setAutoFilter('E5:X5');
-
-
+			$active_sheet->setAutoFilter('E5:AC5');
 		// Форматирование (задание стилей) таблицы конец 		
 
 		//	даём команду браузеру отдать на скачивание файл в формате эксель, указываем его имя и даём команду сохранить

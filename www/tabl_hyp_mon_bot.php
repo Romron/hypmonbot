@@ -250,7 +250,7 @@
 		
 		// наполнение результатами таблицы на html странице 
 		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		// for ($i=0; $i < 5; $i++) {			//	для тестов
+		// for ($i=0; $i < 20; $i++) {			//	для тестов
 			
 				if (is_array($ArrNameHyp[$i])) {
 						$HypMonName = $ArrNameHyp[$i][1];
