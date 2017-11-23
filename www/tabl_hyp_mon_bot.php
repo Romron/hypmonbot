@@ -66,8 +66,8 @@
 			<th colspan="3">
 				https://www.nic.ru/whois/
 			</th>			
-			<th colspan="10">
-				Экономические показатели
+			<th colspan="11">
+				Финансовые показатели проэктов
 			</th>																							
 		</tr>
 		<tr>
@@ -106,35 +106,14 @@
 			</th>
 			<th rowspan="3">
 				<p class="vertical"> Дата обновления домена </p>
-			</th>			
-			<th rowspan="3">
-				<p class="vertical"> Мин. депозит  </p>
-			</th>			
-			<th colspan="2">
-				Проц. Ставка, % 
 			</th>
-			<th colspan="2">
-				Мин. срок вклада
+			<th colspan="5">
+				ПОЛУЧЕННЫЕ
 			</th>
-				<p class="vertical"> Срок окупаемости, дней </p>
-			</th>			
-			<th rowspan="3">
-				<p class="vertical"> Прибыль в день, $ </p>
-			</th>			
-			<th rowspan="3">
-				<p class="vertical"> Прибыль за весь срок, $ </p>
-			</th>
-			<th rowspan="3">
-				<p class="vertical"> ROI, % </p>
-			</th>
-				<p class="vertical"> ***Доходность, % </p>
-			</th>			
-			<th rowspan="3">
-				<p class="vertical"> ***Доходность в процентах годовых, % </p>
-			</th>
-			<th rowspan="3">
-				<p class="vertical"> ******* </p>
-			</th>			
+			<th colspan="6">
+				РАСЧЁТНЫЕ
+			</th>						
+			
 		</tr>
 		<tr>
 			<th colspan="2">
@@ -165,16 +144,31 @@
 				<p class="vertical"> Ср. продолжит визита, м-с </p>
 			</th>			
 			<th rowspan="2">
-				<p class="vertical"> Значение </p> 				
+				<p class="vertical"> Мин. депозит  </p>
+			</th>
+			<th colspan="2">
+				Проц. Ставка, % 
+			</th>
+			<th colspan="2">
+				Мин. срок вклада
 			</th>
 			<th rowspan="2">
-				Периуд выплаты процентов 				
-			</th>	
-			<th rowspan="2">
-				<p class="vertical"> Значение </p>		
+				<p class="vertical"> Срок окупаемости, дней </p>
 			</th>			
 			<th rowspan="2">
-				<p class="vertical"> Единицы измерения </p> 				
+				<p class="vertical"> Прибыль за весь периуд, $ </p>
+			</th>			
+			<th rowspan="2">
+				<p class="vertical"> Прибыль в день, $ </p>
+			</th>
+			<th rowspan="2">
+				<p class="vertical"> ROI, % </p>
+			</th>
+			<th rowspan="2">	
+				<p class="vertical"> Доходность, % </p>
+			</th>			
+			<th rowspan="2">
+				<p class="vertical"> Доходность в процентах годовых, % </p>
 			</th>																		
 		</tr>
 		<tr>
@@ -190,23 +184,34 @@
 			<th>
 				<p class="vertical"> Динамика </p>
 			</th>
-
 			<th>
 				<p class="vertical"> Значение </p>
 			</th>
-
 			<th>
 				<p class="vertical"> Страна </p>
 			</th>
 			<th>
 				<p class="vertical"> Значение </p>
 			</th>
-																						
+			<th>
+				<p class="vertical"> Значение </p> 				
+			</th>	
+			<th>
+				<p class="vertical"> Период выплаты процентов </p> 				
+			</th>			
+			<th>
+				<p class="vertical"> Значение </p> 				
+			</th>			
+			<th>
+				<p class="vertical"> Единицы измерения </p> 				
+			</th>			
+			
+
 		</tr>
 		<tr>
 	
 			<?php 
-				for ($i=0; $i<30; $i++){
+				for ($i=0; $i<31; $i++){
 				echo "<td class='Namber_column'>".$i."</td>";
 				} 
 			?>
@@ -249,8 +254,8 @@
 		
 		
 		// наполнение результатами таблицы на html странице 
-		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		// for ($i=0; $i < 20; $i++) {			//	для тестов
+		// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
+		for ($i=0; $i < 10; $i++) {			//	для тестов
 			
 				if (is_array($ArrNameHyp[$i])) {
 						$HypMonName = $ArrNameHyp[$i][1];
@@ -277,12 +282,18 @@
 					
 					$SeoParamHype = ParsSeoParamHayp($result_str_name_site[1][0]);
 					$FinParamHyp = ParsFinParamHyp($result_str_name_site[1][0]);
-
-					$ArrParamHype =	array_merge($SeoParamHype,$FinParamHyp);
 					
+					$CalcFinParamHyp = CalcFinParamHyp($FinParamHyp);
+
+					$ArrParamHype =	array_merge($SeoParamHype,$FinParamHyp,$CalcFinParamHyp);
+					
+					echo "****************************";
+					echo Build_tree_arr($ArrParamHype);
+					echo "****************************";
+
 					queryInputIntoDB($name_table,$link_DB,$HypMonName,$result_str_name_site[1][0],$ArrParamHype);
 					
-					for ($q=0; $q < 25; $q++) { 
+					for ($q=0; $q < 31; $q++) { 
 						echo "<td>";
 					if (strpos($ArrParamHype[$q],"ERR")) { 
 							echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
@@ -293,7 +304,7 @@
 						}
 				echo '</tr>';
 			}
-			mysqli_close($link_DB);
+		mysqli_close($link_DB);
 		
 		echo "<br>======";
 		echo "<br> Конец работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time())."<br><br>";

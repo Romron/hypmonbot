@@ -933,6 +933,34 @@
 		return $arr_fin_param_hyp[0];
 		}
 
+	function CalcFinParamHyp($Arr_Fin_Param_Hyp){
+			
+		if ($Arr_Fin_Param_Hyp[0] == '0' or $Arr_Fin_Param_Hyp[0] == '' or
+			$Arr_Fin_Param_Hyp[1] == '0' or $Arr_Fin_Param_Hyp[1] == '' or
+			$Arr_Fin_Param_Hyp[3] == '0' or $Arr_Fin_Param_Hyp[3] == '') {
+				
+				$payback_period = "" ;
+				$profit_for_the_whole_period = "";
+				$profit_per_day = "";
+				$ROI = "";
+				$profitability = "";
+				$profitability_per_cent_per_year = "";
+
+				$CalcFinParamHyp = array($payback_period,$profit_for_the_whole_period,$profit_per_day,$ROI,$profitability,$profitability_per_cent_per_year);
+				return $CalcFinParamHyp;	
+				}
+
+		$payback_period = 100 / ($Arr_Fin_Param_Hyp[1] / $Arr_Fin_Param_Hyp[3]);
+		$profit_for_the_whole_period = $Arr_Fin_Param_Hyp[0] * $Arr_Fin_Param_Hyp[1] / 100 - $Arr_Fin_Param_Hyp[0];
+		$profit_per_day = $profit_for_the_whole_period / $Arr_Fin_Param_Hyp[3];
+		$ROI = ($Arr_Fin_Param_Hyp[0] * $Arr_Fin_Param_Hyp[1] / 100 - $Arr_Fin_Param_Hyp[0]) / $Arr_Fin_Param_Hyp[0] * 100;
+		$profitability = $profit_for_the_whole_period / $Arr_Fin_Param_Hyp[0] * 100;
+		$profitability_per_cent_per_year = $profit_for_the_whole_period / $Arr_Fin_Param_Hyp[0] * 365 / $Arr_Fin_Param_Hyp[3] * 100;
+		
+		$CalcFinParamHyp = array($payback_period,$profit_for_the_whole_period,$profit_per_day,$ROI,$profitability,$profitability_per_cent_per_year);
+		return $CalcFinParamHyp;
+		}
+
 	function Build_tree_arr($arr_0,$n=0)  {
 
 		if ($GLOBALS["n"] == 0) { 
