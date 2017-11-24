@@ -286,10 +286,6 @@
 					$CalcFinParamHyp = CalcFinParamHyp($FinParamHyp);
 
 					$ArrParamHype =	array_merge($SeoParamHype,$FinParamHyp,$CalcFinParamHyp);
-					
-					echo "****************************";
-					echo Build_tree_arr($ArrParamHype);
-					echo "****************************";
 
 					queryInputIntoDB($name_table,$link_DB,$HypMonName,$result_str_name_site[1][0],$ArrParamHype);
 					

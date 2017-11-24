@@ -357,7 +357,7 @@
 		
 		$date_today = time();	//	получаем текушее кол-во секунд в эпохе Юникс
 
-		for ($q=0; $q < 20; $q++) { 
+		for ($q=0; $q < 30; $q++) { 
 			$ArrParamHype[$q] = trim(strip_tags($ArrParamHype[$q]));		// убираем все лишние символы
 			$ArrParamHype[$q] = htmlentities($ArrParamHype[$q]);
 			$ArrParamHype[$q] = str_replace ("&nbsp;",'',$ArrParamHype[$q]);
@@ -401,7 +401,13 @@
 			    									`Interest_rate_in_value`,			    									 
 			    									`Period_of_payment_of_interest`,			    									 
 			    									`Min_term_of_deposit_value`,			    									 
-			    									`Min_term_of_deposit_units`			    									 
+			    									`Min_term_of_deposit_units`,			    									 
+			    									`Payback_period`,			    									 
+			    									`Profit_for_the_whole_period`,			    									 
+			    									`Profit_per_day`,			    									 
+			    									`ROI`,			    									 
+			    									`Profitability`,			    									 
+			    									`Profitability_per_cent_per_year`			    									 
 			    							 )VALUES(
 			    							 		'".$HypMonName."',
 			    							 		'".$date_today."',
@@ -430,7 +436,13 @@
 			    									'".$ArrParamHype[21]."',
 			    									'".$ArrParamHype[22]."',
 			    									'".$ArrParamHype[23]."',
-			    									'".$ArrParamHype[24]."'
+			    									'".$ArrParamHype[24]."',
+			    									'".$ArrParamHype[25]."',
+			    									'".$ArrParamHype[26]."',
+			    									'".$ArrParamHype[27]."',
+			    									'".$ArrParamHype[28]."',
+			    									'".$ArrParamHype[29]."',
+			    									'".$ArrParamHype[30]."'
 			    									)";
 			    /* Выполняем SQL-запрос */
 			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
@@ -439,7 +451,9 @@
 	function OutputResultSQL_InExcel($result_query_SQL){
 
 		//		Установить одинаковую высоту строк
-
+		//		
+		//	-.	Если среди полученных фин показателей есть нули то в соответствующие ячейки блока расчётных фин данных вставлять формулы. Т.Е. при ручном введении в пустую, нулевую, ячейкку произвольного числа 
+		//		остальные ячейки автомат просчитываються
 		//	+.	В общей таблице отмечать цветом (0F0DD3 - синий) и размером 11 дату возникновения проэкта всю остальную строку - цветом и жирным шрифтом -- ПЕРВАЯ СТРОКА БЛОКА
 		//	+.	В общей таблице отмечать обычным шрифтом и размером 8 все строки от возникновения проэкта до сегоднешней даты
 		//	+.	В общей таблице отмечать жирным шрифтом и размером 11 сегодняшнюю дату всю остальную строку - только жирным шрифтом -- ПОСЛЕДНЯЯ СТРОКА БЛОКА 
@@ -534,10 +548,18 @@
 			$active_sheet->mergeCells('V2:V4');
 			$active_sheet->mergeCells('W2:W4');
 			$active_sheet->mergeCells('X2:X4');
+			$active_sheet->mergeCells('Y1:AI1');
 			$active_sheet->mergeCells('Y2:AC2');
+			$active_sheet->mergeCells('AD2:AI2');
 			$active_sheet->mergeCells('Y3:Y4');
 			$active_sheet->mergeCells('Z3:AA3');
 			$active_sheet->mergeCells('AB3:AC3');
+			$active_sheet->mergeCells('AD3:AD4');
+			$active_sheet->mergeCells('AE3:AE4');
+			$active_sheet->mergeCells('AF3:AF4');
+			$active_sheet->mergeCells('AG3:AG4');
+			$active_sheet->mergeCells('AH3:AH4');
+			$active_sheet->mergeCells('AI3:AI4');
 			// установить Знач ячейки
 				$active_sheet->setCellValue('A1','Монитор');
 				$active_sheet->setCellValue('B1','п/п');
@@ -591,10 +613,18 @@
 				$active_sheet->setCellValue('V2','Дата регистрации домена');
 				$active_sheet->setCellValue('W2','Дата окончания домена');
 				$active_sheet->setCellValue('X2','Дата обновления домена');
-				$active_sheet->setCellValue('Y2','Финансовые показатели проэктов');
+				$active_sheet->setCellValue('Y1','Финансовые показатели проэктов');
+				$active_sheet->setCellValue('Y2','ПОЛУЧЕННЫЕ');
+				$active_sheet->setCellValue('AD2','РАСЧЁТНЫЕ');
 				$active_sheet->setCellValue('Y3','Мин. депозит');
 				$active_sheet->setCellValue('Z3','Проц. Ставка, %');
 				$active_sheet->setCellValue('AB3','Мин. срок вклада');
+				$active_sheet->setCellValue('AD3','Срок окупаемости, дней');
+				$active_sheet->setCellValue('AE3','Прибыль за весь периуд, $');
+				$active_sheet->setCellValue('AF3','Прибыль в день, $');
+				$active_sheet->setCellValue('AG3','ROI, %');
+				$active_sheet->setCellValue('AH3','Доходность, %');
+				$active_sheet->setCellValue('AI3','Доходность в процентах годовых, %');
 				$active_sheet->setCellValue('Z4','Значение');
 				$active_sheet->setCellValue('AA4','Период выплаты процентов');
 				$active_sheet->setCellValue('AB4','Значение');
@@ -607,6 +637,12 @@
 				$active_sheet->setCellValue('AA5',22);
 				$active_sheet->setCellValue('AB5',23);
 				$active_sheet->setCellValue('AC5',24);
+				$active_sheet->setCellValue('AD5',25);
+				$active_sheet->setCellValue('AE5',26);
+				$active_sheet->setCellValue('AF5',27);
+				$active_sheet->setCellValue('AG5',28);
+				$active_sheet->setCellValue('AH5',29);
+				$active_sheet->setCellValue('AI5',30);
 		// шапка таблицы конец  
 
 		// заполняем тело таблицы начало
@@ -711,12 +747,19 @@
 				$active_sheet->setCellValue('AA'.$row_next,$item['Period_of_payment_of_interest']);
 				$active_sheet->setCellValue('AB'.$row_next,$item['Min_term_of_deposit_value']);
 				$active_sheet->setCellValue('AC'.$row_next,$item['Min_term_of_deposit_units']);
+				$active_sheet->setCellValue('AD'.$row_next,$item['Payback_period']);
+				$active_sheet->setCellValue('AE'.$row_next,$item['Profit_for_the_whole_period']);
+				$active_sheet->setCellValue('AF'.$row_next,$item['Profit_per_day']);
+				$active_sheet->setCellValue('AG'.$row_next,$item['ROI']);
+				$active_sheet->setCellValue('AH'.$row_next,$item['Profitability']);
+				$active_sheet->setCellValue('AI'.$row_next,$item['Profitability_per_cent_per_year']);
 				$previous_item_project = $item['project'];
 				$i++;
 				}
 		// заполняем тело таблицы конец
 
 		// Форматирование (задание стилей) таблицы начало 
+			$active_sheet->getRowDimension('4')->setRowHeight(45);		//	устанавливаем высоту строк
 			$style_all_table = array(		//	стили для всей таблицы
 				'borders'=>array(
 					'outline'=>array(
@@ -740,7 +783,7 @@
 					'rotation'=>0
 					)								
 				);
-				$active_sheet->getStyle('A1:AC'.($i-1))->applyFromArray($style_all_table);
+				$active_sheet->getStyle('A1:AI'.($i-1))->applyFromArray($style_all_table);
 
 			$style_header = array(		//	стили для шапки таблицы
 				'font'=>array(
@@ -749,8 +792,7 @@
 					'size'=>12
 					),
 				);
-				$active_sheet->getStyle('A1:AC5')->applyFromArray($style_header);
-
+				$active_sheet->getStyle('A1:AI5')->applyFromArray($style_header);
 			$active_sheet->freezePane('A6');	//	закрепляем шапку т.е. всё что выше и левее указаной ячейки будет зафиксировано
 
 			$style_vertical_text = array(		//	стили для вертикального текста
@@ -772,9 +814,15 @@
 				$active_sheet->getStyle('U2')->applyFromArray($style_vertical_text);	
 				$active_sheet->getStyle('Y3')->applyFromArray($style_vertical_text);	
 				$active_sheet->getStyle('Z4')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AC4')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AD3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AE3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AF3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AG3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AH3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AI3')->applyFromArray($style_vertical_text);	
 				$active_sheet->getStyle('AA4')->applyFromArray($style_vertical_text);	
 				$active_sheet->getStyle('AB4')->applyFromArray($style_vertical_text);	
-				$active_sheet->getStyle('AC4')->applyFromArray($style_vertical_text);	
 			
 			$style_left_text = array(		//	стили для ячеек с выравниванием по левому краю
 				'alignment'=>array(
@@ -789,7 +837,7 @@
 					'size'=>8
 					),								
 				);
-				$active_sheet->getStyle('A5:AC5')->applyFromArray($style_text_small_size);
+				$active_sheet->getStyle('A5:AI5')->applyFromArray($style_text_small_size);
 				$active_sheet->getStyle('K5:K'.($i-1))->applyFromArray($style_text_small_size);
 
 			// $style_text_large_size = array(		//	стили для ячеек с большим размером текста 
@@ -805,7 +853,7 @@
 					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER
 					)								
 				);
-				$active_sheet->getStyle('F1:X'.($i-1))->applyFromArray($style_line_wrap);				
+				$active_sheet->getStyle('A1:AI'.($i-1))->applyFromArray($style_line_wrap);				
 		
 			$style_cell_fill = array(		//	стили для ячеек с заливкой
 				'fill'=>array(	
@@ -859,7 +907,7 @@
 			$active_sheet->getColumnDimension('Y')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
 
 			//	устанока фильтров
-			$active_sheet->setAutoFilter('E5:AC5');
+			$active_sheet->setAutoFilter('E5:AI5');
 		// Форматирование (задание стилей) таблицы конец 		
 
 		//	даём команду браузеру отдать на скачивание файл в формате эксель, указываем его имя и даём команду сохранить
