@@ -15,16 +15,34 @@
 
 <?php
 
+	// echo 2*2;
+	// echo "<br>";
+	// echo 6/2;
+
+	// echo "<br>-----------------------------------<br>";
 	
 
-	$FinParamHyp = ParsFinParamHyp("cryptoosa.com");
+	$FinParamHyp = ParsFinParamHyp("coinsipo.com");
 	echo Build_tree_arr($FinParamHyp);
-	
+
+		foreach ($FinParamHyp as $key => $value) {
+			// settype($value, float);
+			echo "<br>*";
+			var_dump($value);
+		}
+
+
+	echo "<br>-----------------------------------<br>";
 
 	$CalcFinParamHyp = CalcFinParamHyp($FinParamHyp);
 	echo Build_tree_arr($CalcFinParamHyp);
 
-
+	echo "<br>----------------<br>";
+	$PP = round(($FinParamHyp[1]/100*$FinParamHyp[0]),4);
+	var_dump($PP);
+	echo "<br>";
+	$SO = $FinParamHyp[0]/$PP;
+	var_dump($SO);
 
 ?>
 
