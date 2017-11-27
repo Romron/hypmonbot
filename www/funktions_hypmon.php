@@ -985,39 +985,42 @@
 			
 		// -. добавить оценку риска для каждого из проэктов
 
-		// echo "----------------------------------------------<br>";	
-		// echo Build_tree_arr($Arr_Fin_Param_Hyp);	
-		// echo "----------------------------------------------<br>";
+		$Arr_Fin_Param_Hyp[0] = str_replace(",",".",$Arr_Fin_Param_Hyp[0]);
+		$Arr_Fin_Param_Hyp[1] = str_replace(",",".",$Arr_Fin_Param_Hyp[1]);
+		$Arr_Fin_Param_Hyp[3] = str_replace(",",".",$Arr_Fin_Param_Hyp[3]);
 
-			
+		//	защита от деления на ноль
+			if ($Arr_Fin_Param_Hyp[0] == '0' or $Arr_Fin_Param_Hyp[0] == '' or 	//	минимальный вклад
+				$Arr_Fin_Param_Hyp[1] == '0' or $Arr_Fin_Param_Hyp[1] == '' or 	// процентная ставка
+				$Arr_Fin_Param_Hyp[3] == '0' or $Arr_Fin_Param_Hyp[3] == '') {	//	Мин. срок вклада
+					
+					$payback_period = "" ;
+					$profit_for_the_whole_period = "";
+					$profit_per_day = "";
+					$ROI = "";
+					$profitability = "";
+					$profitability_per_cent_per_year = "";
+
+					$CalcFinParamHyp = array($payback_period,$profit_for_the_whole_period,$profit_per_day,$ROI,$profitability,$profitability_per_cent_per_year);
+					return $CalcFinParamHyp;	
+					}
+
+		$patern_hour = '#hour#i';
+		if (preg_match($patern_hour,$Arr_Fin_Param_Hyp[2])) {
+			$Arr_Fin_Param_Hyp[1] = $Arr_Fin_Param_Hyp[1]*24;
+			echo "<br><br><br>##############################<br><br><br>";
+			}
 
 
-
-
-		if ($Arr_Fin_Param_Hyp[0] == '0' or $Arr_Fin_Param_Hyp[0] == '' or 	//	минимальный вклад
-			$Arr_Fin_Param_Hyp[1] == '0' or $Arr_Fin_Param_Hyp[1] == '' or 	// процентная ставка
-			$Arr_Fin_Param_Hyp[3] == '0' or $Arr_Fin_Param_Hyp[3] == '') {	//	Мин. срок вклада
-				
-				$payback_period = "" ;
-				$profit_for_the_whole_period = "";
-				$profit_per_day = "";
-				$ROI = "";
-				$profitability = "";
-				$profitability_per_cent_per_year = "";
-
-				$CalcFinParamHyp = array($payback_period,$profit_for_the_whole_period,$profit_per_day,$ROI,$profitability,$profitability_per_cent_per_year);
-				return $CalcFinParamHyp;	
-				}
-
-		$profit_per_day = $Arr_Fin_Param_Hyp[1] / 100 *	$Arr_Fin_Param_Hyp[0] ;		//Прибыль в день
-
-		$payback_period = $Arr_Fin_Param_Hyp[0] / $profit_per_day;		// Срок окупаемости
-		$profit_for_the_whole_period = $profit_per_day * $Arr_Fin_Param_Hyp[1];		// Прибыль за весь периуд
-		$ROI = ($profit_for_the_whole_period - $Arr_Fin_Param_Hyp[0]) * 0.01;	// ROI
-		$profitability = $profit_for_the_whole_period / $Arr_Fin_Param_Hyp[0];	// Доходность 
-		$profitability_per_cent_per_year = $profit_for_the_whole_period / $Arr_Fin_Param_Hyp[0] * 365 / $Arr_Fin_Param_Hyp[3] * 0.01;
-				
+		$profit_per_day = round(($Arr_Fin_Param_Hyp[1]/100*$Arr_Fin_Param_Hyp[0]),2);		//Прибыль в день
+		$payback_period = round(($Arr_Fin_Param_Hyp[0]/$profit_per_day),0);		// Срок окупаемости - ДНЕЙ
+		$profit_for_the_whole_period = round(($profit_per_day * $Arr_Fin_Param_Hyp[3]),2);		// Прибыль за весь периуд
+		$ROI = round((($profit_for_the_whole_period - $Arr_Fin_Param_Hyp[0]) * 0.01),2);	// ROI
+		$profitability = round(($profit_for_the_whole_period / $Arr_Fin_Param_Hyp[0] / 0.01),2);	// Доходность 
+		$profitability_per_cent_per_year = round(($profit_for_the_whole_period / $Arr_Fin_Param_Hyp[0] * 365 / $Arr_Fin_Param_Hyp[3] / 0.01),2);
 		$CalcFinParamHyp = array($payback_period,$profit_for_the_whole_period,$profit_per_day,$ROI,$profitability,$profitability_per_cent_per_year);
+		echo "<br>";
+
 		return $CalcFinParamHyp;
 		}
 
