@@ -110,8 +110,8 @@
 				sleep(mt_rand(1,5));
 				$page_2 = GetWebPage($url);
 
-			// }while ($n <= 5);		//	рабочий вариант строки
-			}while ($n <= 1);		//	для тестов
+			}while ($n <= 5);		//	рабочий вариант строки
+			// }while ($n <= 1);		//	для тестов
 
 				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
 				array_unshift($result_2, $result_2c);
@@ -1034,7 +1034,6 @@
 		$profitability = round(($profit_for_the_whole_period / $Arr_Fin_Param_Hyp[0] / 0.01),2);	// Доходность 
 		$profitability_per_cent_per_year = round(($profit_for_the_whole_period / $Arr_Fin_Param_Hyp[0] * 365 / $Arr_Fin_Param_Hyp[3] / 0.01),2);
 		$CalcFinParamHyp = array($payback_period,$profit_for_the_whole_period,$profit_per_day,$ROI,$profitability,$profitability_per_cent_per_year);
-		echo "<br>";
 
 		return $CalcFinParamHyp;
 		}
