@@ -83,61 +83,61 @@
 		// 			$result_1c = array('1'=>'https://bitmakler.com/investmentfund','2' => count($result_1));
 		// 			array_unshift($result_1, $result_1c);
 
-		$page_2 = GetWebPage('http://allhyipmon.ru/rating');
-			if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
-			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
-			$n=0;
-			$result_2 = array();
-			do{
+		// $page_2 = GetWebPage('http://allhyipmon.ru/rating');
+		// 	if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
+		// 	$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
+		// 	$n=0;
+		// 	$result_2 = array();
+		// 	do{
        
-       				// echo $n."&nbsp;&nbsp; итерация цыкла DO-WHILE в функции: ".__FUNCTION__."<br><br><br>";		
+  //      				// echo $n."&nbsp;&nbsp; итерация цыкла DO-WHILE в функции: ".__FUNCTION__."<br><br><br>";		
 
-				if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
-				    echo "func GetHypNam:  patern_2 ненайден или ошибка";
-				    return false;
-					} 
-
-				for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-					$result_2b[$q] = $result_2a[1][$q];
-					}
-				$result_2 = array_merge($result_2,$result_2b);
-
-				$n++;
-				$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
-		// 		 // echo $url;
-
-				// sleep(rand(1,5));
-				sleep(mt_rand(1,5));
-				$page_2 = GetWebPage($url);
-
-			// }while ($n <= 5);		//	рабочий вариант строки
-			}while ($n <= 1);		//	для тестов
-
-				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
-				array_unshift($result_2, $result_2c);
-
-		// $page_3 = GetWebPage('http://list4hyip.com/');
-		// 		if (is_array($page_3)) { $page_3 = implode(" ", $page_3);}	
-		// 		// $patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 	// рабочая строка
-		// 		$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*)/#sU'; 	// для тестов
-		// 		if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
-		// 		    echo "func GetHypNam:  patern_3 ненайден или ошибка";
+		// 		if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
+		// 		    echo "func GetHypNam:  patern_2 ненайден или ошибка";
 		// 		    return false;
 		// 			} 
-		// 		for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-		// 			if ($result_3a[1][$q] == "http://list4hyip.com/") {	//	удаляем не нужное
-		// 				continue;
-		// 				}
-		// 			$result_3[$q] = $result_3a[1][$q];
-		// 			}
 
-		// 			$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
-		// 			array_unshift($result_3, $result_3c);
+		// 		for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+		// 			$result_2b[$q] = $result_2a[1][$q];
+		// 			}
+		// 		$result_2 = array_merge($result_2,$result_2b);
+
+		// 		$n++;
+		// 		$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
+		// // 		 // echo $url;
+
+		// 		// sleep(rand(1,5));
+		// 		sleep(mt_rand(1,5));
+		// 		$page_2 = GetWebPage($url);
+
+		// 	// }while ($n <= 5);		//	рабочий вариант строки
+		// 	}while ($n <= 1);		//	для тестов
+
+				// $result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
+				// array_unshift($result_2, $result_2c);
+
+		$page_3 = GetWebPage('http://list4hyip.com/');
+				if (is_array($page_3)) { $page_3 = implode(" ", $page_3);}	
+				// $patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 	// рабочая строка
+				$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*)/#sU'; 	// для тестов
+				if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
+				    echo "func GetHypNam:  patern_3 ненайден или ошибка";
+				    return false;
+					} 
+				for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+					if ($result_3a[1][$q] == "http://list4hyip.com/") {	//	удаляем не нужное
+						continue;
+						}
+					$result_3[$q] = $result_3a[1][$q];
+					}
+
+					$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
+					array_unshift($result_3, $result_3c);
 	 	//  $result = array_merge(/*$result_1,*/$result_2,$result_3);
  		//  return $result;
         // return $result_1;
-        return $result_2;
-         // return $result_3;
+        // return $result_2;
+         return $result_3;
 		}
 
 	function ParsSeoParamHayp($URL_hyp){     
@@ -948,46 +948,52 @@
 			    echo "func TEST:  $patern_URL ненайден или ошибка";
 			    return false;
 				} 			
+		// Получаем фин параметры с монитора http://allhyipmon.ru
+			// $str_URL = 'http://allhyipmon.ru/monitor/'.$result_URL[1][0];		// формирую URL страницы подробностей для данного хайпа
+			// $page_details = GetWebPage($str_URL);		// получаю страницы подробностей для данного хайпа
+			
+			// $patern_1 = '#<tr class="polz".*Минимальный вклад.*;">\$? ?([\d\.]+)<\/b>#';	//	минимальный вклад
+			// 	if (!preg_match_all($patern_1,$page_details,$result_1,PREG_PATTERN_ORDER)) { 
+			// 	    // echo "func TEST:  patern_1 ненайден или ошибка";
+			// 		} 	
+			// 	$result_1[1] = str_replace('.',',',$result_1[1]);								
 		
-		$str_URL = 'http://allhyipmon.ru/monitor/'.$result_URL[1][0];		// формирую URL страницы подробностей для данного хайпа
-		$page_details = GetWebPage($str_URL);		// получаю страницы подробностей для данного хайпа
+			// $patern_2 = '#<td>Планы:<\/td><td><b style="color:\#155a9e;">(.*)<\/b>#';		//	остальные фин паказатели
+			// 	if (!preg_match_all($patern_2,$page_details,$result_2,PREG_PATTERN_ORDER)) { 
+			// 	    // echo "func TEST:  patern_2 ненайден или ошибка";
+			// 		// exit();
+			// 		} 				
+			
+			// 	$patern_2_1 = '#^-? ?(\d+\.?,?\d{0,3})%?#m';								//	процентная ставка
+			// 		if (!preg_match_all($patern_2_1,$result_2[1][0],$result_2_1,PREG_PATTERN_ORDER)) { 
+			// 		    // echo "func TEST:  patern_2_1 ненайден или ошибка<br>";
+			// 			// exit();
+			// 			} 	
+			// 		$result_2_1[1] = str_replace('.',',',$result_2_1[1]);									
+			
+			// 	$patern_2_2 = '#^.*([dD]aily|день|[Hh]ourly|[dD]ays?|monthly)#m';			//	периуд мин процентной ставки
+			// 		if (!preg_match_all($patern_2_2,$result_2[1][0],$result_2_2,PREG_PATTERN_ORDER)) { 
+			// 		    // echo "func TEST:  patern_2_2 ненайден или ошибка<br>";
+			// 			// exit();
+			// 			} 	
 		
-		$patern_1 = '#<tr class="polz".*Минимальный вклад.*;">\$? ?([\d\.]+)<\/b>#';	//	минимальный вклад
-			if (!preg_match_all($patern_1,$page_details,$result_1,PREG_PATTERN_ORDER)) { 
-			    // echo "func TEST:  patern_1 ненайден или ошибка";
-				} 	
-			$result_1[1] = str_replace('.',',',$result_1[1]);								
-	
-		$patern_2 = '#<td>Планы:<\/td><td><b style="color:\#155a9e;">(.*)<\/b>#';		//	остальные фин паказатели
-			if (!preg_match_all($patern_2,$page_details,$result_2,PREG_PATTERN_ORDER)) { 
-			    // echo "func TEST:  patern_2 ненайден или ошибка";
-				// exit();
-				} 				
+			// 	$patern_2_3 = '#^.*(?:(?:в день)|на|[Ff]or|to) +(\d{0,}(бессрочно)?)#m';	//	Мин. срок вклада
+			// 		if (!preg_match_all($patern_2_3,$result_2[1][0],$result_2_3,PREG_PATTERN_ORDER)) { 
+			// 		    // echo "func TEST:  patern_2_2_2 ненайден или ошибка<br>";
+			// 			// exit();
+			// 			} 	
 		
-			$patern_2_1 = '#^-? ?(\d+\.?,?\d{0,3})%?#m';								//	процентная ставка
-				if (!preg_match_all($patern_2_1,$result_2[1][0],$result_2_1,PREG_PATTERN_ORDER)) { 
-				    // echo "func TEST:  patern_2_1 ненайден или ошибка<br>";
-					// exit();
-					} 	
-				$result_2_1[1] = str_replace('.',',',$result_2_1[1]);									
+			// 	$patern_2_4 = '#^.*\d+ +(день|дней|дня|days?|hours?|года?|months?)#mi';		//	час,  день, неделя...
+			// 		if (!preg_match_all($patern_2_4,$result_2[1][0],$result_2_4,PREG_PATTERN_ORDER)) { 
+			// 		    // echo "func TEST:  patern_2_2_4 ненайден или ошибка<br>";
+			// 			// exit();
+			// 			} 	
+
+		// Получаем фин параметры с монитора http://list4hyip.com
+			$str_URL = 'http://list4hyip.com'.$result_URL[1][0];		// формирую URL страницы подробностей для данного хайпа
+			$page_details = GetWebPage($str_URL);		// получаю страницы подробностей для данного хайпа
 		
-			$patern_2_2 = '#^.*([dD]aily|день|[Hh]ourly|[dD]ays?|monthly)#m';			//	периуд мин процентной ставки
-				if (!preg_match_all($patern_2_2,$result_2[1][0],$result_2_2,PREG_PATTERN_ORDER)) { 
-				    // echo "func TEST:  patern_2_2 ненайден или ошибка<br>";
-					// exit();
-					} 	
-	
-			$patern_2_3 = '#^.*(?:(?:в день)|на|[Ff]or|to) +(\d{0,}(бессрочно)?)#m';	//	Мин. срок вклада
-				if (!preg_match_all($patern_2_3,$result_2[1][0],$result_2_3,PREG_PATTERN_ORDER)) { 
-				    // echo "func TEST:  patern_2_2_2 ненайден или ошибка<br>";
-					// exit();
-					} 	
-	
-			$patern_2_4 = '#^.*\d+ +(день|дней|дня|days?|hours?|года?|months?)#mi';		//	час,  день, неделя...
-				if (!preg_match_all($patern_2_4,$result_2[1][0],$result_2_4,PREG_PATTERN_ORDER)) { 
-				    // echo "func TEST:  patern_2_2_4 ненайден или ошибка<br>";
-					// exit();
-					} 	
+
 
 		array_push($arr_result,$result_1[1][0],$result_2_1[1][0],$result_2_2[1][0],$result_2_3[1][0],$result_2_4[1][0]);
 		array_push($arr_fin_param_hyp,$arr_result);
