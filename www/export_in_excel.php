@@ -4,7 +4,7 @@
 
 		// set_time_limit(60);
 		ini_set('memory_limit', '512M');
-		ini_set ('max_execution_time',360);
+		ini_set ('max_execution_time',3600);
 		$text_query = "ORDER BY `project`";		//	сортрует строки поалфавиту в порядке убывания т.е. групировкастрок по проэктам
 		$link_DB = conect_DB();
 		
