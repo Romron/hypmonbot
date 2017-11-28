@@ -31,7 +31,6 @@
 	$patern_hour = '#hour#i';
 	if (preg_match($patern_hour,$Arr_Fin_Param_Hyp[2])) {
 		$Arr_Fin_Param_Hyp[1] = $Arr_Fin_Param_Hyp[1]*24;
-		echo "<br><br><br>##############################<br><br><br>";
 		}
 
 

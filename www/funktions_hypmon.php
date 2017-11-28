@@ -491,19 +491,19 @@
 			$active_sheet->setTitle("SEO параметры");
 
 		//	устанавливаем ширину колонок для всей таблицы, автоматическая ширина для интервалов типа А:Х не действует!!?? 	
-			$active_sheet->getColumnDimension('A')->setWidth(20);
+			$active_sheet->getColumnDimension('A')->setWidth(22);
 			$active_sheet->getColumnDimension('B')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('C')->setWidth(18);		
 			$active_sheet->getColumnDimension('D')->setWidth(18);
 			$active_sheet->getColumnDimension('E')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('F')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('G')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('H')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('H')->setWidth(6);		
 			$active_sheet->getColumnDimension('I')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('J')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('K')->setWidth(10);		
-			$active_sheet->getColumnDimension('L')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('M')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('L')->setWidth(6);		
+			$active_sheet->getColumnDimension('M')->setWidth(6);		
 			$active_sheet->getColumnDimension('N')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('O')->setWidth(13);		
 			$active_sheet->getColumnDimension('P')->setAutoSize(true);		
@@ -667,6 +667,7 @@
 						$active_sheet->getRowDimension($i-1)->setVisible(false);		//	Скрыть свёрнутую строку
 						// $active_sheet->setShowSummaryBelow(false);					//	указатель свёрнутой строки, крестик, сверху тогда на виду оста'ться первая строка блока, '
 						if ($q == 0) {								//	Cтили первой строки блока
+							$n_first_row = $i-1;	// номер первой строки объединяемых ячеек
 							$style_first_str_block = array(		
 								'font'=>array(
 									'bold'=>true,
@@ -679,10 +680,12 @@
 								);
 							$style_first_str_cell_date = array(		
 								'font'=>array(
+									'bold'=>true,
 									'size'=>12
 									),
 								);
-							$active_sheet->getStyle('C'.($i-1).':X'.($i-1))->applyFromArray($style_first_str_block);						
+							$active_sheet->getStyle('C'.($i-1))->applyFromArray($style_first_str_block);						
+							$active_sheet->getStyle('E'.($i-1).':AI'.($i-1))->applyFromArray($style_first_str_block);						
 							$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_first_str_cell_date);							
 							}
 						$style_str_in_middle_block = array(			//	Стили строк в середине блока		
@@ -721,6 +724,7 @@
 								$active_sheet->getStyle('C'.($i-1).':X'.($i-1))->applyFromArray($style_last_str_block);						
 								$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_last_str_cell_date);									
 								}
+							$active_sheet->mergeCells('D'.$n_first_row.':'.'D'.($i-1));
 						}
 				$active_sheet->setCellValue('E'.$row_next,$item['cy']);
 				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_pc']);
@@ -885,26 +889,38 @@
 			$active_sheet->getColumnDimension('A')->setVisible(true);
 			$active_sheet->getColumnDimension('B')->setVisible(false);
 
-			$active_sheet->getColumnDimension('F')->setVisible(true);
-			$active_sheet->getColumnDimension('G')->setVisible(false);	
-
-			$active_sheet->getColumnDimension('H')->setVisible(true);
-			$active_sheet->getColumnDimension('I')->setVisible(false);	
-
-			$active_sheet->getColumnDimension('J')->setVisible(true);
-			$active_sheet->getColumnDimension('K')->setVisible(false);	
-
-			$active_sheet->getColumnDimension('N')->setVisible(true);
-			$active_sheet->getColumnDimension('O')->setVisible(false);			
-
 			// групируем столбцы 
-			$active_sheet->getColumnDimension('V')->setOutlineLevel(1);
-			$active_sheet->getColumnDimension('W')->setOutlineLevel(1);
-			$active_sheet->getColumnDimension('X')->setOutlineLevel(1);
-			$active_sheet->getColumnDimension('V')->setVisible(false);		//	Скрыть свёрнутую строку
-			$active_sheet->getColumnDimension('W')->setVisible(false);		//	Скрыть свёрнутую строку
-			$active_sheet->getColumnDimension('X')->setVisible(false);		//	Скрыть свёрнутую строку
-			$active_sheet->getColumnDimension('Y')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
+				$active_sheet->getColumnDimension('V')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('W')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('X')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('V')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('W')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('X')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('Y')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
+
+				$active_sheet->getColumnDimension('F')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('G')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('H')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('I')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('F')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('G')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('H')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('I')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('J')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
+
+				$active_sheet->getColumnDimension('O')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('P')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('O')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('P')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('Q')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока	
+
+				$active_sheet->getColumnDimension('K')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('L')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('M')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('K')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('L')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('M')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('N')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока			
 
 			//	устанока фильтров
 			$active_sheet->setAutoFilter('E5:AI5');
@@ -1008,7 +1024,6 @@
 		$patern_hour = '#hour#i';
 		if (preg_match($patern_hour,$Arr_Fin_Param_Hyp[2])) {
 			$Arr_Fin_Param_Hyp[1] = $Arr_Fin_Param_Hyp[1]*24;
-			echo "<br><br><br>##############################<br><br><br>";
 			}
 
 
