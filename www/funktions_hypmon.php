@@ -990,8 +990,7 @@
 			// 			} 	
 
 		// Получаем фин параметры с монитора http://list4hyip.com
-			$str_URL = 'http://list4hyip.com'.$result_URL[1][0];		// формирую URL страницы подробностей для данного хайпа
-			$page_details = GetWebPage($str_URL);		// получаю страницы подробностей для данного хайпа
+			$page_list4hyip = GetWebPage('http://list4hyip.com');		// получаю страницу с перечнем хайпов
 		
 
 

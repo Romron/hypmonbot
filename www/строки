@@ -37,3 +37,14 @@
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+<div class="min-deposit">Minimal Deposit: <b class="min">0.001 BTC</b></div> 
+<div class="plan-d">Plan: <b style="color:#FF0000;">7% - 9% - 12%Daily Forever</b></div>
+
+<div class="min-deposit">Minimal Deposit: <b class="min">30</b></div>
+<div class="plan-d">Plan: <b style="color:#FF0000;">120% After 1 Day / 360% After 7 Days / 1100% After 15 Days / 2415% After 35 Days / Vip 1: 305% After 5 Days / Vip 2: 610% After 8 Days / Vip 3: 1300% After 12 Days / Vip 4: 2500% After 18 Days / Vip 5: 4900% After 25 Days.</b></div>
+
+<div class="min-deposit">Minimal Deposit: <b class="min">$20</b></div>
+<div class="plan-d">Plan: <b style="color:#FF0000;">7% daily for 40 days</b></div>
