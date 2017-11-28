@@ -47,129 +47,177 @@
 
 	<!-- Шапка таблицы --> 
 		<table class="main_tabl" id="tabl_1">
-				<tr>
-					<th rowspan="5" class="NameHyp_Col" id="Had_NameHyp_Col">
-						<p class="vertical"> Монитор </p>
-					</th>			
-					<th rowspan="5">
-						<p class="vertical"> Номер п/п </p>
-					</th>
-					<th rowspan="5">
-						ПРОЭКТ
-					</th>
-					<th colspan="9">
-						http://pr-cy.ru/
-					</th>
-					<th colspan="8">
-						http://www.alexa.com/siteinfo
-					</th>
-					<th colspan="3">
-						https://www.nic.ru/whois/
-					</th>																							
-				</tr>
-				<tr>
-					<th rowspan="3">
-						ТИЦ 
-					</th>
-					<th colspan="4">
-						Страницы
-					</th>
-					<th rowspan="3">
-						<p class="vertical"> Просмотры, шт. </p>
-					</th>
-					<th rowspan="3">
-						<p class="vertical"> max трафик из </p>
-					</th>
-					<th colspan="2">
-						Baclink
-					</th>			
-					<th colspan="3">
-						Популярность
-					</th>
-					<th colspan="3">
-						Активность пользователей
-					</th>
-					<th rowspan="3">
-						<p class="vertical"> Процент поискового трафика </p>
-					</th>
-					<th rowspan="3">
-						<p class="vertical"> baclink </p>
-					</th>
-					<th rowspan="3">
-						<p class="vertical"> Дата  регистрации домена </p>
-					</th>
-					<th rowspan="3">
-						<p class="vertical">  Дата окончания домена </p>
-					</th>
-					<th rowspan="3">
-						<p class="vertical"> Дата обновления домена </p>
-					</th>																						
-				</tr>
-				<tr>
-					<th colspan="2">
-						Яндекс
-					</th>
-					<th colspan="2">
-						Google
-					</th>
-					<th rowspan="2">
-						<p class="vertical"> Страницы </p>
-					</th>			
-					<th rowspan="2">
-						<p class="vertical"> Домены </p>
-					</th>
-					<th >
-						Global Rank
-					</th>
-					<th colspan="2">
-						Rank in country
-					</th>
-					<th rowspan="2">
-						<p class="vertical"> Показатель отказов </p>
-					</th>
-					<th rowspan="2">
-						<p class="vertical"> Страниц за везит </p>
-					</th>
-					<th rowspan="2">
-						<p class="vertical"> Ср. продолжит визита, м-с </p>
-					</th>																		
-				</tr>
-				<tr>
-					<th>
-						шт.
-					</th>
-					<th>
-						<p class="vertical">  Динамика </p>
-					</th>
-					<th>
-						<p class="vertical"> шт. </p>
-					</th>
-					<th>
-						<p class="vertical"> Динамика </p>
-					</th>
-
-					<th>
-						<p class="vertical"> Значение </p>
-					</th>
-
-					<th>
-						<p class="vertical"> Страна </p>
-					</th>
-					<th>
-						<p class="vertical"> Значение </p>
-					</th>
-																								
-				</tr>
-				<tr>
+		<tr>
+			<th rowspan="5" class="NameHyp_Col" id="Had_NameHyp_Col">
+				<p class="vertical"> Монитор </p>
+			</th>			
+			<th rowspan="5">
+				<p class="vertical"> Номер п/п </p>
+			</th>
+			<th rowspan="5">
+				ПРОЭКТ
+			</th>
+			<th colspan="9">
+				http://pr-cy.ru/
+			</th>
+			<th colspan="8">
+				http://www.alexa.com/siteinfo
+			</th>
+			<th colspan="3">
+				https://www.nic.ru/whois/
+			</th>			
+			<th colspan="11">
+				Финансовые показатели проэктов
+			</th>																							
+		</tr>
+		<tr>
+			<th rowspan="3">
+				ТИЦ 
+			</th>
+			<th colspan="4">
+				Страницы
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> Просмотры, шт. </p>
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> max трафик из </p>
+			</th>
+			<th colspan="2">
+				Baclink
+			</th>			
+			<th colspan="3">
+				Популярность
+			</th>
+			<th colspan="3">
+				Активность пользователей
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> Процент поискового трафика </p>
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> baclink </p>
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> Дата  регистрации домена </p>
+			</th>
+			<th rowspan="3">
+				<p class="vertical">  Дата окончания домена </p>
+			</th>
+			<th rowspan="3">
+				<p class="vertical"> Дата обновления домена </p>
+			</th>
+			<th colspan="5">
+				ПОЛУЧЕННЫЕ
+			</th>
+			<th colspan="6">
+				РАСЧЁТНЫЕ
+			</th>						
 			
-					<?php 
-						for ($i=0; $i<20; $i++){
-						echo "<td class='Namber_column'>".$i."</td>";
-						} 
-					?>
-								
-									
-				</tr>
+		</tr>
+		<tr>
+			<th colspan="2">
+				Яндекс
+			</th>
+			<th colspan="2">
+				Google
+			</th>
+			<th rowspan="2">
+				<p class="vertical"> Страницы </p>
+			</th>			
+			<th rowspan="2">
+				<p class="vertical"> Домены </p>
+			</th>
+			<th >
+				Global Rank
+			</th>
+			<th colspan="2">
+				Rank in country
+			</th>
+			<th rowspan="2">
+				<p class="vertical"> Показатель отказов </p>
+			</th>
+			<th rowspan="2">
+				<p class="vertical"> Страниц за везит </p>
+			</th>
+			<th rowspan="2">
+				<p class="vertical"> Ср. продолжит визита, м-с </p>
+			</th>			
+			<th rowspan="2">
+				<p class="vertical"> Мин. депозит  </p>
+			</th>
+			<th colspan="2">
+				Проц. Ставка, % 
+			</th>
+			<th colspan="2">
+				Мин. срок вклада
+			</th>
+			<th rowspan="2">
+				<p class="vertical"> Срок окупаемости, дней </p>
+			</th>			
+			<th rowspan="2">
+				<p class="vertical"> Прибыль за весь периуд, $ </p>
+			</th>			
+			<th rowspan="2">
+				<p class="vertical"> Прибыль в день, $ </p>
+			</th>
+			<th rowspan="2">
+				<p class="vertical"> ROI, % </p>
+			</th>
+			<th rowspan="2">	
+				<p class="vertical"> Доходность, % </p>
+			</th>			
+			<th rowspan="2">
+				<p class="vertical"> Доходность в процентах годовых, % </p>
+			</th>																		
+		</tr>
+		<tr>
+			<th>
+				шт.
+			</th>
+			<th>
+				<p class="vertical">  Динамика </p>
+			</th>
+			<th>
+				<p class="vertical"> шт. </p>
+			</th>
+			<th>
+				<p class="vertical"> Динамика </p>
+			</th>
+			<th>
+				<p class="vertical"> Значение </p>
+			</th>
+			<th>
+				<p class="vertical"> Страна </p>
+			</th>
+			<th>
+				<p class="vertical"> Значение </p>
+			</th>
+			<th>
+				<p class="vertical"> Значение </p> 				
+			</th>	
+			<th>
+				<p class="vertical"> Период выплаты процентов </p> 				
+			</th>			
+			<th>
+				<p class="vertical"> Значение </p> 				
+			</th>			
+			<th>
+				<p class="vertical"> Единицы измерения </p> 				
+			</th>			
+			
+
+		</tr>
+		<tr>
+	
+			<?php 
+				for ($i=0; $i<31; $i++){
+				echo "<td class='Namber_column'>".$i."</td>";
+				} 
+			?>
+						
+							
+		</tr>
 	<!-- /Шапка таблицы -->
 
 	
@@ -180,7 +228,8 @@
 	<?php  
 
 		//	Установки скрипта:
-		$name_table = 'Work_table_2';	//	Выбор таблицы в базе данных
+		// $name_table = 'Work_table_2';	//	Выбор таблицы в базе данных	  ----  рабочий вариант
+		$name_table = 'Work_table_1';	//	Выбор таблицы в базе данных	  ----  для тестов            
 								
 		ignore_user_abort(true);	// Игнорирует отключение пользователя 
 		set_time_limit(0);			// позволяет скрипту быть запущенным постоянно
@@ -205,8 +254,8 @@
 		
 		
 		// наполнение результатами таблицы на html странице 
-		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
-		// for ($i=0; $i < 50; $i++) {			//	для тестов
+		// for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
+		for ($i=0; $i < 10; $i++) {			//	для тестов
 			
 				if (is_array($ArrNameHyp[$i])) {
 						$HypMonName = $ArrNameHyp[$i][1];
@@ -230,10 +279,21 @@
 								<p class="NameHyp">'.$result_str_name_site[1][0].'</p>
 								</td>';				
 					sleep(mt_rand(1,5));
-					$ArrParamHype = ParsParamHaypWithServAnalSite($result_str_name_site[1][0]);
+					
+					$SeoParamHype = ParsSeoParamHayp($result_str_name_site[1][0]);
+					$FinParamHyp = ParsFinParamHyp($result_str_name_site[1][0]);
+					
+					$CalcFinParamHyp = CalcFinParamHyp($FinParamHyp);
+
+					$ArrParamHype =	array_merge($SeoParamHype,$FinParamHyp,$CalcFinParamHyp);
+
+					// echo "<br>******************************<br>";
+					// echo Build_tree_arr($ArrParamHype);
+					// echo "<br>******************************<br>";
+					
 					queryInputIntoDB($name_table,$link_DB,$HypMonName,$result_str_name_site[1][0],$ArrParamHype);
 					
-					for ($q=0; $q < 20; $q++) { 
+					for ($q=0; $q < 31; $q++) { 
 						echo "<td>";
 					if (strpos($ArrParamHype[$q],"ERR")) { 
 							echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
@@ -244,8 +304,7 @@
 						}
 				echo '</tr>';
 			}
-
-			mysqli_close($link_DB);
+		mysqli_close($link_DB);
 		
 		echo "<br>======";
 		echo "<br> Конец работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time())."<br><br>";
