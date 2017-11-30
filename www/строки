@@ -193,3 +193,32 @@ Invest $5 and Earn $2051 for Just Making 2 Direct Referrals
 
 
 (?:<b class="min">\$?(\d{1,4}\.?\d{1,4})[\s\D\<]+)
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+<a href="/go/lid/9575" target="_blank">
+  <img src="https://mozshot.nemui.org/shot/120x90?http://www.triumphtrade.biz/newaccount/?refid=List4Hyip" width="125" height="118" alt="Triumph Trade screenshot" style="border:1px dashed #c6d9ec;border-radius:4px;padding:2px;"> 
+</a>
+
+<a href="/go/lid/10183" target="_blank">
+  <img src="https://bestcoininv.com/styles/images/125x125.gif" width="125" height="118" alt="BestCoinInv Limited screenshot" style="border:1px dashed #c6d9ec;border-radius:4px;padding:2px;"> 
+</a>
+
+
+
+
+
+
+
+<a href="\/go\/lid\/\d*"\starget="_blank">\s*<img src="(?:https?:\/\/)?[w]{0,3}\.?([\da-z\.-]+\.[a-z\.]{2,6})
+
+
+(?(?=https:\/\/mozshot\.nemui\.org\/shot\/120x90)(?:\d\?https?:\/\/)?[w]{0,3}\.?([\da-z\.-]+\.[a-z\.]{2,6})|(?:https?:\/\/)?[w]{0,3}\.?([\da-z\.-]+\.[a-z\.]{2,6}))
+(?:https?:\/\/)(?!mozshot\.nemui\.org\/shot\/120x90\?)[w]{0,3}\.?([\da-z\.-]+\.[a-z\.]{2,6})
+
+
+<a href="\/go\/lid\/\d+" target="_blank">\s*<img src="(?:https?:\/\/)[w]{0,3}\.?([\da-z\.-]+\.[a-z\.]{2,6})(?:.*\?https?:\/\/[w]{0,3}\.?([\da-z\.-]+\.[a-z\.]{2,6}))?
