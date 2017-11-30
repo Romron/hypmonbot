@@ -45,7 +45,7 @@
 		print_r($result_3_0[1][$i]);
 
 		// $patern_3_1 = '#<a href="\/go\/lid\/\d+" target="_blank">\s*<img src="(?:https?:\/\/)[w]{0,3}\.?([\da-z\.-]+\.[a-z\.]{2,6})(?:.*\?https?:\/\/[w]{0,3}\.?([\da-z\.-]+\.[a-z\.]{2,6}))?#'; 	// для тестов
-		$patern_3_1 = '#<a href="\/go\/lid\/\d+" target="#'; 	// для тестов
+		$patern_3_1 = '#<a href="\/go\/lid\/\d+" target="_blank">\s*<img src="(?:https?:\/\/)[w]{0,3}\.?([\da-z\.-]+\.[a-z\.]{2,6})(?:.*\?https?:\/\/[w]{0,3}\.?([\da-z\.-]+\.[a-z\.]{2,6}))?#'; 	// для тестов
 		if (!preg_match_all($patern_3_1,$result_3_0[1][$i],$result_3_1,PREG_PATTERN_ORDER)) { 
 		    echo "<br><br>";
 		    echo "func GetHypNam:  patern_3_1 ненайден или ошибка";
