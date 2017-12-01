@@ -1,4 +1,8 @@
 <?php 
+//===================================================================================================================
+//=====================================================		FUNCTION 	=============================================
+//===================================================================================================================
+
 	function GetWebPage( $url, $conect_out = 120, $tim_out = 120){    
        
        // echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
@@ -103,7 +107,7 @@
 				$result_2 = array_merge($result_2,$result_2b);
 
 				$n++;
-				$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
+				$url = 'http://allhyipmon.ru/rating?page='.$n;
 		// 		 // echo $url;
 
 				// sleep(rand(1,5));
@@ -116,27 +120,27 @@
 				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
 				array_unshift($result_2, $result_2c);
 
-		$page_3 = GetWebPage('http://list4hyip.com/');
-				if (is_array($page_3)) { $page_3 = implode(" ", $page_3);}	
-				// $patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 	// рабочая строка
-				$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*)/#sU'; 	// для тестов
-				if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
-				    echo "func GetHypNam:  patern_3 ненайден или ошибка";
-				    return false;
-					} 
-				for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-					if ($result_3a[1][$q] == "http://list4hyip.com/") {	//	удаляем не нужное
-						continue;
-						}
-					$result_3[$q] = $result_3a[1][$q];
-					}
+		// $page_3 = GetWebPage('http://list4hyip.com/');
+		// 		if (is_array($page_3)) { $page_3 = implode(" ", $page_3);}	
+		// 		// $patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 	// рабочая строка
+		// 		$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*)/#sU'; 	// для тестов
+		// 		if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
+		// 		    echo "func GetHypNam:  patern_3 ненайден или ошибка";
+		// 		    return false;
+		// 			} 
+		// 		for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+		// 			if ($result_3a[1][$q] == "http://list4hyip.com/") {	//	удаляем не нужное
+		// 				continue;
+		// 				}
+		// 			$result_3[$q] = $result_3a[1][$q];
+		// 			}
 
-					$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
-					array_unshift($result_3, $result_3c);
-	 	 $result = array_merge(/*$result_1,*/$result_2,$result_3);
- 		 return $result;
+		// 			$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
+		// 			array_unshift($result_3, $result_3c);
+	 // 	 $result = array_merge(/*$result_1,*/$result_2,$result_3);
+ 		 // return $result;
         // return $result_1;
-        // return $result_2;
+        return $result_2;
          // return $result_3;
 		}
 
@@ -1151,6 +1155,78 @@
 		}
 
 
+
+//===================================================================================================================
+//=====================================================		CLASSES 	=============================================
+//===================================================================================================================
+
+	class FileAndFolder {
+		
+		/**	Данный клас должен:
+			проверить наличие папки с указанным именем (путём), принимает на входе если не задано то по умолчанию.
+			проверить наличие файла с указанным именем (путём), принимает на входе если не задано то по умолчанию.
+			пишит в файл строку, принимает на входе если не задано то по умолчанию. 	
+			*/
+				
+
+		public $path_name_folder = 'TEMP';
+		public $path_name_file = 'temp.txt';
+		public $str_in = '';
+		public $str_out = '';
+		public $handle = '';
+
+	
+		function __construct(){
+			if (!file_exists($this->path_name_folder)) {	
+				if (!mkdir($this->path_name_folder)) {	// если ошибка
+					echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$this->path_name_folder."&nbsp; не создана";
+					}
+				}
+				$this->handle = fopen($this->path_name_folder.'/'.$this->path_name_file, "a");
+				if (!$this->handle) {	// если ошибка
+					echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$this->path_name_file.'<br>';
+					}
+
+
+			
+			// if (!file_exists($this->path_name_folder.'/'.$this->path_name_file)) {	
+			// 	$this->handle = fopen($this->path_name_folder.'/'.$this->path_name_file, "w");
+			// 	}else{
+			// 		$this->handle = fopen($this->path_name_folder.'/'.$this->path_name_file, "w+");
+			// 		if (!$this->handle) {	// если ошибка
+			// 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$this->path_name_file.'<br>';
+			// 			}
+			// 		}
+			}		
+
+
+		// public function CreateFolder()	{	// создаю временную папку
+		// 	if (!file_exists($this->path_name_folder)) {	
+		// 		if (!mkdir($this->path_name_folder)) {	// если ошибка
+		// 			echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$this->path_name_folder."&nbsp; не создана";
+		// 			}
+		// 		}
+		// 	}
+
+		// public function CreateFile()	{	// создаю временный файл
+		// 	if (!file_exists($this->path_name_file)) {	
+	
+		// 		$this->handle = fopen($this->path_name_folder.'/'.$this->path_name_file, "w");
+		// 		}
+		// 		if (!$this->handle) {	// если ошибка
+		// 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$this->path_name_file.'<br>';
+		// 			}
+		// 	}
+		
+		public function WriteFile(){
+			fwrite($this->handle,$this->str);
+			}
+
+		public function ReadFile(){
+			return file_get_contents($this->path_name_folder.'/'.$this->path_name_file);
+			}
+
+		}		
 
 
 

@@ -14,53 +14,66 @@
 <body>
 
 <?php
-
-	// echo 2*2;
-	// echo "<br>";
-	// echo 6/2;
-
-	// echo "<br>-----------------------------------<br>";
 	
 
-	$Arr_Fin_Param_Hyp = ParsFinParamHyp("coinsipo.com");
+	$file = new FileAndFolder;
+	$str = $file->ReadFile();
+	if ($str == '') {
+		$n = 0;
+		}else{
+			$n = $str;	
+			}
+	fclose($file->handle);
 
-	$Arr_Fin_Param_Hyp[1] = str_replace(",",".",$Arr_Fin_Param_Hyp[1]);
+	$page_2 = GetWebPage('http://allhyipmon.ru/rating');
+		if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
+		$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
+		
+		$result_2 = array();
+		do{
+   
+   				// echo $n."&nbsp;&nbsp; итерация цыкла DO-WHILE в функции: ".__FUNCTION__."<br><br><br>";		
 
-	echo Build_tree_arr($Arr_Fin_Param_Hyp);
+			if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
+			    echo "func GetHypNam:  patern_2 ненайден или ошибка";
+			    return false;
+				} 
 
-	$patern_hour = '#hour#i';
-	if (preg_match($patern_hour,$Arr_Fin_Param_Hyp[2])) {
-		$Arr_Fin_Param_Hyp[1] = $Arr_Fin_Param_Hyp[1]*24;
-		}
+			for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+				$result_2b[$q] = $result_2a[1][$q];
+				}
+			$result_2 = array_merge($result_2,$result_2b);
+
+			$n++;
+			$url = 'http://allhyipmon.ru/rating?page='.$n;
+	 		 // echo $url;
+
+			// sleep(rand(1,5));
+			sleep(mt_rand(1,5));
+			$page_2 = GetWebPage($url);
+
+		}while ($n <= 5);		//	рабочий вариант строки
+		// }while ($n <= 1);		//	для тестов
+		// $file->str =
+
+    	echo "<br>*****************<br>".Build_tree_arr($result_2);
 
 
 
-	echo "<br>-----------------------------------<br>";
 
-	$CalcFinParamHyp = CalcFinParamHyp($Arr_Fin_Param_Hyp);
-	echo Build_tree_arr($CalcFinParamHyp);
 
-	echo "<br>----------------<br>";
 	
-	$profit_per_day = round(($Arr_Fin_Param_Hyp[1]/100*$Arr_Fin_Param_Hyp[0]),4);
-	$SO = round(($Arr_Fin_Param_Hyp[0]/$profit_per_day),4);
-	$profit_for_the_whole_period = round(($profit_per_day * $Arr_Fin_Param_Hyp[3]),4);
-	$ROI = round((($profit_for_the_whole_period - $Arr_Fin_Param_Hyp[0]) * 0.01),4);
-	$profitability = round(($profit_for_the_whole_period / $Arr_Fin_Param_Hyp[0] / 0.01),4);
-	$profitability_per_cent_per_year = round(($profit_for_the_whole_period / $Arr_Fin_Param_Hyp[0] * 365 / $Arr_Fin_Param_Hyp[3] / 0.01),4);
 
-	echo "<br> Срок окупаемости &nbsp; = &nbsp;";
-	var_dump($SO);	
-	echo "<br> Прибыль за весь периуд &nbsp; = &nbsp;";
-	var_dump($profit_for_the_whole_period);
-	echo "<br>Прибыль в день &nbsp; = &nbsp;";
-	var_dump($profit_per_day);
-	echo "<br> ROI &nbsp; = &nbsp;";
-	var_dump($ROI);
-	echo "<br> Доходность &nbsp; = &nbsp;";
-	var_dump($profitability);
-	echo "<br> Доходность в годовых &nbsp; = &nbsp;";
-	var_dump($profitability_per_cent_per_year);
+
+	// $file = new FileAndFolder();
+	// $file->path_name_file = 'temp_1.txt';
+	// $file->CreateFolder();
+	// $file->CreateFile();
+	// $file->str = '777777777';
+	// $file->WriteFile();
+	// $str = $file->ReadFile();
+	// echo "<br>".$str."<br>";
+
 
 
 ?>
