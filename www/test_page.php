@@ -75,7 +75,8 @@
 		if (!$handle) {	// если ошибка
 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
 			}		
-		fwrite($handle,($w+1));
+		$n = $w+1;
+		fwrite($handle,$n);
 
 		// $file_after = new FileAndFolder;
 		// $file_after->flag_open_file = "w";
