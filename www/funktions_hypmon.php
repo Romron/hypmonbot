@@ -1171,9 +1171,11 @@
 
 		public $path_name_folder = 'TEMP';
 		public $path_name_file = 'temp.txt';
-		public $str_in = '';
-		public $str_out = '';
-		public $handle = '';
+		public $flag_open_file = "a";
+		// public $str_in = '';
+		// public $str_out = '';
+		private $handle = '';
+
 
 	
 		function __construct(){
@@ -1182,7 +1184,7 @@
 					echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$this->path_name_folder."&nbsp; не создана";
 					}
 				}
-				$this->handle = fopen($this->path_name_folder.'/'.$this->path_name_file, "a");
+				$this->handle = fopen($this->path_name_folder.'/'.$this->path_name_file, $this->flag_open_file);
 				if (!$this->handle) {	// если ошибка
 					echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$this->path_name_file.'<br>';
 					}
@@ -1218,12 +1220,23 @@
 		// 			}
 		// 	}
 		
-		public function WriteFile(){
-			fwrite($this->handle,$this->str);
+		public function DelOfFile($str){
+			fwrite($this->handle,$str);
+			}		
+
+		public function WriteFile($str){
+			fwrite($this->handle,$str);
 			}
 
 		public function ReadFile(){
 			return file_get_contents($this->path_name_folder.'/'.$this->path_name_file);
+			}
+
+		
+		function __destruct(){
+
+			fclose($this->handle);
+			
 			}
 
 		}		
