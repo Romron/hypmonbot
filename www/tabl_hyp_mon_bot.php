@@ -246,7 +246,7 @@
 			echo "<br>******";
 
 
-		$ArrNameHyp = GetHypNam();
+		$ArrNameHyp = GetHypNam_1(3,2);
 
 		
 		$link_DB = conect_DB();		// наполнение результатами БД

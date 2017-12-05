@@ -17,6 +17,8 @@
 	$path_name_folder = 'TEMP';
 	$path_name_file = 'temp.txt';
 	$amount_page = 4;
+	$amount_starts = 3;
+
 
 	if (!file_exists($path_name_folder)) {	
 		if (!mkdir($path_name_folder)) {	// если ошибка
@@ -28,11 +30,26 @@
 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
 			}
 	
-	$str = file_get_contents($path_name_folder.'/'.$path_name_file);
-	if ($str == '') {
+	// $str = file_get_contents($path_name_folder.'/'.$path_name_file);
+	$str = file($path_name_folder.'/'.$path_name_file);
+	
+	if ($amount_starts < $str[1]) {
+		$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
+		if (!$handle) {	// если ошибка
+			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+			}			
+		fwrite($handle,"");
+		echo "<br> Файл запущен &nbsp;".$str[1]."&nbsp; раз";
+		exit();
+		}
+
+
+	// echo '<br>~~~<br>'.$str[0];
+	// echo '<br>//<br>'.Build_tree_arr($str);
+	if ($str[0] == '') {
 		$n = 0;
 		}else{
-			$n = $str;	
+			$n = trim($str[0]);	
 			}
 	echo "<br>. n = ".$n;
 	$w = $n;
@@ -64,7 +81,10 @@
 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
 			}		
 		$n = $w;
-		fwrite($handle,$n);
+		$str[1]++;
+
+		$str_2 = $n."\r\n".$str[1];
+		fwrite($handle,$str_2);
 
     	echo "<br>*****************<br>".Build_tree_arr($result_2);
 ?>

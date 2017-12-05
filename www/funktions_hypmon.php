@@ -144,27 +144,39 @@
          // return $result_3;
 		}
 
-	function GetHypNam_1($amount_page=4,$path_name_file ='temp.txt',$path_name_folder ='TEMP'){
+	function GetHypNam_1($amount_starts = '',$amount_page=4,$path_name_file ='temp.txt',$path_name_folder ='TEMP'){
 
-		if (!file_exists($path_name_folder)) {	
-			if (!mkdir($path_name_folder)) {	// если ошибка
-				echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$path_name_folder."&nbsp; не создана";
-				}
+	if (!file_exists($path_name_folder)) {	
+		if (!mkdir($path_name_folder)) {	// если ошибка
+			echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$path_name_folder."&nbsp; не создана";
 			}
-			$handle = fopen($path_name_folder.'/'.$path_name_file, "a");
-			if (!$handle) {	// если ошибка
-				echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
-				}
-		
-		$str = file_get_contents($path_name_folder.'/'.$path_name_file);
-		if ($str == '') {
-			$n = 0;
-			}else{
-				$n = $str;	
-				}
-		echo "<br>. n = ".$n;
-		$w = $n;
-		$page_2 = GetWebPage('http://allhyipmon.ru/rating?page='.$w);
+		}
+		$handle = fopen($path_name_folder.'/'.$path_name_file, "a");
+		if (!$handle) {	// если ошибка
+			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+			}
+	
+	// $str = file_get_contents($path_name_folder.'/'.$path_name_file);
+	$str = file($path_name_folder.'/'.$path_name_file);
+	
+	if ($amount_starts < $str[1]) {
+		$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
+		if (!$handle) {	// если ошибка
+			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+			}			
+		fwrite($handle,"");
+		echo "<br> Файл запущен &nbsp;".$str[1]."&nbsp; раз";
+		exit();
+		}
+
+	if ($str[0] == '') {
+		$n = 0;
+		}else{
+			$n = trim($str[0]);	
+			}
+	echo "<br>. n = ".$n;
+	$w = $n;
+	$page_2 = GetWebPage('http://allhyipmon.ru/rating?page='.$w);
 		if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
 		$patern_2 = '#<div>\d{1,5}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
 		$result_2 = array();
@@ -184,7 +196,7 @@
 			// // sleep(rand(1,5));
 			sleep(mt_rand(1,5));
 			$page_2 = GetWebPage($url);
-			// }while ($n <= 5);		//	рабочий вариант строки
+		// }while ($n <= 5);		//	рабочий вариант строки
 		}while ($w <= $n+$amount_page);		//	для тестов
     		
 		$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
@@ -192,7 +204,10 @@
 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
 			}		
 		$n = $w;
-		fwrite($handle,$n);
+		$str[1]++;
+
+		$str_2 = $n."\r\n".$str[1];
+		fwrite($handle,$str_2);
 
         return $result_2;
 		}
