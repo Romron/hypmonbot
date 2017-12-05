@@ -16,9 +16,7 @@
 <?php
 	$path_name_folder = 'TEMP';
 	$path_name_file = 'temp.txt';
-	
-	// $file_before = new FileAndFolder;
-	// $str = $file_before->ReadFile();
+	$amount_page = 4;
 
 	if (!file_exists($path_name_folder)) {	
 		if (!mkdir($path_name_folder)) {	// если ошибка
@@ -29,25 +27,21 @@
 		if (!$handle) {	// если ошибка
 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
 			}
+	
 	$str = file_get_contents($path_name_folder.'/'.$path_name_file);
 	if ($str == '') {
-		
-		echo "<br>. n = 0";
 		$n = 0;
 		}else{
 			$n = $str;	
-			echo "<br>. n = ".$n;
 			}
-	// unset($file_before);
-
+	echo "<br>. n = ".$n;
 	$w = $n;
-	$page_2 = GetWebPage('http://allhyipmon.ru/rating');
+	$page_2 = GetWebPage('http://allhyipmon.ru/rating?page='.$w);
 		if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
-		$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
-		
+		$patern_2 = '#<div>\d{1,5}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
 		$result_2 = array();
 		do{
-   				// echo $n."&nbsp;&nbsp; итерация цыкла DO-WHILE в функции: ".__FUNCTION__."<br><br><br>";		
+			echo "<br>... &nbsp;".$w;
 			if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
 			    echo "func GetHypNam:  patern_2 ненайден или ошибка";
 			    return false;
@@ -57,50 +51,22 @@
 				$result_2b[$q] = $result_2a[1][$q];
 				}
 			$result_2 = array_merge($result_2,$result_2b);
-
-			$url = 'http://allhyipmon.ru/rating?page='.$w;
 			$w++;
-    		echo "<br>*****************<br>".Build_tree_arr($result_2);
-	 		 // echo $url;
-
-			// sleep(rand(1,5));
+			$url = 'http://allhyipmon.ru/rating?page='.$w;
+			// // sleep(rand(1,5));
 			sleep(mt_rand(1,5));
 			$page_2 = GetWebPage($url);
-
 		// }while ($n <= 5);		//	рабочий вариант строки
-		}while ($w <= $n+1);		//	для тестов
-		
-
+		}while ($w <= $n+$amount_page);		//	для тестов
+    		
 		$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
 		if (!$handle) {	// если ошибка
 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
 			}		
-		$n = $w+1;
+		$n = $w;
 		fwrite($handle,$n);
 
-		// $file_after = new FileAndFolder;
-		// $file_after->flag_open_file = "w";
-		// $file_after->WriteFile($n);
-		// unset($file_after);
-
-
-
-
-
-	
-
-
-	// $file = new FileAndFolder();
-	// $file->path_name_file = 'temp_1.txt';
-	// $file->CreateFolder();
-	// $file->CreateFile();
-	// $file->str = '777777777';
-	// $file->WriteFile();
-	// $str = $file->ReadFile();
-	// echo "<br>".$str."<br>";
-
-
-
+    	echo "<br>*****************<br>".Build_tree_arr($result_2);
 ?>
 
 
