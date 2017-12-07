@@ -14,63 +14,75 @@
 <body>
 
 <?php
-	ini_set ('max_execution_time',3600);
-	$page_list4hyip = GetWebPage('http://list4hyip.com');		// получаю страницу с перечнем хайпов
+	$path_name_folder = 'TEMP';
+	$path_name_file = 'temp.txt';
+	$amount_page = 4;
+	$amount_starts = 3;
 
 
-
-	// $patern_3_0 = '#<div class="main-col" style="position: relative;">(?:<b class="min">\D*(\d{1,4}\.?\d*)[\s\D]*.*<\/b>)(?:<b class="min">\D*(\d{1,4}\.?\d*)[\s\D]*.*<\/b>)<div class="col3">#sU'; 	// получаем блок проэкта
-	// $patern_3_0 = '#<div class="main-col" style="position: relative;">.*(<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*)/).*<div class="col3">#sU'; 	// получаем название проэкта
-	// $patern_3_0 = '#(?:<b class="min">\$?(\d{1,4}\.?\d{1,4})[\s\D\<]+)#sU'; 	// минимальный вклад
-	// $patern_3_0 = '~(<div class="main-col".*(class="plan-d">Plan: <b style="color:#FF0000;">[\w:\s]*(\d+\.?\d{0,2})[%\-\s,]).*(<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?:\/\/(?!mozshot.nemui.org).*)\/).*(<b class="min">\$?(\d{1,4}\.?\d{1,4})[\s\D\<]+).*<div class="col3">)~sU'; 	// получаем блок проэкта
-	
-
-
-	$patern_3_0 = '~<div class="main-col"(.*)<div class="col3">~sU'; 	// получаем блок проэкта
-	if (!preg_match_all($patern_3_0,$page_list4hyip,$result_3_0,PREG_PATTERN_ORDER)) { 
-	    echo "func GetHypNam:  patern_3_0 ненайден или ошибка";
-	    // return false;
-		} 
-
-		// echo "<br>-------------------------------------------------------------------------------------------------<br>";
-		// 	print_r($result_3_0);
-		// echo "<br>-------------------------------------------------------------------------------------------------<br>";
-
-		// echo "<br>".Build_tree_arr($result_3_0);
-
-	
-	for ($i=0; $i < 5/*count($result_3_0[1])*/; $i++) {	// В полученном блоке ищу нужыне мне параметры
-		
-		echo "<br>**********************************************<br>";
-		print_r($result_3_0[1][$i]);
-
-		// $patern_3_1 = '#<a href="\/go\/lid\/\d+" target="_blank">\s*<img src="(?:https?:\/\/)[w]{0,3}\.?([\da-z\.-]+\.[a-z\.]{2,6})(?:.*\?https?:\/\/[w]{0,3}\.?([\da-z\.-]+\.[a-z\.]{2,6}))?#'; 	// для тестов
-		$patern_3_1 = '#<a href="\/go\/lid\/\d+" target="_blank">\s*<img src="(?:https?:\/\/)[w]{0,3}\.?([\da-z\.-]+\.[a-z\.]{2,6})(?:.*\?https?:\/\/[w]{0,3}\.?([\da-z\.-]+\.[a-z\.]{2,6}))?#'; 	// для тестов
-		if (!preg_match_all($patern_3_1,$result_3_0[1][$i],$result_3_1,PREG_PATTERN_ORDER)) { 
-		    echo "<br><br>";
-		    echo "func GetHypNam:  patern_3_1 ненайден или ошибка";
-		    // return false;
+	if (!file_exists($path_name_folder)) {	
+		if (!mkdir($path_name_folder)) {	// если ошибка
+			echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$path_name_folder."&nbsp; не создана";
 			}
-
-		echo "<br>";
-		print_r($result_3_1);
-		// echo "<br>".Build_tree_arr($result_3_1);
-
-
+		}
+		$handle = fopen($path_name_folder.'/'.$path_name_file, "a");
+		if (!$handle) {	// если ошибка
+			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+			}
+	
+	$str = file($path_name_folder.'/'.$path_name_file);
+	
+	if ($amount_starts < $str[1]) {
+		$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
+		if (!$handle) {	// если ошибка
+			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+			}			
+		fwrite($handle,"");
+		echo "<br> Файл запущен &nbsp;".$str[1]."&nbsp; раз";
+		exit();
 		}
 
+	if ($str[0] == '') {
+		$n = 0;
+		}else{
+			$n = trim($str[0]);	
+			}
+	echo "<br>. amount_starts = ".$str[1];
+	echo "<br>. n = ".$n;
+	$w = $n;
+	$page_2 = GetWebPage('http://allhyipmon.ru/rating?page='.$w);
+	if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
+	$patern_2 = '#<div>\d{1,5}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
+	$result_2 = array();
+	do{
+		echo "<br>... &nbsp;".$w;
+		if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
+		    echo "func GetHypNam:  patern_2 ненайден или ошибка";
+		    return false;
+			} 
 
-	// $patern_3_2 = '#<b class="min">\D*(\d{1,4}\.?\d*)[\s\D]*.*<\/b>#';		
-	// 	if (!preg_match_all($patern_3_2,$page_list4hyip,$result_3_2,PREG_PATTERN_ORDER)) { 
-	// 	    echo "func TEST:  patern_3_2 ненайден или ошибка<br>";
-	// 		// exit();
-	// 		} 		
-		// echo "<br>".Build_tree_arr($result_3_0);
+		for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+			$result_2b[$q] = $result_2a[1][$q];
+			}
+		$result_2 = array_merge($result_2,$result_2b);
+		$w++;
+		$url = 'http://allhyipmon.ru/rating?page='.$w;
+		// // sleep(rand(1,5));
+		sleep(mt_rand(1,5));
+		$page_2 = GetWebPage($url);
+	}while ($w <= $n+$amount_page);		//	для тестов
+		
+	$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
+	if (!$handle) {	// если ошибка
+		echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+		}		
+	$n = $w;
+	$str[1]++;
 
+	$str_2 = $n."\r\n".$str[1];
+	fwrite($handle,$str_2);
 
-	// array_push($result_3,$patern_3_0,$patern_3_1,$patern_3_2);
-	// echo "<br>".Build_tree_arr($result_3);
-
+	echo "<br>*****************<br>".Build_tree_arr($result_2);
 ?>
 
 

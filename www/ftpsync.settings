@@ -2,21 +2,21 @@
 	// HELP / INFO moved to bottom
 	// Remove "//" to uncomment settings directive
 
-	//"default": {		открыть для начала работы 
+	"default": {
 
-	//"host": "hypmon.ftp.ukraine.com.ua",открыть для начала работы
-	//"username": "hypmon_ftp",  // or null for anonymous loginоткрыть для начала работы
-	//"password": "9fs3GyCf",открыть для начала работы
-	//"path": "/hypmon.tk/www",открыть для начала работы
+	//	"host": "hypmon.ftp.ukraine.com.ua",		//	открыть для начала работы
+	//	"username": "hypmon_ftp",  // or null for anonymous login			//	открыть для начала работы
+	//	"password": "9fs3GyCf",		//	открыть для начала работы
+	//	"path": "/hypmon.tk/www",		//	открыть для начала работы
 
-	//"upload_on_save": true, // set *false* if you do not want to upload on save!открыть для начала работы
+	//	"upload_on_save": true, // set *false* if you do not want to upload on save!		//	открыть для начала работы
 
 		// "port": 21,
 		// "tls": false,
 		// "timeout": 30, // [seconds]
 
 		// "passive": true,
-	//"download_on_open": true,открыть для начала работы
+	//	   "download_on_open": true,		//	открыть для начала работы
 		// "overwrite_newer_prevention": true,
 		// "default_folder_permissions": "755",
 		// "default_upload_permissions": null, // null = no action taken
