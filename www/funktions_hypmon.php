@@ -146,69 +146,69 @@
 
 	function GetHypNam_1($amount_starts='',$amount_page=4,$path_name_file='temp.txt',$path_name_folder='TEMP'){
 
-	if (!file_exists($path_name_folder)) {	
-		if (!mkdir($path_name_folder)) {	// если ошибка
-			echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$path_name_folder."&nbsp; не создана";
+		if (!file_exists($path_name_folder)) {	
+			if (!mkdir($path_name_folder)) {	// если ошибка
+				echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$path_name_folder."&nbsp; не создана";
+				}
 			}
-		}
-		$handle = fopen($path_name_folder.'/'.$path_name_file, "a");
-		if (!$handle) {	// если ошибка
-			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+			$handle = fopen($path_name_folder.'/'.$path_name_file, "a");
+			if (!$handle) {	// если ошибка
+				echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+				}
+		
+		$str = file($path_name_folder.'/'.$path_name_file);
+		
+		if ($amount_starts < $str[1]) {
+			$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
+			if (!$handle) {	// если ошибка
+				echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+				}			
+			fwrite($handle,"");
+			echo "<br> Файл запущен &nbsp;".$str[1]."&nbsp; раз";
+			exit();
 			}
-	
-	$str = file($path_name_folder.'/'.$path_name_file);
-	
-	if ($amount_starts < $str[1]) {
+
+		if ($str[0] == '') {
+			$n = 0;
+			}else{
+				$n = trim($str[0]);	
+				}
+		
+		echo "<br>. amount_starts = ".$str[1];
+		echo "<br>. n = ".$n;
+
+		$w = $n;
+		$page_2 = GetWebPage('http://allhyipmon.ru/rating?page='.$w);
+		if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
+		$patern_2 = '#<div>\d{1,5}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
+		$result_2 = array();
+		do{
+			echo "<br>... &nbsp;".$w;
+			if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
+			    echo "func GetHypNam:  patern_2 ненайден или ошибка";
+			    return false;
+				} 
+
+			for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+				$result_2b[$q] = $result_2a[1][$q];
+				}
+			$result_2 = array_merge($result_2,$result_2b);
+			$w++;
+			$url = 'http://allhyipmon.ru/rating?page='.$w;
+			// // sleep(rand(1,5));
+			sleep(mt_rand(1,5));
+			$page_2 = GetWebPage($url);
+		}while ($w <= $n+$amount_page);		//	для тестов
+			
 		$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
 		if (!$handle) {	// если ошибка
 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
-			}			
-		fwrite($handle,"");
-		echo "<br> Файл запущен &nbsp;".$str[1]."&nbsp; раз";
-		exit();
-		}
+			}		
+		$n = $w;
+		$str[1]++;
 
-	if ($str[0] == '') {
-		$n = 0;
-		}else{
-			$n = trim($str[0]);	
-			}
-	
-	echo "<br>. amount_starts = ".$str[1];
-	echo "<br>. n = ".$n;
-
-	$w = $n;
-	$page_2 = GetWebPage('http://allhyipmon.ru/rating?page='.$w);
-	if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
-	$patern_2 = '#<div>\d{1,5}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
-	$result_2 = array();
-	do{
-		echo "<br>... &nbsp;".$w;
-		if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
-		    echo "func GetHypNam:  patern_2 ненайден или ошибка";
-		    return false;
-			} 
-
-		for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-			$result_2b[$q] = $result_2a[1][$q];
-			}
-		$result_2 = array_merge($result_2,$result_2b);
-		$w++;
-		$url = 'http://allhyipmon.ru/rating?page='.$w;
-		// // sleep(rand(1,5));
-		sleep(mt_rand(1,5));
-		$page_2 = GetWebPage($url);
-	}while ($w <= $n+$amount_page);		//	для тестов
-		
-	$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
-	if (!$handle) {	// если ошибка
-		echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
-		}		
-	$n = $w;
-	$str[1]++;
-
-	$str_2 = $n."\r\n".$str[1];
-	fwrite($handle,$str_2);
+		$str_2 = $n."\r\n".$str[1];
+		fwrite($handle,$str_2);
 
         return $result_2;
 		}
@@ -1025,7 +1025,7 @@
 		$str_URL = 'http://allhyipmon.ru/monitor/'.$result_URL[1][0];		// формирую URL страницы подробностей для данного хайпа
 		$page_details = GetWebPage($str_URL);		// получаю страницы подробностей для данного хайпа
 		
-		$patern_1 = '#<tr class="polz".*Минимальный вклад.*;">\$? ?([\d\.]+)<\/b>#';	//	минимальный вклад
+		$patern_1 = '#<tr class="polz".*Минимальный вклад.*;">\$?\s?(\d+\.?\d*).*<\/b>#';	//	минимальный вклад
 			if (!preg_match_all($patern_1,$page_details,$result_1,PREG_PATTERN_ORDER)) { 
 			    // echo "func TEST:  patern_1 ненайден или ошибка";
 				} 	
@@ -1037,14 +1037,14 @@
 				// exit();
 				} 				
 		
-			$patern_2_1 = '#^-? ?(\d+\.?,?\d{0,3})%?#m';								//	процентная ставка
+			$patern_2_1 = '#^-? ?(\d+[\.,]?\d*)%?#m';								//	процентная ставка
 				if (!preg_match_all($patern_2_1,$result_2[1][0],$result_2_1,PREG_PATTERN_ORDER)) { 
 				    // echo "func TEST:  patern_2_1 ненайден или ошибка<br>";
 					// exit();
 					} 	
 				$result_2_1[1] = str_replace('.',',',$result_2_1[1]);									
 		
-			$patern_2_2 = '#^.*([dD]aily|день|[Hh]ourly|[dD]ays?|monthly)#m';			//	периуд мин процентной ставки
+			$patern_2_2 = '#^.*([dD]aily|день|[Hh]ourly|[dD]ays?|monthly)#mi';			//	периуд мин процентной ставки
 				if (!preg_match_all($patern_2_2,$result_2[1][0],$result_2_2,PREG_PATTERN_ORDER)) { 
 				    // echo "func TEST:  patern_2_2 ненайден или ошибка<br>";
 					// exit();
