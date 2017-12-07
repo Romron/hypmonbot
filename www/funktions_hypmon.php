@@ -162,8 +162,13 @@
 		$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
 		if (!$handle) {	// если ошибка
 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
-			}			
-		fwrite($handle,"");
+			}
+		$handle_log = fopen($path_name_folder.'/log.txt', "a");
+		if (!$handle_log) {	// если ошибка
+			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp; log.txt <br>";
+			}
+		$str_log = date("d.m.y H:i:s",time())."\r\n"."amount_starts = ".$str[1]."\r\n"."n = ".$str[0]."\r\n";
+		fwrite($handle_log,$str_log);
 		echo "<br> Файл запущен &nbsp;".$str[1]."&nbsp; раз";
 		exit();
 		}
