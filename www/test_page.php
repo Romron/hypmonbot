@@ -30,7 +30,6 @@
 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
 			}
 	
-	// $str = file_get_contents($path_name_folder.'/'.$path_name_file);
 	$str = file($path_name_folder.'/'.$path_name_file);
 	
 	if ($amount_starts < $str[1]) {
@@ -43,50 +42,47 @@
 		exit();
 		}
 
-
-	// echo '<br>~~~<br>'.$str[0];
-	// echo '<br>//<br>'.Build_tree_arr($str);
 	if ($str[0] == '') {
 		$n = 0;
 		}else{
 			$n = trim($str[0]);	
 			}
+	echo "<br>. amount_starts = ".$str[1];
 	echo "<br>. n = ".$n;
 	$w = $n;
 	$page_2 = GetWebPage('http://allhyipmon.ru/rating?page='.$w);
-		if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
-		$patern_2 = '#<div>\d{1,5}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
-		$result_2 = array();
-		do{
-			echo "<br>... &nbsp;".$w;
-			if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
-			    echo "func GetHypNam:  patern_2 ненайден или ошибка";
-			    return false;
-				} 
+	if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
+	$patern_2 = '#<div>\d{1,5}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
+	$result_2 = array();
+	do{
+		echo "<br>... &nbsp;".$w;
+		if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
+		    echo "func GetHypNam:  patern_2 ненайден или ошибка";
+		    return false;
+			} 
 
-			for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-				$result_2b[$q] = $result_2a[1][$q];
-				}
-			$result_2 = array_merge($result_2,$result_2b);
-			$w++;
-			$url = 'http://allhyipmon.ru/rating?page='.$w;
-			// // sleep(rand(1,5));
-			sleep(mt_rand(1,5));
-			$page_2 = GetWebPage($url);
-		// }while ($n <= 5);		//	рабочий вариант строки
-		}while ($w <= $n+$amount_page);		//	для тестов
-    		
-		$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
-		if (!$handle) {	// если ошибка
-			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
-			}		
-		$n = $w;
-		$str[1]++;
+		for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+			$result_2b[$q] = $result_2a[1][$q];
+			}
+		$result_2 = array_merge($result_2,$result_2b);
+		$w++;
+		$url = 'http://allhyipmon.ru/rating?page='.$w;
+		// // sleep(rand(1,5));
+		sleep(mt_rand(1,5));
+		$page_2 = GetWebPage($url);
+	}while ($w <= $n+$amount_page);		//	для тестов
+		
+	$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
+	if (!$handle) {	// если ошибка
+		echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+		}		
+	$n = $w;
+	$str[1]++;
 
-		$str_2 = $n."\r\n".$str[1];
-		fwrite($handle,$str_2);
+	$str_2 = $n."\r\n".$str[1];
+	fwrite($handle,$str_2);
 
-    	echo "<br>*****************<br>".Build_tree_arr($result_2);
+	echo "<br>*****************<br>".Build_tree_arr($result_2);
 ?>
 
 
