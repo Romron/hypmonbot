@@ -288,52 +288,65 @@
 			
 			// echo "<br><br>".$page;
 
-			$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 		// Популярность - Global - Знач
-				if (!preg_match_all($patern_9,$page,$result_9,PREG_PATTERN_ORDER)) { 
-				    $result_9 = array('0' => '',array('0' => '<p class="err_mess">ptrn_9_ERR</p>'));
-				    // return false;
-					} 	
+				$patern_alexa = '#<span class="col-pad">\n<strong>(We don.t have enough data to rank this website\.)<\/strong><br>#'; 		// для сайтов которых нет в alexa.com
+					if (!preg_match_all($patern_alexa,$page,$result_alexa,PREG_PATTERN_ORDER)) { 
+	 				
+					$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 		// Популярность - Global - Знач
+						if (!preg_match_all($patern_9,$page,$result_9,PREG_PATTERN_ORDER)) { 
+						    $result_9 = array('0' => '',array('0' => '<p class="err_mess">ptrn_9_ERR</p>'));
+						    // return false;
+							} 	
 
-			$patern_10 = '#Rank in\W*<a.*>(.*)</a>#sU'; 									// Популярность - Rank in country - Страна
-				if (!preg_match_all($patern_10,$page,$result_10,PREG_PATTERN_ORDER)) { 
-				    $result_10 = array('0' => '',array('0' => '<p class="err_mess">ptrn_10_ERR</p>'));
-				    // return false;
-					} 	
+					$patern_10 = '#Rank in\W*<a.*>(.*)</a>#sU'; 									// Популярность - Rank in country - Страна
+						if (!preg_match_all($patern_10,$page,$result_10,PREG_PATTERN_ORDER)) { 
+						    $result_10 = array('0' => '',array('0' => '<p class="err_mess">ptrn_10_ERR</p>'));
+						    // return false;
+							} 	
 
-			$patern_11 = '#class="countryRank".*pcache.alexa.com\/images\/flags.*>(.*)</strong>#sU'; 		
-				if (!preg_match_all($patern_11,$page,$result_11,PREG_PATTERN_ORDER)) { 
-				    $result_11 = array('0' => '',array('0' => '<p class="err_mess">ptrn_11_ERR</p>'));
-				    // return false;
-					} 
+					$patern_11 = '#class="countryRank".*pcache.alexa.com\/images\/flags.*>(.*)</strong>#sU'; 		
+						if (!preg_match_all($patern_11,$page,$result_11,PREG_PATTERN_ORDER)) { 
+						    $result_11 = array('0' => '',array('0' => '<p class="err_mess">ptrn_11_ERR</p>'));
+						    // return false;
+							} 
 
-			$patern_12 = '#Bounce Rate.*vmiddle">(.*)</strong>#sU'; 						//	Активность пользователей - Показатель отказов
-				if (!preg_match_all($patern_12,$page,$result_12,PREG_PATTERN_ORDER)) { 
-				    $result_12 = array('0' => '',array('0' => '<p class="err_mess">ptrn_12_ERR</p>'));
-				    // return false;
-					} 	
+					$patern_12 = '#Bounce Rate.*vmiddle">(.*)</strong>#sU'; 						//	Активность пользователей - Показатель отказов
+						if (!preg_match_all($patern_12,$page,$result_12,PREG_PATTERN_ORDER)) { 
+						    $result_12 = array('0' => '',array('0' => '<p class="err_mess">ptrn_12_ERR</p>'));
+						    // return false;
+							} 	
 
-			$patern_13 = '#h4 class="metrics-title">Daily Pageviews per Visitor.*align-vmiddle">(.*)<#sU'; 
-				if (!preg_match_all($patern_13,$page,$result_13,PREG_PATTERN_ORDER)) { 			// Активность пользователей - Страниц за везит
-				    $result_13 = array('0' => '',array('0' => '<p class="err_mess">ptrn_13_ERR</p>'));
-				    // return false;
-					} 	
+					$patern_13 = '#h4 class="metrics-title">Daily Pageviews per Visitor.*align-vmiddle">(.*)<#sU'; 
+						if (!preg_match_all($patern_13,$page,$result_13,PREG_PATTERN_ORDER)) { 			// Активность пользователей - Страниц за везит
+						    $result_13 = array('0' => '',array('0' => '<p class="err_mess">ptrn_13_ERR</p>'));
+						    // return false;
+							} 	
 
-			$patern_14 = '#h4 class="metrics-title">Daily Time on Site.*align-vmiddle">(.*)<#sU'; 
-				if (!preg_match_all($patern_14,$page,$result_14,PREG_PATTERN_ORDER)) { 			// Активность пользователей - Ср. продолжит визита, м-с
-				    $result_14 = array('0' => '',array('0' => '<p class="err_mess">ptrn_14_ERR</p>'));
-					}
+					$patern_14 = '#h4 class="metrics-title">Daily Time on Site.*align-vmiddle">(.*)<#sU'; 
+						if (!preg_match_all($patern_14,$page,$result_14,PREG_PATTERN_ORDER)) { 			// Активность пользователей - Ср. продолжит визита, м-с
+						    $result_14 = array('0' => '',array('0' => '<p class="err_mess">ptrn_14_ERR</p>'));
+							}
 
-			$patern_15 = '#Search Visits.*vmiddle">(.*)</strong>#sU'; 
-				if (!preg_match_all($patern_15,$page,$result_15,PREG_PATTERN_ORDER)) { 			// Процент поискового трафика
-				    $result_15 = array('0' => '',array('0' => '<p class="err_mess">ptrn_15_ERR</p>'));
-				    // return false;
-					} 	
+					$patern_15 = '#Search Visits.*vmiddle">(.*)</strong>#sU'; 
+						if (!preg_match_all($patern_15,$page,$result_15,PREG_PATTERN_ORDER)) { 			// Процент поискового трафика
+						    $result_15 = array('0' => '',array('0' => '<p class="err_mess">ptrn_15_ERR</p>'));
+						    // return false;
+							} 	
 
-			$patern_16 = '#Total Sites Linking In.*box1-r">(.*)</s#sU'; 
-				if (!preg_match_all($patern_16,$page,$result_16,PREG_PATTERN_ORDER)) { 			// Процент поискового трафика
-				    $result_16 = array('0' => '',array('0' => '<p class="err_mess">ptrn_16_ERR</p>'));
-				    // return false;
-					} 	
+					$patern_16 = '#Total Sites Linking In.*box1-r">(.*)</s#sU'; 
+						if (!preg_match_all($patern_16,$page,$result_16,PREG_PATTERN_ORDER)) { 			// Процент поискового трафика
+						    $result_16 = array('0' => '',array('0' => '<p class="err_mess">ptrn_16_ERR</p>'));
+						    // return false;
+							} 
+					}else{
+						$result_9[1] = "-";
+						$result_10[1] = "-";
+						$result_11[1] = "-";
+						$result_12[1] = "-";
+						$result_13[1] = "-";
+						$result_14[1] = "-";
+						$result_15[1] = "-";
+						$result_16[1] = "-";
+						}						
 
 		// $page = GetWebPage('https://www.nic.ru/whois/?query='.$URL_hyp);	
 		$page = GetWebPage('http://hoston.com.ua/domains/whois?domain='.$URL_hyp);	
