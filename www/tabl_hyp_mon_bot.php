@@ -244,13 +244,14 @@
 		echo "<br> Установлено максимальное время выполнения скрипта &nbsp-&nbsp".ini_get('max_execution_time')."&nbsp сек.";
 		echo "<br> Объём оперативной память выделенный скрипту &nbsp-&nbsp &nbsp".$arr_ini[memory_limit][global_value];
 		echo "<br> Объём оперативной память занимаемый скриптом &nbsp-&nbsp".round((memory_get_usage()/1000000),2)."M";
-			echo "<br>******";
+		$link_DB = conect_DB();		// наполнение результатами БД
+		echo "<br>В базе данных выбрана таблица: &nbsp;&nbsp;".$name_table."<br><br>";	
+		echo "<br>******";
 
 
 		$ArrNameHyp = GetHypNam_1(1,5);
 
 		
-		$link_DB = conect_DB();		// наполнение результатами БД
 		// queryInputIntoDB($link_DB,$ArrNameHyp);
 		
 		

@@ -418,7 +418,7 @@
 	    if (mysqli_connect_errno()) {
 	    	echo "<br> Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
 	    	}else{
-	    	echo '<br> Соединение с базой данных установлено... ' . mysqli_get_host_info($link_DB) . "<br><br>";
+	    	echo '<br> Соединение с базой данных установлено... ' . mysqli_get_host_info($link_DB) . "<br>";
 	    	}
 	    return $link_DB;	
 		}
@@ -575,6 +575,170 @@
 			$active_sheet->getPageMargins()->setRight(0.1);
 			$active_sheet->getPageMargins()->setLeft(0.1);
 			$active_sheet->setTitle("SEO параметры");
+
+		// Форматирование (задание стилей) таблицы начало 
+			$active_sheet->getRowDimension('4')->setRowHeight(45);		//	устанавливаем высоту строк
+			$style_all_table = array(		//	стили для всей таблицы
+				'borders'=>array(
+					'outline'=>array(
+						'style'=>PHPExcel_Style_Border::BORDER_THICK
+						),
+					'allborders'=>array(
+						'style'=>PHPExcel_Style_Border::BORDER_THIN,
+						'color'=>array(
+							'rgb'=>'000000'
+							)
+						)
+					),
+				'font'=>array(
+					'name'=>'Times New Roman',
+					// 'size'=>10,
+					'indent'=>1
+					),
+				'alignment'=>array(
+					'horizontal'=>PHPExcel_STYLE_ALIGNMENT::HORIZONTAL_CENTER,
+					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER,
+					'rotation'=>0
+					)								
+				);
+				$active_sheet->getStyle('A1:AI'.($i-1))->applyFromArray($style_all_table);
+
+			$style_header = array(		//	стили для шапки таблицы
+				'font'=>array(
+					'bold'=>true,
+					'name'=>'Times New Roman',
+					'size'=>12
+					),
+				);
+				$active_sheet->getStyle('A1:AI5')->applyFromArray($style_header);
+			$active_sheet->freezePane('A6');	//	закрепляем шапку т.е. всё что выше и левее указаной ячейки будет зафиксировано
+
+			$style_vertical_text = array(		//	стили для вертикального текста
+				'alignment'=>array(
+					'rotation'=>90
+					),
+				'font'=>array(
+					'size'=>8
+					)												
+				);
+				$active_sheet->getStyle('E2')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('J2')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('L3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('M3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('Q3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('R3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('S3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('T2')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('U2')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('Y3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('Z4')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AC4')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AD3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AE3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AF3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AG3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AH3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AI3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AA4')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AB4')->applyFromArray($style_vertical_text);	
+			
+			$style_left_text = array(		//	стили для ячеек с выравниванием по левому краю
+				'alignment'=>array(
+					'horizontal'=>PHPExcel_STYLE_ALIGNMENT::HORIZONTAL_LEFT
+					)								
+				);
+				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_left_text);							
+				$active_sheet->getStyle('D6:D'.($i-1))->applyFromArray($style_left_text);							
+		
+			$style_text_small_size = array(		//	стили для ячеек с маленьким размером текста 
+				'font'=>array(
+					'size'=>8
+					),								
+				);
+				$active_sheet->getStyle('A5:AI5')->applyFromArray($style_text_small_size);
+				$active_sheet->getStyle('K5:K'.($i-1))->applyFromArray($style_text_small_size);
+
+			// $style_text_large_size = array(		//	стили для ячеек с большим размером текста 
+			// 	'font'=>array(
+			// 		'size'=>14
+			// 		),								
+			// 	);
+			// 	$active_sheet->getStyle('D5:D'.($i-1))->applyFromArray($style_text_large_size);
+
+			$style_line_wrap = array(		//	стили для ячеек с переносом строк
+				'alignment'=>array(
+					'wrap'=> TRUE,
+					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER
+					)								
+				);
+				$active_sheet->getStyle('A1:AI'.($i-1))->applyFromArray($style_line_wrap);				
+		
+			$style_cell_fill = array(		//	стили для ячеек с заливкой
+				'fill'=>array(	
+					'type'       => PHPExcel_Style_Fill::FILL_SOLID,
+					'color'   => array(
+						'rgb' => 'D5FBF0'
+						)
+					)
+				);
+				$active_sheet->getStyle('E2:E'.($i-1))->applyFromArray($style_cell_fill);
+				$active_sheet->getStyle('J2:J'.($i-1))->applyFromArray($style_cell_fill);
+				$active_sheet->getStyle('N2:N'.($i-1))->applyFromArray($style_cell_fill);
+				$active_sheet->getStyle('Q2:Q'.($i-1))->applyFromArray($style_cell_fill);
+				$active_sheet->getStyle('T2:T'.($i-1))->applyFromArray($style_cell_fill);
+
+			$style_text_color = array(		//	стили для ячеек с текстом выделенным отдельным цветом
+				'font'=>array(
+					'color'   => array(
+						'rgb' => '195912'
+						)
+					),							
+				);
+				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color);
+
+			$active_sheet->getStyle('N6:N'.($i-1))->getNumberFormat()->setFormatCode('#,##0');	//	разделяем группы разрядов
+			$active_sheet->getStyle('J6:J'.($i-1))->getNumberFormat()->setFormatCode('#,##0');	
+
+			//	Скрываем столбцы
+			$active_sheet->getColumnDimension('A')->setVisible(true);
+			$active_sheet->getColumnDimension('B')->setVisible(false);
+
+			// групируем столбцы 
+				$active_sheet->getColumnDimension('V')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('W')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('X')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('V')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('W')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('X')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('Y')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
+
+				$active_sheet->getColumnDimension('F')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('G')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('H')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('I')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('F')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('G')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('H')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('I')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('J')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
+
+				$active_sheet->getColumnDimension('O')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('P')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('O')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('P')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('Q')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока	
+
+				$active_sheet->getColumnDimension('K')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('L')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('M')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('K')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('L')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('M')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('N')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока			
+
+			//	устанока фильтров
+			$active_sheet->setAutoFilter('E5:AI5');
+		// Форматирование (задание стилей) таблицы конец 		
 
 		//	устанавливаем ширину колонок для всей таблицы, автоматическая ширина для интервалов типа А:Х не действует!!?? 	
 			$active_sheet->getColumnDimension('A')->setWidth(22);
@@ -752,14 +916,21 @@
 						$active_sheet->getRowDimension($i-1)->setOutlineLevel(1);		//	Какая строка и на какой уровень свернуть
 						$active_sheet->getRowDimension($i-1)->setVisible(false);		//	Скрыть свёрнутую строку
 						// $active_sheet->setShowSummaryBelow(false);					//	указатель свёрнутой строки, крестик, сверху тогда на виду оста'ться первая строка блока, '
-						if ($q == 0) {								//	Cтили первой строки блока
+						if ($q == 0) {								//	т.е. это первая строка блока. Cтили первой строки блока
 							$n_first_row = $i-1;	// номер первой строки объединяемых ячеек
+							$style_block = array(
+								'borders' => array(
+									'outline' => array(
+										'style' => PHPExcel_Style_Border::BORDER_THICK,
+										'color' => array('rgb' => 'FF0000'),
+										),
+									),
+								);		
 							$style_first_str_block = array(		
 								'font'=>array(
 									'bold'=>true,
 									'size'=>10,
 									'color'   => array(
-										// 'rgb' => '0F0DD3'
 										'rgb' => '3C7BAF'
 										),								
 									),
@@ -784,22 +955,15 @@
 							);						
 						$active_sheet->getStyle('C'.$i.':X'.$i)->applyFromArray($style_str_in_middle_block);							
 						$q = 1;
-					}elseif ($q != 0) {
+					}elseif ($q != 0) {		// это строка следующая за блоком
 						$active_sheet->getRowDimension($i)->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
 						$q = 0;
-						//	Cтили последней строки блока  сдесь проверять текущий статус проэкта: OK, PROBLEM, SCAM
-						if ($PROBLEM == 1) {
-							# code...
-							}elseif ($SCAM == 1) {
-							# code...
-							}else{
+						//	Cтили последней строки блока.  Сдесь проверять текущий статус проэкта: OK, PROBLEM, SCAM
+
 								$style_last_str_block = array(		
 									'font'=>array(
 										'bold'=>true,
-										'size'=>10,
-										'color'   => array(
-											'rgb' => '000000'
-											),								
+										'size'=>10					
 										),
 									);
 								$style_last_str_cell_date = array(		
@@ -809,9 +973,39 @@
 									);
 								$active_sheet->getStyle('C'.($i-1).':X'.($i-1))->applyFromArray($style_last_str_block);						
 								$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_last_str_cell_date);									
-								}
+								// }
 							$active_sheet->mergeCells('D'.$n_first_row.':'.'D'.($i-1));
+							$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_block);									
+						
+
 						}
+
+
+						if ($item['Min_deposit'] == "skam") {
+								
+								$style_last_str_block_skam = array(		
+									'font'=>array(
+										'bold'=>true,
+										'size'=>10,
+										'color'   => array(
+											'rgb' => 'EE1111'
+											),								
+										),
+									);
+								$style_last_str_cell_date_skam = array(		
+									'font'=>array(
+										'size'=>11,
+										'color'   => array(
+											'rgb' => 'EE1111'
+											),											
+										),
+									);
+								
+								$active_sheet->getStyle('C'.($i).':AI'.($i))->applyFromArray($style_last_str_block_skam);						
+								$active_sheet->getStyle('C'.($i).':E'.($i))->applyFromArray($style_last_str_cell_date_skam);									
+							}
+
+
 				$active_sheet->setCellValue('E'.$row_next,$item['cy']);
 				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_pc']);
 				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_dynamics']);
@@ -848,169 +1042,8 @@
 				}
 		// заполняем тело таблицы конец
 
-		// Форматирование (задание стилей) таблицы начало 
-			$active_sheet->getRowDimension('4')->setRowHeight(45);		//	устанавливаем высоту строк
-			$style_all_table = array(		//	стили для всей таблицы
-				'borders'=>array(
-					'outline'=>array(
-						'style'=>PHPExcel_Style_Border::BORDER_THICK
-						),
-					'allborders'=>array(
-						'style'=>PHPExcel_Style_Border::BORDER_THIN,
-						'color'=>array(
-							'rgb'=>'000000'
-							)
-						)
-					),
-				'font'=>array(
-					'name'=>'Times New Roman',
-					// 'size'=>10,
-					'indent'=>1
-					),
-				'alignment'=>array(
-					'horizontal'=>PHPExcel_STYLE_ALIGNMENT::HORIZONTAL_CENTER,
-					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER,
-					'rotation'=>0
-					)								
-				);
-				$active_sheet->getStyle('A1:AI'.($i-1))->applyFromArray($style_all_table);
 
-			$style_header = array(		//	стили для шапки таблицы
-				'font'=>array(
-					'bold'=>true,
-					'name'=>'Times New Roman',
-					'size'=>12
-					),
-				);
-				$active_sheet->getStyle('A1:AI5')->applyFromArray($style_header);
-			$active_sheet->freezePane('A6');	//	закрепляем шапку т.е. всё что выше и левее указаной ячейки будет зафиксировано
 
-			$style_vertical_text = array(		//	стили для вертикального текста
-				'alignment'=>array(
-					'rotation'=>90
-					),
-				'font'=>array(
-					'size'=>8
-					)												
-				);
-				$active_sheet->getStyle('E2')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('J2')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('L3')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('M3')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('Q3')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('R3')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('S3')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('T2')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('U2')->applyFromArray($style_vertical_text);	
-				$active_sheet->getStyle('Y3')->applyFromArray($style_vertical_text);	
-				$active_sheet->getStyle('Z4')->applyFromArray($style_vertical_text);	
-				$active_sheet->getStyle('AC4')->applyFromArray($style_vertical_text);	
-				$active_sheet->getStyle('AD3')->applyFromArray($style_vertical_text);	
-				$active_sheet->getStyle('AE3')->applyFromArray($style_vertical_text);	
-				$active_sheet->getStyle('AF3')->applyFromArray($style_vertical_text);	
-				$active_sheet->getStyle('AG3')->applyFromArray($style_vertical_text);	
-				$active_sheet->getStyle('AH3')->applyFromArray($style_vertical_text);	
-				$active_sheet->getStyle('AI3')->applyFromArray($style_vertical_text);	
-				$active_sheet->getStyle('AA4')->applyFromArray($style_vertical_text);	
-				$active_sheet->getStyle('AB4')->applyFromArray($style_vertical_text);	
-			
-			$style_left_text = array(		//	стили для ячеек с выравниванием по левому краю
-				'alignment'=>array(
-					'horizontal'=>PHPExcel_STYLE_ALIGNMENT::HORIZONTAL_LEFT
-					)								
-				);
-				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_left_text);							
-				$active_sheet->getStyle('D6:D'.($i-1))->applyFromArray($style_left_text);							
-		
-			$style_text_small_size = array(		//	стили для ячеек с маленьким размером текста 
-				'font'=>array(
-					'size'=>8
-					),								
-				);
-				$active_sheet->getStyle('A5:AI5')->applyFromArray($style_text_small_size);
-				$active_sheet->getStyle('K5:K'.($i-1))->applyFromArray($style_text_small_size);
-
-			// $style_text_large_size = array(		//	стили для ячеек с большим размером текста 
-			// 	'font'=>array(
-			// 		'size'=>14
-			// 		),								
-			// 	);
-			// 	$active_sheet->getStyle('D5:D'.($i-1))->applyFromArray($style_text_large_size);
-
-			$style_line_wrap = array(		//	стили для ячеек с переносом строк
-				'alignment'=>array(
-					'wrap'=> TRUE,
-					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER
-					)								
-				);
-				$active_sheet->getStyle('A1:AI'.($i-1))->applyFromArray($style_line_wrap);				
-		
-			$style_cell_fill = array(		//	стили для ячеек с заливкой
-				'fill'=>array(	
-					'type'       => PHPExcel_Style_Fill::FILL_SOLID,
-					'color'   => array(
-						'rgb' => 'D5FBF0'
-						)
-					)
-				);
-				$active_sheet->getStyle('E2:E'.($i-1))->applyFromArray($style_cell_fill);
-				$active_sheet->getStyle('J2:J'.($i-1))->applyFromArray($style_cell_fill);
-				$active_sheet->getStyle('N2:N'.($i-1))->applyFromArray($style_cell_fill);
-				$active_sheet->getStyle('Q2:Q'.($i-1))->applyFromArray($style_cell_fill);
-				$active_sheet->getStyle('T2:T'.($i-1))->applyFromArray($style_cell_fill);
-
-			$style_text_color = array(		//	стили для ячеек с текстом выделенным отдельным цветом
-				'font'=>array(
-					'color'   => array(
-						'rgb' => '195912'
-						)
-					),							
-				);
-				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color);
-
-			$active_sheet->getStyle('N6:N'.($i-1))->getNumberFormat()->setFormatCode('#,##0');	//	разделяем группы разрядов
-			$active_sheet->getStyle('J6:J'.($i-1))->getNumberFormat()->setFormatCode('#,##0');	
-
-			//	Скрываем столбцы
-			$active_sheet->getColumnDimension('A')->setVisible(true);
-			$active_sheet->getColumnDimension('B')->setVisible(false);
-
-			// групируем столбцы 
-				$active_sheet->getColumnDimension('V')->setOutlineLevel(1);
-				$active_sheet->getColumnDimension('W')->setOutlineLevel(1);
-				$active_sheet->getColumnDimension('X')->setOutlineLevel(1);
-				$active_sheet->getColumnDimension('V')->setVisible(false);		//	Скрыть свёрнутую строку
-				$active_sheet->getColumnDimension('W')->setVisible(false);		//	Скрыть свёрнутую строку
-				$active_sheet->getColumnDimension('X')->setVisible(false);		//	Скрыть свёрнутую строку
-				$active_sheet->getColumnDimension('Y')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
-
-				$active_sheet->getColumnDimension('F')->setOutlineLevel(1);
-				$active_sheet->getColumnDimension('G')->setOutlineLevel(1);
-				$active_sheet->getColumnDimension('H')->setOutlineLevel(1);
-				$active_sheet->getColumnDimension('I')->setOutlineLevel(1);
-				$active_sheet->getColumnDimension('F')->setVisible(false);		//	Скрыть свёрнутую строку
-				$active_sheet->getColumnDimension('G')->setVisible(false);		//	Скрыть свёрнутую строку
-				$active_sheet->getColumnDimension('H')->setVisible(false);		//	Скрыть свёрнутую строку
-				$active_sheet->getColumnDimension('I')->setVisible(false);		//	Скрыть свёрнутую строку
-				$active_sheet->getColumnDimension('J')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
-
-				$active_sheet->getColumnDimension('O')->setOutlineLevel(1);
-				$active_sheet->getColumnDimension('P')->setOutlineLevel(1);
-				$active_sheet->getColumnDimension('O')->setVisible(false);		//	Скрыть свёрнутую строку
-				$active_sheet->getColumnDimension('P')->setVisible(false);		//	Скрыть свёрнутую строку
-				$active_sheet->getColumnDimension('Q')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока	
-
-				$active_sheet->getColumnDimension('K')->setOutlineLevel(1);
-				$active_sheet->getColumnDimension('L')->setOutlineLevel(1);
-				$active_sheet->getColumnDimension('M')->setOutlineLevel(1);
-				$active_sheet->getColumnDimension('K')->setVisible(false);		//	Скрыть свёрнутую строку
-				$active_sheet->getColumnDimension('L')->setVisible(false);		//	Скрыть свёрнутую строку
-				$active_sheet->getColumnDimension('M')->setVisible(false);		//	Скрыть свёрнутую строку
-				$active_sheet->getColumnDimension('N')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока			
-
-			//	устанока фильтров
-			$active_sheet->setAutoFilter('E5:AI5');
-		// Форматирование (задание стилей) таблицы конец 		
 
 		//	даём команду браузеру отдать на скачивание файл в формате эксель, указываем его имя и даём команду сохранить
 		// header("Content-Type:application/vnd.ms-excel");
@@ -1038,42 +1071,56 @@
 		$str_URL = 'http://allhyipmon.ru/monitor/'.$result_URL[1][0];		// формирую URL страницы подробностей для данного хайпа
 		$page_details = GetWebPage($str_URL);		// получаю страницы подробностей для данного хайпа
 		
-		$patern_1 = '#<tr class="polz".*Минимальный вклад.*;">\$?\s?(\d+\.?\d*).*<\/b>#';	//	минимальный вклад
-			if (!preg_match_all($patern_1,$page_details,$result_1,PREG_PATTERN_ORDER)) { 
-			    // echo "func TEST:  patern_1 ненайден или ошибка";
-				} 	
-			$result_1[1] = str_replace('.',',',$result_1[1]);								
-	
-		$patern_2 = '#<td>Планы:<\/td><td><b style="color:\#155a9e;">(.*)<\/b>#';		//	остальные фин паказатели
-			if (!preg_match_all($patern_2,$page_details,$result_2,PREG_PATTERN_ORDER)) { 
-			    // echo "func TEST:  patern_2 ненайден или ошибка";
-				// exit();
-				} 				
 		
-			$patern_2_1 = '#^-? ?(\d+[\.,]?\d*)%?#m';								//	процентная ставка
-				if (!preg_match_all($patern_2_1,$result_2[1][0],$result_2_1,PREG_PATTERN_ORDER)) { 
-				    // echo "func TEST:  patern_2_1 ненайден или ошибка<br>";
-					// exit();
+
+
+		$patern_0 = '#<img alt="" src="\/skam\.png" style="padding-right:15px;"><font style="color:red;" size="\+1">НЕ ПЛАТИТ<#';	//	если скам
+			if (!preg_match_all($patern_0,$page_details,$result_0,PREG_PATTERN_ORDER)) { 
+				
+
+			$patern_1 = '#<tr class="polz".*Минимальный вклад.*;">\$?\s?(\d+\.?\d*).*<\/b>#';	//	минимальный вклад
+				if (!preg_match_all($patern_1,$page_details,$result_1,PREG_PATTERN_ORDER)) { 
+				    // echo "func TEST:  patern_1 ненайден или ошибка";
 					} 	
-				$result_2_1[1] = str_replace('.',',',$result_2_1[1]);									
+				$result_1[1] = str_replace('.',',',$result_1[1]);								
 		
-			$patern_2_2 = '#^.*([dD]aily|день|[Hh]ourly|[dD]ays?|monthly)#mi';			//	периуд мин процентной ставки
-				if (!preg_match_all($patern_2_2,$result_2[1][0],$result_2_2,PREG_PATTERN_ORDER)) { 
-				    // echo "func TEST:  patern_2_2 ненайден или ошибка<br>";
+			$patern_2 = '#<td>Планы:<\/td><td><b style="color:\#155a9e;">(.*)<\/b>#';		//	остальные фин паказатели
+				if (!preg_match_all($patern_2,$page_details,$result_2,PREG_PATTERN_ORDER)) { 
+				    // echo "func TEST:  patern_2 ненайден или ошибка";
 					// exit();
-					} 	
-	
-			$patern_2_3 = '#^.*(?:(?:в день)|на|[Ff]or|to) +(\d{0,}(бессрочно)?)#m';	//	Мин. срок вклада
-				if (!preg_match_all($patern_2_3,$result_2[1][0],$result_2_3,PREG_PATTERN_ORDER)) { 
-				    // echo "func TEST:  patern_2_2_2 ненайден или ошибка<br>";
-					// exit();
-					} 	
-	
-			$patern_2_4 = '#^.*\d+ +(день|дней|дня|days?|hours?|года?|months?)#mi';		//	час,  день, неделя...
-				if (!preg_match_all($patern_2_4,$result_2[1][0],$result_2_4,PREG_PATTERN_ORDER)) { 
-				    // echo "func TEST:  patern_2_2_4 ненайден или ошибка<br>";
-					// exit();
-					} 	
+					} 				
+			
+				$patern_2_1 = '#^-? ?(\d+[\.,]?\d*)%?#m';								//	процентная ставка
+					if (!preg_match_all($patern_2_1,$result_2[1][0],$result_2_1,PREG_PATTERN_ORDER)) { 
+					    // echo "func TEST:  patern_2_1 ненайден или ошибка<br>";
+						// exit();
+						} 	
+					$result_2_1[1] = str_replace('.',',',$result_2_1[1]);									
+			
+				$patern_2_2 = '#^.*([dD]aily|день|[Hh]ourly|[dD]ays?|monthly)#mi';			//	периуд мин процентной ставки
+					if (!preg_match_all($patern_2_2,$result_2[1][0],$result_2_2,PREG_PATTERN_ORDER)) { 
+					    // echo "func TEST:  patern_2_2 ненайден или ошибка<br>";
+						// exit();
+						} 	
+		
+				$patern_2_3 = '#^.*(?:(?:в день)|на|[Ff]or|to) +(\d{0,}(бессрочно)?)#m';	//	Мин. срок вклада
+					if (!preg_match_all($patern_2_3,$result_2[1][0],$result_2_3,PREG_PATTERN_ORDER)) { 
+					    // echo "func TEST:  patern_2_2_2 ненайден или ошибка<br>";
+						// exit();
+						} 	
+		
+				$patern_2_4 = '#^.*\d+ +(день|дней|дня|days?|hours?|года?|months?)#mi';		//	час,  день, неделя...
+					if (!preg_match_all($patern_2_4,$result_2[1][0],$result_2_4,PREG_PATTERN_ORDER)) { 
+					    // echo "func TEST:  patern_2_2_4 ненайден или ошибка<br>";
+						// exit();
+						} 	
+			}else{	
+				$result_1[1][0] = "skam";
+				$result_2_1[1][0] = "";
+				$result_2_2[1][0] = "";
+				$result_2_3[1][0] = "";
+				$result_2_4[1][0] = "";
+				}
 
 		array_push($arr_result,$result_1[1][0],$result_2_1[1][0],$result_2_2[1][0],$result_2_3[1][0],$result_2_4[1][0]);
 		array_push($arr_fin_param_hyp,$arr_result);
