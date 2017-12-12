@@ -212,7 +212,10 @@
 			sleep(mt_rand(1,5));
 			$page_2 = GetWebPage($url);
 		}while ($w <= $n+$amount_page);		//	для тестов
-			
+
+		$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
+		array_unshift($result_2, $result_2c);
+
 		$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
 		if (!$handle) {	// если ошибка
 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
