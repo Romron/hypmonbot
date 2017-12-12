@@ -402,8 +402,12 @@
 
 		$arr_param_hyp = array_merge($result_0[1],$result_1[1],$result_2[1],$result_3[1],$result_4[1],$result_5[1],$result_6[1],$result_7[1],$result_8[1],$result_9[1],$result_10[1],$result_11[1],$result_12[1],$result_13[1],$result_14[1],$result_15[1],$result_16[1],$result_17[1],$result_18[1],$result_19[1]);
 
+		for ($e=0; $e < count($arr_param_hyp); $e++) { 
+			$arr_param_hyp[$e] = str_replace("'","_",$arr_param_hyp[$e]);
+		}
+		
 		for ($i=count($arr_param_hyp); $i < 20; $i++) { 
-			array_push($arr_param_hyp, 'X');
+			array_push($arr_param_hyp, ' ');
 			}
 
 
