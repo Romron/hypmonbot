@@ -235,6 +235,13 @@
 		ignore_user_abort(true);	// Игнорирует отключение пользователя 
 		set_time_limit(0);			// позволяет скрипту быть запущенным постоянно
 
+		$handle_log = fopen('TEMP/log.txt', "a");		// Открываем (создаём) лог файл хендел этого файла должен быть ГЛОБАЛЬНОЙ переменной
+			if (!$handle_log) {	// если ошибка
+				echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp; log.txt <br>";
+				}
+		$str_log = "\r\n\r\n".date("d.m.y H:i:s",time())."  ЗАПУСК СКРИПТА \r\n";
+			fwrite($handle_log,$str_log);
+
 		// ini_set ('max_execution_time',1800);	//	время выполнения скрипта не более 30 мин
 		$arr_ini = ini_get_all();
 		// ini_set('display_errors', TRUE);
@@ -247,12 +254,11 @@
 			echo "<br>******";
 
 
-		$ArrNameHyp = GetHypNam_1(76,5);
+		$ArrNameHyp = GetHypNam_1(76,5);		// рабочий вариант
+		// $ArrNameHyp = GetHypNam_1(3,2);		// для тестов
 
 		
 		$link_DB = conect_DB();		// наполнение результатами БД
-		// queryInputIntoDB($link_DB,$ArrNameHyp);
-		
 		
 		// наполнение результатами таблицы на html странице 
 		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
@@ -294,7 +300,7 @@
 					
 					queryInputIntoDB($name_table,$link_DB,$HypMonName,$result_str_name_site[1][0],$ArrParamHype);
 					
-					for ($q=0; $q < 31; $q++) { 
+					for ($q=0; $q < 32; $q++) { 
 						echo "<td>";
 					if (strpos($ArrParamHype[$q],"ERR")) { 
 							echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
@@ -307,6 +313,9 @@
 			}
 		mysqli_close($link_DB);
 		
+		$str_log = date("d.m.y H:i:s",time())."  КОНЕЦ РАБОТЫ СКРИПТА";
+		fwrite($handle_log,$str_log);
+
 		echo "<br>======";
 		echo "<br> Конец работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time())."<br><br>";
 

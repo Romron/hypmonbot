@@ -146,77 +146,85 @@
 
 	function GetHypNam_1($amount_starts='',$amount_page=4,$path_name_file='temp.txt',$path_name_folder='TEMP'){
 
-	if (!file_exists($path_name_folder)) {	
-		if (!mkdir($path_name_folder)) {	// если ошибка
-			echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$path_name_folder."&nbsp; не создана";
+		global $handle_log;
+
+		if (!file_exists($path_name_folder)) {	
+			if (!mkdir($path_name_folder)) {	// если ошибка
+				echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$path_name_folder."&nbsp; не создана";
+				}
 			}
-		}
-		$handle = fopen($path_name_folder.'/'.$path_name_file, "a");
-		if (!$handle) {	// если ошибка
-			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+			$handle = fopen($path_name_folder.'/'.$path_name_file, "a");
+			if (!$handle) {	// если ошибка
+				echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+				}
+		
+		$str = file($path_name_folder.'/'.$path_name_file);
+		$str[1]++;
+
+		echo "<br>";
+		echo Build_tree_arr($str);
+
+
+		if ($amount_starts < $str[1]) {
+			// $handle = fopen($path_name_folder.'/'.$path_name_file, "w");
+			// if (!$handle) {	// если ошибка
+			// 	echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+			// 	}
+					
+			$str_log = date("\tH:i:s",time())." ".__FUNCTION__.":\r\n".
+				"\t\tamount_starts = ".$str[1]."\r\n".
+				"\t\tn = ".$str[0].
+				"\tРабота скрипта завершина\r\n";
+
+			fwrite($handle_log,$str_log);
+			echo "<br> Файл запущен &nbsp;".$str[1]."&nbsp; раз <br><br>";
+			exit();
 			}
-	
-	$str = file($path_name_folder.'/'.$path_name_file);
-	
-	if ($amount_starts < $str[1]) {
+
+		if ($str[0] == '') {
+			$n = 0;
+			}else{
+				$n = trim($str[0]);	
+				}
+		
+		echo "<br>. amount_starts = ".$str[1];
+		echo "<br>. n = ".$n."<br>";
+
+		$w = $n;
+		$page_2 = GetWebPage('http://allhyipmon.ru/rating?page='.$w);
+		if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
+		$patern_2 = '#<div>\d{1,5}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
+		$result_2 = array();
+		do{
+			echo "<br> обработана страница № &nbsp;".$w;
+			if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
+			    echo "func GetHypNam:  patern_2 ненайден или ошибка";
+			    return false;
+				} 
+
+			for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+				$result_2b[$q] = $result_2a[1][$q];
+				}
+			$result_2 = array_merge($result_2,$result_2b);
+			$w++;
+			$url = 'http://allhyipmon.ru/rating?page='.$w;
+			// // sleep(rand(1,5));
+			sleep(mt_rand(1,5));
+			$page_2 = GetWebPage($url);
+		}while ($w <= $n+$amount_page);		//	для тестов
+			
 		$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
 		if (!$handle) {	// если ошибка
 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+			}		
+		$n = $w;
+
+
+		$str_2 = $n."\r\n".$str[1];
+		fwrite($handle,$str_2);
+
+	        return $result_2;
 			}
-		$handle_log = fopen($path_name_folder.'/log.txt', "a");
-		if (!$handle_log) {	// если ошибка
-			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp; log.txt <br>";
-			}
-		$str_log = date("d.m.y H:i:s",time())."\r\n"."amount_starts = ".$str[1]."\r\n"."n = ".$str[0]."\r\n";
-		fwrite($handle_log,$str_log);
-		echo "<br> Файл запущен &nbsp;".$str[1]."&nbsp; раз";
-		exit();
-		}
-
-	if ($str[0] == '') {
-		$n = 0;
-		}else{
-			$n = trim($str[0]);	
-			}
-	
-	echo "<br>. amount_starts = ".$str[1];
-	echo "<br>. n = ".$n;
-
-	$w = $n;
-	$page_2 = GetWebPage('http://allhyipmon.ru/rating?page='.$w);
-	if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
-	$patern_2 = '#<div>\d{1,5}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
-	$result_2 = array();
-	do{
-		echo "<br>... &nbsp;".$w;
-		if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
-		    echo "func GetHypNam:  patern_2 ненайден или ошибка";
-		    return false;
-			} 
-
-		for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-			$result_2b[$q] = $result_2a[1][$q];
-			}
-		$result_2 = array_merge($result_2,$result_2b);
-		$w++;
-		$url = 'http://allhyipmon.ru/rating?page='.$w;
-		// // sleep(rand(1,5));
-		sleep(mt_rand(1,5));
-		$page_2 = GetWebPage($url);
-	}while ($w <= $n+$amount_page);		//	для тестов
-		
-	$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
-	if (!$handle) {	// если ошибка
-		echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
-		}		
-	$n = $w;
-	$str[1]++;
-
-	$str_2 = $n."\r\n".$str[1];
-	fwrite($handle,$str_2);
-
-        return $result_2;
-		}
 
 	function ParsSeoParamHayp($URL_hyp){     
 		// предполагаеться вызов в теле ф-ции GetHypNam поочерёдно для каждого массива хайпов отдельно.
@@ -390,8 +398,13 @@
 
 		$arr_param_hyp = array_merge($result_0[1],$result_1[1],$result_2[1],$result_3[1],$result_4[1],$result_5[1],$result_6[1],$result_7[1],$result_8[1],$result_9[1],$result_10[1],$result_11[1],$result_12[1],$result_13[1],$result_14[1],$result_15[1],$result_16[1],$result_17[1],$result_18[1],$result_19[1]);
 
+		for ($e=0; $e < count($arr_param_hyp); $e++) { 
+			$arr_param_hyp[$e] = str_replace("'","_",$arr_param_hyp[$e]);
+		}
+		
+
 		for ($i=count($arr_param_hyp); $i < 20; $i++) { 
-			array_push($arr_param_hyp, 'X');
+			array_push($arr_param_hyp, ' ');
 			}
 
 
@@ -433,6 +446,8 @@
 
 	function queryInputIntoDB($name_table,$link_DB,$HypMonName,$NameHyp,$ArrParamHype) {	//	Данная функция добавляет данные в базу
 		
+		global $handle_log;
+
 		$date_today = time();	//	получаем текушее кол-во секунд в эпохе Юникс
 
 		for ($q=0; $q < 30; $q++) { 
@@ -522,6 +537,9 @@
 			    									'".$ArrParamHype[29]."',
 			    									'".$ArrParamHype[30]."'
 			    									)";
+			   	// $str_log = date("\t d.m.y H:i:s",time())." ".__FUNCTION__.":\r\n"."\t\t".$query_input."\r\n";  // отследить ошибки синтаксиса запроса
+			   	// fwrite($handle_log,$str_log);
+
 			    /* Выполняем SQL-запрос */
 			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
 			}
