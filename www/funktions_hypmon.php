@@ -36,6 +36,7 @@
 
         if ($proxy) {
             curl_setopt($ch, CURLOPT_PROXY, $proxy);
+            curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);
             }    
 
         $content = curl_exec($ch);
@@ -170,8 +171,8 @@
 		$str = file($path_name_folder.'/'.$path_name_file);
 		$str[1]++;
 
-		echo "<br>";
-		echo Build_tree_arr($str);
+		// echo "<br>";
+		// echo Build_tree_arr($str);
 
 
 		if ($amount_starts < $str[1]) {
@@ -1250,7 +1251,6 @@
 		// парсим прокси с спец сайтов
 		// слаживаем их в массив 
 		// проверяем полученные прокси
-		// Черновая работа над функцией в файле page_proxy_test.php
 		
 
 
