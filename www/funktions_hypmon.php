@@ -1,5 +1,9 @@
 <?php 
-	function GetWebPage( $url,$proxy=false,$http_only=false){    
+//===================================================================================================================
+//=====================================================		FUNCTION 	=============================================
+//===================================================================================================================
+
+	function GetWebPage( $url, $conect_out = 120, $tim_out = 120){    
        
        // echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
 
@@ -28,7 +32,7 @@
         
         curl_setopt($ch, CURLOPT_HEADER, true);		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
-        curl_setopt($ch, CURLOPT_REFERER, $url);   
+        curl_setopt($ch, CURLOPT_REFERER, $url);       
 
         if ($proxy) {
             curl_setopt($ch, CURLOPT_PROXY, $proxy);
@@ -48,7 +52,7 @@
         $result = $header;
 
         if ($result['errno'] != 0) {  // если ошибка
-         	echo "<br>Код ошибки: &nbsp".$result['errmsg']."<br>"; 
+         	echo "<br>Код ошибки: &nbsp".$result['errmsg']; 
            return $result;
           }     
         if ($result['http_code'] != 200){
@@ -64,11 +68,14 @@
 
             $page = $result['content'];
             // echo $page;
-            // return $page;
+            return $page;
             return $result;
       }
 
 	function GetHypNam(){
+
+       	// Добавить мониторы для сбора хайпов:
+		// 		1. https://fairmonitor.com/home/ 
 
        // echo "<br> Вход в функцию: ".__FUNCTION__."<br>";		
 
@@ -91,7 +98,7 @@
 
 		$page_2 = GetWebPage('http://allhyipmon.ru/rating');
 			if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
-			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; 
+			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
 			$n=0;
 			$result_2 = array();
 			do{
@@ -109,50 +116,132 @@
 				$result_2 = array_merge($result_2,$result_2b);
 
 				$n++;
-				$url = 'http://allhyipmon.ru/rating?page='.$n.'<br>';
+				$url = 'http://allhyipmon.ru/rating?page='.$n;
 		// 		 // echo $url;
 
 				// sleep(rand(1,5));
 				sleep(mt_rand(1,5));
 				$page_2 = GetWebPage($url);
 
-			}while ($n <= 5);
+			}while ($n <= 5);		//	рабочий вариант строки
+			// }while ($n <= 1);		//	для тестов
 
 				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
 				array_unshift($result_2, $result_2c);
 
-		$page_3 = GetWebPage('http://list4hyip.com/');
-				if (is_array($page_3)) { $page_3 = implode(" ", $page_3);}	
-				$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 
-				if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
-				    echo "func GetHypNam:  patern_3 ненайден или ошибка";
-				    return false;
-					} 
-				for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
-					if ($result_3a[1][$q] == "http://list4hyip.com/") {	//	удаляем не нужное
-						continue;
-						}
-					$result_3[$q] = $result_3a[1][$q];
-					}
+		// $page_3 = GetWebPage('http://list4hyip.com/');
+		// 		if (is_array($page_3)) { $page_3 = implode(" ", $page_3);}	
+		// 		// $patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*/)#sU'; 	// рабочая строка
+		// 		$patern_3 = '#<a.*target="_blank">.*<img src=.*(?!list4hyip.com)(https?://(?!mozshot.nemui.org).*)/#sU'; 	// для тестов
+		// 		if (!preg_match_all($patern_3,$page_3,$result_3a,PREG_PATTERN_ORDER)) { 
+		// 		    echo "func GetHypNam:  patern_3 ненайден или ошибка";
+		// 		    return false;
+		// 			} 
+		// 		for ($q=0; $q < count($result_3a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+		// 			if ($result_3a[1][$q] == "http://list4hyip.com/") {	//	удаляем не нужное
+		// 				continue;
+		// 				}
+		// 			$result_3[$q] = $result_3a[1][$q];
+		// 			}
 
-					$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
-					array_unshift($result_3, $result_3c);
-
-	    $result = array_merge(/*$result_1,*/$result_2,$result_3);
-        return $result;
+		// 			$result_3c = array('1'=>'http://list4hyip.com/','2' => count($result_3));
+		// 			array_unshift($result_3, $result_3c);
+	 // 	 $result = array_merge(/*$result_1,*/$result_2,$result_3);
+ 		 // return $result;
         // return $result_1;
-        // return $result_2;
+        return $result_2;
          // return $result_3;
 		}
 
-	function ParsParamHaypWithServAnalSite($URL_hyp){     
+	function GetHypNam_1($amount_starts='',$amount_page=4,$path_name_file='temp.txt',$path_name_folder='TEMP'){
+
+		global $handle_log;
+
+		if (!file_exists($path_name_folder)) {	
+			if (!mkdir($path_name_folder)) {	// если ошибка
+				echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$path_name_folder."&nbsp; не создана";
+				}
+			}
+			$handle = fopen($path_name_folder.'/'.$path_name_file, "a");
+			if (!$handle) {	// если ошибка
+				echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+				}
+		
+		$str = file($path_name_folder.'/'.$path_name_file);
+		$str[1]++;
+
+		echo "<br>";
+		echo Build_tree_arr($str);
+
+
+		if ($amount_starts < $str[1]) {
+			// $handle = fopen($path_name_folder.'/'.$path_name_file, "w");
+			// if (!$handle) {	// если ошибка
+			// 	echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+			// 	}
+					
+			$str_log = date("\tH:i:s",time())." ".__FUNCTION__.":\r\n".
+				"\t\tamount_starts = ".$str[1]."\r\n".
+				"\t\tn = ".$str[0].
+				"\tРабота скрипта завершина\r\n";
+
+			fwrite($handle_log,$str_log);
+			echo "<br> Файл запущен &nbsp;".$str[1]."&nbsp; раз <br><br>";
+			exit();
+			}
+
+		if ($str[0] == '') {
+			$n = 0;
+			}else{
+				$n = trim($str[0]);	
+				}
+		
+		echo "<br>. amount_starts = ".$str[1];
+		echo "<br>. n = ".$n."<br>";
+
+		$w = $n;
+		$page_2 = GetWebPage('http://allhyipmon.ru/rating?page='.$w);
+		if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
+		$patern_2 = '#<div>\d{1,5}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
+		$result_2 = array();
+		do{
+			echo "<br> обработана страница № &nbsp;".$w;
+			if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
+			    echo "func GetHypNam:  patern_2 ненайден или ошибка";
+			    return false;
+				} 
+
+			for ($q=0; $q < count($result_2a[1]); $q++) { 			//  с массива всех значений извлекаем только нужные
+				$result_2b[$q] = $result_2a[1][$q];
+				}
+			$result_2 = array_merge($result_2,$result_2b);
+			$w++;
+			$url = 'http://allhyipmon.ru/rating?page='.$w;
+			// // sleep(rand(1,5));
+			sleep(mt_rand(1,5));
+			$page_2 = GetWebPage($url);
+		}while ($w <= $n+$amount_page);		//	для тестов
+
+		$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
+		array_unshift($result_2, $result_2c);
+
+		$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
+		if (!$handle) {	// если ошибка
+			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+			}		
+		$n = $w;
+
+
+		$str_2 = $n."\r\n".$str[1];
+		fwrite($handle,$str_2);
+
+	        return $result_2;
+			}
+
+	function ParsSeoParamHayp($URL_hyp){     
 		// предполагаеться вызов в теле ф-ции GetHypNam поочерёдно для каждого массива хайпов отдельно.
 		// т.е один хайп проганяется поочерёдно по всем сераисам анализа сайтов
 		// заполняеться вся строка и только после этого переходм к другому хайпу 
-
-       	// echo "<br>Вход в функцию: ".__FUNCTION__;		
-		// echo "<br>Начало выполнения функции &nbsp - &nbsp".date("d.m.y H:i:s",time());
-		// echo "<br>&nbsp&nbsp&nbsp&nbsp Объём оперативной память занимаемый скриптом &nbsp-&nbsp".round((memory_get_usage()/1000000),2)."M";
 
 		$page = GetWebPage('https://a.pr-cy.ru/'.$URL_hyp);		
 			if (is_array($page)) { $page = implode(" ", $page);}		
@@ -224,6 +313,9 @@
 			
 			// echo "<br><br>".$page;
 
+				$patern_alexa = '#<span class="col-pad">\n<strong>(We don.t have enough data to rank this website\.)<\/strong><br>#'; 		// для сайтов которых нет в alexa.com
+					if (!preg_match_all($patern_alexa,$page,$result_alexa,PREG_PATTERN_ORDER)) { 
+	 				
 			$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 		// Популярность - Global - Знач
 				if (!preg_match_all($patern_9,$page,$result_9,PREG_PATTERN_ORDER)) { 
 				    $result_9 = array('0' => '',array('0' => '<p class="err_mess">ptrn_9_ERR</p>'));
@@ -269,6 +361,16 @@
 				if (!preg_match_all($patern_16,$page,$result_16,PREG_PATTERN_ORDER)) { 			// Процент поискового трафика
 				    $result_16 = array('0' => '',array('0' => '<p class="err_mess">ptrn_16_ERR</p>'));
 				    // return false;
+							} 
+					}else{
+						$result_9[1] = "-";
+						$result_10[1] = "-";
+						$result_11[1] = "-";
+						$result_12[1] = "-";
+						$result_13[1] = "-";
+						$result_14[1] = "-";
+						$result_15[1] = "-";
+						$result_16[1] = "-";
 					} 	
 
 		// $page = GetWebPage('https://www.nic.ru/whois/?query='.$URL_hyp);	
@@ -321,6 +423,16 @@
 
 		$arr_param_hyp = array_merge($result_0[1],$result_1[1],$result_2[1],$result_3[1],$result_4[1],$result_5[1],$result_6[1],$result_7[1],$result_8[1],$result_9[1],$result_10[1],$result_11[1],$result_12[1],$result_13[1],$result_14[1],$result_15[1],$result_16[1],$result_17[1],$result_18[1],$result_19[1]);
 
+		for ($e=0; $e < count($arr_param_hyp); $e++) { 
+			$arr_param_hyp[$e] = str_replace("'","_",$arr_param_hyp[$e]);
+		}
+		
+
+		for ($i=count($arr_param_hyp); $i < 20; $i++) { 
+			array_push($arr_param_hyp, ' ');
+			}
+
+
 		// echo "<br> Конец выполнения функции &nbsp - &nbsp".date("d.m.y H:i:s",time());
 		return $arr_param_hyp;
 
@@ -336,17 +448,22 @@
 	    if (mysqli_connect_errno()) {
 	    	echo "<br> Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
 	    	}else{
-	    	echo '<br> Соединение установлено... ' . mysqli_get_host_info($link_DB) . "<br><br>";
+	    	echo '<br> Соединение с базой данных установлено... ' . mysqli_get_host_info($link_DB) . "<br><br>";
 	    	}
 	    return $link_DB;	
 		}
 
-	function querySelectFromDB($name_table,$link_DB,$name_field="*"){	//	Данная функция извликает данные из базы
+	function querySelectFromDB($name_table,$link_DB,$name_field="*",$text_query=""){	//	Данная функция извликает данные из базы
 	    /* Выполняем SQL-запрос */
 	    
 	    echo "<br>".__FUNCTION__."&nbsp&nbsp получено поле: &nbsp&nbsp".$name_field."<br>";
 
-	    $query = "SELECT `".$name_field."` FROM`".$name_table."`";
+	    $query = "SELECT `".$name_field."` FROM`".$name_table."`".$text_query;
+
+	    //        SELECT `ORDER BY `project`` FROM`Work_table_1`
+	    //        SELECT      *            FROM `test_2` ORDER BY `project`
+	    echo "<br>".$query."<br><br>";
+
 	    $result = mysqli_query($link_DB,$query) or die(__FUNCTION__."&nbsp&nbspQuery failed : " . mysql_error());	    
 
 	   	return $result;
@@ -354,9 +471,11 @@
 
 	function queryInputIntoDB($name_table,$link_DB,$HypMonName,$NameHyp,$ArrParamHype) {	//	Данная функция добавляет данные в базу
 		
+		global $handle_log;
+
 		$date_today = time();	//	получаем текушее кол-во секунд в эпохе Юникс
 
-		for ($q=0; $q < 20; $q++) { 
+		for ($q=0; $q < 30; $q++) { 
 			$ArrParamHype[$q] = trim(strip_tags($ArrParamHype[$q]));		// убираем все лишние символы
 			$ArrParamHype[$q] = htmlentities($ArrParamHype[$q]);
 			$ArrParamHype[$q] = str_replace ("&nbsp;",'',$ArrParamHype[$q]);
@@ -395,7 +514,18 @@
 			    									`baclink_alexa`, 
 			    									`Domain_registration_date`, 
 			    									`Domain_end_date`, 
-			    									`Domain_renewal_date`			    									 
+			    									`Domain_renewal_date`,
+			    									`Min_deposit`,			    									 
+			    									`Interest_rate_in_value`,			    									 
+			    									`Period_of_payment_of_interest`,			    									 
+			    									`Min_term_of_deposit_value`,			    									 
+			    									`Min_term_of_deposit_units`,			    									 
+			    									`Payback_period`,			    									 
+			    									`Profit_for_the_whole_period`,			    									 
+			    									`Profit_per_day`,			    									 
+			    									`ROI`,			    									 
+			    									`Profitability`,			    									 
+			    									`Profitability_per_cent_per_year`			    									 
 			    							 )VALUES(
 			    							 		'".$HypMonName."',
 			    							 		'".$date_today."',
@@ -419,20 +549,51 @@
 			    									'".$ArrParamHype[16]."',
 			    									'".$ArrParamHype[17]."',
 			    									'".$ArrParamHype[18]."',
-			    									'".$ArrParamHype[19]."'
+			    									'".$ArrParamHype[19]."',
+			    									'".$ArrParamHype[20]."',
+			    									'".$ArrParamHype[21]."',
+			    									'".$ArrParamHype[22]."',
+			    									'".$ArrParamHype[23]."',
+			    									'".$ArrParamHype[24]."',
+			    									'".$ArrParamHype[25]."',
+			    									'".$ArrParamHype[26]."',
+			    									'".$ArrParamHype[27]."',
+			    									'".$ArrParamHype[28]."',
+			    									'".$ArrParamHype[29]."',
+			    									'".$ArrParamHype[30]."'
 			    									)";
+			   	// $str_log = date("\t d.m.y H:i:s",time())." ".__FUNCTION__.":\r\n"."\t\t".$query_input."\r\n";  // отследить ошибки синтаксиса запроса
+			   	// fwrite($handle_log,$str_log);
+
 			    /* Выполняем SQL-запрос */
 			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
 			}
 
 	function OutputResultSQL_InExcel($result_query_SQL){
 
+		//		Установить одинаковую высоту строк
+		//		
+		//	-.	Если среди полученных фин показателей есть нули то в соответствующие ячейки блока расчётных фин данных вставлять формулы. Т.Е. при ручном введении в пустую, нулевую, ячейкку произвольного числа 
+		//		остальные ячейки автомат просчитываються
+		//	+.	В общей таблице отмечать цветом (0F0DD3 - синий) и размером 11 дату возникновения проэкта всю остальную строку - цветом и жирным шрифтом -- ПЕРВАЯ СТРОКА БЛОКА
+		//	+.	В общей таблице отмечать обычным шрифтом и размером 8 все строки от возникновения проэкта до сегоднешней даты
+		//	+.	В общей таблице отмечать жирным шрифтом и размером 11 сегодняшнюю дату всю остальную строку - только жирным шрифтом -- ПОСЛЕДНЯЯ СТРОКА БЛОКА 
+		//	+.	Установить фильтры на 5-ю строку
+		// 	5.	В общей таблице отмечать цветом (B47908 - коричневый) и размером 11 последнюю дату ищезнувшего проэкта (т.е. в скаме нет и проэкта нет. Статус - "ПРОБЛЕМА") 
+		//		-- может быть ПОСЛЕДНЕЙ СТРОКОЙ БЛОКА
+		//	7.	В общей таблице отмечать цветом и размером 11 дату и монитор по которому выпал проэкт в скам -- ПОСЛЕДНЯЯ СТРОКА БЛОКА 
+		//	6.	В общей таблице отмечать цветом (F9FED6 - светло жолтый) фон проэктов который ведётся по разным мониторам  
+		//		Определяеться по нахождению проэкта на скам-странице сайта. всю остальную строку - цветом и жирным шрифтом (Статус - "СКАМ")
+		//	8.	Сформировать на отдельных листах таблицы по пунктам СКАМ и ПРОБЛЕМА
+		// 	9.	Колонки блоков проэктов с наблюдаемой динамикой выдилять фоном (понижение один фон повышение второй фон) чем выше динамика тем ярче фон 
+		// 	10.	Строки с новыми проэктами выделять 
+		
+		$current_date = time();
+
 		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) { 	//	Из полученного обьекта базы данных формируем АССОЦИАТИВНЫЙ массив 
 			$arr_row[] = mysqli_fetch_assoc($result_query_SQL); 
-			}
-
-			// print_r($arr_row);
-
+				// if ($i>100) { break; }		// для тестов
+				}
 
 		//	блок создания и получения активного экселевского листа
 			$objPHPExecel = new PHPExcel();		 
@@ -450,20 +611,184 @@
 			$active_sheet->getPageMargins()->setLeft(0.1);
 			$active_sheet->setTitle("SEO параметры");
 
+		// Форматирование (задание стилей) таблицы начало 
+			$active_sheet->getRowDimension('4')->setRowHeight(45);		//	устанавливаем высоту строк
+			$style_all_table = array(		//	стили для всей таблицы
+				'borders'=>array(
+					'outline'=>array(
+						'style'=>PHPExcel_Style_Border::BORDER_THICK
+						),
+					'allborders'=>array(
+						'style'=>PHPExcel_Style_Border::BORDER_THIN,
+						'color'=>array(
+							'rgb'=>'000000'
+							)
+						)
+					),
+				'font'=>array(
+					'name'=>'Times New Roman',
+					// 'size'=>10,
+					'indent'=>1
+					),
+				'alignment'=>array(
+					'horizontal'=>PHPExcel_STYLE_ALIGNMENT::HORIZONTAL_CENTER,
+					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER,
+					'rotation'=>0
+					)								
+				);
+				$active_sheet->getStyle('A1:AI'.($i-1))->applyFromArray($style_all_table);
+
+			$style_header = array(		//	стили для шапки таблицы
+				'font'=>array(
+					'bold'=>true,
+					'name'=>'Times New Roman',
+					'size'=>12
+					),
+				);
+				$active_sheet->getStyle('A1:AI5')->applyFromArray($style_header);
+			$active_sheet->freezePane('A6');	//	закрепляем шапку т.е. всё что выше и левее указаной ячейки будет зафиксировано
+
+			$style_vertical_text = array(		//	стили для вертикального текста
+				'alignment'=>array(
+					'rotation'=>90
+					),
+				'font'=>array(
+					'size'=>8
+					)												
+				);
+				$active_sheet->getStyle('E2')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('J2')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('L3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('M3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('Q3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('R3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('S3')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('T2')->applyFromArray($style_vertical_text);				
+				$active_sheet->getStyle('U2')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('Y3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('Z4')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AC4')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AD3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AE3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AF3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AG3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AH3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AI3')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AA4')->applyFromArray($style_vertical_text);	
+				$active_sheet->getStyle('AB4')->applyFromArray($style_vertical_text);	
+			
+			$style_left_text = array(		//	стили для ячеек с выравниванием по левому краю
+				'alignment'=>array(
+					'horizontal'=>PHPExcel_STYLE_ALIGNMENT::HORIZONTAL_LEFT
+					)								
+				);
+				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_left_text);							
+				$active_sheet->getStyle('D6:D'.($i-1))->applyFromArray($style_left_text);							
+		
+			$style_text_small_size = array(		//	стили для ячеек с маленьким размером текста 
+				'font'=>array(
+					'size'=>8
+					),								
+				);
+				$active_sheet->getStyle('A5:AI5')->applyFromArray($style_text_small_size);
+				$active_sheet->getStyle('K5:K'.($i-1))->applyFromArray($style_text_small_size);
+
+			// $style_text_large_size = array(		//	стили для ячеек с большим размером текста 
+			// 	'font'=>array(
+			// 		'size'=>14
+			// 		),								
+			// 	);
+			// 	$active_sheet->getStyle('D5:D'.($i-1))->applyFromArray($style_text_large_size);
+
+			$style_line_wrap = array(		//	стили для ячеек с переносом строк
+				'alignment'=>array(
+					'wrap'=> TRUE,
+					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER
+					)								
+				);
+				$active_sheet->getStyle('A1:AI'.($i-1))->applyFromArray($style_line_wrap);				
+		
+			$style_cell_fill = array(		//	стили для ячеек с заливкой
+				'fill'=>array(	
+					'type'       => PHPExcel_Style_Fill::FILL_SOLID,
+					'color'   => array(
+						'rgb' => 'D5FBF0'
+						)
+					)
+				);
+				$active_sheet->getStyle('E2:E'.($i-1))->applyFromArray($style_cell_fill);
+				$active_sheet->getStyle('J2:J'.($i-1))->applyFromArray($style_cell_fill);
+				$active_sheet->getStyle('N2:N'.($i-1))->applyFromArray($style_cell_fill);
+				$active_sheet->getStyle('Q2:Q'.($i-1))->applyFromArray($style_cell_fill);
+				$active_sheet->getStyle('T2:T'.($i-1))->applyFromArray($style_cell_fill);
+
+			$style_text_color = array(		//	стили для ячеек с текстом выделенным отдельным цветом
+				'font'=>array(
+					'color'   => array(
+						'rgb' => '195912'
+						)
+					),							
+				);
+				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color);
+
+			$active_sheet->getStyle('N6:N'.($i-1))->getNumberFormat()->setFormatCode('#,##0');	//	разделяем группы разрядов
+			$active_sheet->getStyle('J6:J'.($i-1))->getNumberFormat()->setFormatCode('#,##0');	
+
+			//	Скрываем столбцы
+			$active_sheet->getColumnDimension('A')->setVisible(true);
+			$active_sheet->getColumnDimension('B')->setVisible(false);
+
+			// групируем столбцы 
+				$active_sheet->getColumnDimension('V')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('W')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('X')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('V')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('W')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('X')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('Y')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
+
+				$active_sheet->getColumnDimension('F')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('G')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('H')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('I')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('F')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('G')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('H')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('I')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('J')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
+
+				$active_sheet->getColumnDimension('O')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('P')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('O')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('P')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('Q')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока	
+
+				$active_sheet->getColumnDimension('K')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('L')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('M')->setOutlineLevel(1);
+				$active_sheet->getColumnDimension('K')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('L')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('M')->setVisible(false);		//	Скрыть свёрнутую строку
+				$active_sheet->getColumnDimension('N')->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока			
+
+			//	устанока фильтров
+			$active_sheet->setAutoFilter('E5:AI5');
+		// Форматирование (задание стилей) таблицы конец 		
+
 		//	устанавливаем ширину колонок для всей таблицы, автоматическая ширина для интервалов типа А:Х не действует!!?? 	
-			$active_sheet->getColumnDimension('A')->setWidth(20);
+			$active_sheet->getColumnDimension('A')->setWidth(22);
 			$active_sheet->getColumnDimension('B')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('C')->setWidth(13);		
-			$active_sheet->getColumnDimension('D')->setWidth(30);
+			$active_sheet->getColumnDimension('C')->setWidth(18);		
+			$active_sheet->getColumnDimension('D')->setWidth(18);
 			$active_sheet->getColumnDimension('E')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('F')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('G')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('H')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('H')->setWidth(6);		
 			$active_sheet->getColumnDimension('I')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('J')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('K')->setWidth(10);		
-			$active_sheet->getColumnDimension('L')->setAutoSize(true);		
-			$active_sheet->getColumnDimension('M')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('L')->setWidth(6);		
+			$active_sheet->getColumnDimension('M')->setWidth(6);		
 			$active_sheet->getColumnDimension('N')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('O')->setWidth(13);		
 			$active_sheet->getColumnDimension('P')->setAutoSize(true);		
@@ -475,7 +800,11 @@
 			$active_sheet->getColumnDimension('V')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('W')->setAutoSize(true);		
 			$active_sheet->getColumnDimension('X')->setAutoSize(true);		
-
+			$active_sheet->getColumnDimension('Y')->setWidth(6);		
+			$active_sheet->getColumnDimension('Z')->setWidth(9);		
+			$active_sheet->getColumnDimension('AA')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('AB')->setAutoSize(true);		
+			$active_sheet->getColumnDimension('AC')->setWidth(8);		
 		// шапка таблицы начало 
 			$active_sheet->mergeCells('A1:A5');
 			$active_sheet->mergeCells('B1:B5');
@@ -504,79 +833,221 @@
 			$active_sheet->mergeCells('V2:V4');
 			$active_sheet->mergeCells('W2:W4');
 			$active_sheet->mergeCells('X2:X4');
-		// установить Знач ячейки
-			$active_sheet->setCellValue('A1','Монитор');
-			$active_sheet->setCellValue('B1','п/п');
-			$active_sheet->setCellValue('C1','Дата');
-			$active_sheet->setCellValue('D1','Проэкт');
-			$active_sheet->setCellValue('E1','http://pr-cy.ru/');
-			$active_sheet->setCellValue('E2','ТИЦ');
-			$active_sheet->setCellValue('E5',0);
-			$active_sheet->setCellValue('F2','Страницы');
-			$active_sheet->setCellValue('F3','Яндекс');
-			$active_sheet->setCellValue('H3','Google');
-			$active_sheet->setCellValue('F4','шт.');
-			$active_sheet->setCellValue('F5',1);			
-			$active_sheet->setCellValue('G4','Д-ка');
-			$active_sheet->setCellValue('G5',2);
-			$active_sheet->setCellValue('H4','шт.');
-			$active_sheet->setCellValue('H5',3);			
-			$active_sheet->setCellValue('I4','Д-ка');
-			$active_sheet->setCellValue('I5',4);
-			$active_sheet->setCellValue('J2','Просмотры');
-			$active_sheet->setCellValue('J5',5);
-			$active_sheet->setCellValue('K2','max трафик из');
-			$active_sheet->setCellValue('K5',6);
-			$active_sheet->setCellValue('L2','Baclink');
-			$active_sheet->setCellValue('L3','Стр.');
-			$active_sheet->setCellValue('M3','Д-ны');
-			$active_sheet->setCellValue('L5',7);
-			$active_sheet->setCellValue('M5',8);
-			$active_sheet->setCellValue('N1','http://www.alexa.com/siteinfo');
-			$active_sheet->setCellValue('N2','Популярность');
-			$active_sheet->setCellValue('N3','Gl.Rank');
-			$active_sheet->setCellValue('N4','Знач');
-			$active_sheet->setCellValue('N5',9);
-			$active_sheet->setCellValue('O3','Rank in country');
-			$active_sheet->setCellValue('O4','Страна');
-			$active_sheet->setCellValue('O5',10);
-			$active_sheet->setCellValue('P4','Знач');
-			$active_sheet->setCellValue('P5',11);
-			$active_sheet->setCellValue('Q2','Активность пользователей');
-			$active_sheet->setCellValue('Q3','Показатель отказов');
-			$active_sheet->setCellValue('R3','Страниц за визит');
-			$active_sheet->setCellValue('S3','Ср. продолжит визита');
-			$active_sheet->setCellValue('Q5',12);
-			$active_sheet->setCellValue('R5',13);
-			$active_sheet->setCellValue('S5',14);
-			$active_sheet->setCellValue('T2','Процент поискового трафика');
-			$active_sheet->setCellValue('U2','Baclink');
-			$active_sheet->setCellValue('T5',15);
-			$active_sheet->setCellValue('U5',16);
-			$active_sheet->setCellValue('V1','https://www.nic.ru/whois/');
-			$active_sheet->setCellValue('V2','Дата регистрации домена');
-			$active_sheet->setCellValue('W2','Дата окончания домена');
-			$active_sheet->setCellValue('X2','Дата обновления домена');
-			$active_sheet->setCellValue('V5',17);
-			$active_sheet->setCellValue('W5',18);
-			$active_sheet->setCellValue('X5',19);
+			$active_sheet->mergeCells('Y1:AI1');
+			$active_sheet->mergeCells('Y2:AC2');
+			$active_sheet->mergeCells('AD2:AI2');
+			$active_sheet->mergeCells('Y3:Y4');
+			$active_sheet->mergeCells('Z3:AA3');
+			$active_sheet->mergeCells('AB3:AC3');
+			$active_sheet->mergeCells('AD3:AD4');
+			$active_sheet->mergeCells('AE3:AE4');
+			$active_sheet->mergeCells('AF3:AF4');
+			$active_sheet->mergeCells('AG3:AG4');
+			$active_sheet->mergeCells('AH3:AH4');
+			$active_sheet->mergeCells('AI3:AI4');
+			// установить Знач ячейки
+				$active_sheet->setCellValue('A1','Монитор');
+				$active_sheet->setCellValue('B1','п/п');
+				$active_sheet->setCellValue('C1','Дата');
+				$active_sheet->setCellValue('D1','Проэкт');
+				$active_sheet->setCellValue('E1','http://pr-cy.ru/');
+				$active_sheet->setCellValue('E2','ТИЦ');
+				$active_sheet->setCellValue('E5',0);
+				$active_sheet->setCellValue('F2','Страницы');
+				$active_sheet->setCellValue('F3','Яндекс');
+				$active_sheet->setCellValue('H3','Google');
+				$active_sheet->setCellValue('F4','шт.');
+				$active_sheet->setCellValue('F5',1);			
+				$active_sheet->setCellValue('G4','Д-ка');
+				$active_sheet->setCellValue('G5',2);
+				$active_sheet->setCellValue('H4','шт.');
+				$active_sheet->setCellValue('H5',3);			
+				$active_sheet->setCellValue('I4','Д-ка');
+				$active_sheet->setCellValue('I5',4);
+				$active_sheet->setCellValue('J2','Просмотры');
+				$active_sheet->setCellValue('J5',5);
+				$active_sheet->setCellValue('K2','max трафик из');
+				$active_sheet->setCellValue('K5',6);
+				$active_sheet->setCellValue('L2','Baclink');
+				$active_sheet->setCellValue('L3','Стр.');
+				$active_sheet->setCellValue('M3','Д-ны');
+				$active_sheet->setCellValue('L5',7);
+				$active_sheet->setCellValue('M5',8);
+				$active_sheet->setCellValue('N1','http://www.alexa.com/siteinfo');
+				$active_sheet->setCellValue('N2','Популярность');
+				$active_sheet->setCellValue('N3','Gl.Rank');
+				$active_sheet->setCellValue('N4','Знач');
+				$active_sheet->setCellValue('N5',9);
+				$active_sheet->setCellValue('O3','Rank in country');
+				$active_sheet->setCellValue('O4','Страна');
+				$active_sheet->setCellValue('O5',10);
+				$active_sheet->setCellValue('P4','Знач');
+				$active_sheet->setCellValue('P5',11);
+				$active_sheet->setCellValue('Q2','Активность пользователей');
+				$active_sheet->setCellValue('Q3','Показатель отказов');
+				$active_sheet->setCellValue('R3','Страниц за визит');
+				$active_sheet->setCellValue('S3','Ср. продолжит визита');
+				$active_sheet->setCellValue('Q5',12);
+				$active_sheet->setCellValue('R5',13);
+				$active_sheet->setCellValue('S5',14);
+				$active_sheet->setCellValue('T2','Процент поискового трафика');
+				$active_sheet->setCellValue('U2','Baclink');
+				$active_sheet->setCellValue('T5',15);
+				$active_sheet->setCellValue('U5',16);
+				$active_sheet->setCellValue('V1','https://www.nic.ru/whois/');
+				$active_sheet->setCellValue('V2','Дата регистрации домена');
+				$active_sheet->setCellValue('W2','Дата окончания домена');
+				$active_sheet->setCellValue('X2','Дата обновления домена');
+				$active_sheet->setCellValue('Y1','Финансовые показатели проэктов');
+				$active_sheet->setCellValue('Y2','ПОЛУЧЕННЫЕ');
+				$active_sheet->setCellValue('AD2','РАСЧЁТНЫЕ');
+				$active_sheet->setCellValue('Y3','Мин. депозит');
+				$active_sheet->setCellValue('Z3','Проц. Ставка, %');
+				$active_sheet->setCellValue('AB3','Мин. срок вклада');
+				$active_sheet->setCellValue('AD3','Срок окупаемости, дней');
+				$active_sheet->setCellValue('AE3','Прибыль за весь периуд, $');
+				$active_sheet->setCellValue('AF3','Прибыль в день, $');
+				$active_sheet->setCellValue('AG3','ROI, %');
+				$active_sheet->setCellValue('AH3','Доходность, %');
+				$active_sheet->setCellValue('AI3','Доходность в процентах годовых, %');
+				$active_sheet->setCellValue('Z4','Значение');
+				$active_sheet->setCellValue('AA4','Период выплаты процентов');
+				$active_sheet->setCellValue('AB4','Значение');
+				$active_sheet->setCellValue('AC4','Единицы измерения');
+				$active_sheet->setCellValue('V5',17);
+				$active_sheet->setCellValue('W5',18);
+				$active_sheet->setCellValue('X5',19);
+				$active_sheet->setCellValue('Y5',20);
+				$active_sheet->setCellValue('Z5',21);
+				$active_sheet->setCellValue('AA5',22);
+				$active_sheet->setCellValue('AB5',23);
+				$active_sheet->setCellValue('AC5',24);
+				$active_sheet->setCellValue('AD5',25);
+				$active_sheet->setCellValue('AE5',26);
+				$active_sheet->setCellValue('AF5',27);
+				$active_sheet->setCellValue('AG5',28);
+				$active_sheet->setCellValue('AH5',29);
+				$active_sheet->setCellValue('AI5',30);
 		// шапка таблицы конец  
 
 		// заполняем тело таблицы начало
-			$i = 6;		 
+			$i = 6;	
+			$q = 0;	 
 			foreach ($arr_row as $item) {
 				$row_next = $row_start + $i;
+				
+				foreach ($item as $key => $value) {		// вместо нулей ставлю пустые строки 
+					if ($value == '0' or is_null($value)) {
+							$item[$key] = '';
+							}
+					}
+				
 				$active_sheet->setCellValue('A'.$row_next,$item['monitor']);
 				$active_sheet->setCellValue('B'.$row_next,$item['id']);
-				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s',$item['date']));			
+				$active_sheet->setCellValue('C'.$row_next,date('d.m.y H:i:s',$item['date']));
 				$active_sheet->setCellValue('D'.$row_next,$item['project']);
+				//	групировка строк
+					if ($item['project'] == $previous_item_project) {
+						$active_sheet->getRowDimension($i-1)->setOutlineLevel(1);		//	Какая строка и на какой уровень свернуть
+						$active_sheet->getRowDimension($i-1)->setVisible(false);		//	Скрыть свёрнутую строку
+						// $active_sheet->setShowSummaryBelow(false);					//	указатель свёрнутой строки, крестик, сверху тогда на виду оста'ться первая строка блока, '
+						if ($q == 0) {								//	т.е. это первая строка блока. Cтили первой строки блока
+							$n_first_row = $i-1;	// номер первой строки объединяемых ячеек
+							$style_block = array(
+								'borders' => array(
+									'outline' => array(
+										'style' => PHPExcel_Style_Border::BORDER_THICK,
+										'color' => array('rgb' => 'FF0000'),
+										),
+									),
+								);		
+							$style_first_str_block = array(		
+								'font'=>array(
+									'bold'=>true,
+									'size'=>10,
+									'color'   => array(
+										'rgb' => '3C7BAF'
+										),								
+									),
+								);
+							$style_first_str_cell_date = array(		
+								'font'=>array(
+									'bold'=>true,
+									'size'=>12
+									),
+								);
+							$active_sheet->getStyle('C'.($i-1))->applyFromArray($style_first_str_block);						
+							$active_sheet->getStyle('E'.($i-1).':AI'.($i-1))->applyFromArray($style_first_str_block);						
+							$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_first_str_cell_date);							
+							}
+						$style_str_in_middle_block = array(			//	Стили строк в середине блока		
+							'font'=>array(
+								'size'=>8,
+								'color'   => array(
+									'rgb' => '000000'
+									),								
+								),
+							);						
+						$active_sheet->getStyle('C'.$i.':X'.$i)->applyFromArray($style_str_in_middle_block);							
+						$q = 1;
+					}elseif ($q != 0) {		// это строка следующая за блоком
+						$active_sheet->getRowDimension($i)->setCollapsed(true);	//	Выводить строки свёрнутыми, указывать номер строки следующей за последней строкой блока
+						$q = 0;
+						//	Cтили последней строки блока.  Сдесь проверять текущий статус проэкта: OK, PROBLEM, SCAM
+
+								$style_last_str_block = array(		
+									'font'=>array(
+										'bold'=>true,
+										'size'=>10					
+										),
+									);
+								$style_last_str_cell_date = array(		
+									'font'=>array(
+										'size'=>11
+										),
+									);
+								$active_sheet->getStyle('C'.($i-1).':X'.($i-1))->applyFromArray($style_last_str_block);						
+								$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_last_str_cell_date);									
+								// }
+							$active_sheet->mergeCells('D'.$n_first_row.':'.'D'.($i-1));
+							$active_sheet->getStyle('C'.($i-1).':D'.($i-1))->applyFromArray($style_block);									
+						
+
+						}
+
+
+						if ($item['Min_deposit'] == "skam") {
+								
+								$style_last_str_block_skam = array(		
+									'font'=>array(
+										'bold'=>true,
+										'size'=>10,
+										'color'   => array(
+											'rgb' => 'EE1111'
+											),								
+										),
+									);
+								$style_last_str_cell_date_skam = array(		
+									'font'=>array(
+										'size'=>11,
+										'color'   => array(
+											'rgb' => 'EE1111'
+											),											
+										),
+									);
+								
+								$active_sheet->getStyle('C'.($i).':AI'.($i))->applyFromArray($style_last_str_block_skam);						
+								$active_sheet->getStyle('C'.($i).':E'.($i))->applyFromArray($style_last_str_cell_date_skam);									
+							}
+
+
 				$active_sheet->setCellValue('E'.$row_next,$item['cy']);
 				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_pc']);
 				$active_sheet->setCellValue('F'.$row_next,$item['page_yndex_dynamics']);
 				$active_sheet->setCellValue('H'.$row_next,$item['page_google_pc']);
 				$active_sheet->setCellValue('I'.$row_next,$item['page_google_dynamics']);
 				$active_sheet->setCellValue('J'.$row_next,$item['Views']);
-				$active_sheet->setCellValue('K'.$row_next,$item['max_traffic']);
+				// $active_sheet->setCellValue('K'.$row_next,$item['max_traffic']);
 				$active_sheet->setCellValue('L'.$row_next,$item['Baclink_page']);
 				$active_sheet->setCellValue('M'.$row_next,$item['Baclink_domain']);
 				$active_sheet->setCellValue('N'.$row_next,$item['Global_Rank']);
@@ -590,118 +1061,24 @@
 				$active_sheet->setCellValue('V'.$row_next,$item['Domain_registration_date']);
 				$active_sheet->setCellValue('W'.$row_next,$item['Domain_end_date']);
 				$active_sheet->setCellValue('X'.$row_next,$item['Domain_renewal_date']);
+				$active_sheet->setCellValue('Y'.$row_next,$item['Min_deposit']);
+				$active_sheet->setCellValue('Z'.$row_next,$item['Interest_rate_in_value']);
+				$active_sheet->setCellValue('AA'.$row_next,$item['Period_of_payment_of_interest']);
+				$active_sheet->setCellValue('AB'.$row_next,$item['Min_term_of_deposit_value']);
+				$active_sheet->setCellValue('AC'.$row_next,$item['Min_term_of_deposit_units']);
+				$active_sheet->setCellValue('AD'.$row_next,$item['Payback_period']);
+				$active_sheet->setCellValue('AE'.$row_next,$item['Profit_for_the_whole_period']);
+				$active_sheet->setCellValue('AF'.$row_next,$item['Profit_per_day']);
+				$active_sheet->setCellValue('AG'.$row_next,$item['ROI']);
+				$active_sheet->setCellValue('AH'.$row_next,$item['Profitability']);
+				$active_sheet->setCellValue('AI'.$row_next,$item['Profitability_per_cent_per_year']);
+				$previous_item_project = $item['project'];
 				$i++;
 				}
 		// заполняем тело таблицы конец
 
-		// Форматирование (задание стилей) таблицы начало 
-			$style_all_table = array(		//	стили для всей таблицы
-				'borders'=>array(
-					'outline'=>array(
-						'style'=>PHPExcel_Style_Border::BORDER_THICK
-						),
-					'allborders'=>array(
-						'style'=>PHPExcel_Style_Border::BORDER_THIN,
-						'color'=>array(
-							'rgb'=>'000000'
-							)
-						)
-					),
-				'font'=>array(
-					'name'=>'Times New Roman',
-					'size'=>10,
-					'indent'=>1
-					),
-				'alignment'=>array(
-					'horizontal'=>PHPExcel_STYLE_ALIGNMENT::HORIZONTAL_CENTER,
-					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER,
-					'rotation'=>0
-					)								
-				);
-				$active_sheet->getStyle('A1:X'.($i-1))->applyFromArray($style_all_table);
 
-			$style_header = array(		//	стили для шапки таблицы
-				'font'=>array(
-					'bold'=>true,
-					'name'=>'Times New Roman',
-					'size'=>12
-					),
-				);
-				$active_sheet->getStyle('A1:X5')->applyFromArray($style_header);
 
-			$style_vertical_text = array(		//	стили для вертикального текста
-				'alignment'=>array(
-					'rotation'=>90
-					),
-				'font'=>array(
-					'size'=>8
-					)												
-				);
-				$active_sheet->getStyle('E2')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('J2')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('L3')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('M3')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('Q3')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('R3')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('S3')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('T2')->applyFromArray($style_vertical_text);				
-				$active_sheet->getStyle('U2')->applyFromArray($style_vertical_text);	
-			
-			$style_left_text = array(		//	стили для ячеек с выравниванием по левому краю
-				'alignment'=>array(
-					'horizontal'=>PHPExcel_STYLE_ALIGNMENT::HORIZONTAL_LEFT
-					)								
-				);
-				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_left_text);							
-				$active_sheet->getStyle('D6:D'.($i-1))->applyFromArray($style_left_text);							
-		
-			$style_text_small_size = array(		//	стили для ячеек с маленьким размером текста 
-				'font'=>array(
-					'size'=>8
-					),								
-				);
-				$active_sheet->getStyle('A5:X5')->applyFromArray($style_text_small_size);
-				$active_sheet->getStyle('K5:K'.($i-1))->applyFromArray($style_text_small_size);
-
-			$style_text_large_size = array(		//	стили для ячеек с большим размером текста 
-				'font'=>array(
-					'size'=>14
-					),								
-				);
-				$active_sheet->getStyle('D5:D'.($i-1))->applyFromArray($style_text_large_size);
-
-			$style_line_wrap = array(		//	стили для ячеек с переносом строк
-				'alignment'=>array(
-					'wrap'=> TRUE,
-					'vertical'=>PHPExcel_STYLE_ALIGNMENT::VERTICAL_CENTER
-					)								
-				);
-				$active_sheet->getStyle('F1:X'.($i-1))->applyFromArray($style_line_wrap);				
-		
-			$style_cell_fill = array(		//	стили для ячеек с заливкой
-				'fill'=>array(	
-					'type'       => PHPExcel_Style_Fill::FILL_SOLID,
-					'color'   => array(
-						'rgb' => 'D5FBF0'
-						)
-					)
-				);
-				$active_sheet->getStyle('E2:E'.($i-1))->applyFromArray($style_cell_fill);
-				$active_sheet->getStyle('J2:J'.($i-1))->applyFromArray($style_cell_fill);
-				$active_sheet->getStyle('N2:N'.($i-1))->applyFromArray($style_cell_fill);
-				$active_sheet->getStyle('Q2:Q'.($i-1))->applyFromArray($style_cell_fill);
-				$active_sheet->getStyle('T2:T'.($i-1))->applyFromArray($style_cell_fill);
-
-			$style_text_color = array(		//	стили для ячеек с текстом выделенным отдельным цветом
-				'font'=>array(
-					'color'   => array(
-						'rgb' => '00FF00'
-						)
-					),							
-				);
-				$active_sheet->getStyle('A6:A'.($i-1))->applyFromArray($style_text_color);
-
-		// Форматирование (задание стилей) таблицы конец 		
 
 		//	даём команду браузеру отдать на скачивание файл в формате эксель, указываем его имя и даём команду сохранить
 		// header("Content-Type:application/vnd.ms-excel");
@@ -712,7 +1089,147 @@
 
 		exit();
 
-		}			
+		}
+
+	function ParsFinParamHyp($URL_hyp)    {
+
+		$str_URL = 'http://allhyipmon.ru/';
+		$arr_result = array();
+		$arr_fin_param_hyp = array();
+
+		$patern_URL ='#(?:https?:\/\/)?[w]{0,3}\.?(.*)/?#';
+			if (!preg_match_all($patern_URL,$URL_hyp,$result_URL,PREG_PATTERN_ORDER)) { 
+			    echo "func TEST:  $patern_URL ненайден или ошибка";
+			    return false;
+				} 			
+		
+		$str_URL = 'http://allhyipmon.ru/monitor/'.$result_URL[1][0];		// формирую URL страницы подробностей для данного хайпа
+		$page_details = GetWebPage($str_URL);		// получаю страницы подробностей для данного хайпа
+		
+		
+
+
+		$patern_0 = '#<img alt="" src="\/skam\.png" style="padding-right:15px;"><font style="color:red;" size="\+1">НЕ ПЛАТИТ<#';	//	если скам
+			if (!preg_match_all($patern_0,$page_details,$result_0,PREG_PATTERN_ORDER)) { 
+				
+
+		$patern_1 = '#<tr class="polz".*Минимальный вклад.*;">\$? ?([\d\.]+)<\/b>#';	//	минимальный вклад
+			if (!preg_match_all($patern_1,$page_details,$result_1,PREG_PATTERN_ORDER)) { 
+			    // echo "func TEST:  patern_1 ненайден или ошибка";
+				} 	
+			$result_1[1] = str_replace('.',',',$result_1[1]);								
+	
+		$patern_2 = '#<td>Планы:<\/td><td><b style="color:\#155a9e;">(.*)<\/b>#';		//	остальные фин паказатели
+			if (!preg_match_all($patern_2,$page_details,$result_2,PREG_PATTERN_ORDER)) { 
+			    // echo "func TEST:  patern_2 ненайден или ошибка";
+				// exit();
+				} 				
+		
+			$patern_2_1 = '#^-? ?(\d+\.?,?\d{0,3})%?#m';								//	процентная ставка
+				if (!preg_match_all($patern_2_1,$result_2[1][0],$result_2_1,PREG_PATTERN_ORDER)) { 
+				    // echo "func TEST:  patern_2_1 ненайден или ошибка<br>";
+					// exit();
+					} 	
+				$result_2_1[1] = str_replace('.',',',$result_2_1[1]);									
+		
+			$patern_2_2 = '#^.*([dD]aily|день|[Hh]ourly|[dD]ays?|monthly)#m';			//	периуд мин процентной ставки
+				if (!preg_match_all($patern_2_2,$result_2[1][0],$result_2_2,PREG_PATTERN_ORDER)) { 
+				    // echo "func TEST:  patern_2_2 ненайден или ошибка<br>";
+					// exit();
+					} 	
+	
+			$patern_2_3 = '#^.*(?:(?:в день)|на|[Ff]or|to) +(\d{0,}(бессрочно)?)#m';	//	Мин. срок вклада
+				if (!preg_match_all($patern_2_3,$result_2[1][0],$result_2_3,PREG_PATTERN_ORDER)) { 
+				    // echo "func TEST:  patern_2_2_2 ненайден или ошибка<br>";
+					// exit();
+					} 	
+	
+			$patern_2_4 = '#^.*\d+ +(день|дней|дня|days?|hours?|года?|months?)#mi';		//	час,  день, неделя...
+				if (!preg_match_all($patern_2_4,$result_2[1][0],$result_2_4,PREG_PATTERN_ORDER)) { 
+				    // echo "func TEST:  patern_2_2_4 ненайден или ошибка<br>";
+					// exit();
+						} 	
+			}else{	
+				$result_1[1][0] = "skam";
+				$result_2_1[1][0] = "";
+				$result_2_2[1][0] = "";
+				$result_2_3[1][0] = "";
+				$result_2_4[1][0] = "";
+				}
+
+		array_push($arr_result,$result_1[1][0],$result_2_1[1][0],$result_2_2[1][0],$result_2_3[1][0],$result_2_4[1][0]);
+		array_push($arr_fin_param_hyp,$arr_result);
+		$str_URL = '';
+		array_splice($arr_result,0);
+
+		return $arr_fin_param_hyp[0];
+		}
+
+	function CalcFinParamHyp($Arr_Fin_Param_Hyp){
+			
+		// -. добавить оценку риска для каждого из проэктов
+
+		$Arr_Fin_Param_Hyp[0] = str_replace(",",".",$Arr_Fin_Param_Hyp[0]);
+		$Arr_Fin_Param_Hyp[1] = str_replace(",",".",$Arr_Fin_Param_Hyp[1]);
+		$Arr_Fin_Param_Hyp[3] = str_replace(",",".",$Arr_Fin_Param_Hyp[3]);
+
+		//	защита от деления на ноль
+			if ($Arr_Fin_Param_Hyp[0] == '0' or $Arr_Fin_Param_Hyp[0] == '' or 	//	минимальный вклад
+				$Arr_Fin_Param_Hyp[1] == '0' or $Arr_Fin_Param_Hyp[1] == '' or 	// процентная ставка
+				$Arr_Fin_Param_Hyp[3] == '0' or $Arr_Fin_Param_Hyp[3] == '') {	//	Мин. срок вклада
+					
+					$payback_period = "" ;
+					$profit_for_the_whole_period = "";
+					$profit_per_day = "";
+					$ROI = "";
+					$profitability = "";
+					$profitability_per_cent_per_year = "";
+
+					$CalcFinParamHyp = array($payback_period,$profit_for_the_whole_period,$profit_per_day,$ROI,$profitability,$profitability_per_cent_per_year);
+					return $CalcFinParamHyp;	
+					}
+
+		$patern_hour = '#hour#i';
+		if (preg_match($patern_hour,$Arr_Fin_Param_Hyp[2])) {
+			$Arr_Fin_Param_Hyp[1] = $Arr_Fin_Param_Hyp[1]*24;
+			}
+
+
+		$profit_per_day = round(($Arr_Fin_Param_Hyp[1]/100*$Arr_Fin_Param_Hyp[0]),2);		//Прибыль в день
+		$payback_period = round(($Arr_Fin_Param_Hyp[0]/$profit_per_day),0);		// Срок окупаемости - ДНЕЙ
+		$profit_for_the_whole_period = round(($profit_per_day * $Arr_Fin_Param_Hyp[3]),2);		// Прибыль за весь периуд
+		$ROI = round((($profit_for_the_whole_period - $Arr_Fin_Param_Hyp[0]) * 0.01),2);	// ROI
+		$profitability = round(($profit_for_the_whole_period / $Arr_Fin_Param_Hyp[0] / 0.01),2);	// Доходность 
+		$profitability_per_cent_per_year = round(($profit_for_the_whole_period / $Arr_Fin_Param_Hyp[0] * 365 / $Arr_Fin_Param_Hyp[3] / 0.01),2);
+		$CalcFinParamHyp = array($payback_period,$profit_for_the_whole_period,$profit_per_day,$ROI,$profitability,$profitability_per_cent_per_year);
+
+		return $CalcFinParamHyp;
+		}
+
+	function Build_tree_arr($arr_0,$g_n=0)  {
+
+		if ($GLOBALS["g_n"] == 0) { 
+			$resalt_str .= "Array &nbsp;( <br>";
+			// $GLOBALS["g_n"] = 1; 
+		}
+		$GLOBALS["g_n"]++;		
+		if(is_array($arr_0)) {
+			foreach ($arr_0 as $key => $value) {
+				if (is_array($value)) {
+					// for ($W=0; $W < 3*$GLOBALS["g_n"]; $W++) { $resalt_str .= "&nbsp;"; }	
+					$resalt_str .= "[".$key."] => "./*$GLOBALS["g_n"].*/"&nbsp;Array (<br> ";
+					$resalt_str .= Build_tree_arr($value,$g_n);
+					for ($W=0; $W < 4/**$GLOBALS["g_n"]*/; $W++) { $resalt_str .= "&nbsp;"; }	
+					$resalt_str .= ")<br>";
+					if ($g_n !== 0 and $GLOBALS["g_n"]-1 > $g_n) {return $resalt_str;}
+				}else{
+						for ($W=0; $W < 4/**$GLOBALS["g_n"]*/; $W++) { $resalt_str .= "&nbsp;"; }
+						$resalt_str .= "[".$key."] &nbsp; => &nbsp;".trim(strip_tags($value))."<br>";
+					}
+			}
+		}
+		return $resalt_str;
+		}
 
 	function OutputResultSQL($result){
 		print "<table>\n";
@@ -742,6 +1259,8 @@
 
 
 	function DataProcessing(){
+
+
 
 		}
 
@@ -812,6 +1331,91 @@
 		}
 
 
+
+//===================================================================================================================
+//=====================================================		CLASSES 	=============================================
+//===================================================================================================================
+
+	class FileAndFolder {
+		
+		/**	Данный клас должен:
+			проверить наличие папки с указанным именем (путём), принимает на входе если не задано то по умолчанию.
+			проверить наличие файла с указанным именем (путём), принимает на входе если не задано то по умолчанию.
+			пишит в файл строку, принимает на входе если не задано то по умолчанию. 	
+			*/
+				
+
+		public $path_name_folder = 'TEMP';
+		public $path_name_file = 'temp.txt';
+		public $flag_open_file = "a";
+		// public $str_in = '';
+		// public $str_out = '';
+		private $handle = '';
+
+
+	
+		function __construct(){
+			if (!file_exists($this->path_name_folder)) {	
+				if (!mkdir($this->path_name_folder)) {	// если ошибка
+					echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$this->path_name_folder."&nbsp; не создана";
+					}
+				}
+				$this->handle = fopen($this->path_name_folder.'/'.$this->path_name_file, $this->flag_open_file);
+				if (!$this->handle) {	// если ошибка
+					echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$this->path_name_file.'<br>';
+					}
+
+
+			
+			// if (!file_exists($this->path_name_folder.'/'.$this->path_name_file)) {	
+			// 	$this->handle = fopen($this->path_name_folder.'/'.$this->path_name_file, "w");
+			// 	}else{
+			// 		$this->handle = fopen($this->path_name_folder.'/'.$this->path_name_file, "w+");
+			// 		if (!$this->handle) {	// если ошибка
+			// 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$this->path_name_file.'<br>';
+			// 			}
+			// 		}
+			}		
+
+
+		// public function CreateFolder()	{	// создаю временную папку
+		// 	if (!file_exists($this->path_name_folder)) {	
+		// 		if (!mkdir($this->path_name_folder)) {	// если ошибка
+		// 			echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$this->path_name_folder."&nbsp; не создана";
+		// 			}
+		// 		}
+		// 	}
+
+		// public function CreateFile()	{	// создаю временный файл
+		// 	if (!file_exists($this->path_name_file)) {	
+	
+		// 		$this->handle = fopen($this->path_name_folder.'/'.$this->path_name_file, "w");
+		// 		}
+		// 		if (!$this->handle) {	// если ошибка
+		// 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$this->path_name_file.'<br>';
+		// 			}
+		// 	}
+		
+		public function DelOfFile($str){
+			fwrite($this->handle,$str);
+			}		
+
+		public function WriteFile($str){
+			fwrite($this->handle,$str);
+			}
+
+		public function ReadFile(){
+			return file_get_contents($this->path_name_folder.'/'.$this->path_name_file);
+			}
+
+		
+		function __destruct(){
+
+			fclose($this->handle);
+			
+			}
+
+		}		
 
 
 
