@@ -228,12 +228,19 @@
 	<?php  
 
 		//	Установки скрипта:
-		$name_table = 'Work_table_1';	//	Выбор таблицы в базе данных	  ----  для тестов            
+		// $name_table = 'Work_table_1';	//	Выбор таблицы в базе данных	  ----  для тестов            
 		// $name_table = 'Work_table_2';	//	Выбор таблицы в базе данных	  ----  рабочий вариант
-		// $name_table = 'Work_table_3';	//	Выбор таблицы в базе данных	  ----  автоматическое наполнение CRON            
+		$name_table = 'Work_table_3';	//	Выбор таблицы в базе данных	  ----  автоматическое наполнение CRON            
 								
 		ignore_user_abort(true);	// Игнорирует отключение пользователя 
 		set_time_limit(0);			// позволяет скрипту быть запущенным постоянно
+
+		$handle_log = fopen('TEMP/log.txt', "a");		// Открываем (создаём) лог файл хендел этого файла должен быть ГЛОБАЛЬНОЙ переменной
+			if (!$handle_log) {	// если ошибка
+				echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp; log.txt <br>";
+				}
+		$str_log = "\r\n\r\n".date("d.m.y H:i:s",time())."  ЗАПУСК СКРИПТА \r\n";
+			fwrite($handle_log,$str_log);
 
 		// ini_set ('max_execution_time',1800);	//	время выполнения скрипта не более 30 мин
 		$arr_ini = ini_get_all();
@@ -246,14 +253,14 @@
 		echo "<br> Объём оперативной память занимаемый скриптом &nbsp-&nbsp".round((memory_get_usage()/1000000),2)."M";
 		$link_DB = conect_DB();		// наполнение результатами БД
 		echo "<br>В базе данных выбрана таблица: &nbsp;&nbsp;".$name_table."<br><br>";	
-		echo "<br>******";
+			echo "<br>******";
 
 
-		$ArrNameHyp = GetHypNam_1(1,5);
+		$ArrNameHyp = GetHypNam_1(150,2);		// рабочий вариант
+		// $ArrNameHyp = GetHypNam_1(3,2);		// для тестов
 
 		
-		// queryInputIntoDB($link_DB,$ArrNameHyp);
-		
+		$link_DB = conect_DB();		// наполнение результатами БД
 		
 		// наполнение результатами таблицы на html странице 
 		for ($i=0; $i < count($ArrNameHyp); $i++) {	// основной вариант
@@ -295,7 +302,7 @@
 					
 					queryInputIntoDB($name_table,$link_DB,$HypMonName,$result_str_name_site[1][0],$ArrParamHype);
 					
-					for ($q=0; $q < 31; $q++) { 
+					for ($q=0; $q < 32; $q++) { 
 						echo "<td>";
 					if (strpos($ArrParamHype[$q],"ERR")) { 
 							echo '<p class="err_mess">'.$ArrParamHype[$q].'</p>';
@@ -308,6 +315,9 @@
 			}
 		mysqli_close($link_DB);
 		
+		$str_log = date("d.m.y H:i:s",time())."  КОНЕЦ РАБОТЫ СКРИПТА";
+		fwrite($handle_log,$str_log);
+
 		echo "<br>======";
 		echo "<br> Конец работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time())."<br><br>";
 

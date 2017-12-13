@@ -146,6 +146,8 @@
 
 	function GetHypNam_1($amount_starts='',$amount_page=4,$path_name_file='temp.txt',$path_name_folder='TEMP'){
 
+		global $handle_log;
+
 		if (!file_exists($path_name_folder)) {	
 			if (!mkdir($path_name_folder)) {	// если ошибка
 				echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$path_name_folder."&nbsp; не создана";
@@ -157,14 +159,25 @@
 				}
 		
 		$str = file($path_name_folder.'/'.$path_name_file);
-		
+		$str[1]++;
+
+		echo "<br>";
+		echo Build_tree_arr($str);
+
+
 		if ($amount_starts < $str[1]) {
-			$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
-			if (!$handle) {	// если ошибка
-				echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
-				}			
-			fwrite($handle,"");
-			echo "<br> Файл запущен &nbsp;".$str[1]."&nbsp; раз";
+			// $handle = fopen($path_name_folder.'/'.$path_name_file, "w");
+			// if (!$handle) {	// если ошибка
+			// 	echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+			// 	}
+					
+			$str_log = date("\tH:i:s",time())." ".__FUNCTION__.":\r\n".
+				"\t\tamount_starts = ".$str[1]."\r\n".
+				"\t\tn = ".$str[0].
+				"\tРабота скрипта завершина\r\n";
+
+			fwrite($handle_log,$str_log);
+			echo "<br> Файл запущен &nbsp;".$str[1]."&nbsp; раз <br><br>";
 			exit();
 			}
 
@@ -175,7 +188,7 @@
 				}
 		
 		echo "<br>. amount_starts = ".$str[1];
-		echo "<br>. n = ".$n;
+		echo "<br>. n = ".$n."<br>";
 
 		$w = $n;
 		$page_2 = GetWebPage('http://allhyipmon.ru/rating?page='.$w);
@@ -183,7 +196,7 @@
 		$patern_2 = '#<div>\d{1,5}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
 		$result_2 = array();
 		do{
-			echo "<br>... &nbsp;".$w;
+			echo "<br> обработана страница № &nbsp;".$w;
 			if (!preg_match_all($patern_2,$page_2,$result_2a,PREG_PATTERN_ORDER)) { 
 			    echo "func GetHypNam:  patern_2 ненайден или ошибка";
 			    return false;
@@ -199,23 +212,22 @@
 			sleep(mt_rand(1,5));
 			$page_2 = GetWebPage($url);
 		}while ($w <= $n+$amount_page);		//	для тестов
-		
-				$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
-				array_unshift($result_2, $result_2c);
 
-			
+		$result_2c = array('1'=>'http://allhyipmon.ru/rating','2' => count($result_2));
+		array_unshift($result_2, $result_2c);
+
 		$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
 		if (!$handle) {	// если ошибка
 			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
 			}		
 		$n = $w;
-		$str[1]++;
+
 
 		$str_2 = $n."\r\n".$str[1];
 		fwrite($handle,$str_2);
 
-        return $result_2;
-		}
+	        return $result_2;
+			}
 
 	function ParsSeoParamHayp($URL_hyp){     
 		// предполагаеться вызов в теле ф-ции GetHypNam поочерёдно для каждого массива хайпов отдельно.
@@ -295,51 +307,51 @@
 				$patern_alexa = '#<span class="col-pad">\n<strong>(We don.t have enough data to rank this website\.)<\/strong><br>#'; 		// для сайтов которых нет в alexa.com
 					if (!preg_match_all($patern_alexa,$page,$result_alexa,PREG_PATTERN_ORDER)) { 
 	 				
-					$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 		// Популярность - Global - Знач
-						if (!preg_match_all($patern_9,$page,$result_9,PREG_PATTERN_ORDER)) { 
-						    $result_9 = array('0' => '',array('0' => '<p class="err_mess">ptrn_9_ERR</p>'));
-						    // return false;
-							} 	
+			$patern_9 = '#alt=\W*Global rank icon\W*<strong.*-->(.*)<\/strong>#sU'; 		// Популярность - Global - Знач
+				if (!preg_match_all($patern_9,$page,$result_9,PREG_PATTERN_ORDER)) { 
+				    $result_9 = array('0' => '',array('0' => '<p class="err_mess">ptrn_9_ERR</p>'));
+				    // return false;
+					} 	
 
-					$patern_10 = '#Rank in\W*<a.*>(.*)</a>#sU'; 									// Популярность - Rank in country - Страна
-						if (!preg_match_all($patern_10,$page,$result_10,PREG_PATTERN_ORDER)) { 
-						    $result_10 = array('0' => '',array('0' => '<p class="err_mess">ptrn_10_ERR</p>'));
-						    // return false;
-							} 	
+			$patern_10 = '#Rank in\W*<a.*>(.*)</a>#sU'; 									// Популярность - Rank in country - Страна
+				if (!preg_match_all($patern_10,$page,$result_10,PREG_PATTERN_ORDER)) { 
+				    $result_10 = array('0' => '',array('0' => '<p class="err_mess">ptrn_10_ERR</p>'));
+				    // return false;
+					} 	
 
-					$patern_11 = '#class="countryRank".*pcache.alexa.com\/images\/flags.*>(.*)</strong>#sU'; 		
-						if (!preg_match_all($patern_11,$page,$result_11,PREG_PATTERN_ORDER)) { 
-						    $result_11 = array('0' => '',array('0' => '<p class="err_mess">ptrn_11_ERR</p>'));
-						    // return false;
-							} 
+			$patern_11 = '#class="countryRank".*pcache.alexa.com\/images\/flags.*>(.*)</strong>#sU'; 		
+				if (!preg_match_all($patern_11,$page,$result_11,PREG_PATTERN_ORDER)) { 
+				    $result_11 = array('0' => '',array('0' => '<p class="err_mess">ptrn_11_ERR</p>'));
+				    // return false;
+					} 
 
-					$patern_12 = '#Bounce Rate.*vmiddle">(.*)</strong>#sU'; 						//	Активность пользователей - Показатель отказов
-						if (!preg_match_all($patern_12,$page,$result_12,PREG_PATTERN_ORDER)) { 
-						    $result_12 = array('0' => '',array('0' => '<p class="err_mess">ptrn_12_ERR</p>'));
-						    // return false;
-							} 	
+			$patern_12 = '#Bounce Rate.*vmiddle">(.*)</strong>#sU'; 						//	Активность пользователей - Показатель отказов
+				if (!preg_match_all($patern_12,$page,$result_12,PREG_PATTERN_ORDER)) { 
+				    $result_12 = array('0' => '',array('0' => '<p class="err_mess">ptrn_12_ERR</p>'));
+				    // return false;
+					} 	
 
-					$patern_13 = '#h4 class="metrics-title">Daily Pageviews per Visitor.*align-vmiddle">(.*)<#sU'; 
-						if (!preg_match_all($patern_13,$page,$result_13,PREG_PATTERN_ORDER)) { 			// Активность пользователей - Страниц за везит
-						    $result_13 = array('0' => '',array('0' => '<p class="err_mess">ptrn_13_ERR</p>'));
-						    // return false;
-							} 	
+			$patern_13 = '#h4 class="metrics-title">Daily Pageviews per Visitor.*align-vmiddle">(.*)<#sU'; 
+				if (!preg_match_all($patern_13,$page,$result_13,PREG_PATTERN_ORDER)) { 			// Активность пользователей - Страниц за везит
+				    $result_13 = array('0' => '',array('0' => '<p class="err_mess">ptrn_13_ERR</p>'));
+				    // return false;
+					} 	
 
-					$patern_14 = '#h4 class="metrics-title">Daily Time on Site.*align-vmiddle">(.*)<#sU'; 
-						if (!preg_match_all($patern_14,$page,$result_14,PREG_PATTERN_ORDER)) { 			// Активность пользователей - Ср. продолжит визита, м-с
-						    $result_14 = array('0' => '',array('0' => '<p class="err_mess">ptrn_14_ERR</p>'));
-							}
+			$patern_14 = '#h4 class="metrics-title">Daily Time on Site.*align-vmiddle">(.*)<#sU'; 
+				if (!preg_match_all($patern_14,$page,$result_14,PREG_PATTERN_ORDER)) { 			// Активность пользователей - Ср. продолжит визита, м-с
+				    $result_14 = array('0' => '',array('0' => '<p class="err_mess">ptrn_14_ERR</p>'));
+					}
 
-					$patern_15 = '#Search Visits.*vmiddle">(.*)</strong>#sU'; 
-						if (!preg_match_all($patern_15,$page,$result_15,PREG_PATTERN_ORDER)) { 			// Процент поискового трафика
-						    $result_15 = array('0' => '',array('0' => '<p class="err_mess">ptrn_15_ERR</p>'));
-						    // return false;
-							} 	
+			$patern_15 = '#Search Visits.*vmiddle">(.*)</strong>#sU'; 
+				if (!preg_match_all($patern_15,$page,$result_15,PREG_PATTERN_ORDER)) { 			// Процент поискового трафика
+				    $result_15 = array('0' => '',array('0' => '<p class="err_mess">ptrn_15_ERR</p>'));
+				    // return false;
+					} 	
 
-					$patern_16 = '#Total Sites Linking In.*box1-r">(.*)</s#sU'; 
-						if (!preg_match_all($patern_16,$page,$result_16,PREG_PATTERN_ORDER)) { 			// Процент поискового трафика
-						    $result_16 = array('0' => '',array('0' => '<p class="err_mess">ptrn_16_ERR</p>'));
-						    // return false;
+			$patern_16 = '#Total Sites Linking In.*box1-r">(.*)</s#sU'; 
+				if (!preg_match_all($patern_16,$page,$result_16,PREG_PATTERN_ORDER)) { 			// Процент поискового трафика
+				    $result_16 = array('0' => '',array('0' => '<p class="err_mess">ptrn_16_ERR</p>'));
+				    // return false;
 							} 
 					}else{
 						$result_9[1] = "-";
@@ -350,7 +362,7 @@
 						$result_14[1] = "-";
 						$result_15[1] = "-";
 						$result_16[1] = "-";
-						}						
+					} 	
 
 		// $page = GetWebPage('https://www.nic.ru/whois/?query='.$URL_hyp);	
 		$page = GetWebPage('http://hoston.com.ua/domains/whois?domain='.$URL_hyp);	
@@ -406,6 +418,7 @@
 			$arr_param_hyp[$e] = str_replace("'","_",$arr_param_hyp[$e]);
 		}
 		
+
 		for ($i=count($arr_param_hyp); $i < 20; $i++) { 
 			array_push($arr_param_hyp, ' ');
 			}
@@ -426,7 +439,7 @@
 	    if (mysqli_connect_errno()) {
 	    	echo "<br> Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
 	    	}else{
-	    	echo '<br> Соединение с базой данных установлено... ' . mysqli_get_host_info($link_DB) . "<br>";
+	    	echo '<br> Соединение с базой данных установлено... ' . mysqli_get_host_info($link_DB) . "<br><br>";
 	    	}
 	    return $link_DB;	
 		}
@@ -449,6 +462,8 @@
 
 	function queryInputIntoDB($name_table,$link_DB,$HypMonName,$NameHyp,$ArrParamHype) {	//	Данная функция добавляет данные в базу
 		
+		global $handle_log;
+
 		$date_today = time();	//	получаем текушее кол-во секунд в эпохе Юникс
 
 		for ($q=0; $q < 30; $q++) { 
@@ -538,6 +553,9 @@
 			    									'".$ArrParamHype[29]."',
 			    									'".$ArrParamHype[30]."'
 			    									)";
+			   	// $str_log = date("\t d.m.y H:i:s",time())." ".__FUNCTION__.":\r\n"."\t\t".$query_input."\r\n";  // отследить ошибки синтаксиса запроса
+			   	// fwrite($handle_log,$str_log);
+
 			    /* Выполняем SQL-запрос */
 			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
 			}
@@ -1086,41 +1104,41 @@
 			if (!preg_match_all($patern_0,$page_details,$result_0,PREG_PATTERN_ORDER)) { 
 				
 
-			$patern_1 = '#<tr class="polz".*Минимальный вклад.*;">\$?\s?(\d+\.?\d*).*<\/b>#';	//	минимальный вклад
-				if (!preg_match_all($patern_1,$page_details,$result_1,PREG_PATTERN_ORDER)) { 
-				    // echo "func TEST:  patern_1 ненайден или ошибка";
-					} 	
-				$result_1[1] = str_replace('.',',',$result_1[1]);								
+		$patern_1 = '#<tr class="polz".*Минимальный вклад.*;">\$? ?([\d\.]+)<\/b>#';	//	минимальный вклад
+			if (!preg_match_all($patern_1,$page_details,$result_1,PREG_PATTERN_ORDER)) { 
+			    // echo "func TEST:  patern_1 ненайден или ошибка";
+				} 	
+			$result_1[1] = str_replace('.',',',$result_1[1]);								
+	
+		$patern_2 = '#<td>Планы:<\/td><td><b style="color:\#155a9e;">(.*)<\/b>#';		//	остальные фин паказатели
+			if (!preg_match_all($patern_2,$page_details,$result_2,PREG_PATTERN_ORDER)) { 
+			    // echo "func TEST:  patern_2 ненайден или ошибка";
+				// exit();
+				} 				
 		
-			$patern_2 = '#<td>Планы:<\/td><td><b style="color:\#155a9e;">(.*)<\/b>#';		//	остальные фин паказатели
-				if (!preg_match_all($patern_2,$page_details,$result_2,PREG_PATTERN_ORDER)) { 
-				    // echo "func TEST:  patern_2 ненайден или ошибка";
+			$patern_2_1 = '#^-? ?(\d+\.?,?\d{0,3})%?#m';								//	процентная ставка
+				if (!preg_match_all($patern_2_1,$result_2[1][0],$result_2_1,PREG_PATTERN_ORDER)) { 
+				    // echo "func TEST:  patern_2_1 ненайден или ошибка<br>";
 					// exit();
-					} 				
-			
-				$patern_2_1 = '#^-? ?(\d+[\.,]?\d*)%?#m';								//	процентная ставка
-					if (!preg_match_all($patern_2_1,$result_2[1][0],$result_2_1,PREG_PATTERN_ORDER)) { 
-					    // echo "func TEST:  patern_2_1 ненайден или ошибка<br>";
-						// exit();
-						} 	
-					$result_2_1[1] = str_replace('.',',',$result_2_1[1]);									
-			
-				$patern_2_2 = '#^.*([dD]aily|день|[Hh]ourly|[dD]ays?|monthly)#mi';			//	периуд мин процентной ставки
-					if (!preg_match_all($patern_2_2,$result_2[1][0],$result_2_2,PREG_PATTERN_ORDER)) { 
-					    // echo "func TEST:  patern_2_2 ненайден или ошибка<br>";
-						// exit();
-						} 	
+					} 	
+				$result_2_1[1] = str_replace('.',',',$result_2_1[1]);									
 		
-				$patern_2_3 = '#^.*(?:(?:в день)|на|[Ff]or|to) +(\d{0,}(бессрочно)?)#m';	//	Мин. срок вклада
-					if (!preg_match_all($patern_2_3,$result_2[1][0],$result_2_3,PREG_PATTERN_ORDER)) { 
-					    // echo "func TEST:  patern_2_2_2 ненайден или ошибка<br>";
-						// exit();
-						} 	
-		
-				$patern_2_4 = '#^.*\d+ +(день|дней|дня|days?|hours?|года?|months?)#mi';		//	час,  день, неделя...
-					if (!preg_match_all($patern_2_4,$result_2[1][0],$result_2_4,PREG_PATTERN_ORDER)) { 
-					    // echo "func TEST:  patern_2_2_4 ненайден или ошибка<br>";
-						// exit();
+			$patern_2_2 = '#^.*([dD]aily|день|[Hh]ourly|[dD]ays?|monthly)#m';			//	периуд мин процентной ставки
+				if (!preg_match_all($patern_2_2,$result_2[1][0],$result_2_2,PREG_PATTERN_ORDER)) { 
+				    // echo "func TEST:  patern_2_2 ненайден или ошибка<br>";
+					// exit();
+					} 	
+	
+			$patern_2_3 = '#^.*(?:(?:в день)|на|[Ff]or|to) +(\d{0,}(бессрочно)?)#m';	//	Мин. срок вклада
+				if (!preg_match_all($patern_2_3,$result_2[1][0],$result_2_3,PREG_PATTERN_ORDER)) { 
+				    // echo "func TEST:  patern_2_2_2 ненайден или ошибка<br>";
+					// exit();
+					} 	
+	
+			$patern_2_4 = '#^.*\d+ +(день|дней|дня|days?|hours?|года?|months?)#mi';		//	час,  день, неделя...
+				if (!preg_match_all($patern_2_4,$result_2[1][0],$result_2_4,PREG_PATTERN_ORDER)) { 
+				    // echo "func TEST:  patern_2_2_4 ненайден или ошибка<br>";
+					// exit();
 						} 	
 			}else{	
 				$result_1[1][0] = "skam";
