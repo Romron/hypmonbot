@@ -14,13 +14,43 @@
 <body>
 
 <?php
-
+	set_time_limit(0);			// позволяет скрипту быть запущенным постоянно
 
 	// Список URLов со списками прокси
 
+	// $URL_prox = "www.gatherproxy.com/ru/proxylist/anonymity/?t=Elite#1";
+
+	$arr_all_prox = [];
+	// while ($count_page_prox<= 50) {
+	while ($count_page_prox<= 20) {
 
 
-	// Парсинг прокси в массив
+		$URL_prox = "www.gatherproxy.com/ru/proxylist/anonymity/?t=Elite#2";
+		$page_prox = GetWebPage($URL_prox);
+		// echo $page_prox;
+
+		// Парсинг прокси в массив
+
+		$patern_prox = '~"PROXY_IP":"([\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}).*"PROXY_PORT":"(.*)"~U';
+		if (!preg_match_all($patern_prox,$page_prox,$result_prox,PREG_PATTERN_ORDER)) { 
+		    echo "func GetHypNam:  patern_prox ненайден или ошибка";
+			} 
+		for ($i=0; $i < count($result_prox[2]); $i++) { 
+			$result_prox[2][$i] = hexdec($result_prox[2][$i]);
+			}
+		
+		for ($q=0; $q < count($result_prox[1]); $q++) { 
+				$result_prox[1][$q] = $result_prox[1][$q].":".$result_prox[2][$q];
+				array_push($arr_all_prox, $result_prox[1][$q]);
+			}	
+		
+		$count_page_prox++;
+		sleep(mt_rand(1,5));
+		}	
+	
+
+	echo Build_tree_arr($arr_all_prox);
+	echo "<br><br><br><br><br>***********************************************<br><br><br><br>";
 
 
 
@@ -28,20 +58,21 @@
 	// Проверка и оценка работоспособности полученных прокси. 
 
 
-	// function GetWebPage( $url, $conect_out = 120, $tim_out = 120){    
-       
-       // echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
-
 		// $url = "www.google.com";
 		// $url = "https://www.google.com.ua/?gfe_rd=cr&dcr=0&ei=oSsxWsOTMOfk8Ae7-rVI&gws_rd=ssl";
-		// $url = "https://ru.wikipedia.org";
-		$url = "http://allhyipmon.ru";
+		$url = "https://ru.wikipedia.org";
+
+
+		// $url = "http://allhyipmon.ru";
 
 		$conect_out = 120;
 		$tim_out = 120;
 		
-		$proxy = "209.126.102.151:8799";
+		// $proxy = "96.85.198.105:53281";
+		// $proxy = "217.64.244.194:8080";
 
+	foreach ($arr_all_prox as $value) {
+		$z++;
 		$headers = array(
 			'GET ' . $url . ' HTTP/1.0',
 			'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
@@ -69,13 +100,13 @@
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
 	        curl_setopt($ch, CURLOPT_REFERER, $url);       
 
-	        if ($proxy) {	// если прокси
-	            curl_setopt($ch, CURLOPT_PROXY, $proxy);
+	        // if ($value) {	// если прокси
+	            curl_setopt($ch, CURLOPT_PROXY, $value);
 	            curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);
 	            curl_setopt($ch,CURLOPT_TIMEOUT, 5);
 	            curl_setopt($ch, CURLOPT_FAILONERROR, true);
 	            // curl_setopt($ch, CURLOPT_NOBODY, true);		//	выводит только заголовки полученных страниц
-	            }    
+	            // }    
 
         $content = curl_exec($ch);
         $err     = curl_errno($ch);
@@ -84,29 +115,33 @@
 
         curl_close($ch);
 
-
         $header['errno']   = $err;
         $header['errmsg']  = $errmsg;
         $header['content'] = $content;
         $header['$ch'] = $ch;
         $result = $header;
 
-        if ($result['errno'] != 0) {  // если ошибка
-        	echo "<br>Код ошибки: &nbsp".$result['errmsg']; 
-        	return $result;
-        	}     
+   //      if ($result['errno'] != 0) {  // если ошибка
+   //      	echo "<br>Код ошибки: &nbsp".$result['errmsg']; 
+   //      	// return $result;
+   //      	}     
         
-        if ($result['http_code'] != 200){
-			echo "<br>Запрос по адресу: &nbsp-&nbsp".$url;
-			echo "<br>&nbsp&nbsp&nbsp&nbsp Код ответа сервера: &nbsp".$result['http_code']."<br>";       // если ошибка....
-			return $result;
-			}
+   //      if ($result['http_code'] != 200){
+			// echo "<br>Запрос по адресу: &nbsp-&nbsp".$url;
+			// echo "<br>&nbsp&nbsp&nbsp&nbsp Код ответа сервера: &nbsp".$result['http_code']."<br>";       // если ошибка....
+			// // return $result;
+			// }
 
-        $page = $result['content'];        // если не ошибка
-   		echo $page;
+        echo "<br>".$z;
+        if ($result['errno'] == 0) {
+			echo "&nbsp;&nbsp;".$value."&nbsp;&nbsp; proxy is ready";
+			}else{echo "&nbsp;&nbsp;Код ошибки: &nbsp".$result['errmsg'];}
 
-   //      return $page;
-      // }
+        // $page = $result['content'];        // если не ошибка
+   		// echo $page;
+
+		sleep(mt_rand(1,5));
+   	}
 
 
 
