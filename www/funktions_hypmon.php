@@ -38,7 +38,8 @@
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
         curl_setopt($ch, CURLOPT_REFERER, $url);  
              
-        curl_setopt($ch, CURLOPT_TIMEOUT, 3600);       
+        curl_setopt($ch, CURLOPT_TIMEOUT, 3600);  
+        curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);     
 
         if ($proxy) {
             curl_setopt($ch, CURLOPT_PROXY, $proxy);

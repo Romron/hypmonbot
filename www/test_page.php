@@ -20,7 +20,8 @@
 
 	// $URL_prox = "www.gatherproxy.com/ru/proxylist/anonymity/?t=Elite#1";
 
-	$arr_all_prox = [];
+	// $arr_all_prox = [];
+	$arr_all_prox = array();
 	// while ($count_page_prox<= 50) {
 	while ($count_page_prox<= 20) {
 
@@ -98,7 +99,8 @@
 	        
 	        curl_setopt($ch, CURLOPT_HEADER, true);		
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
-	        curl_setopt($ch, CURLOPT_REFERER, $url);       
+	        curl_setopt($ch, CURLOPT_REFERER, $url); 
+	        curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);      
 
 	        // if ($value) {	// если прокси
 	            curl_setopt($ch, CURLOPT_PROXY, $value);
