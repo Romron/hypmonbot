@@ -14,7 +14,7 @@
 			'Accept-Language: ru,zh-cn;q=0.7,zh;q=0.3',
 			'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
 			'Connection: keep-alive',
-			'Content-Length: 691'
+			// 'Content-Length: 691'
 			// 'Expect: 100-continue'
 			// 'Proxy-Connection: Keep-Alive'
 			);
@@ -43,7 +43,7 @@
 
         if ($proxy) {
             curl_setopt($ch, CURLOPT_PROXY, $proxy);
-            curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);
+	        curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);
             }    
 
         $content = curl_exec($ch);

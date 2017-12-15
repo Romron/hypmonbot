@@ -17,22 +17,28 @@
 	
 //	функция формирования урла через анонимайзеры
 
-	$arr_url_anonim = array('http://fantaluciano.altervista.org/poste/index.php?q=',
-							'http://matarife.com/index.php?q=',
-							'http://filterevade.com/index.php?q=',
-							'http://proxy.bernex.net/index.php?q='	
-							);
+	// $arr_url_anonim = array('http://fantaluciano.altervista.org/poste/index.php?q='/*,
+	// 						// 'http://matarife.com/index.php?q=',
+	// 						// 'http://filterevade.com/index.php?q=',
+	// 						// 'http://proxy.bernex.net/index.php?q='*/	
+	// 						);
 		
-		foreach ($arr_url_anonim as $value) {
+	// 	foreach ($arr_url_anonim as $value) {
 
-			$url = $value.base64_encode('http://allhyipmon.ru/rating');
-			echo "<br>******<br>".$url."<br>********<br>";
-			$page_2 = GetWebPage($url);
-			// $page_2 = GetWebPage('http://fantaluciano.altervista.org');
-			// $page_2 = file_get_contents($url);
-			echo $page_2;
-			echo "<br><br>======================================================================<br><br><br><br>";
-			}
+	// 		$url = $value.base64_encode('http://allhyipmon.ru/rating');
+	// 		// echo "<br>******<br>".$url."<br>********<br>";
+	// 		// $page_2 = GetWebPage($url);
+	// 		// $page_2 = GetWebPage('http://fantaluciano.altervista.org');
+	// 		// $page_2 = file_get_contents($url);
+	// 		echo $page_2;
+	// 		// echo "<br><br>======================================================================<br><br><br><br>";
+	// 		}
+
+
+			$url = "http://filterevade.com/index.php?q=".base64_encode('http://allhyipmon.ru/rating');
+			// $page_2 = GetWebPage($url);
+			$page_2 = GetWebPage("http://filterevade.com");
+			print_r($page_2);
 
 
 
