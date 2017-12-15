@@ -12,7 +12,10 @@
 			'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
 		                  application/vnd.ms-excel, application/msword, */*',
 			'Accept-Language: ru,zh-cn;q=0.7,zh;q=0.3',
-			'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)'
+			'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
+			'Connection: keep-alive',
+			'Content-Length: 691'
+			// 'Expect: 100-continue'
 			// 'Proxy-Connection: Keep-Alive'
 			);
 
@@ -29,10 +32,13 @@
       
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);		// позволяет видеть в консоли все, что делает библиотека curl во время выполнения скрипта
         
         curl_setopt($ch, CURLOPT_HEADER, true);		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
-        curl_setopt($ch, CURLOPT_REFERER, $url);       
+        curl_setopt($ch, CURLOPT_REFERER, $url);  
+             
+        curl_setopt($ch, CURLOPT_TIMEOUT, 3600);       
 
         if ($proxy) {
             curl_setopt($ch, CURLOPT_PROXY, $proxy);
@@ -98,7 +104,12 @@
 		// 			array_unshift($result_1, $result_1c);
 
 		$page_2 = GetWebPage('http://allhyipmon.ru/rating');
+
+
 			if (is_array($page_2)) { $page_2 = implode(" ", $page_2);}
+			
+			echo $page_2;
+
 			$patern_2 = '#<div>\d{1,2}\. <b><a href="/monitor/.*>(.*)</a></b>.*мониторингов</div>#U'; // рабочий вариант
 			$n=0;
 			$result_2 = array();
@@ -117,7 +128,8 @@
 				$result_2 = array_merge($result_2,$result_2b);
 
 				$n++;
-				$url = 'http://allhyipmon.ru/rating?page='.$n;
+				// $url = 'http://allhyipmon.ru/rating?page='.$n;
+				$url = "http://matarife.com/index.php?q=".base64_encode('http://allhyipmon.ru/rating?page='.$n);
 		// 		 // echo $url;
 
 				// sleep(rand(1,5));
