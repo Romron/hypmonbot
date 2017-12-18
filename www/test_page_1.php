@@ -35,12 +35,16 @@
 	// 		}
 
 
-			$url = "http://filterevade.com/index.php?q=".base64_encode('http://allhyipmon.ru/rating');
+			// $url = "http://filterevade.com/index.php?q=".urlencode(base64_encode('http://allhyipmon.ru/rating'));
 			// $page_2 = GetWebPage($url);
-			$page_2 = GetWebPage("http://filterevade.com");
-			print_r($page_2);
+			// // $page_2 = GetWebPage("http://filterevade.com");
+			// print_r($page_2);
 
+	$str = '"Rotate13" "Base64" "Strip" inurl:index.php?q=';
 
+	$url = 'http://www.google.ru/search?q='.urlencode($str).'&num=100&start='.$n.'00&filter=0';
+	$page = GetWebPage($url);
+	echo $page;
 
 
 
