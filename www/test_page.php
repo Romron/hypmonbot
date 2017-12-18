@@ -16,13 +16,13 @@
 <?php
 
 	$str = urlencode('"Rotate13" "Base64" "Strip" inurl:index.php?q=');
+	// $url = 'http://proxy.bernex.net/index.php?q='.base64_encode('http://www.google.ru/search?q='.$str.'&num=100&start=000&filter=0');
+	$url = 'http://proxy.bernex.net/index.php?q='.base64_encode('http://www.google.ru/search?q='.$str.'&num=100&start=000&filter=0');
 	// for ($n=0; $n < 1; $n++) { 
 
 	// $url = 'http://www.google.ru/search?q='.urlencode($str).'&num=100&start='.$n.'00&filter=0';
-	// $page = GetWebPage($url);
-	// $url = $value.base64_encode('http://www.google.ru/search?q='.urlencode($str).'&num=100&start='.$n.'00&filter=0');
-	$url = 'http://proxy.bernex.net/index.php?q='.base64_encode('http://www.google.ru/search?q='.$str.'&num=100&start=000&filter=0');
-	$page = file_get_contents($url);
+	$page = GetWebPage($url);
+	// $page = file_get_contents($url);
 
 
 // 'http://www.google.ru/search?q="Rotate13" "Base64" "Strip" inurl:index.php?q=&num=100&start=000&filter=0';
