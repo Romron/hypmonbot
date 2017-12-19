@@ -161,15 +161,15 @@
 		$str = file($path_name_folder.'/'.$path_name_file);
 		$str[1]++;
 
-		echo "<br>";
-		echo Build_tree_arr($str);
+		// echo "<br>";
+		// echo Build_tree_arr($str);
 
 
 		if ($amount_starts < $str[1]) {
-			// $handle = fopen($path_name_folder.'/'.$path_name_file, "w");
-			// if (!$handle) {	// если ошибка
-			// 	echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
-			// 	}
+			$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
+			if (!$handle) {	// если ошибка
+				echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+				}
 					
 			$str_log = date("\tH:i:s",time())." ".__FUNCTION__.":\r\n".
 				"\t\tamount_starts = ".$str[1]."\r\n".
