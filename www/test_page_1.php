@@ -38,10 +38,11 @@
 			// "https://prostocoin.com/marketcap&page=1";	//!!!!!
 			// $url = "http://filterevade.com/index.php?q=".base64_encode('http://allhyipmon.ru/rating');
 			$str = urlencode('биткоин');
-			$url = 'https://online.seranking.com/research.keyword.html?source=ru&filter=keyword&input='.$str;
+			// $url_1 = 'https://online.seranking.com/research.keyword.html?source=ru&filter=keyword&input='.$str;
+			$url_2 = 'https://serpstat.com/keywords/?query='.$str;
 			// $page_2 = GetWebPage($url);
-			$page_2 = GetWebPage($url);
-			echo $page_2;
+			$page = GetWebPage($url_2);
+			echo $page;
 
 
 
