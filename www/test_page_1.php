@@ -34,7 +34,8 @@
 	// 		// echo "<br><br>======================================================================<br><br><br><br>";
 	// 		}
 
-
+			// "https://bitcoinnews.blog/cryptocurrencies";
+			// "https://prostocoin.com/marketcap&page=1";	//!!!!!
 			// $url = "http://filterevade.com/index.php?q=".base64_encode('http://allhyipmon.ru/rating');
 			$str = urlencode('биткоин');
 			$url = 'https://online.seranking.com/research.keyword.html?source=ru&filter=keyword&input='.$str;

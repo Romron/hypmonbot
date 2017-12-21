@@ -40,8 +40,23 @@
 	
 
 	<?php  
+	$str = "https://prostocoin.com/marketcap&page=";
+	$patern_1 = '#<tr>\n*.*\n.*<td.*>(.*)<\/a>.*\n.*<td>\$(.*)<\/td>.*\n.*<td>\$(.*)<\/td>#'; 		//	название валюты 
+	
+	for ($i=1; $i < 2 ; $i++) { 
+		$url = $str.$i;
+		$page = GetWebPage($url);
+
+		if (!preg_match_all($patern_1,$page,$result_1,PREG_PATTERN_ORDER)) { 
+		    echo "ERR &nbsp;".__FUNCTION__."patern_1 ненайден";		
+			} 
+
+		}
 
 
+
+		echo Build_tree_arr($result_1);
+		// print_r($result_1);
 
 	?>
 	
