@@ -56,15 +56,17 @@
 	<?php  
 	// $date = date("d.m.y H:i:s");
 
-	set_time_limit(3600);
+	set_time_limit(7200);
 
-	$str_1 = "https://prostocoin.com/marketcap&page=";
-	$str_2 = "https://online.seranking.com/research.keyword.html?source=ru&filter=keyword&input=";
+	$str_0 = "https://prostocoin.com/marketcap&page=";
+	$str_1 = "https://online.seranking.com/research.keyword.html?source=us&filter=keyword&input=";
+	$str_2 = "https://spywords.ru/sword.php?region=&sword=";
+	$str_3 = "https://advodka.com/keyword/";
 	
 	$patern_1 = '#<tr>\n*.*\n.*<td.*>(.*)<\/a>.*\n.*<td>\$(.*)<\/td>.*\n.*<td>\$(.*)<\/td>#'; 		//	название валюты 
 	$patern_2 = '#>Частотность.*\n.*\n.*\n.*\n.*\n.*\n.*\n.*<a\sclass="text-black">(.*)<\/a>#'; 		//	частотность в поиске 
 	
-	for ($i=1; $i < 2 ; $i++) { 
+	for ($i=1; $i < 13 ; $i++) { 
 		$url_1 = $str_1.$i;
 		$page_1 = GetWebPage($url_1);
 
@@ -72,19 +74,16 @@
 		    echo "ERR &nbsp;".__FUNCTION__."patern_1 ненайден";		
 			} 		
 
-		for ($q=0; $q < 2/*count($result_1[1])*/; $q++) { 			//	кол-во ячеек в строке
+		for ($q=0; $q < count($result_1[1]); $q++) { 			//	кол-во ячеек в строке
 			
-			$str_2_1 = urlencode($result_1[1][$q]);
+			$str_2_1 = urlencode(strtolower($result_1[1][$q]));
 			$url_2 = $str_2.$str_2_1;
 			
-			echo "<br>*******&nbsp;&nbsp;";
-			echo $url_2;
-			echo "<br>";
-
 			$page_2 = GetWebPage($url_2);
 			
 			if (!preg_match_all($patern_2,$page_2,$result_2,PREG_PATTERN_ORDER)) { 
-			    echo "ERR &nbsp;".__FUNCTION__."&nbsp; patern_2 ненайден <br>";		
+			    // echo "ERR &nbsp;".__FUNCTION__."&nbsp; patern_2 ненайден <br>";		
+			    // echo "url_2 &nbsp;=&nbsp;".$url_2."<br>";		
 				} 
 
 			echo "<tr>";
@@ -105,9 +104,9 @@
 				echo "</td>";
 			echo "</tr>";
 			
-			sleep(mt_rand(1,2));
+			sleep(mt_rand(1,3));
 			}
-
+		sleep(mt_rand(1,3));
 		}
 
 
