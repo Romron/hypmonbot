@@ -62,6 +62,7 @@
 	$str_1 = "https://online.seranking.com/research.keyword.html?source=us&filter=keyword&input=";
 	$str_2 = "https://spywords.ru/sword.php?region=&sword=";
 	$str_3 = "https://advodka.com/keyword/";
+	$str_4 = "https://ru.semrush.com/";
 	
 	$patern_1 = '#<tr>\n*.*\n.*<td.*>(.*)<\/a>.*\n.*<td>\$(.*)<\/td>.*\n.*<td>\$(.*)<\/td>#'; 		//	название валюты 
 	$patern_2 = '#>Частотность.*\n.*\n.*\n.*\n.*\n.*\n.*\n.*<a\sclass="text-black">(.*)<\/a>#'; 		//	частотность в поиске 
