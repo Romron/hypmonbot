@@ -35,32 +35,92 @@
 
 	<!-- Шапка таблицы --> 
 		<!-- хочу на javascript -->
+
+		<table>
+			<thead> 
+				<tr>
+					<td> Дата </td>
+					<td> Название </td>
+					<td> Капитализация </td>
+					<td> Курс </td>
+					<td> Частотность </td>
+					<td> ... </td>
+				</tr>
+			</thead>
+			<tbody>
+
 	<!-- /Шапка таблицы -->
 
 	
 
 	<?php  
-	$str = "https://prostocoin.com/marketcap&page=";
+	// $date = date("d.m.y H:i:s");
+
+	set_time_limit(3600);
+
+	$str_1 = "https://prostocoin.com/marketcap&page=";
+	$str_2 = "https://online.seranking.com/research.keyword.html?source=ru&filter=keyword&input=";
+	
 	$patern_1 = '#<tr>\n*.*\n.*<td.*>(.*)<\/a>.*\n.*<td>\$(.*)<\/td>.*\n.*<td>\$(.*)<\/td>#'; 		//	название валюты 
+	$patern_2 = '#>Частотность.*\n.*\n.*\n.*\n.*\n.*\n.*\n.*<a\sclass="text-black">(.*)<\/a>#'; 		//	частотность в поиске 
 	
 	for ($i=1; $i < 2 ; $i++) { 
-		$url = $str.$i;
-		$page = GetWebPage($url);
+		$url_1 = $str_1.$i;
+		$page_1 = GetWebPage($url_1);
 
-		if (!preg_match_all($patern_1,$page,$result_1,PREG_PATTERN_ORDER)) { 
+		if (!preg_match_all($patern_1,$page_1,$result_1,PREG_PATTERN_ORDER)) { 
 		    echo "ERR &nbsp;".__FUNCTION__."patern_1 ненайден";		
-			} 
+			} 		
+
+		for ($q=0; $q < 2/*count($result_1[1])*/; $q++) { 			//	кол-во ячеек в строке
+			
+			$str_2_1 = urlencode($result_1[1][$q]);
+			$url_2 = $str_2.$str_2_1;
+			
+			echo "<br>*******&nbsp;&nbsp;";
+			echo $url_2;
+			echo "<br>";
+
+			$page_2 = GetWebPage($url_2);
+			
+			if (!preg_match_all($patern_2,$page_2,$result_2,PREG_PATTERN_ORDER)) { 
+			    echo "ERR &nbsp;".__FUNCTION__."&nbsp; patern_2 ненайден <br>";		
+				} 
+
+			echo "<tr>";
+				echo "<td>";
+					echo date("d.m.y H:i:s");
+				echo "</td>";
+				echo '<td align="right">';
+					echo $result_1[1][$q];
+				echo "</td>";				
+				echo "<td>";
+					echo $result_1[2][$q];
+				echo "</td>";				
+				echo "<td>";
+					echo $result_1[3][$q];
+				echo "</td>";				
+				echo "<td>";
+					echo $result_2[1][0];
+				echo "</td>";
+			echo "</tr>";
+			
+			sleep(mt_rand(1,2));
+			}
 
 		}
 
 
 
-		echo Build_tree_arr($result_1);
+		// echo Build_tree_arr($result_1);
 		// print_r($result_1);
 
 	?>
 	
-	
+		</tbody>
+	</table>
+
+
 	<!-- то же в пайтоне -->
 
 
