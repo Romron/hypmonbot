@@ -583,6 +583,29 @@
 			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
 			}
 
+	function qIIntoDB_CR($name_table,$link_DB,$ArrParam) {	//	Данная функция добавляет данные в базу
+
+		for ($q=0; $q < count($ArrParam); $q=$q+6) { 
+
+			    $query_input = "INSERT INTO ".$name_table."(`Date`, 
+			    									`Name`,
+			    									`Capitalization`,
+			    									`Exchange`,		    									 
+			    									`Frequency_1`,		    									 
+			    									`Frequency_2`		    									 
+			    							 )VALUES(
+			    							 		'".$ArrParam[$q]."',
+			    							 		'".$ArrParam[$q+1]."',
+			    									'".$ArrParam[$q+2]."',
+			    									'".$ArrParam[$q+3]."',
+			    									'".$ArrParam[$q+4]."',
+			    									'".$ArrParam[$q+5]."'
+			    									)";
+			    /* Выполняем SQL-запрос */
+			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
+			}
+		}
+
 	function OutputResultSQL_InExcel($result_query_SQL){
 
 		//		Установить одинаковую высоту строк

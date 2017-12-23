@@ -39,6 +39,7 @@
 		<table>
 			<thead> 
 				<tr>
+					<td> № п/п </td>
 					<td> Дата </td>
 					<td> Название </td>
 					<td> Капитализация </td>
@@ -48,7 +49,6 @@
 				</tr>
 			</thead>
 			<tbody>
-
 	<!-- /Шапка таблицы -->
 
 	
@@ -57,62 +57,79 @@
 	// $date = date("d.m.y H:i:s");
 
 	set_time_limit(7200);
+	$name_table = "Crypto_1";
+	$link_DB = conect_DB();
+	$result = array();
+	$number_in_order = 0;
 
 	$str_0 = "https://prostocoin.com/marketcap&page=";
 	$str_1 = "https://online.seranking.com/research.keyword.html?source=us&filter=keyword&input=";
 	$str_2 = "https://spywords.ru/sword.php?region=&sword=";
-	$str_3 = "https://advodka.com/keyword/";
-	$str_4 = "https://ru.semrush.com/";
+	// $str_3 = "https://advodka.com/keyword/";
+	// $str_4 = "https://ru.semrush.com/";
 	
-	$patern_1 = '#<tr>\n*.*\n.*<td.*>(.*)<\/a>.*\n.*<td>\$(.*)<\/td>.*\n.*<td>\$(.*)<\/td>#'; 		//	название валюты 
-	$patern_2 = '#>Частотность.*\n.*\n.*\n.*\n.*\n.*\n.*\n.*<a\sclass="text-black">(.*)<\/a>#'; 		//	частотность в поиске 
+	$patern_0 = '#<tr>\n*.*\n.*<td.*>(.*)<\/a>.*\n.*<td>\$(.*)<\/td>.*\n.*<td>\$(.*)<\/td>#'; 		//	название валюты 
+	$patern_1 = '#>Частотность.*\n.*\n.*\n.*\n.*\n.*\n.*\n.*<a\sclass="text-black">(.*)<\/a>#'; 		//	частотность в поиске 
 	
-	for ($i=1; $i < 13 ; $i++) { 
-		$url_1 = $str_1.$i;
-		$page_1 = GetWebPage($url_1);
+	// for ($i=1; $i < 13 ; $i++) { 	// рабочий вариант
+	for ($i=1; $i <= 1 ; $i++) {	// для тестов
+		$url_0 = $str_0.$i;
+		$page_0 = GetWebPage($url_0);
 
-		if (!preg_match_all($patern_1,$page_1,$result_1,PREG_PATTERN_ORDER)) { 
-		    echo "ERR &nbsp;".__FUNCTION__."patern_1 ненайден";		
+		if (!preg_match_all($patern_0,$page_0,$result_0,PREG_PATTERN_ORDER)) { 
+		    echo "ERR &nbsp;".__FUNCTION__."patern_0 ненайден";		
 			} 		
 
-		for ($q=0; $q < count($result_1[1]); $q++) { 			//	кол-во ячеек в строке
+		for ($q=0; $q < count($result_0[1]); $q++) { 			//	кол-во ячеек в строке
+			$number_in_order++;
+			$result_0[1][$q] = urlencode(strtolower($result_0[1][$q]));
+			$url_1 = $str_1.$result_0[1][$q];
 			
-			$str_2_1 = urlencode(strtolower($result_1[1][$q]));
-			$url_2 = $str_2.$str_2_1;
+			$page_1 = GetWebPage($url_1);
 			
-			$page_2 = GetWebPage($url_2);
-			
-			if (!preg_match_all($patern_2,$page_2,$result_2,PREG_PATTERN_ORDER)) { 
-			    // echo "ERR &nbsp;".__FUNCTION__."&nbsp; patern_2 ненайден <br>";		
-			    // echo "url_2 &nbsp;=&nbsp;".$url_2."<br>";		
+			if (!preg_match_all($patern_1,$page_1,$result_1,PREG_PATTERN_ORDER)) { 
+			    // echo "ERR &nbsp;".__FUNCTION__."&nbsp; patern_1 ненайден <br>";		
+			    // echo "url_1 &nbsp;=&nbsp;".$url_1."<br>";		
 				} 
 
 			echo "<tr>";
 				echo "<td>";
-					echo date("d.m.y H:i:s");
+					echo $number_in_order;
+				echo "</td>";
+				echo "<td>";
+					$date = date("d.m.y H:i:s");
+					echo $date;
 				echo "</td>";
 				echo '<td align="right">';
-					echo $result_1[1][$q];
+					echo $result_0[1][$q];
 				echo "</td>";				
 				echo "<td>";
-					echo $result_1[2][$q];
+					echo $result_0[2][$q];
 				echo "</td>";				
 				echo "<td>";
-					echo $result_1[3][$q];
+					echo $result_0[3][$q];
 				echo "</td>";				
 				echo "<td>";
-					echo $result_2[1][0];
+					echo $result_1[1][0];
 				echo "</td>";
 			echo "</tr>";
 			
-			sleep(mt_rand(1,3));
+			// sleep(mt_rand(1,3));
+			array_push($result,$date);
+			array_push($result,$result_0[1][$q]);
+			array_push($result,$result_0[2][$q]);
+			array_push($result,$result_0[3][$q]);
+			array_push($result,$result_1[1][0]);
+			array_push($result,"");
 			}
+		qIIntoDB_CR($name_table,$link_DB,$result);
 		sleep(mt_rand(1,3));
 		}
 
 
 
-		// echo Build_tree_arr($result_1);
+		// echo Build_tree_arr($result);
+		// echo "<br><br><br>**********************************************************<br><br><br>";
 		// print_r($result_1);
 
 	?>
