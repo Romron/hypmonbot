@@ -64,15 +64,18 @@
 
 	$str_0 = "https://prostocoin.com/marketcap&page=";
 	$str_1 = "https://online.seranking.com/research.keyword.html?source=us&filter=keyword&input=";
-	$str_2 = "https://spywords.ru/sword.php?region=&sword=";
-	// $str_3 = "https://advodka.com/keyword/";
-	// $str_4 = "https://ru.semrush.com/";
+	
+	// $str_2 = "https://serpstat.com/keywords/?query=";
+	// $str_2_1 = "&ff=1&search_type=subdomains&se=g_ua";
+	
 	
 	$patern_0 = '#<tr>\n*.*\n.*<td.*>(.*)<\/a>.*\n.*<td>\$(.*)<\/td>.*\n.*<td>\$(.*)<\/td>#'; 		//	название валюты 
 	$patern_1 = '#>Частотность.*\n.*\n.*\n.*\n.*\n.*\n.*\n.*<a\sclass="text-black">(.*)<\/a>#'; 		//	частотность в поиске 
+	// $patern_2 = '#<div class="dtc">\n.*>(.*)<\/div>#'; 		//	частотность в поиске 
+	// $patern_2_1 = '#class="card_stat">\n.*\n.*<div.*>(.*)<\/div>#'; 		//	количество страниц
 	
 	// for ($i=1; $i < 13 ; $i++) { 	// рабочий вариант
-	for ($i=1; $i <= 1 ; $i++) {	// для тестов
+	for ($i=1; $i < 2 ; $i++) {	// для тестов
 		$url_0 = $str_0.$i;
 		$page_0 = GetWebPage($url_0);
 
@@ -84,6 +87,7 @@
 			$number_in_order++;
 			$result_0[1][$q] = urlencode(strtolower($result_0[1][$q]));
 			$url_1 = $str_1.$result_0[1][$q];
+			$url_2 = $str_2.$result_0[1][$q].$str_2_1;
 			
 			$page_1 = GetWebPage($url_1);
 			
@@ -91,6 +95,16 @@
 			    // echo "ERR &nbsp;".__FUNCTION__."&nbsp; patern_1 ненайден <br>";		
 			    // echo "url_1 &nbsp;=&nbsp;".$url_1."<br>";		
 				} 
+
+			// if (!preg_match_all($patern_2,$page_2,$result_2,PREG_PATTERN_ORDER)) { 
+			//     // echo "ERR &nbsp;".__FUNCTION__."&nbsp; patern_2 ненайден <br>";		
+			//     // echo "url_2 &nbsp;=&nbsp;".$url_2."<br>";		
+			// 	} 
+
+			// if (!preg_match_all($patern_2_1,$page_2_1,$result_2_1,PREG_PATTERN_ORDER)) { 
+			//     // echo "ERR &nbsp;".__FUNCTION__."&nbsp; patern_2_1 ненайден <br>";		
+			//     // echo "url_2_1 &nbsp;=&nbsp;".$url_2_1."<br>";		
+			// 	} 
 
 			echo "<tr>";
 				echo "<td>";
