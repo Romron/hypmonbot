@@ -85,6 +85,8 @@
 	// $str_2 = "https://serpstat.com/keywords/?query=";
 	// $str_2_1 = "&ff=1&search_type=subdomains&se=g_ua";
 	
+	// $str_3 = "http://www.bukvarix.com/keywords/?q=";	// Пока бесплатно !!!
+	// $str_4 = "http://tools.seobook.com/keyword-tools/seobook/?keyword=";	// вроде бесплатный сервис !!!
 	
 	$patern_0 = '#<tr>\n*.*\n.*<td.*>(.*)<\/a>.*\n.*<td>\$(.*)<\/td>.*\n.*<td>\$(.*)<\/td>#'; 		//	название валюты 
 	$patern_1 = '#>Частотность.*\n.*\n.*\n.*\n.*\n.*\n.*\n.*<a\sclass="text-black">(.*)<\/a>#'; 		//	частотность в поиске 
