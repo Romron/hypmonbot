@@ -53,10 +53,27 @@
 
 	
 
-	<?php  
-	// $date = date("d.m.y H:i:s");
+<?php  
 
-	set_time_limit(7200);
+	ignore_user_abort(true);	// Игнорирует отключение пользователя 
+	set_time_limit(0);			// позволяет скрипту быть запущенным постоянно
+
+	// ini_set ('max_execution_time',1800);	//	время выполнения скрипта не более 30 мин
+	$arr_ini = ini_get_all();
+	// ini_set('display_errors', TRUE);
+	// ini_set('display_startup_errors', TRUE);
+	echo "Начало работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time());
+		echo "<br>******";
+	echo "<br> Установлено максимальное время выполнения скрипта &nbsp-&nbsp".ini_get('max_execution_time')."&nbsp сек.";
+	echo "<br> Объём оперативной память выделенный скрипту &nbsp-&nbsp &nbsp".$arr_ini[memory_limit][global_value];
+	echo "<br> Объём оперативной память занимаемый скриптом &nbsp-&nbsp".round((memory_get_usage()/1000000),2)."M";
+		echo "<br>******";
+
+
+
+
+
+
 	$name_table = "Crypto_1";
 	$link_DB = conect_DB();
 	$result = array();
@@ -74,8 +91,8 @@
 	// $patern_2 = '#<div class="dtc">\n.*>(.*)<\/div>#'; 		//	частотность в поиске 
 	// $patern_2_1 = '#class="card_stat">\n.*\n.*<div.*>(.*)<\/div>#'; 		//	количество страниц
 	
-	// for ($i=1; $i < 13 ; $i++) { 	// рабочий вариант
-	for ($i=1; $i < 2 ; $i++) {	// для тестов
+	for ($i=1; $i < 13 ; $i++) { 	// рабочий вариант
+	// for ($i=1; $i < 2 ; $i++) {	// для тестов
 		$url_0 = $str_0.$i;
 		$page_0 = GetWebPage($url_0);
 
@@ -145,6 +162,14 @@
 		// echo Build_tree_arr($result);
 		// echo "<br><br><br>**********************************************************<br><br><br>";
 		// print_r($result_1);
+
+		mysqli_close($link_DB);
+		
+		echo "<br>======";
+		echo "<br> Конец работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",time())."<br><br>";			
+
+
+
 
 	?>
 	
