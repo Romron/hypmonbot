@@ -51,12 +51,17 @@
 
 	    $post = "name=romron@ukr.net&pass=cFJsmHfJ59&form_build_id=".$form_build_id."&form_id=user_login&op=Log in";
 
-	    curl_setopt($curl, CURLOPT_URL, 'http://tools.seobook.com/keyword-tools/seobook');
+	    curl_setopt($curl, CURLOPT_URL, 'http://www.seobook.com/user/romron');
 	    curl_setopt($curl, CURLOPT_POSTFIELDS, $post);
 	    
 	    $html = curl_exec($curl);
 	    echo $html;
 
+	    echo "<br><br><br>=================================================================================================================<br><br><br>";
+
+	    curl_setopt($curl, CURLOPT_URL, 'http://tools.seobook.com/keyword-tools/seobook');
+	    $html = curl_exec($curl);
+	    echo $html;
 		// }
 
 
