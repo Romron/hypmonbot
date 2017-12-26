@@ -3,37 +3,22 @@
 //=====================================================		FUNCTION 	=============================================
 //===================================================================================================================
 
-	function GetWebPage( $url, $conect_out = 120, $tim_out = 120){    
+	function GetWebPage( $url, $headers=false, $conect_out = 120, $tim_out = 120){    
        
        // echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
-
-		// $headers = array(
-		// 	'GET ' . $url . ' HTTP/1.0',
-		// 	'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
-		//                   application/vnd.ms-excel, application/msword, */*',
-		// 	'Accept-Language: ru,zh-cn;q=0.7,zh;q=0.3',
-		// 	'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
-		// 	'Connection: keep-alive',
-		// 	// 'Content-Length: 691'
-		// 	// 'Expect: 100-continue'
-		// 	// 'Proxy-Connection: Keep-Alive'
-		// 	);
-
-
-		$headers = array(		// только для обращения по адресу: http://tools.seobook.com/keyword-tools/seobook/?keyword=
-		'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-		'Accept-Encoding:gzip, deflate',
-		'Accept-Language:ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-		'Cache-Control:max-age=0',
-		'Connection:keep-alive',
-		'Cookie:MintAcceptsCookies=1; MintUnique=1; MintUniqueDay=1514260800; MintUniqueWeek=1514088000; MintUniqueMonth=1512100800; MintUniqueLocation=1; _ga=GA1.2.1582748074.1514273105; _gid=GA1.2.378127518.1514273105; MintCrush=2005843086; SESSe0033d505970ff0ab6bd1d798ecad786=89N4k3jHPfZbiWQXT0-NfuCg9eozsiS49B44XUtuamA; MintUniqueHour=1514296800',
-		'Host:tools.seobook.com',
-		'Upgrade-Insecure-Requests:1',
-		'User-Agent:Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36'
-			);
-
-
-
+		if (!$headers) {
+			$headers = array(
+				'GET ' . $url . ' HTTP/1.0',
+				'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
+			                  application/vnd.ms-excel, application/msword, */*',
+				'Accept-Language: ru,zh-cn;q=0.7,zh;q=0.3',
+				'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
+				'Connection: keep-alive',
+				// 'Content-Length: 691'
+				// 'Expect: 100-continue'
+				// 'Proxy-Connection: Keep-Alive'
+				);
+			}
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -602,21 +587,25 @@
 
 	function qIIntoDB_CR($name_table,$link_DB,$ArrParam) {	//	Данная функция добавляет данные в базу
 
-		for ($q=0; $q < count($ArrParam); $q=$q+6) { 
+		for ($q=0; $q < count($ArrParam); $q=$q+8) { 
 
 			    $query_input = "INSERT INTO ".$name_table."(`Date`, 
 			    									`Name`,
 			    									`Capitalization`,
 			    									`Exchange`,		    									 
 			    									`Frequency_1`,		    									 
-			    									`Frequency_2`		    									 
+			    									`Frequency_US_Monthly`,		    									 
+			    									`Frequency_Daily`,		    									 
+			    									`Frequency_Google`		    									 
 			    							 )VALUES(
 			    							 		'".$ArrParam[$q]."',
 			    							 		'".$ArrParam[$q+1]."',
 			    									'".$ArrParam[$q+2]."',
 			    									'".$ArrParam[$q+3]."',
 			    									'".$ArrParam[$q+4]."',
-			    									'".$ArrParam[$q+5]."'
+			    									'".$ArrParam[$q+5]."',
+			    									'".$ArrParam[$q+6]."',
+			    									'".$ArrParam[$q+7]."'
 			    									)";
 			    /* Выполняем SQL-запрос */
 			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
