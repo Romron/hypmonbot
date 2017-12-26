@@ -18,46 +18,76 @@
 
 <?php
 	
+	// // function GetWebPage_1 (){
+
+		$curl = curl_init();
+	    curl_setopt($curl, CURLOPT_COOKIESESSION, true); 
+        curl_setopt($curl, CURLOPT_COOKIEJAR, __DIR__.'/cookies/cookies.txt');	    
+	    curl_setopt($curl, CURLOPT_COOKIEFILE, __DIR__.'/cookies/cookies.txt'); 
+	    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); 
+	    curl_setopt($curl, CURLOPT_HEADER, true); 
+	    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); 
+	    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+	    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+	    curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 6.0; ru; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3'); 
+	    curl_setopt($curl, CURLOPT_URL, 'http://www.seobook.com/user'); 
+	    $html = curl_exec($curl);
 
 
-	// $str = urlencode('биткоин');
-	// // $url_1 = 'https://online.seranking.com/research.keyword.html?source=ru&filter=keyword&input='.$str;
-	// $url_2 = 'https://serpstat.com/keywords/?query='.$str;
-	// // $page_2 = GetWebPage($url);
-	// $page = GetWebPage($url_2);
+	    echo $html;
+
+	    // preg_match('#<input type="hidden" name="form_build_id" value="(.*)"#Uis',$html, $Result_form_build_id);
+	    if (!preg_match_all('#<input type="hidden" name="form_build_id" value="(.*)"#Uis',$html,$Result_form_build_id,PREG_PATTERN_ORDER)){
+	    	echo "<br>ERROR<br>";
+	    	}
+
+	    $form_build_id = $Result_form_build_id[1][0];
+	    
+
+	    echo "<br><br>**********************************<br>";
+	    echo $form_build_id;
+	    echo "<br><br>**********************************<br>";
+
+
+	    $post = "name=romron@ukr.net&pass=cFJsmHfJ59&form_build_id=".$form_build_id."&form_id=user_login&op=Log in";
+
+	    curl_setopt($curl, CURLOPT_URL, 'http://tools.seobook.com/keyword-tools/seobook');
+	    curl_setopt($curl, CURLOPT_POSTFIELDS, $post);
+	    
+	    $html = curl_exec($curl);
+	    echo $html;
+
+		// }
+
+
+
+
+
+
+
+
+
 	// $key = "Bitcoin";
-	$key = urlencode("биткоин");
+	// // $key = urlencode("биткоин");
 	
-	$str_2 = "http://tools.seobook.com/keyword-tools/seobook/?keyword=";
-	// $str_2_1 = "+(keyword)";	
+	// $str_2 = "http://tools.seobook.com/keyword-tools/seobook/?keyword=";
+	// // $str_2 = "http://google.com";
 
-	$url_2 = $str_2.$key/*.$str_2_1*/;
+	// $url_2 = $str_2.$key;
 
-	// $patern_2 = '#<div class="dtc">\n.*>(.*)<\/div>#'; 		//	частотность в поиске 
-	   // $patern_2 = '#<div class="dtc">\n.*>(.*)<\/div>\n.*\n.*\n.*Частотность.*<div class="tooltip#'; 		//	частотность в поиске 
-	   // $patern_2 = '#<div class="dtc">\n.*>(.*)<\/div>\n.*\n.*\n.*Частотность.*<div class="tooltip#'; 		//	частотность в поиске 
-	// $patern_2_1 = '#class="card_stat">\n.*\n.*<div.*>(.*)<\/div>#'; 		//	количество страниц
-	// $patern_2_1 = '#class="card_stat">#'; 		//	количество страниц
 
-	$page_2 = GetWebPage($url_2);
+	// $page_2 = GetWebPage($url_2);
 
-	echo $page_2;
-	echo "<br><br>*********************************************************************<br><br>";
-	echo $url_2."<br><br>";
+	// echo $page_2;
+	// echo "<br><br>*********************************************************************<br><br>";
+	// echo $url_2."<br><br>";
 
-	// if (!preg_match_all($patern_2,$page_2,$result_2,PREG_PATTERN_ORDER)) { 
-	//     echo "ERR &nbsp;".__FUNCTION__."&nbsp; patern_2 ненайден <br>";		
-	//     // echo "url_2 &nbsp;=&nbsp;".$url_2."<br>";		
-	// 	} 
 
-	// if (!preg_match_all($patern_2_1,$page_2_1,$result_2_1,PREG_PATTERN_ORDER)) { 
-	//     echo "ERR &nbsp;".__FUNCTION__."&nbsp; patern_2_1 ненайден <br>";		
-	//     // echo "url_2_1 &nbsp;=&nbsp;".$url_2_1."<br>";		
-	// 	} 
 
-	// echo Build_tree_arr($result_2);
-	// echo "<br>****************************************************<br>";
-	// echo Build_tree_arr($result_2_1);
+
+
+
+
 
 
 

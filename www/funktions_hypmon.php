@@ -7,17 +7,33 @@
        
        // echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
 
-		$headers = array(
-			'GET ' . $url . ' HTTP/1.0',
-			'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
-		                  application/vnd.ms-excel, application/msword, */*',
-			'Accept-Language: ru,zh-cn;q=0.7,zh;q=0.3',
-			'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
-			'Connection: keep-alive',
-			// 'Content-Length: 691'
-			// 'Expect: 100-continue'
-			// 'Proxy-Connection: Keep-Alive'
+		// $headers = array(
+		// 	'GET ' . $url . ' HTTP/1.0',
+		// 	'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
+		//                   application/vnd.ms-excel, application/msword, */*',
+		// 	'Accept-Language: ru,zh-cn;q=0.7,zh;q=0.3',
+		// 	'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
+		// 	'Connection: keep-alive',
+		// 	// 'Content-Length: 691'
+		// 	// 'Expect: 100-continue'
+		// 	// 'Proxy-Connection: Keep-Alive'
+		// 	);
+
+
+		$headers = array(		// только для обращения по адресу: http://tools.seobook.com/keyword-tools/seobook/?keyword=
+		'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+		'Accept-Encoding:gzip, deflate',
+		'Accept-Language:ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
+		'Cache-Control:max-age=0',
+		'Connection:keep-alive',
+		'Cookie:MintAcceptsCookies=1; MintUnique=1; MintUniqueDay=1514260800; MintUniqueWeek=1514088000; MintUniqueMonth=1512100800; MintUniqueLocation=1; _ga=GA1.2.1582748074.1514273105; _gid=GA1.2.378127518.1514273105; MintCrush=2005843086; SESSe0033d505970ff0ab6bd1d798ecad786=89N4k3jHPfZbiWQXT0-NfuCg9eozsiS49B44XUtuamA; MintUniqueHour=1514296800',
+		'Host:tools.seobook.com',
+		'Upgrade-Insecure-Requests:1',
+		'User-Agent:Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36'
 			);
+
+
+
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -44,6 +60,7 @@
         // if ($proxy) {
             // curl_setopt($ch, CURLOPT_PROXY, $proxy);
 	        // curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);
+        	// curl_setopt($ch, CURLOPT_PROXY, «http://111.133.11.17:8080»); пример использования
             // }    
 
         $content = curl_exec($ch);
