@@ -3,18 +3,22 @@
 //=====================================================		FUNCTION 	=============================================
 //===================================================================================================================
 
-	function GetWebPage( $url, $conect_out = 120, $tim_out = 120){    
+	function GetWebPage( $url, $headers=false, $conect_out = 120, $tim_out = 120){    
        
        // echo "Вход в функцию: ".__FUNCTION__."<br><br><br>";		
-
-		$headers = array(
-			'GET ' . $url . ' HTTP/1.0',
-			'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
-		                  application/vnd.ms-excel, application/msword, */*',
-			'Accept-Language: ru,zh-cn;q=0.7,zh;q=0.3',
-			'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)'
-			// 'Proxy-Connection: Keep-Alive'
-			);
+		if (!$headers) {
+			$headers = array(
+				'GET ' . $url . ' HTTP/1.0',
+				'Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash,
+			                  application/vnd.ms-excel, application/msword, */*',
+				'Accept-Language: ru,zh-cn;q=0.7,zh;q=0.3',
+				'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
+				'Connection: keep-alive',
+				// 'Content-Length: 691'
+				// 'Expect: 100-continue'
+				// 'Proxy-Connection: Keep-Alive'
+				);
+			}
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -29,10 +33,20 @@
       
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);		// позволяет видеть в консоли все, что делает библиотека curl во время выполнения скрипта
         
         curl_setopt($ch, CURLOPT_HEADER, true);		
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);  
-        curl_setopt($ch, CURLOPT_REFERER, $url);       
+        curl_setopt($ch, CURLOPT_REFERER, $url);  
+             
+        curl_setopt($ch, CURLOPT_TIMEOUT, 3600);  
+        // curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);     
+
+        // if ($proxy) {
+            // curl_setopt($ch, CURLOPT_PROXY, $proxy);
+	        // curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);
+        	// curl_setopt($ch, CURLOPT_PROXY, «http://111.133.11.17:8080»); пример использования
+            // }    
 
         $content = curl_exec($ch);
         $err     = curl_errno($ch);
@@ -58,9 +72,14 @@
           }
         // если не ошибка
         
+        if ($http) {
+           	return $result['$http'];
+            }             
+
             $page = $result['content'];
             // echo $page;
             return $page;
+            return $result;
       }
 
 	function GetHypNam(){
