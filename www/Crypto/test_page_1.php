@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>TEST PAGE 1</title>
+	<title>TEST PAGE 1****</title>
 	<meta charset="utf-8">
 	<meta description="Главная таблица монитора">
 
@@ -82,38 +82,31 @@
 
 	// $key = "bitcoin";
 	// $key = "bitcoin+cash";
-	$key = "litecoin";
-	// $key = "steem";
+	// $key = "litecoin";
+	$key = "steem";
 
 	// $key = urlencode("биткоин");
 	
-	$str_2 = "http://tools.seobook.com/keyword-tools/seobook/?keyword=";
+	$str_2 = "https://coinmarketcap.com/currencies/";
 	$url_2 = $str_2.$key;
-	$page_2 = GetWebPage($url_2,$headers);
+	$page_2 = GetWebPage($url_2);
+	// $page_2 = html_entity_decode($page_2);
+	$page_2 = str_replace("\n","",$page_2);
 
 	echo $page_2;
 	echo "<br><br>*********************************************************************<br><br>";
 	echo $url_2."<br><br>";
 
 
-	$patern_2_1 = '#>'.$key.'<\/a><\/td>\n.*<td>(.*)<\/td>#';
-	if (!preg_match_all($patern_2_1,$page_2,$result_2_1,PREG_PATTERN_ORDER)) { 
-	    echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_1 ненайден или ошибка";
+	$patern_2 = '#<tr.*>.*<td>(\d{1,4})<\/td>.*<\/tr>\s*<\/tbody>#';
+	if (!preg_match_all($patern_2,$page_2,$result_2,PREG_PATTERN_ORDER)) { 
+	    echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2 ненайден или ошибка";
 		}	
 
-	$patern_2_2 = '~<td><a href="https:\/\/www\.google\.com\/#q='.$key.'".*>(.*)<\/a><\/td>~';
-	if (!preg_match_all($patern_2_2,$page_2,$result_2_2,PREG_PATTERN_ORDER)) { 
-	    echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_2 ненайден или ошибка";
-		}	
 
-	$patern_2_3 = '~<td><a href="https:\/\/www\.google\.us\/#q='.$key.'" rel="nofollow" target="_blank">(.*)<\/a>~';
-	if (!preg_match_all($patern_2_3,$page_2,$result_2_3,PREG_PATTERN_ORDER)) { 
-	    echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_3 ненайден или ошибка";
-		} 
+	// array_push($result_2,$result_2[1][0]);
 
-	array_push($result_2,$result_2_1[1][0],$result_2_2[1][0],$result_2_3[1][0]);
-
-	echo "<br>=========================================================================<br>".Build_tree_arr($result_2);
+	echo "<br><br><br>=========================================================================<br><br><br>".Build_tree_arr($result_2);
 
 
 
