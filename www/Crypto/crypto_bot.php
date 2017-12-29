@@ -194,12 +194,18 @@
 				$url_3 = $str_3.$key_3."/#markets";		// т.к. ключ уже преобразован в нижний регистр
 				$page_3 = GetWebPage($url_3);
 				$page_3 = str_replace($arr_3_page,"",$page_3);
-								
+					
+				echo "<br>*".$url_3;				
 
-				$patern_3_1 = '#<tr(?:\srole="[\w-_\d]+")?(?:\sclass="[\w-_\d]+")?>\s*<td(?:\sclass="[\w-_\d]+")?>(\d{1,4})<\/td>.*<\/tr>\s*<\/tbody>#';	// количество бирж торгующих данной валютой	
+				/*$patern_3_1 = '#<tr(?:\srole="[\w-_\d]+")?(?:\sclass="[\w-_\d]+")?>\s*<td(?:\sclass="[\w-_\d]+")?>(\d{1,4})<\/td>.*<\/tr>\s*<\/tbody>#';*/	// количество бирж торгующих данной валютой	
+				$patern_3_1 = '#<tr(?:\srole="[\w-_\d]+")?(?:\sclass="[\w-_\d]+")?>#';	// количество бирж торгующих данной валютой	
 				if (!preg_match_all($patern_3_1,$page_3,$result_3_1,PREG_PATTERN_ORDER)) { 
 				    echo "<br>func: &nbsp;".__FUNCTION__."&nbsp; patern_3 ненайден или ошибка";
 					}	
+
+				echo "<br><br>=======================================================<br>";
+				print_r($result_3_1);
+	
 
 			// Формируем тело веб таблицы
 				echo "<tr>";
