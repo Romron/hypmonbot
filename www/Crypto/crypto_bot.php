@@ -158,7 +158,7 @@
 			} 		
 		for ($q=0; $q < count($result_0[1]); $q++) { 	//	перебор массива с названиями криптовалют
 			
-			if ($q > 15) { break; }		// для тестов
+			if ($q > 1) { break; }		// для тестов
 			
 			$number_in_order++;		// номер строки для вывода на веб страницу
 			$current_key = strtolower($result_0[1][$q]);
@@ -191,26 +191,34 @@
 			
 			// Сбор параметров с сервиса coinmarketcap.com
 				$key_3 = str_replace($arr_3,"-",$current_key);
-				$url_3 = $str_3.$key_3."/#markets";		// т.к. ключ уже преобразован в нижний регистр
+				$url_3_1 = $str_3.$key_3."/#markets";		// т.к. ключ уже преобразован в нижний регистр
+				$page_3_1 = GetWebPage($url_3_1);
+				if (!is_array($page_3_1)) {
+					$page_3_1 = str_replace("\n","",$page_3_1);
+					$patern_3_1 = '#<tr(?:\sclass="[\w-\d_]+")?>.*<td>(\d{1,4})<\/td>.*<\/tr>\s*<\/tbody>#';  // количество бирж торгующих данной валютой	
+					if (!preg_match_all($patern_3_1,$page_3_1,$result_3_1,PREG_PATTERN_ORDER)) { 
+					    // echo "<br>func: &nbsp;".__FUNCTION__."&nbsp; patern_3_1 ненайден или ошибка<br>";
+						}	
+					}
+
+				// $url_3_2 = $str_3.$key_3."/historical-data/?start=20130428&end=".date(Ymd);		// т.к. ключ уже преобразован в нижний регистр
 				
-
-				echo "<br><br>$number_in_order. &nbsp;=======================================================<br>";
-				echo "key_3 &nbsp;= &nbsp;".$key_3."<br>";
-				echo "url_3 &nbsp;= &nbsp;".$url_3."<br>*****<br>";
-
-				$page_3 = GetWebPage($url_3);
-				// sleep(mt_rand(1,3));
-				// $page_3 = str_replace($arr_3_page,"",$page_3);
-				$page_3 = str_replace("\n","",$page_3);
-					
-				/*$patern_3_1 = '#<tr(?:\srole="[\w-_\d]+")?(?:\sclass="[\w-_\d]+")?>\s*<td(?:\sclass="[\w-_\d]+")?>(\d{1,4})<\/td>.*<\/tr>\s*<\/tbody>#';*/	// количество бирж торгующих данной валютой	
-				/*$patern_3_1 = '#<tr\s*(?:role="[\w-_\d]+")?\s*(?:class="[\w-_\d]+")?>\s*<t[hd]\s*(?:class="[\w-_\d]+")?>\s*(\d{1,4})\s*<\/t[hd]>(?:<t[hd].*<\/t[hd]>){6}<\/tr>\s*<\/tbody>#U';	*/// количество бирж торгующих данной валютой	
-				$patern_3_1 = '#<tr(?:\sclass="[\w-]+")?>.*<td>(\d{1,4})<\/td>.*<\/tr>\s*<\/tbody>#';	
-				if (!preg_match_all($patern_3_1,$page_3,$result_3_1,PREG_PATTERN_ORDER)) { 
-				    echo "<br>func: &nbsp;".__FUNCTION__."&nbsp; patern_3 ненайден или ошибка<br>";
-					}	
-
-				// print_r($result_3_1);
+				// echo "<br>$number_in_order. &nbsp;=======================================================<br>";
+				// echo "key_3 &nbsp;= &nbsp;".$key_3."<br>";
+				// echo "url_3_2 &nbsp;= &nbsp;".$url_3_2."<br>*****";
+				
+				// $page_3_2 = GetWebPage($url_3_2);
+				// if (!is_array($page_3_2)) {
+				// 	$page_3_2 = str_replace("\n","",$page_3_2);
+				// 	// $patern_3_2 = '#<tr class="[\w-\d_]+">\s*<t[hd]\sclass="[\w-\d_]+">(.*)<\/t[hd]>\s*(?:<td>[\d\.,-]*<\/td>\s*){6}<\/tr>\s*<\/tbody>#';  // дата выхода на рынок	
+				// 	// $patern_3_2 = '#<tr class="text-right">\s*<td\sclass="text-left">(.*)<\/td>\s*(?:<td>[\d\.,-]*<\/td>\s*){6}<\/tr>\s*<\/tbody>#';  // дата выхода на рынок	
+				// 	$patern_3_2 = '#\/tr>\s*<\/tbody>#';  // дата выхода на рынок	
+				// 	if (!preg_match_all($patern_3_2,$page_3_2,$result_3_2,PREG_PATTERN_ORDER)) { 
+				// 	    // echo "<br>func: &nbsp;".__FUNCTION__."&nbsp; patern_3 ненайден или ошибка<br>";
+				// 		}	
+				// 	}
+				// echo "+++++++<br>";
+				// print_r($result_3_2);
 	
 
 			// Формируем тело веб таблицы
@@ -247,6 +255,10 @@
 						echo $result_3_1[1][0];
 						$result_3_1[1][0] = "";
 					echo "</td>";
+					echo "<td>";
+						echo $result_3_2[1][0];
+						$result_3_2[1][0] = "";
+					echo "</td>";
 				echo "</tr>";
 			
 
@@ -255,7 +267,7 @@
 
 			}
 		qIIntoDB_CR($name_table,$link_DB,$result);		// запись результатов в БД
-		sleep(mt_rand(1,3));
+		sleep(mt_rand(1,2));
 		$quantity_of_pages_passed_1 = $i+1;
 		}
 

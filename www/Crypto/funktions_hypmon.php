@@ -62,12 +62,12 @@
         $result = $header;
 
         if ($result['errno'] != 0) {  // если ошибка
-         	echo "<br>Код ошибки: &nbsp".$result['errmsg']; 
+         	// echo "<br>Код ошибки: &nbsp".$result['errmsg']; 
            return $result;
           }     
         if ($result['http_code'] != 200){
-           	echo "<br>Запрос по адресу: &nbsp-&nbsp".$url;
-           	echo "<br>&nbsp&nbsp&nbsp&nbsp Код ответа сервера: &nbsp".$result['http_code']."<br>";       // если ошибка....
+           	// echo "<br>Запрос по адресу: &nbsp-&nbsp".$url;
+           	// echo "<br>&nbsp&nbsp&nbsp&nbsp Код ответа сервера: &nbsp".$result['http_code']."<br>";       // если ошибка....
           	return $result;
           }
         // если не ошибка
