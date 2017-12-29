@@ -137,7 +137,13 @@
 		'Upgrade-Insecure-Requests:1',
 		'User-Agent:Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36'
 		);
+	$str_3 = "https://coinmarketcap.com/currencies/";	// 
+	$arr_3 = array(' ','+');		// для замены этих символов в ключах
+	$arr_3_page = array('\n','\s');		// для замены этих символов в ключах
 	
+
+
+
 	$patern_0 = '#<tr>\n*.*\n.*<td.*>(.*)<\/a>.*\n.*<td>\$(.*)<\/td>.*\n.*<td>\$(.*)<\/td>#'; 		//	название валюты 
 	$patern_1 = '#>Частотность.*\n.*\n.*\n.*\n.*\n.*\n.*\n.*<a\sclass="text-black">(.*)<\/a>#'; 		//	частотность в поиске 
 	
@@ -152,35 +158,48 @@
 			} 		
 		for ($q=0; $q < count($result_0[1]); $q++) { 	//	перебор массива с названиями криптовалют
 			
-			if ($q > 5) { break; }		// для тестов
+			if ($q > 15) { break; }		// для тестов
 			
-			$number_in_order++;		// номер строки для веб страницы
+			$number_in_order++;		// номер строки для вывода на веб страницу
+			$current_key = strtolower($result_0[1][$q]);
+
+			// Сбор частотностей с сервиса online.seranking.com
+				$key_1 = urlencode($current_key);		
+				$url_1 = $str_1.$key_1;
+				$url_2 = $str_2.$key_1;
+				$page_1 = GetWebPage($url_1);
+				if (!preg_match_all($patern_1,$page_1,$result_1,PREG_PATTERN_ORDER)) { 
+				    // echo "ERR &nbsp;".__FUNCTION__."&nbsp; patern_1 ненайден <br>";		
+				    // echo "url_1 &nbsp;=&nbsp;".$url_1."<br>";		
+					} 
 			
-			$result_0[1][$q] = urlencode(strtolower($result_0[1][$q]));
-			$url_1 = $str_1.$result_0[1][$q];
-			$url_2 = $str_2.$result_0[1][$q];
-			$page_1 = GetWebPage($url_1);
-			if (!preg_match_all($patern_1,$page_1,$result_1,PREG_PATTERN_ORDER)) { 
-			    // echo "ERR &nbsp;".__FUNCTION__."&nbsp; patern_1 ненайден <br>";		
-			    // echo "url_1 &nbsp;=&nbsp;".$url_1."<br>";		
-				} 
+			// Сбор параметров с сервиса seobook.com
+				$url_2 = $str_2.$key_1;		// т.к. $key_1  уже преобразован в нижний регистр и закодирован
+				$page_2 = GetWebPage($url_2,$headers_2);
+				$patern_2_1 = '#>'.$key_1.'<\/a><\/td>\n.*<td>(.*)<\/td>#';
+				if (!preg_match_all($patern_2_1,$page_2,$result_2_1,PREG_PATTERN_ORDER)) { 
+				    // echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_1 ненайден или ошибка";
+					}	
+				$patern_2_2 = '~<td><a href="https:\/\/www\.google\.com\/#q='.$key_1.'".*>(.*)<\/a><\/td>~';
+				if (!preg_match_all($patern_2_2,$page_2,$result_2_2,PREG_PATTERN_ORDER)) { 
+				    // echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_2 ненайден или ошибка";
+					}	
+				$patern_2_3 = '~<td><a href="https:\/\/www\.google\.us\/#q='.$key_1.'" rel="nofollow" target="_blank">(.*)<\/a>~';
+				if (!preg_match_all($patern_2_3,$page_2,$result_2_3,PREG_PATTERN_ORDER)) { 
+				    // echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_3 ненайден или ошибка";
+					} 
+			
+			// Сбор параметров с сервиса coinmarketcap.com
+				$key_3 = str_replace($arr_3,"-",$current_key);
+				$url_3 = $str_3.$key_3."/#markets";		// т.к. ключ уже преобразован в нижний регистр
+				$page_3 = GetWebPage($url_3);
+				$page_3 = str_replace($arr_3_page,"",$page_3);
+								
 
-			$key_2 = strtolower($result_0[1][$q]);
-			$url_2 = $str_2.$key_2;
-			$page_2 = GetWebPage($url_2,$headers_2);
-			$patern_2_1 = '#>'.$key_2.'<\/a><\/td>\n.*<td>(.*)<\/td>#';
-			if (!preg_match_all($patern_2_1,$page_2,$result_2_1,PREG_PATTERN_ORDER)) { 
-			    // echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_1 ненайден или ошибка";
-				}	
-			$patern_2_2 = '~<td><a href="https:\/\/www\.google\.com\/#q='.$key_2.'".*>(.*)<\/a><\/td>~';
-			if (!preg_match_all($patern_2_2,$page_2,$result_2_2,PREG_PATTERN_ORDER)) { 
-			    // echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_2 ненайден или ошибка";
-				}	
-			$patern_2_3 = '~<td><a href="https:\/\/www\.google\.us\/#q='.$key_2.'" rel="nofollow" target="_blank">(.*)<\/a>~';
-			if (!preg_match_all($patern_2_3,$page_2,$result_2_3,PREG_PATTERN_ORDER)) { 
-			    // echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_3 ненайден или ошибка";
-				} 
-
+				$patern_3_1 = '#<tr(?:\srole="[\w-_\d]+")?(?:\sclass="[\w-_\d]+")?>\s*<td(?:\sclass="[\w-_\d]+")?>(\d{1,4})<\/td>.*<\/tr>\s*<\/tbody>#';	// количество бирж торгующих данной валютой	
+				if (!preg_match_all($patern_3_1,$page_3,$result_3_1,PREG_PATTERN_ORDER)) { 
+				    echo "<br>func: &nbsp;".__FUNCTION__."&nbsp; patern_3 ненайден или ошибка";
+					}	
 
 			// Формируем тело веб таблицы
 				echo "<tr>";
@@ -211,6 +230,9 @@
 					echo "</td>";
 					echo "<td>";
 						echo $result_2_3[1][0];
+					echo "</td>";
+					echo "<td>";
+						echo $result_3_1[1][0];
 					echo "</td>";
 				echo "</tr>";
 			
