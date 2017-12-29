@@ -24,7 +24,8 @@
 	$arr_3 = array(' ','+');		// для замены этих символов в ключах
 
 
-	$key = "bitcoin";
+	// $key = "bitcoin";
+	$key = "ethereum";
 	// $key = "lit ecoin";
 	// $key = "vot+ecoin";
 	// $key = "ronp+ aulcoin";
@@ -32,13 +33,13 @@
 	// $key = "steem";
 
 	// $key = urlencode("биткоин");
-	$key = str_replace($arr_3,"-",$current_key);
+	$key = str_replace($arr_3,"-",$key);
 	
 
 
 
 	$str_2 = "https://coinmarketcap.com/currencies/";
-	$url_2 = $str_2.$key;
+	$url_2 = $str_2.$key."/#markets";
 	$page_2 = GetWebPage($url_2);
 	// $page_2 = html_entity_decode($page_2);
 	$page_2 = str_replace("\n","",$page_2);
@@ -47,7 +48,8 @@
 
 	echo $page_2;
 	echo "<br><br>*********************************************************************<br><br>";
-	echo $url_2."<br><br>";
+	echo "key &nbsp;= &nbsp;".$key."<br><br>";
+	echo "url_2 &nbsp;= &nbsp;".$url_2."<br><br>";
 
 
 	$patern_2 = '#<tr(?:\sclass="[\w-]+")?>.*<td>(\d{1,4})<\/td>.*<\/tr>\s*<\/tbody>#';

@@ -35,7 +35,7 @@
 					<td> US Monthly </td>
 					<td> Daily </td>
 					<td> Google </td>
-					<td> Количество <br> торгующих бирж </td>	<!-- должна быть активная ссылка на страницу с перечнем бирж  пр. https://coinmarketcap.com/currencies/bitcoin/#markets  -->
+					<td> Количество <br> торгующих  <br> бирж </td>	<!-- должна быть активная ссылка на страницу с перечнем бирж  пр. https://coinmarketcap.com/currencies/bitcoin/#markets  -->
 					<td> Дата выхода <br> на торги </td>	
 					<td> Цена <br> на момент <br> выхода, $ </td>	
 					<td> Цена сегодня, <br> $ </td>	
@@ -138,7 +138,7 @@
 		'User-Agent:Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36'
 		);
 	$str_3 = "https://coinmarketcap.com/currencies/";	// 
-	$arr_3 = array(' ','+');		// для замены этих символов в ключах
+	$arr_3 = array(' ','+','/');		// для замены этих символов в ключах
 	$arr_3_page = array('\n','\s');		// для замены этих символов в ключах
 	
 
@@ -192,19 +192,25 @@
 			// Сбор параметров с сервиса coinmarketcap.com
 				$key_3 = str_replace($arr_3,"-",$current_key);
 				$url_3 = $str_3.$key_3."/#markets";		// т.к. ключ уже преобразован в нижний регистр
-				$page_3 = GetWebPage($url_3);
-				$page_3 = str_replace($arr_3_page,"",$page_3);
-					
-				echo "<br>*".$url_3;				
+				
 
+				echo "<br><br>$number_in_order. &nbsp;=======================================================<br>";
+				echo "key_3 &nbsp;= &nbsp;".$key_3."<br>";
+				echo "url_3 &nbsp;= &nbsp;".$url_3."<br>*****<br>";
+
+				$page_3 = GetWebPage($url_3);
+				// sleep(mt_rand(1,3));
+				// $page_3 = str_replace($arr_3_page,"",$page_3);
+				$page_3 = str_replace("\n","",$page_3);
+					
 				/*$patern_3_1 = '#<tr(?:\srole="[\w-_\d]+")?(?:\sclass="[\w-_\d]+")?>\s*<td(?:\sclass="[\w-_\d]+")?>(\d{1,4})<\/td>.*<\/tr>\s*<\/tbody>#';*/	// количество бирж торгующих данной валютой	
-				$patern_3_1 = '#<tr(?:\srole="[\w-_\d]+")?(?:\sclass="[\w-_\d]+")?>#';	// количество бирж торгующих данной валютой	
+				/*$patern_3_1 = '#<tr\s*(?:role="[\w-_\d]+")?\s*(?:class="[\w-_\d]+")?>\s*<t[hd]\s*(?:class="[\w-_\d]+")?>\s*(\d{1,4})\s*<\/t[hd]>(?:<t[hd].*<\/t[hd]>){6}<\/tr>\s*<\/tbody>#U';	*/// количество бирж торгующих данной валютой	
+				$patern_3_1 = '#<tr(?:\sclass="[\w-]+")?>.*<td>(\d{1,4})<\/td>.*<\/tr>\s*<\/tbody>#';	
 				if (!preg_match_all($patern_3_1,$page_3,$result_3_1,PREG_PATTERN_ORDER)) { 
-				    echo "<br>func: &nbsp;".__FUNCTION__."&nbsp; patern_3 ненайден или ошибка";
+				    echo "<br>func: &nbsp;".__FUNCTION__."&nbsp; patern_3 ненайден или ошибка<br>";
 					}	
 
-				echo "<br><br>=======================================================<br>";
-				print_r($result_3_1);
+				// print_r($result_3_1);
 	
 
 			// Формируем тело веб таблицы
@@ -239,6 +245,7 @@
 					echo "</td>";
 					echo "<td>";
 						echo $result_3_1[1][0];
+						$result_3_1[1][0] = "";
 					echo "</td>";
 				echo "</tr>";
 			
