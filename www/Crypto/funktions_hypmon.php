@@ -590,7 +590,7 @@
 		global $handle_log;
 		for ($q=0; $q < count($ArrParam); $q=$q+13) { 
 
-			    $query_input = "INSERT INTO ".$name_table."(`Date`, 
+			    $query_input = "INSERT IGNORE INTO ".$name_table."(`Date`, 
 			    									`Name`,
 			    									`Capitalization`,
 			    									`Exchange`,		    									 
