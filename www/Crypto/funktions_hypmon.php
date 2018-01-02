@@ -587,7 +587,8 @@
 
 	function qIIntoDB_CR($name_table,$link_DB,$ArrParam) {	//	Данная функция добавляет данные в базу
 
-		for ($q=0; $q < count($ArrParam); $q=$q+8) { 
+		global $handle_log;
+		for ($q=0; $q < count($ArrParam); $q=$q+13) { 
 
 			    $query_input = "INSERT INTO ".$name_table."(`Date`, 
 			    									`Name`,
@@ -596,7 +597,12 @@
 			    									`Frequency_1`,		    									 
 			    									`Frequency_US_Monthly`,		    									 
 			    									`Frequency_Daily`,		    									 
-			    									`Frequency_Google`		    									 
+			    									`Frequency_Google`,		    									 
+			    									`Quantity_of_markets`,		    									 
+			    									`Release_date_for_sale`,		    									 
+			    									`Price_at_time_of_issue`,		    									 
+			    									`Price_for_today`,		    									 
+			    									`Price_difference`		    									 
 			    							 )VALUES(
 			    							 		'".$ArrParam[$q]."',
 			    							 		'".$ArrParam[$q+1]."',
@@ -605,10 +611,28 @@
 			    									'".$ArrParam[$q+4]."',
 			    									'".$ArrParam[$q+5]."',
 			    									'".$ArrParam[$q+6]."',
-			    									'".$ArrParam[$q+7]."'
+			    									'".$ArrParam[$q+7]."',
+			    									'".$ArrParam[$q+8]."',
+			    									'".$ArrParam[$q+9]."',
+			    									'".$ArrParam[$q+10]."',
+			    									'".$ArrParam[$q+11]."',
+			    									'".$ArrParam[$q+12]."'
 			    									)";
 			    /* Выполняем SQL-запрос */
-			    mysqli_query($link_DB,$query_input) or die("Query failed : " . mysqli_error($link_DB));
+			    if (!mysqli_query($link_DB,$query_input)){
+
+					$str_in_log_file = date("H:i:s",time())." ".__FUNCTION__.":\r\n".
+						"\tgiven_quantity_starts = ".$amount_starts."\r\n".
+						"\tdone_quantity_of_starts = ".$str_quantity_start[1]."\r\n".
+						"\tquantity_of_pages_passed_0 = ".($str_quantity_start[0]-1)."\r\n".
+						"\t\tQuery failed: ".mysqli_error($link_DB)."\r\n";
+						"\t\t\tText query: \r\n".$query_input."\r\n";
+
+					fwrite($handle_log,$str_in_log_file);
+
+
+			    	// or die("Query failed : " . mysqli_error($link_DB));
+			    	}
 			}
 		}
 

@@ -19,8 +19,8 @@
 <?php
 	
 
-	// $key = "bitcoin";
-	$key = "Marscoin";
+	$key = "bitcoin";
+	// $key = "Marscoin";
 	// $key = "ethereum";
 	// $key = "lit ecoin";
 	// $key = "vot+ecoin";
@@ -41,9 +41,8 @@
 	echo "key &nbsp;= &nbsp;".$key."<br>";
 	echo "url_3_2 &nbsp;= &nbsp;".$url_3_2."<br>";
 
-	// $patern_3_2 = '#<tr class="[\w-\d_]+">\s*<t[hd]\sclass="[\w-\d_]+">(.*)<\/t[hd]>\s*(?:<td>[\d\.,-]*<\/td>\s*){6}<\/tr>\s*<\/tbody>#';  // дата выхода на рынок	
-	// $patern_3_2 = '#<tr class="text-right">\s*<td\sclass="text-left">(.*)<\/td>\s*(?:<td>[\d\.,-]*<\/td>\s*){6}<\/tr>\s*<\/tbody>#';  // дата выхода на рынок	
-	$patern_3_2 = '#<td>[\d\.,-]*<\/td>\s*<\/tr>\s*<\/tbody>#';  // дата выхода на рынок	
+	// $patern_3_2 = '#<tr class="text-right">\s*<td\sclass="text-left">(\w{3}\s\d{2},\s20\d{2})<\/td>\s*<td>([\d\.]*)<\/td>\s*(?:<td>[\d\.,-]*<\/td>\s*){5}<\/tr>\s*<\/tbody>#';  // дата выхода на рынок	
+	$patern_3_2 = '#<tbody>\s*<tr class="text-right">\s*<td\sclass="text-left">(?:\w{3}\s\d{2},\s20\d{2})<\/td>\s*(?:<td>[\d\.]*<\/td>\s*){3}<td>([\d\.]*)<\/td>\s*#';  // дата выхода на рынок	
 	if (!preg_match_all($patern_3_2,$page_3_2,$result_3_2,PREG_PATTERN_ORDER)) { 
 	    // echo "<br>func: &nbsp;".__FUNCTION__."&nbsp; patern_3 ненайден или ошибка<br>";
 		}	
@@ -57,6 +56,7 @@
 	// Build_tree_arr($result_2);
 
 	echo "<br><br>***&nbsp; result_3_2[1][0] = &nbsp;".$result_3_2[1][0];
+	echo "<br><br>***&nbsp; result_3_2[2][0] = &nbsp;".$result_3_2[2][0];
 
 
 

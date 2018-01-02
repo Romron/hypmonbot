@@ -38,7 +38,7 @@
 					<td> Количество <br> торгующих  <br> бирж </td>	<!-- должна быть активная ссылка на страницу с перечнем бирж  пр. https://coinmarketcap.com/currencies/bitcoin/#markets  -->
 					<td> Дата выхода <br> на торги </td>	
 					<td> Цена <br> на момент <br> выхода, $ </td>	
-					<td> Цена сегодня, <br> $ </td>	
+					<td> Цена <br> сегодня, <br> $ </td>	
 					<td> Разница <br> начальной и <br> сегоднешней <br> цены, $ </td>	
 				</tr>
 			</thead>
@@ -55,7 +55,7 @@
 		// $str_quantity_start_4 = "http://www.bukvarix.com/keywords/?q=";	// Пока бесплатно !!!
 
 //----------------------------------------------------------------------------------------
-	// global $handle_log;
+	global $handle_log;
 	$path_name_file='quantity_start.txt';
 	$path_name_folder='LOG';
 	$amount_starts = 13;
@@ -118,7 +118,8 @@
 		echo "<br> Объём оперативной память занимаемый скриптом &nbsp-&nbsp".round((memory_get_usage()/1000000),2)."M";
 		echo "<br>******";
 
-	$name_table = "Crypto_test";
+	// $name_table = "Crypto_test";
+	$name_table = "Crypto_1";
 	$link_DB = conect_DB();
 	$result = array();
 	$number_in_order = 0;		// порядковый номер строки на веб странице. Для БД не нужен
@@ -141,12 +142,12 @@
 	$arr_3 = array(' ','+','/');		// для замены этих символов в ключах
 	$arr_3_page = array('\n','\s');		// для замены этих символов в ключах
 	
-
-
-
 	$patern_0 = '#<tr>\n*.*\n.*<td.*>(.*)<\/a>.*\n.*<td>\$(.*)<\/td>.*\n.*<td>\$(.*)<\/td>#'; 		//	название валюты 
 	$patern_1 = '#>Частотность.*\n.*\n.*\n.*\n.*\n.*\n.*\n.*<a\sclass="text-black">(.*)<\/a>#'; 		//	частотность в поиске 
-	
+	$patern_3_2 = '#<tr class="text-right">\s*<td\sclass="text-left">(\w{3}\s\d{2},\s20\d{2})<\/td>\s*<td>([\d\.]*)<\/td>\s*(?:<td>[\d\.,-]*<\/td>\s*){5}<\/tr>\s*<\/tbody>#';  // дата выхода на рынок	и цена в этот момент
+	$patern_3_3 = '#<tbody>\s*<tr class="text-right">\s*<td\sclass="text-left">(?:\w{3}\s\d{2},\s20\d{2})<\/td>\s*(?:<td>[\d\.]*<\/td>\s*){3}<td>([\d\.]*)<\/td>\s*#';  // дата выхода на рынок	
+
+
 	for ($i = $quantity_of_pages_passed_0; $i < 1+$quantity_of_pages_passed_0; $i++) { 	// рабочий вариант.  сдесь задаёться количество страниц за один запуск
 		// for ($i=1; $i < 2 ; $i++) {	// для тестов
 		if ($i>13) { break; }	// ограничение количества страниц
@@ -157,9 +158,7 @@
 		    echo "ERR &nbsp;".__FUNCTION__."patern_0 ненайден";		
 			} 		
 		for ($q=0; $q < count($result_0[1]); $q++) { 	//	перебор массива с названиями криптовалют
-			
-			if ($q > 1) { break; }		// для тестов
-			
+			// if ($q > 2) { break; }		// для тестов
 			$number_in_order++;		// номер строки для вывода на веб страницу
 			$current_key = strtolower($result_0[1][$q]);
 
@@ -168,32 +167,35 @@
 				$url_1 = $str_1.$key_1;
 				$url_2 = $str_2.$key_1;
 				$page_1 = GetWebPage($url_1);
-				if (!preg_match_all($patern_1,$page_1,$result_1,PREG_PATTERN_ORDER)) { 
-				    // echo "ERR &nbsp;".__FUNCTION__."&nbsp; patern_1 ненайден <br>";		
-				    // echo "url_1 &nbsp;=&nbsp;".$url_1."<br>";		
-					} 
-			
+				if (is_string($page_1)) {
+					if (!preg_match_all($patern_1,$page_1,$result_1,PREG_PATTERN_ORDER)) { 
+					    // echo "ERR &nbsp;".__FUNCTION__."&nbsp; patern_1 ненайден <br>";		
+					    // echo "url_1 &nbsp;=&nbsp;".$url_1."<br>";		
+						} 
+					}
 			// Сбор параметров с сервиса seobook.com
 				$url_2 = $str_2.$key_1;		// т.к. $key_1  уже преобразован в нижний регистр и закодирован
 				$page_2 = GetWebPage($url_2,$headers_2);
 				$patern_2_1 = '#>'.$key_1.'<\/a><\/td>\n.*<td>(.*)<\/td>#';
-				if (!preg_match_all($patern_2_1,$page_2,$result_2_1,PREG_PATTERN_ORDER)) { 
-				    // echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_1 ненайден или ошибка";
-					}	
-				$patern_2_2 = '~<td><a href="https:\/\/www\.google\.com\/#q='.$key_1.'".*>(.*)<\/a><\/td>~';
-				if (!preg_match_all($patern_2_2,$page_2,$result_2_2,PREG_PATTERN_ORDER)) { 
-				    // echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_2 ненайден или ошибка";
-					}	
-				$patern_2_3 = '~<td><a href="https:\/\/www\.google\.us\/#q='.$key_1.'" rel="nofollow" target="_blank">(.*)<\/a>~';
-				if (!preg_match_all($patern_2_3,$page_2,$result_2_3,PREG_PATTERN_ORDER)) { 
-				    // echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_3 ненайден или ошибка";
-					} 
-			
+				
+				if (is_string($page_2)) {
+					if (!preg_match_all($patern_2_1,$page_2,$result_2_1,PREG_PATTERN_ORDER)) { 
+					    // echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_1 ненайден или ошибка";
+						}	
+					$patern_2_2 = '~<td><a href="https:\/\/www\.google\.com\/#q='.$key_1.'".*>(.*)<\/a><\/td>~';
+					if (!preg_match_all($patern_2_2,$page_2,$result_2_2,PREG_PATTERN_ORDER)) { 
+					    // echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_2 ненайден или ошибка";
+						}	
+					$patern_2_3 = '~<td><a href="https:\/\/www\.google\.us\/#q='.$key_1.'" rel="nofollow" target="_blank">(.*)<\/a>~';
+					if (!preg_match_all($patern_2_3,$page_2,$result_2_3,PREG_PATTERN_ORDER)) { 
+					    // echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_3 ненайден или ошибка";
+						} 
+					}
 			// Сбор параметров с сервиса coinmarketcap.com
 				$key_3 = str_replace($arr_3,"-",$current_key);
 				$url_3_1 = $str_3.$key_3."/#markets";		// т.к. ключ уже преобразован в нижний регистр
 				$page_3_1 = GetWebPage($url_3_1);
-				if (!is_array($page_3_1)) {
+				if (is_string($page_3_1)) {
 					$page_3_1 = str_replace("\n","",$page_3_1);
 					$patern_3_1 = '#<tr(?:\sclass="[\w-\d_]+")?>.*<td>(\d{1,4})<\/td>.*<\/tr>\s*<\/tbody>#';  // количество бирж торгующих данной валютой	
 					if (!preg_match_all($patern_3_1,$page_3_1,$result_3_1,PREG_PATTERN_ORDER)) { 
@@ -201,25 +203,22 @@
 						}	
 					}
 
-				// $url_3_2 = $str_3.$key_3."/historical-data/?start=20130428&end=".date(Ymd);		// т.к. ключ уже преобразован в нижний регистр
-				
-				// echo "<br>$number_in_order. &nbsp;=======================================================<br>";
-				// echo "key_3 &nbsp;= &nbsp;".$key_3."<br>";
-				// echo "url_3_2 &nbsp;= &nbsp;".$url_3_2."<br>*****";
-				
-				// $page_3_2 = GetWebPage($url_3_2);
-				// if (!is_array($page_3_2)) {
-				// 	$page_3_2 = str_replace("\n","",$page_3_2);
-				// 	// $patern_3_2 = '#<tr class="[\w-\d_]+">\s*<t[hd]\sclass="[\w-\d_]+">(.*)<\/t[hd]>\s*(?:<td>[\d\.,-]*<\/td>\s*){6}<\/tr>\s*<\/tbody>#';  // дата выхода на рынок	
-				// 	// $patern_3_2 = '#<tr class="text-right">\s*<td\sclass="text-left">(.*)<\/td>\s*(?:<td>[\d\.,-]*<\/td>\s*){6}<\/tr>\s*<\/tbody>#';  // дата выхода на рынок	
-				// 	$patern_3_2 = '#\/tr>\s*<\/tbody>#';  // дата выхода на рынок	
-				// 	if (!preg_match_all($patern_3_2,$page_3_2,$result_3_2,PREG_PATTERN_ORDER)) { 
-				// 	    // echo "<br>func: &nbsp;".__FUNCTION__."&nbsp; patern_3 ненайден или ошибка<br>";
-				// 		}	
-				// 	}
-				// echo "+++++++<br>";
-				// print_r($result_3_2);
-	
+				$url_3_2 = $str_3.$key_3."/historical-data/?start=20130428&end=".date(Ymd);		// т.к. ключ уже преобразован в нижний регистр
+								
+				$page_3_2 = GetWebPage($url_3_2);
+				if (is_string($page_3_2)) {
+					$page_3_2 = str_replace("\n","",$page_3_2);
+					if (!preg_match_all($patern_3_2,$page_3_2,$result_3_2,PREG_PATTERN_ORDER)) { 
+					    // echo "<br>func: &nbsp;".__FUNCTION__."&nbsp; patern_3 ненайден или ошибка<br>";
+						}	
+
+					if (!preg_match_all($patern_3_3,$page_3_2,$result_3_3,PREG_PATTERN_ORDER)) { 
+					    // echo "<br>func: &nbsp;".__FUNCTION__."&nbsp; patern_3 ненайден или ошибка<br>";
+						}	
+						$result_3_2[2][0] = str_replace(".",",",$result_3_2[2][0]);
+						$result_3_3[1][0] = str_replace(".",",",$result_3_3[1][0]);
+						$price_difference = $result_3_3[1][0]-$result_3_2[2][0];
+					}
 
 			// Формируем тело веб таблицы
 				echo "<tr>";
@@ -252,36 +251,39 @@
 						echo $result_2_3[1][0];
 					echo "</td>";
 					echo "<td>";
-						echo $result_3_1[1][0];
-						$result_3_1[1][0] = "";
+						echo $result_3_1[1][0]; 
 					echo "</td>";
 					echo "<td>";
 						echo $result_3_2[1][0];
-						$result_3_2[1][0] = "";
+					echo "</td>";
+					echo "<td>";
+						echo $result_3_2[2][0];
+					echo "</td>";
+					echo "<td>";
+						echo $result_3_3[1][0];
+					echo "</td>";
+					echo "<td>";
+						echo $price_difference;
 					echo "</td>";
 				echo "</tr>";
-			
 
+			array_push($result,$date,$result_0[1][$q],$result_0[2][$q],$result_0[3][$q],$result_1[1][0],$result_2_1[1][0],$result_2_2[1][0],$result_2_3[1][0],$result_3_1[1][0],$result_3_2[1][0],$result_3_2[2][0],$result_3_3[1][0],$price_difference);
 
-			array_push($result,$date,$result_0[1][$q],$result_0[2][$q],$result_0[3][$q],$result_1[1][0],$result_2_1[1][0],$result_2_2[1][0],$result_2_3[1][0]);
-
+				$result_3_1[1][0] = "";
+				$result_3_2[1][0] = "";
+				$result_3_2[2][0] = "";
+				$result_3_3[1][0] = "";
 			}
+		
 		qIIntoDB_CR($name_table,$link_DB,$result);		// запись результатов в БД
-		sleep(mt_rand(1,2));
+		usleep(mt_rand(1000,100000));
 		$quantity_of_pages_passed_1 = $i+1;
 		}
 
-		// echo "<br><br>=========================================================================<br><br><br>";
-		// echo Build_tree_arr($result);
-		// echo "<br><br><br>**********************************************************<br><br><br>";
-		// print_r($result_1);
-
-		
 		$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
 		if (!$handle) {	// если ошибка
 			echo "ERROR: &nbsp; &nbsp;".__FUNCTION__.": ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
 			}		
-
 
 		$str_2 = $quantity_of_pages_passed_1."\r\n".$str_quantity_start[1];
 		fwrite($handle,$str_2);
