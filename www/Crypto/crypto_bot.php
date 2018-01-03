@@ -275,7 +275,7 @@
 			}
 		
 		qIIntoDB_CR($name_table,$link_DB,$result);		// запись результатов в БД
-		usleep(mt_rand(1000,100000));
+		usleep(mt_rand(100000,1500000));
 		$quantity_of_pages_passed_1 = $i+1;
 		}
 
