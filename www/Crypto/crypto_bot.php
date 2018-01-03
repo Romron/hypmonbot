@@ -54,57 +54,56 @@
 		// $str_quantity_start_3_1 = "&ff=1&search_type=subdomains&se=g_ua";
 		// $str_quantity_start_4 = "http://www.bukvarix.com/keywords/?q=";	// Пока бесплатно !!!
 
-//----------------------------------------------------------------------------------------
-	global $handle_log;
-	$path_name_file='quantity_start.txt';
-	$path_name_folder='LOG';
-	$amount_starts = 13;
+	//----------------------------------------------------------------------------------------
+		global $handle_log;
+		$path_name_file='quantity_start.txt';
+		$path_name_folder='LOG';
+		$amount_starts = 13;
 
 
-	if (!file_exists($path_name_folder)) {	// создаём папку для лог файлов если её не было 
-		if (!mkdir($path_name_folder)) {	// если ошибка
-			echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$path_name_folder."&nbsp; не создана";
+		if (!file_exists($path_name_folder)) {	// создаём папку для лог файлов если её не было 
+			if (!mkdir($path_name_folder)) {	// если ошибка
+				echo "ERROR: &nbsp; Class FileSistem method CreateFolder: папка &nbsp;".$path_name_folder."&nbsp; не создана";
+				}
 			}
-		}
-	$handle = fopen($path_name_folder.'/'.$path_name_file, "a");	// создаём, а если уже есть то открываем, файл для хранения количества стартов 
-		if (!$handle) {	// если ошибка
-		echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
-		}
-	$handle_log = fopen($path_name_folder.'/log.txt', "a");	// создаём, а если уже есть то открываем, файл
-
-	$str_quantity_start = file($path_name_folder.'/'.$path_name_file);		// читаем файл с количеством стартов 
-	$str_quantity_start[1]++;
-
-	// echo "<br>";
-	// echo Build_tree_arr($str_quantity_start);
-
-	if ($amount_starts < $str_quantity_start[1]) {		// если количество стартов больше заданого то записываем информацию в файл и выходим 
-		$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
-		if (!$handle) {	// если ошибка
-			echo "ERROR: &nbsp; ".__FUNCTION__.": ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+		$handle = fopen($path_name_folder.'/'.$path_name_file, "a");	// создаём, а если уже есть то открываем, файл для хранения количества стартов 
+			if (!$handle) {	// если ошибка
+			echo "ERROR: &nbsp; Class FileSistem method CreateFile: ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
 			}
-				
-		$str_in_log_file = date("H:i:s",time())." ".__FUNCTION__.":\r\n".
-			"\tgiven_quantity_starts = ".$amount_starts."\r\n".
-			"\tdone_quantity_of_starts = ".$str_quantity_start[1]."\r\n".
-			"\tquantity_of_pages_passed_0 = ".($str_quantity_start[0]-1)."\r\n".
-			"\t\tРабота скрипта завершина\r\n";
+		$handle_log = fopen($path_name_folder.'/log.txt', "a");	// создаём, а если уже есть то открываем, файл
 
-		fwrite($handle_log,$str_in_log_file);
-		echo "<br> Файл был запущен &nbsp;".$str_quantity_start[1]."&nbsp; раз <br><br>";
-		exit();
-		}
+		$str_quantity_start = file($path_name_folder.'/'.$path_name_file);		// читаем файл с количеством стартов 
+		$str_quantity_start[1]++;
 
-	if ($str_quantity_start[0] == '') {
-		$quantity_of_pages_passed_0 = 1;
-		}else{
-			$quantity_of_pages_passed_0 = trim($str_quantity_start[0]);	// $n - количество пройденных страниц на сайте источнике.
+		// echo "<br>";
+		// echo Build_tree_arr($str_quantity_start);
+
+		if ($amount_starts < $str_quantity_start[1]) {		// если количество стартов больше заданого то записываем информацию в файл и выходим 
+			$handle = fopen($path_name_folder.'/'.$path_name_file, "w");
+			if (!$handle) {	// если ошибка
+				echo "ERROR: &nbsp; ".__FUNCTION__.": ошибка при открытии файла &nbsp;".$path_name_file.'<br>';
+				}
+					
+			$str_in_log_file = date("H:i:s",time())." ".__FUNCTION__.":\r\n".
+				"\tgiven_quantity_starts = ".$amount_starts."\r\n".
+				"\tdone_quantity_of_starts = ".$str_quantity_start[1]."\r\n".
+				"\tquantity_of_pages_passed_0 = ".($str_quantity_start[0]-1)."\r\n".
+				"\t\tРабота скрипта завершина\r\n";
+
+			fwrite($handle_log,$str_in_log_file);
+			echo "<br> Файл был запущен &nbsp;".$str_quantity_start[1]."&nbsp; раз <br><br>";
+			exit();
 			}
-	
-	echo "<br>. amount_starts = ".$str_quantity_start[1];
-	echo "<br>. quantity_of_pages_passed = ".$quantity_of_pages_passed_0."<br><br>";
 
-//--------------------------------------------------------------------
+		if ($str_quantity_start[0] == '') {
+			$quantity_of_pages_passed_0 = 1;
+			}else{
+				$quantity_of_pages_passed_0 = trim($str_quantity_start[0]);	// $n - количество пройденных страниц на сайте источнике.
+				}
+		
+		echo "<br>. amount_starts = ".$str_quantity_start[1];
+		echo "<br>. quantity_of_pages_passed = ".$quantity_of_pages_passed_0."<br><br>";
+	//--------------------------------------------------------------------
 
 	ignore_user_abort(true);	// Игнорирует отключение пользователя 
 	set_time_limit(0);			// позволяет скрипту быть запущенным постоянно
