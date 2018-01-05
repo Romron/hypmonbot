@@ -514,13 +514,13 @@
 
 	    // оброботка ПЕРВОГО ответа сервера
 			for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) {
-		    	if ($i>50) { break; }	// для тестов
+		    	// if ($i>50) { break; }	// для тестов
 		   		$result_1[] = mysqli_fetch_assoc($result_query_SQL);
 		    	}
 
 		// формируем и отправляем ВТОРОЙ запрос
 			for ($z=0; $z < count($result_1); $z++) { 
-			  	if ($i>50) { break; }	// для тестов
+			  	// if ($z>50) { break; }	// для тестов
 			    $query_2 = "SELECT * FROM `".$name_table."` 
 			    			WHERE `".$main_field."` = '".$result_1[$z][$main_field]."'
 			    			";	
