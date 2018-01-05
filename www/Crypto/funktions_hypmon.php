@@ -464,7 +464,7 @@
 	    if (mysqli_connect_errno()) {
 	    	echo "<br> Ошибка при подключении к базе данных (".mysqli_connect_errno()."): ".mysqli_connect_error();
 	    	}else{
-	    	echo '<br> Соединение с базой данных установлено... ' . mysqli_get_host_info($link_DB) . "<br>";
+	    	// echo '<br> Соединение с базой данных установлено... ' . mysqli_get_host_info($link_DB) . "<br>";
 	    	}
 	    return $link_DB;	
 		}
@@ -480,7 +480,12 @@
 	    //        SELECT      *            FROM `test_2` ORDER BY `project`
 	    echo "<br>".$query."<br><br>";
 
-	    $result = mysqli_query($link_DB,$query) or die(__FUNCTION__."&nbsp&nbspQuery failed : " . mysql_error());	    
+	    $result = mysqli_query($link_DB,$query);
+
+		if (!$result) {
+			echo "<br><br><b><font color='red'>".__FUNCTION__."Query failed : " . mysqli_error($link_DB)."</font></b>";	
+			// exit();
+			}  	    
 
 	   	return $result;
 		}
@@ -713,80 +718,6 @@
 			    	// or die("Query failed : " . mysqli_error($link_DB));
 			    	}
 			}
-		}
-
-	function querySortingFromDB($link_DB,$name_table,$main_field,$sorting_field,$sorting_direction='ASC',$WHERE=false,$table=false){	//	Данная функция извликает данные из базы и сортирует их по указанному параметру
-
-	    if (!$WHERE) {
-		    $query_1 = "SELECT * FROM `".$name_table."` 		
-		    			GROUP BY `".$main_field."`
-		    			ORDER BY `".$sorting_field."` ".$sorting_direction."
-		    			";	 
-		    }else{   
-			    $query_1 = "SELECT * FROM `".$name_table."` 		
-			    			WHERE `".$sorting_field."` > `".$WHERE."`
-			    			GROUP BY `".$main_field."`
-			    			ORDER BY `".$sorting_field."` ".$sorting_direction."
-			    			";	  	
-			    }
-	    
-	    // отправка ПЕРВОГО запроса 
-		   	$result_query_SQL = mysqli_query($link_DB,$query_1);
-		    if (!$result_query_SQL) {
-		    	echo "<br><br><b><font color='red'>".__FUNCTION__."&nbsp; Query_1 failed : " . mysqli_error($link_DB)."</font></b>";	
-		    	exit();
-		    	}     
-
-	    // оброботка ПЕРВОГО ответа сервера
-			for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) {
-		    	if ($i>50) { break; }
-		   		$result_1[] = mysqli_fetch_assoc($result_query_SQL);
-		    	}
-
-		// формируем и отправляем ВТОРОЙ запрос
-			for ($z=0; $z < count($result_1); $z++) { 
-			    $query_2 = "SELECT * FROM `".$name_table."` 
-			    			WHERE `".$sorting_field."` = '".$result_1[$z][$sorting_field]."'
-			    			";	
-			    // отправка ВТОРОГО запроса 
-				   	$result_query_SQL = mysqli_query($link_DB,$query_2);
-				    if (!$result_query_SQL) {
-				    	echo "<br><br><b><font color='red'>".__FUNCTION__."&nbsp; Query_2 failed : " . mysqli_error($link_DB)."</font></b>";	
-				    	exit();
-				    	}    
-
-			    // оброботка ВТОРОГО ответа сервера
-					for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) {
-				    	if ($i>500) { break; }
-				   		$result_2[] = mysqli_fetch_assoc($result_query_SQL);
-				    	}
-				}
-
-		// вывод результатов в виде таблицы
-		if ($table) {
-			echo "<table>";
-				foreach ($result_2[0] as $key => $value) {
-					if ($key == $sorting_field) {
-						$td_str = '<th class="sorting">';
-					}else{$td_str = '<th>';}					
-					echo $td_str.$key."</th>";
-					}
-
-				for ($q=0; $q < count($result_2); $q++) { 
-					echo "<tr>";
-					foreach ($result_2[$q] as $key_2 => $value_2) {
-						if ($key_2 == $sorting_field) {
-							$td_str = '<td class="sorting">';
-						}else{$td_str = '<td>';}
-						echo $td_str;
-							echo $value_2;
-						echo "</td>";
-						}
-					echo "</tr>";
-					}
-			echo "</table>";
-	   		}
-	   	return $result_2;
 		}
 
 	function OutputResultSQL_InExcel($result_query_SQL){
@@ -1604,10 +1535,12 @@
 
 		}
 
-
-
 	function DataProcessing(){
-
+		// Получает массив данных из базы данных
+		// Сортировки ??
+		// Манипуляции - расчёты
+		// формирование исходящего массива который мог бы быть использован в для экселя и web страниц 
+		// возврат данных 
 
 
 		}
