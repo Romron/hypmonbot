@@ -667,7 +667,7 @@
 		// формируем и отправляем ВТОРОЙ запрос
 			for ($z=0; $z < count($result_1); $z++) { 
 			    $query_2 = "SELECT * FROM `".$name_table."` 
-			    			WHERE ".$main_field." = '".$result_1[$z][$main_field]."'
+			    			WHERE `".$sorting_field."` = '".$result_1[$z][$sorting_field]."'
 			    			";	
 			    // отправка ВТОРОГО запроса 
 				   	$result_query_SQL = mysqli_query($link_DB,$query_2);
