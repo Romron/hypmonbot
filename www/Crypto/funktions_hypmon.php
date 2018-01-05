@@ -492,6 +492,9 @@
 
 	function querySortingFromDB($link_DB,$name_table,$main_field,$sorting_field,$sorting_direction='ASC',$WHERE='',$table=false){	//	Данная функция извликает данные из базы и сортирует их по указанному параметру
 
+	   $patern_zero = '~\d\.[1-9]*(0*)$~';
+	   $patern_zero = '~\.\d*[1-9]?(0*)(?<=$)~U';
+
 	    if ($WHERE == '') {
 		    $query_1 = "SELECT * FROM `".$name_table."` 		
 		    			GROUP BY `".$main_field."`
@@ -514,13 +517,13 @@
 
 	    // оброботка ПЕРВОГО ответа сервера
 			for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) {
-		    	// if ($i>50) { break; }	// для тестов
+		    	if ($i>50) { break; }	// для тестов
 		   		$result_1[] = mysqli_fetch_assoc($result_query_SQL);
 		    	}
 
 		// формируем и отправляем ВТОРОЙ запрос
 			for ($z=0; $z < count($result_1); $z++) { 
-			  	// if ($z>50) { break; }	// для тестов
+			  	if ($z>50) { break; }	// для тестов
 			    $query_2 = "SELECT * FROM `".$name_table."` 
 			    			WHERE `".$main_field."` = '".$result_1[$z][$main_field]."'
 			    			";	
@@ -553,6 +556,10 @@
 				for ($q=0; $q < count($result_2); $q++) { 
 					echo "<tr>";
 					foreach ($result_2[$q] as $key_2 => $value_2) {
+						if (preg_match_all($patern_zero,$value_2,$result_zero,PREG_PATTERN_ORDER)) { // убираем незначущие нули после запятой
+							$value_2 = str_replace($result_zero[1][0],"",$value_2);	
+							$value_2 = $value_2.'0';
+							}
 						if ($key_2 == $sorting_field) {
 							$td_str = '<td class="sorting">';
 						}elseif ($key_2 == $main_field){

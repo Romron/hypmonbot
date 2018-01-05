@@ -44,9 +44,6 @@
 			</thead>
 			<tbody>
 	<!-- /Шапка таблицы -->
-
-	
-
 <?php  
 
 	// потенциальные источники частотностей: ***************************************
@@ -147,8 +144,8 @@
 	$patern_3_3 = '#<tbody>\s*<tr class="text-right">\s*<td\sclass="text-left">(?:\w{3}\s\d{2},\s20\d{2})<\/td>\s*(?:<td>[\d\.]*<\/td>\s*){3}<td>([\d\.]*)<\/td>\s*#';  // дата выхода на рынок	
 
 
-	// for ($i = $quantity_of_pages_passed_0; $i < 1+$quantity_of_pages_passed_0; $i++) { 	// рабочий вариант.  сдесь задаёться количество страниц за один запуск
-		for ($i=1; $i < 2 ; $i++) {	// для тестов
+	for ($i = $quantity_of_pages_passed_0; $i < 1+$quantity_of_pages_passed_0; $i++) { 	// рабочий вариант.  сдесь задаёться количество страниц за один запуск
+		// for ($i=1; $i < 2 ; $i++) {	// для тестов
 		if ($i>13) { break; }	// ограничение количества страниц
 
 		$url_0 = $str_0.$i;
@@ -173,6 +170,7 @@
 					    // echo "url_1 &nbsp;=&nbsp;".$url_1."<br>";		
 						} 
 					}
+				$result_1[1][0] = str_replace(",","",$result_1[1][0]);	
 			// Сбор параметров с сервиса seobook.com
 				$url_2 = $str_2.$key_1;		// т.к. $key_1  уже преобразован в нижний регистр и закодирован
 				$page_2 = GetWebPage($url_2,$headers_2);
@@ -190,6 +188,9 @@
 					if (!preg_match_all($patern_2_3,$page_2,$result_2_3,PREG_PATTERN_ORDER)) { 
 					    // echo "func: &nbsp;".__FUNCTION__."&nbsp; patern_2_3 ненайден или ошибка";
 						} 
+					$result_2_1[1][0] = str_replace(",","",$result_2_1[1][0]);
+					$result_2_2[1][0] = str_replace(",","",$result_2_2[1][0]);
+					$result_2_3[1][0] = str_replace(",","",$result_2_3[1][0]);
 					}
 			// Сбор параметров с сервиса coinmarketcap.com
 				$key_3 = str_replace($arr_3,"-",$current_key);
@@ -215,8 +216,6 @@
 					if (!preg_match_all($patern_3_3,$page_3_2,$result_3_3,PREG_PATTERN_ORDER)) { 
 					    // echo "<br>func: &nbsp;".__FUNCTION__."&nbsp; patern_3 ненайден или ошибка<br>";
 						}	
-						$result_3_2[2][0] = str_replace(".",",",$result_3_2[2][0]);
-						$result_3_3[1][0] = str_replace(".",",",$result_3_3[1][0]);
 						$price_difference = $result_3_3[1][0]-$result_3_2[2][0];
 					}
 

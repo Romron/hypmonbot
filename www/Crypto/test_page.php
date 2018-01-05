@@ -17,15 +17,16 @@
 	// // ====================== MySQL запросы ======================
 
 
-		$name_table = "Crypto_1";	//	Выбор таблицы в базе данных
-		// $name_table = "Crypto_test";	//	Выбор таблицы в базе данных
+		// $name_table = "Crypto_1";	//	Выбор таблицы в базе данных
+		$name_table = "Crypto_test";	//	Выбор таблицы в базе данных
 		// $name_table = "Work_table_1";	//	Выбор таблицы в базе данных
 		// $name_table = "Work_table_3";	//	Выбор таблицы в базе данных
 		$link_DB = conect_DB();	
 
 		
 
-		$result = querySortingFromDB($link_DB,$name_table,'Name','Capitalization','DESC','',1);
+		$result = querySortingFromDB($link_DB,$name_table,'Date','id','DESC','',1);
+		// $result = querySortingFromDB($link_DB,$name_table,'Name','Capitalization','DESC','',1);
 
 	    // echo "<br><b> result: </b>&nbsp;&nbsp;&nbsp;&nbsp;<br>";
 	    // echo Build_tree_arr($result);
