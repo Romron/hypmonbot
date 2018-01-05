@@ -1,5 +1,51 @@
 
 
+.wrapper{
+	background: #C0C0C0;
+	height: auto;
+	width: auto;
+	display: inline-block;
+	margin: -10px;
+}
+
+.heder {
+	background: #D3D3D3;
+	border: 2px solid #3B303B;
+	border-radius: 10px;
+	height: 200px;
+	margin: 20px;
+}
+
+.content {
+	background: #D3D3D3;
+	border: 2px solid #3B303B;
+	border-radius: 10px;
+	height: auto;
+	width: auto;
+	margin: 20px;
+	padding: 5px;
+	display: inline-block;
+
+}
+
+.footer {
+	background: #D3D3D3;
+	border: 2px solid #3B303B;
+	border-radius: 10px;
+	height: 200px;
+	margin: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
 table, td, tr, th  {
 	border-collapse: collapse;
 	border: 1px solid black;
