@@ -490,7 +490,7 @@
 	   	return $result;
 		}
 
-	function querySortingFromDB($link_DB,$name_table,$main_field,$sorting_field,$sorting_direction='ASC',$WHERE='',$table=false){	//	Данная функция извликает данные из базы и сортирует их по указанному параметру
+	function querySortingFromDB($link_DB,$name_table,$main_field,$sorting_field,$sorting_direction='ASC',$WHERE='',$table=false){	//	Данная функция извликает данные из базы, групирует и сортирует их по указаным параметрам
 
 	   $patern_zero = '~\d\.[1-9]*(0*)$~';
 	   $patern_zero = '~\.\d*[1-9]?(0*)(?<=$)~U';
@@ -517,13 +517,13 @@
 
 	    // оброботка ПЕРВОГО ответа сервера
 			for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) {
-		    	if ($i>50) { break; }	// для тестов
+		    	// if ($i>50) { break; }	// для тестов
 		   		$result_1[] = mysqli_fetch_assoc($result_query_SQL);
 		    	}
 
 		// формируем и отправляем ВТОРОЙ запрос
 			for ($z=0; $z < count($result_1); $z++) { 
-			  	if ($z>50) { break; }	// для тестов
+			  	// if ($z>50) { break; }	// для тестов
 			    $query_2 = "SELECT * FROM `".$name_table."` 
 			    			WHERE `".$main_field."` = '".$result_1[$z][$main_field]."'
 			    			";	

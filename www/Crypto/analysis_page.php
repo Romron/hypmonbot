@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>TEST PAGE</title>
+	<title>ANALYSIS_PAGE</title>
 	<meta charset="utf-8">
 	<meta description="Страница для тестов">
 
@@ -17,8 +17,8 @@
 	// // ====================== MySQL запросы ======================
 
 
-		$name_table = "Crypto_1";	//	Выбор таблицы в базе данных
-		// $name_table = "Crypto_test";	//	Выбор таблицы в базе данных
+		// $name_table = "Crypto_1";	//	Выбор таблицы в базе данных
+		$name_table = "Crypto_test";	//	Выбор таблицы в базе данных
 		// $name_table = "Work_table_1";	//	Выбор таблицы в базе данных
 		// $name_table = "Work_table_3";	//	Выбор таблицы в базе данных
 		$link_DB = conect_DB();	
