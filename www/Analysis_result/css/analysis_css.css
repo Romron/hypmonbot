@@ -1,0 +1,29 @@
+
+
+table, td, tr, th  {
+	border-collapse: collapse;
+	border: 1px solid black;
+	text-align: center;
+}
+
+table {
+	margin: 10px;
+	margin-left: 2px;
+}
+
+th {
+	padding: 5px;
+}
+
+td {
+	padding-left: 3px;
+	padding-right:3px;
+}
+
+.sorting{
+	background-color: #C097F2;
+}
+
+.main_sorting{
+	background-color: #9DF8FB;
+}
