@@ -17,51 +17,76 @@
 <body>
 
 <?php
-	
+	// первый запрос: сортировка по СY по убыванию, и групировка по project, что бы исключить повторы, результаты в $result_arr.
+	// второй запрос: WHERE = '.$result_arr[0][project].' т.е. выбираем все строки в которых поле project равно наидольшему CY и т.д.
 
-	$key = "bitcoin";
-	// $key = "Marscoin";
-	// $key = "ethereum";
-	// $key = "lit ecoin";
-	// $key = "vot+ecoin";
-	// $key = "ronp+ aulcoin";
-	// $key = "usde";
-	// $key = "steem";
-
-	$key = str_replace($arr_3,"-",$key);
-	
-
-	$str_3 = "https://coinmarketcap.com/currencies/";
-	$url_3_2 = $str_3.$key."/historical-data/?start=20130428&end=".date(Ymd);
-	$page_3_2 = GetWebPage($url_3_2);
-	$page_3_2 = str_replace("\n","",$page_3_2);
-
-	echo $page_3_2;
-	echo "<br>*********************************************************************<br>";
-	echo "key &nbsp;= &nbsp;".$key."<br>";
-	echo "url_3_2 &nbsp;= &nbsp;".$url_3_2."<br>";
-
-	// $patern_3_2 = '#<tr class="text-right">\s*<td\sclass="text-left">(\w{3}\s\d{2},\s20\d{2})<\/td>\s*<td>([\d\.]*)<\/td>\s*(?:<td>[\d\.,-]*<\/td>\s*){5}<\/tr>\s*<\/tbody>#';  // дата выхода на рынок	
-	$patern_3_2 = '#<tbody>\s*<tr class="text-right">\s*<td\sclass="text-left">(?:\w{3}\s\d{2},\s20\d{2})<\/td>\s*(?:<td>[\d\.]*<\/td>\s*){3}<td>([\d\.]*)<\/td>\s*#';  // дата выхода на рынок	
-	if (!preg_match_all($patern_3_2,$page_3_2,$result_3_2,PREG_PATTERN_ORDER)) { 
-	    // echo "<br>func: &nbsp;".__FUNCTION__."&nbsp; patern_3 ненайден или ошибка<br>";
-		}	
+	$name_table = "Work_table_1";	//	Выбор таблицы в базе данных
+	$link_DB = conect_DB();	
+	$sorting_field = 'page_yndex_pc';
 
 
-	// array_push($result_2,$result_2[1][0]);
+    $query_1 = "SELECT * FROM `".$name_table."` 		
+    			GROUP BY ".$sorting_field."
+    			ORDER BY baclink_alexa DESC
+    			";	  	    
 
-	echo "<br><br><br>=========================================================================<br><br><br>";
+    // отправка ПЕРВОГО запроса 
+	   	$result_query_SQL = mysqli_query($link_DB,$query_1);
+	    if (!$result_query_SQL) {
+	    	echo "<br><br><b><font color='red'>".__FUNCTION__."Query failed : " . mysqli_error($link_DB)."</font></b>";	
+	    	exit();
+	    	}     
 
-	print_r($result_3_2);
-	// Build_tree_arr($result_2);
-
-	echo "<br><br>***&nbsp; result_3_2[1][0] = &nbsp;".$result_3_2[1][0];
-	echo "<br><br>***&nbsp; result_3_2[2][0] = &nbsp;".$result_3_2[2][0];
-
-
+    // оброботка ПЕРВОГО ответа сервера
+		for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) {
+	    	if ($i>500) { break; }
+	   		$result_1[] = mysqli_fetch_assoc($result_query_SQL);
+	    	}
 
 
+	for ($z=0; $z < count($result_1); $z++) { 
 
+	    $query_2 = "SELECT * FROM `".$name_table."` 
+	    			WHERE `".$sorting_field."` = '".$result_1[$z][$sorting_field]."'
+	    			";
+
+
+	    // $query_2 = "SELECT * FROM `".$name_table."` 
+	    // 			WHERE project = '".$result_1[$z][project]."'
+	    // 			";	
+	    
+
+
+	    // отправка ВТОРОГО запроса 
+		   	$result_query_SQL = mysqli_query($link_DB,$query_2);
+		    if (!$result_query_SQL) {
+		    	echo "<br><br><b><font color='red'>".__FUNCTION__."Query failed : " . mysqli_error($link_DB)."</font></b>";	
+		    	exit();
+		    	}    
+
+	    // оброботка ВТОРОГО ответа сервера
+			for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) {
+		    	// if ($i>5000) { break; }
+		   		$result_2[] = mysqli_fetch_assoc($result_query_SQL);
+		    	}
+		}
+
+	// вывод результатов в виде таблицы
+		echo "<table>";
+			foreach ($result_2[0] as $key => $value) {
+				echo "<th>".$key."</th>";
+				}
+
+			for ($q=0; $q < count($result_2); $q++) { 
+				echo "<tr>";
+				foreach ($result_2[$q] as $value) {
+					echo "<td>";
+						echo $value;
+					echo "</td>";
+					}
+				echo "</tr>";
+				}
+		echo "</table>";
 
 
 

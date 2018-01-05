@@ -24,10 +24,10 @@
 
 		
 
-		$result = querySortingFromDB($link_DB,$name_table,'project','cy','DESC','0',1);
+		$result = querySortingFromDB($link_DB,$name_table,'cy','Views','DESC','',1);
 
-	    echo "<br><b> result: </b>&nbsp;&nbsp;&nbsp;&nbsp;<br>";
-	    echo Build_tree_arr($result);
+	    // echo "<br><b> result: </b>&nbsp;&nbsp;&nbsp;&nbsp;<br>";
+	    // echo Build_tree_arr($result);
 
 
 
