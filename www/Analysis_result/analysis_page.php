@@ -26,7 +26,6 @@
 
 		<div class="content">
 			<?php
-
 				// $name_table = "Crypto_1";	//	Выбор таблицы в базе данных
 				$name_table = "Crypto_test";	//	Выбор таблицы в базе данных
 				// $name_table = "Work_table_1";	//	Выбор таблицы в базе данных
@@ -51,6 +50,7 @@
 				</div>
 				<div class="tbody">
 					<?php 
+						// echo "<tr><td>TBODY</td></tr>";
 						for ($q=0; $q < count($result); $q++) { 
 							echo "<tr>";
 							foreach ($result[$q] as $key_2 => $value_2) {
@@ -72,9 +72,7 @@
 			</div>
 		</div>
 
-		<div class="footer">
-			FOOTER
-		</div>
+		<div class="footer">FOOTER</div>
 
 	</div>
 
