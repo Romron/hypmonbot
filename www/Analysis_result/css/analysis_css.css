@@ -6,14 +6,15 @@
 	width: auto;
 	display: inline-block;
 	margin: -10px;
+	/*position: fixed;*/
 }
 
 .heder {
 	background: #D3D3D3;
 	border: 2px solid #3B303B;
 	border-radius: 10px;
-	height: 200px;
-	margin: 20px;
+	height: 50px;
+	margin: 10px;
 }
 
 .content {
@@ -22,11 +23,17 @@
 	border-radius: 10px;
 	height: auto;
 	width: auto;
-	margin: 20px;
+	margin: 5px;
 	padding: 5px;
 	display: inline-block;
+	font-size: 12px;
 
 }
+
+.block_switch{
+	display: block;
+}
+
 
 .footer {
 	background: #D3D3D3;
@@ -36,7 +43,16 @@
 	margin: 20px;
 }
 
+th {
+	background: #D3D300;
+	/*position: fixed;*/
+	/*display: inline-block;*/
+}
 
+td {
+	background: #00D300;
+	/*z-index: 0;*/
+}
 
 
 
