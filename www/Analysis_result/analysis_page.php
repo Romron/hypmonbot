@@ -12,69 +12,55 @@
 	<script src="js/jquery-3.1.1.js"></script>
 
 </head>
+	<?php
+		// $name_table = "Crypto_1";	//	Выбор таблицы в базе данных
+		$name_table = "Crypto_test";	//	Выбор таблицы в базе данных
+		// $name_table = "Work_table_1";	//	Выбор таблицы в базе данных
+		$link_DB = conect_DB();	
+		$result = querySortingFromDB($link_DB,$name_table,'Name','Exchange','DESC','',0);
+		$char_arr = array('+','%','_');		// массив символов для удаления
+
+	?>
 <body>
 
-	<div class="wrapper">
+	<div id="wrapper_top">
 
-		<div class="heder">
-			HEDER
+		<div id="heder"> HEDER </div>
+		<div id="content_block_switch"> BLOCK_SWITCH</div>
+		<div id="table_hed">
+			<?php 
+				foreach ($result[0] as $key => $value) {
+					$n_col_th++;
+					$key = str_replace($char_arr," ",$key);
+					echo '<div class="col_'.$n_col_th.' th_div">';	
+						echo $key;
+					echo "</div>";
+					}
+			?>
 		</div>
+	</div>
 
-		<div class="content block_switch">
-			BLOCK_SWITCH
-		</div>
-
-		<div class="content">
-			<?php
-				// $name_table = "Crypto_1";	//	Выбор таблицы в базе данных
-				$name_table = "Crypto_test";	//	Выбор таблицы в базе данных
-				// $name_table = "Work_table_1";	//	Выбор таблицы в базе данных
-				$link_DB = conect_DB();	
-				$result = querySortingFromDB($link_DB,$name_table,'Name','Date','DESC','',0);
+	<div id="wrapper_bottom">
+		<div id="table_body">
+			<?php 
+				for ($q=0; $q < count($result); $q++) { 
+					echo '<div class="tr_div">';
+					foreach ($result[$q] as $key_2 => $value_2) {
+						$n_col_td++;
+						$value_2 = str_replace($char_arr," ",$value_2);
+						echo '<div class="col_'.$n_col_td.' td_div">';	
+							echo $value_2;
+						echo "</div>";
+						}
+					$n_col_td=0;
+					echo "</div>";
+					}
 			?>
 			
-			<div class="table">
-			<?php echo "<table>"; ?>
-				<div class="thed">
-					<?php 
-					
-						foreach ($result[0] as $key => $value) {
-							if ($key == $sorting_field) {
-								$th_str = '<th class="sorting">';
-							}elseif ($key == $main_field){
-								$th_str = '<th class="main_sorting">';
-								}else{$th_str = '<th>';}					
-							echo $th_str.$key."</th>";
-							}
-					?>
-				</div>
-				<div class="tbody">
-					<?php 
-						// echo "<tr><td>TBODY</td></tr>";
-						for ($q=0; $q < count($result); $q++) { 
-							echo "<tr>";
-							foreach ($result[$q] as $key_2 => $value_2) {
-								// if ($key_2 == $sorting_field) {
-								// 	$td_str = '<td class="sorting">';
-								// }elseif ($key_2 == $main_field){
-								// 	$td_str = '<td class="main_sorting">';
-								// 	}else{$td_str = '<td>';}
-								// echo $td_str;
-								echo "<td>";	
-									echo $value_2;
-								echo "</td>";
-								}
-							echo "</tr>";
-							}
-					?> 
-				</div>
-			<?php echo "</table>";  ?>
-			</div>
 		</div>
-
-		<div class="footer">FOOTER</div>
-
 	</div>
+
+	
 
 
 </body>

@@ -62,7 +62,6 @@
 						}else{$th_str = '<th>';}					
 					echo $th_str.$key."</th>";
 					}
-
 				for ($q=0; $q < count($result_2); $q++) { 
 					echo "<tr>";
 					foreach ($result_2[$q] as $key_2 => $value_2) {
@@ -78,12 +77,28 @@
 						echo $td_str;
 							echo $value_2;
 						echo "</td>";
+						$q_n++;
 						}
 					echo "</tr>";
 					}
 			echo "</table>";
-	   		}
-	   	return $result_2;
+	   		}else{	// убираем незначущие нули после запятой
+				for ($w=0; $w < count($result_2); $w++) {
+					$w_n = 0;		// счётчик элементов массива $result_2[$w] для удаления незначущих нулей в $result_2
+					foreach ($result_2[$w] as $key_2 => $value_2) {
+						if (preg_match_all($patern_zero,$value_2,$result_zero,PREG_PATTERN_ORDER)) {
+							$value_2 = str_replace($result_zero[1][0],"",$value_2);	
+							$value_2 = $value_2.'0';
+							$result_2[$w][$key_2] = $value_2;
+
+							// echo "<br>*****&nbsp;&nbsp; result_2[".$w."][".$key_2."] = ".$result_2[$w][$key_2];
+
+							}
+						$w_n++;
+						}
+				}
+			   	return $result_2;
+		   		}
 		}
 
 
