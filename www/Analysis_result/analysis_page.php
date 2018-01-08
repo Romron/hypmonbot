@@ -17,7 +17,7 @@
 		$name_table = "Crypto_test";	//	Выбор таблицы в базе данных
 		// $name_table = "Work_table_1";	//	Выбор таблицы в базе данных
 		$link_DB = conect_DB();	
-		$result = querySortingFromDB($link_DB,$name_table,'Name','Exchange','DESC','',0);
+		$result = querySortingFromDB($link_DB,$name_table,'id','Capitalization','DESC','',0);
 		$char_arr = array('+','%','_');		// массив символов для удаления
 
 	?>
@@ -26,7 +26,6 @@
 	<div id="wrapper_top">
 
 		<div id="heder"> HEDER </div>
-		<div id="content_block_switch"> BLOCK_SWITCH</div>
 		<div id="table_hed">
 			<?php 
 				foreach ($result[0] as $key => $value) {
@@ -36,6 +35,17 @@
 						echo $key;
 					echo "</div>";
 					}
+			?>
+		</div>
+		<div id="block_switch"> <!-- BLOCK_SWITCH -->
+			<?php 
+				for ($b_s=1; $b_s < (count($result[0])+1); $b_s++) { 
+					echo '<div class="col_'.$b_s.' th_div">';	
+						echo $b_s;
+					echo "</div>";
+				}
+
+
 			?>
 		</div>
 	</div>

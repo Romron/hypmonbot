@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>TEST PAGE</title>
+	<title>TEST_PAGE</title>
 	<meta charset="utf-8">
 	<meta description="Главная страница">
 
-	<link href="css/analysis_css_1.css" rel="stylesheet">
+	<link href="css/analysis_css_test.css" rel="stylesheet">
 	<?php 	require_once('funktions_hypmon.php');	?>
 	<?php 	require_once('funktions_analysis.php');	?>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -17,27 +17,50 @@
 		$name_table = "Crypto_test";	//	Выбор таблицы в базе данных
 		// $name_table = "Work_table_1";	//	Выбор таблицы в базе данных
 		$link_DB = conect_DB();	
-		$result = querySortingFromDB($link_DB,$name_table,'Name','Exchange','DESC','',0);
+		$result = querySortingFromDB($link_DB,$name_table,'id','Capitalization','DESC','',0);
 		$char_arr = array('+','%','_');		// массив символов для удаления
 
-	?>	
+	?>
 <body>
 
 	<div id="wrapper_top">
 
-		<div id="heder"> HEDER </div>
-		<div id="content_block_switch"> BLOCK_SWITCH</div>
+		<div id="heder"> HEDER
+			
+			<?php 
+				echo Build_tree_arr($_POST);
+
+			?>
+
+
+		</div>
+		<form name="test_1" action="test_page.php" method="post">
 		<div id="table_hed">
 			<?php 
 				foreach ($result[0] as $key => $value) {
 					$n_col_th++;
 					$key = str_replace($char_arr," ",$key);
 					echo '<div class="col_'.$n_col_th.' th_div">';	
-						echo $key;
+						// Скрытые под текс чекбоксы
+						echo '<input id="id_'.$n_col_th.'" type="checkbox" name="'.$n_col_th.'" value="true"  />';
+						echo '<label for="id_'.$n_col_th.'">'.$key.'</label>';
 					echo "</div>";
 					}
 			?>
 		</div>
+		<div id="block_switch"> <!-- BLOCK_SWITCH -->
+			<?php 
+				for ($b_s=1; $b_s < (count($result[0])+1); $b_s++) { 
+					echo '<div class="col_'.$b_s.' th_div">';	
+						echo $b_s;
+					echo "</div>";
+				}
+
+
+			?>
+			<input type="submit" name="test_1" value="Submit" />
+		</div>
+		</form>
 	</div>
 
 	<div id="wrapper_bottom">
