@@ -1,0 +1,50 @@
+	14:46:32 :
+		amount_starts = 3
+		quantity_of_pages_passed_0 = 2
+	Работа скрипта завершина
+	15:20:23 :
+		amount_starts = 3
+		quantity_of_pages_passed_0 = 7
+	Работа скрипта завершина
+15:33:05 :
+		amount_starts = 5
+		quantity_of_pages_passed_0 = 13
+	Работа скрипта завершина
+15:47:01 :
+		amount_starts = 6
+		quantity_of_pages_passed_0 = 13	Работа скрипта завершина
+15:54:46 :
+	given_quantity_starts = 5
+	done_quantity_of_starts = 14
+	quantity_of_pages_passed_0 = 4
+		Работа скрипта завершина
+15:55:27 :
+	given_quantity_starts = 5
+	done_quantity_of_starts = 6
+	quantity_of_pages_passed_0 = 12
+		Работа скрипта завершина
+15:05:41 :
+	given_quantity_starts = 13
+	done_quantity_of_starts = 14
+	quantity_of_pages_passed_0 = 4
+		Работа скрипта завершина
+15:13:25 :
+	given_quantity_starts = 12
+	done_quantity_of_starts = 13
+	quantity_of_pages_passed_0 = 12
+		Работа скрипта завершина
+15:27:04 :
+	given_quantity_starts = 13
+	done_quantity_of_starts = 14
+	quantity_of_pages_passed_0 = 13
+		Работа скрипта завершина
+12:01:03 :
+	given_quantity_starts = 13
+	done_quantity_of_starts = 14
+	quantity_of_pages_passed_0 = 13
+		Работа скрипта завершина
+15:56:54 :
+	given_quantity_starts = 13
+	done_quantity_of_starts = 14
+	quantity_of_pages_passed_0 = 13
+		Работа скрипта завершина
