@@ -26,12 +26,16 @@
 	<div id="wrapper_top">
 
 		<div id="heder"> HEDER
-			
-			<?php 
-				echo Build_tree_arr($_POST);
+				<?php 
+					if (count($_POST) > 0) {
+						echo Build_tree_arr($_POST);
+						echo '<script type="text/javscript">
+								document.getElementById("test_1").reset();
+								</script>';
 
-			?>
 
+						}
+				?>
 
 		</div>
 		<form name="test_1" action="test_page.php" method="post">
@@ -47,6 +51,7 @@
 					echo "</div>";
 					}
 			?>
+
 		</div>
 		<div id="block_switch"> <!-- BLOCK_SWITCH -->
 			<?php 
