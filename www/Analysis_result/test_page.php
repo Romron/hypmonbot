@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,18 +10,21 @@
 	<link href="css/analysis_css_test.css" rel="stylesheet">
 	<?php 	require_once('funktions_hypmon.php');	?>
 	<?php 	require_once('funktions_analysis.php');	?>
+	<?php 	require_once('test_page_1.php');	?>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script src="js/jquery-3.1.1.js"></script>
 
 </head>
 	<?php
-		// $name_table = "Crypto_1";	//	Выбор таблицы в базе данных
-		$name_table = "Crypto_test";	//	Выбор таблицы в базе данных
-		// $name_table = "Work_table_1";	//	Выбор таблицы в базе данных
-		$link_DB = conect_DB();	
-		$result = querySortingFromDB($link_DB,$name_table,'id','Capitalization','DESC','',0);
+		session_start();
+		// global $result;
+		// // $name_table = "Crypto_1";	//	Выбор таблицы в базе данных
+		// $name_table = "Crypto_test";	//	Выбор таблицы в базе данных
+		// // $name_table = "Work_table_1";	//	Выбор таблицы в базе данных
+		// $link_DB = conect_DB();	
+		// $result = querySortingFromDB($link_DB,$name_table,'id','Capitalization','DESC','',0);
 		$char_arr = array('+','%','_');		// массив символов для удаления
-
+		$result = $_SESSION['result'];
 	?>
 <body>
 
@@ -27,20 +32,18 @@
 
 		<div id="heder"> HEDER
 				<?php 
-					if (count($_POST) > 0) {
-						echo Build_tree_arr($_POST);
-						echo '<script type="text/javscript">
-								document.getElementById("test_1").reset();
-								</script>';
-
-
-						}
+					// if (count($_POST) > 0) {
+					// 	echo Build_tree_arr($_POST);
+					// 	}else{
+					// 	}
 				?>
 
 		</div>
-		<form name="test_1" action="test_page.php" method="post">
+		<!-- <form name="test_1" action="test_page.php" method="post"> -->
+		<form name="test_1" action="test_page_1.php" method="post">
 		<div id="table_hed">
-			<?php 
+			<?php
+
 				foreach ($result[0] as $key => $value) {
 					$n_col_th++;
 					$key = str_replace($char_arr," ",$key);
@@ -63,7 +66,7 @@
 
 
 			?>
-			<input type="submit" name="test_1" value="Submit" />
+			<input type="submit" name="submit_test_1" value="Submit" />
 		</div>
 		</form>
 	</div>
