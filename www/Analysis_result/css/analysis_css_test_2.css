@@ -139,32 +139,19 @@
 	}
 
 
-
-
-
-input[type="radio"]{
-  cursor: pointer;
-  vertical-align;
-  margin: 0px;
-}
-
 .div_radio_group{
 	display: inline;
-	cursor: pointer;
+	/*cursor: pointer;*/
 	border: 2px solid red;
 	border-radius: 10px;
-	height: 5px;
-	width: 5px;
 
 }
 
 .div_radio_sort{
 	display: inline;
-	cursor: pointer;
+	/*cursor: pointer;*/
 	border: 2px solid green;
 	border-radius: 10px;	
-	height: 5px;
-	width: 5px;	
 }
 
 
@@ -177,4 +164,51 @@ input[type="submit"] {
 
 #div_submit_test_1{
 	display: table-cell;
+}
+
+/* Прячем оригинальный чекбокс. */
+.radio_gs:not(checked) {
+  position: absolute;
+  opacity: 0;
+}
+.radio_gs:not(checked) + label {
+  position: relative; /* будем позиционировать псевдочекбокс относительно label */
+  padding: 0 0 0 60px; /* оставляем слева от label место под псевдочекбокс */
+}
+/* Оформление первой части чекбокса в выключенном состоянии (фон). */
+.radio_gs:not(checked) + label:before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 50px;
+  height: 26px;
+  border-radius: 13px;
+  background: #CDD1DA;
+  box-shadow: inset 0 2px 3px rgba(0,0,0,.2);
+}
+/* Оформление второй части чекбокса в выключенном состоянии (переключатель). */
+.radio_gs:not(checked) + label:after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 10px;
+  background: #FFF;
+  box-shadow: 0 2px 5px rgba(0,0,0,.3);
+  transition: all .2s; /* анимация, чтобы чекбокс переключался плавно */
+}
+/* Меняем фон чекбокса, когда он включен. */
+.radio_gs:checked + label:before {
+  background: #9FD468;
+}
+/* Сдвигаем переключатель чекбокса, когда он включен. */
+.radio_gs:checked + label:after {
+  left: 26px;
+}
+/* Показываем получение фокуса. */
+.radio_gs:focus + label:before {
+  box-shadow: 0 0 0 3px rgba(255,255,0,.5);
 }

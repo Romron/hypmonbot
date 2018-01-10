@@ -53,8 +53,14 @@
 							$div_str = 'group';
 							}else{$div_str = '';}
 					echo '<div class="col_'.$n_col_th.' th_div '.$div_str.'">';	
-				echo '<div class="div_radio_group"> <input type="radio" name="group" value="'.$n_col_th.'" id="group_'.$n_col_th.'"/> </div>';
-				echo '<div class="div_radio_sort">  <input type="radio" name="sort" value="'.$n_col_th.'" id="sort_'.$n_col_th.'"/> </div><br>';
+				echo '<div class="div_radio_group"> 
+						<input type="radio" class="radio_gs" name="group" id="group_'.$n_col_th.'" value="'.$n_col_th.'"/>
+							<label for="group_'.$n_col_th.'"></label> 
+					  </div>';
+				echo '<div class="div_radio_sort">
+						<input type="radio" class="radio_gs" name="sort" id="sort_'.$n_col_th.'" value="'.$n_col_th.'"/> 
+						<label for="sort_'.$n_col_th.'"></label>
+					  </div><br>';
 						echo $key;
 					echo "</div>";
 					}
