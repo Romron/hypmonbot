@@ -6,13 +6,13 @@
 	left: 0px;
 	z-index: 10;	
 	background: #C0C0C0;
-	height: 449px;
+	height: 249px;
 	width: 100%;
 }
 
 #wrapper_bottom {
 	position: absolute;
-	top: 454px;
+	top: 254px;
 	left: 0;
 	width: 100%;
 	background: #D3D3D3;
@@ -23,7 +23,7 @@
 	background: #D3D3D3;
 	border: 2px solid #3B303B;
 	border-radius: 10px;
-	height: 350px;
+	height: 150px;
 	margin: 10px;
 }
 
@@ -59,6 +59,15 @@
 	text-align: center;
 	height: 20px;
 	padding: 2px;
+}
+
+.group{
+	background: #FFC0C0;
+}
+
+.sort{
+	background: #9ECBCC;
+
 }
 
 .td_div{
@@ -136,9 +145,7 @@
 input[type="radio"]{
   color: blue;
   cursor: pointer;
-  margin: 0px;
-  /*position: absolute;*/
-
+  vertical-align;
 }
 
 .div_radio_group{

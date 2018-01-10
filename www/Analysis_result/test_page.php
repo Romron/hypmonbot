@@ -46,19 +46,15 @@
 				foreach ($result[0] as $key => $value) {
 					$n_col_th++;
 					$key = str_replace($char_arr," ",$key);
-					
-					if ($key == $arr_keys[($_POST['sort']-1)]) {
-						$div_str = ' sort_th_div';
-					}elseif ($key == $arr_keys[($_POST['group']-1)]){
-						$div_str = ' group_th_div';
-						}else{$div_str = ' th_div';}
-
-
-
-					echo '<div class="col_'.$n_col_th.'">';	
-						// Скрытые под текс чекбоксы
-						echo '<div class="div_radio_group"> <input type="radio" name="group" value="'.$n_col_th.'"/> </div>';
-						echo '<div class="div_radio_sort">  <input type="radio" name="sort" value="'.$n_col_th.'"/> </div><br>';
+					// Выбраные колонки выделяем отдельным цветом
+						if ($key == $arr_keys[($_POST['sort']-1)]) {
+							$div_str = 'sort';
+						}elseif ($key == $arr_keys[($_POST['group']-1)]){
+							$div_str = 'group';
+							}else{$div_str = '';}
+					echo '<div class="col_'.$n_col_th.' th_div '.$div_str.'">';	
+				echo '<div class="div_radio_group"> <input type="radio" name="group" value="'.$n_col_th.'" id="group_'.$n_col_th.'"/> </div>';
+				echo '<div class="div_radio_sort">  <input type="radio" name="sort" value="'.$n_col_th.'" id="sort_'.$n_col_th.'"/> </div><br>';
 						echo $key;
 					echo "</div>";
 					}
@@ -67,12 +63,16 @@
 		<div id="block_switch"> <!-- BLOCK_SWITCH -->
 			<?php 
 				for ($b_s=1; $b_s < (count($result[0])+1); $b_s++) { 
-					echo '<div class="col_'.$b_s.' th_div">';	
+					// Выбраные колонки выделяем отдельным цветом
+						if ($b_s == ($_POST['sort'])) {
+							$div_str = 'sort';
+						}elseif ($b_s == ($_POST['group'])){
+							$div_str = 'group';
+							}else{$div_str = '';}
+					echo '<div class="col_'.$b_s.' th_div '.$div_str.' ">';	
 						echo $b_s;
 					echo "</div>";
 				}
-
-
 			?>
 			<div id="div_submit_test_1">
 				<input type="submit" name="submit_test_1" value="submit" />
@@ -100,7 +100,15 @@
 						foreach ($result[$q] as $key_2 => $value_2) {
 							$n_col_td++;
 							$value_2 = str_replace($char_arr," ",$value_2);
-							echo '<div class="col_'.$n_col_td.' td_div">';	
+
+						// Выбраные колонки выделяем отдельным цветом
+						if ($key_2 == $arr_keys[($_POST['sort']-1)]) {
+							$div_str = 'sort';
+						}elseif ($key_2 == $arr_keys[($_POST['group']-1)]){
+							$div_str = 'group';
+							}else{$div_str = '';}
+
+							echo '<div class="col_'.$n_col_td.' td_div '.$div_str.'">';	
 								echo $value_2;
 							echo "</div>";
 							}
