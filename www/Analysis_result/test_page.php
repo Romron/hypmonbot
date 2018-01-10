@@ -1,4 +1,6 @@
-
+<?php if (isset($_POST["clear_test_1"])) {
+	header("location:test_page.php");
+} ?>
 
 <!DOCTYPE html>
 <html>
@@ -10,51 +12,57 @@
 	<link href="css/analysis_css_test.css" rel="stylesheet">
 	<?php 	require_once('funktions_hypmon.php');	?>
 	<?php 	require_once('funktions_analysis.php');	?>
-	<?php 	require_once('test_page_1.php');	?>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script src="js/jquery-3.1.1.js"></script>
 
 </head>
 	<?php
-		session_start();
-		// global $result;
-		// // $name_table = "Crypto_1";	//	Выбор таблицы в базе данных
-		// $name_table = "Crypto_test";	//	Выбор таблицы в базе данных
-		// // $name_table = "Work_table_1";	//	Выбор таблицы в базе данных
-		// $link_DB = conect_DB();	
-		// $result = querySortingFromDB($link_DB,$name_table,'id','Capitalization','DESC','',0);
+		// $name_table = "Crypto_1";	//	Выбор таблицы в базе данных
+		$name_table = "Crypto_test";	//	Выбор таблицы в базе данных
+		// $name_table = "Work_table_1";	//	Выбор таблицы в базе данных
+		$link_DB = conect_DB();	
+		$result = querySortingFromDB($link_DB,$name_table,'id','Capitalization','DESC','',0);
+		$arr_keys = array_keys($result[0]);
 		$char_arr = array('+','%','_');		// массив символов для удаления
-		$result = $_SESSION['result'];
+
 	?>
 <body>
 
 	<div id="wrapper_top">
 
-		<div id="heder"> HEDER
-				<?php 
-					// if (count($_POST) > 0) {
-					// 	echo Build_tree_arr($_POST);
-					// 	}else{
-					// 	}
-				?>
+		<div id="heder"> HEDER 
+
+			<?php 
+				echo Build_tree_arr($_POST); 
+			?>
 
 		</div>
-		<!-- <form name="test_1" action="test_page.php" method="post"> -->
-		<form name="test_1" action="test_page_1.php" method="post">
-		<div id="table_hed">
-			<?php
 
+		<!-- <form name="test_1" action="test_page.php" method="post"> -->
+		<form name="test_1" action="" method="post">
+
+		<div id="table_hed">
+			<?php 
 				foreach ($result[0] as $key => $value) {
 					$n_col_th++;
 					$key = str_replace($char_arr," ",$key);
-					echo '<div class="col_'.$n_col_th.' th_div">';	
+					
+					if ($key == $arr_keys[($_POST['sort']-1)]) {
+						$div_str = ' sort_th_div';
+					}elseif ($key == $arr_keys[($_POST['group']-1)]){
+						$div_str = ' group_th_div';
+						}else{$div_str = ' th_div';}
+
+
+
+					echo '<div class="col_'.$n_col_th.'">';	
 						// Скрытые под текс чекбоксы
-						echo '<input id="id_'.$n_col_th.'" type="checkbox" name="'.$n_col_th.'" value="true"  />';
-						echo '<label for="id_'.$n_col_th.'">'.$key.'</label>';
+						echo '<div class="div_radio_group"> <input type="radio" name="group" value="'.$n_col_th.'"/> </div>';
+						echo '<div class="div_radio_sort">  <input type="radio" name="sort" value="'.$n_col_th.'"/> </div><br>';
+						echo $key;
 					echo "</div>";
 					}
 			?>
-
 		</div>
 		<div id="block_switch"> <!-- BLOCK_SWITCH -->
 			<?php 
@@ -66,7 +74,12 @@
 
 
 			?>
-			<input type="submit" name="submit_test_1" value="Submit" />
+			<div id="div_submit_test_1">
+				<input type="submit" name="submit_test_1" value="submit" />
+				<input type="submit" name="clear_test_1" value="clear" />
+
+
+			</div>
 		</div>
 		</form>
 	</div>
@@ -74,18 +87,28 @@
 	<div id="wrapper_bottom">
 		<div id="table_body">
 			<?php 
-				for ($q=0; $q < count($result); $q++) { 
-					echo '<div class="tr_div">';
-					foreach ($result[$q] as $key_2 => $value_2) {
-						$n_col_td++;
-						$value_2 = str_replace($char_arr," ",$value_2);
-						echo '<div class="col_'.$n_col_td.' td_div">';	
-							echo $value_2;
+				if (isset($_POST["submit_test_1"])) {
+					
+					
+
+
+
+					$result = querySortingFromDB($link_DB,$name_table,$arr_keys[$_POST['group']],$arr_keys[$_POST['sort']],'DESC','',0);
+
+					for ($q=0; $q < count($result); $q++) { 
+						echo '<div class="tr_div">';
+						foreach ($result[$q] as $key_2 => $value_2) {
+							$n_col_td++;
+							$value_2 = str_replace($char_arr," ",$value_2);
+							echo '<div class="col_'.$n_col_td.' td_div">';	
+								echo $value_2;
+							echo "</div>";
+							}
+						$n_col_td=0;
 						echo "</div>";
 						}
-					$n_col_td=0;
-					echo "</div>";
-					}
+
+				}		
 			?>
 			
 		</div>
