@@ -18,8 +18,8 @@
 </head>
 	<?php
 		$char_arr = array('+','%','_');		// массив символов для удаления
-		// $name_table = "Crypto_1";	//	Выбор таблицы в базе данных
-		$name_table = "Crypto_test";	//	Выбор таблицы в базе данных
+		$name_table = "Crypto_1";	//	Выбор таблицы в базе данных
+		// $name_table = "Crypto_test";	//	Выбор таблицы в базе данных
 		// $name_table = "Work_table_1";	//	Выбор таблицы в базе данных
 		$link_DB = conect_DB();	
 		$result = querySortingFromDB($link_DB,$name_table,'id','Capitalization','DESC','',0);
