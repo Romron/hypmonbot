@@ -6,13 +6,13 @@
 	left: 0px;
 	z-index: 10;	
 	background: #C0C0C0;
-	height: 249px;
+	height: 254px;
 	width: 100%;
 }
 
 #wrapper_bottom {
 	position: absolute;
-	top: 254px;
+	top: 258px;
 	left: 0;
 	width: 100%;
 	background: #D3D3D3;
@@ -83,11 +83,11 @@
 
 /*Ширина колонок*/
 	.col_1{
-		width: 30px;
+		width: 40px;
 	}
 
 	.col_2{
-		width: 50px;
+		width: 60px;
 	}
 
 	.col_3{
@@ -103,7 +103,7 @@
 	}
 
 	.col_6{
-		width: 70px;
+		width: 80px;
 	}
 
 	.col_7{
@@ -140,34 +140,6 @@
 
 
 
-
-
-input[type="radio"]{
-  cursor: pointer;
-  vertical-align;
-  margin: 0px;
-}
-
-.div_radio_group{
-	display: inline;
-	cursor: pointer;
-	border: 2px solid red;
-	border-radius: 10px;
-	height: 5px;
-	width: 5px;
-
-}
-
-.div_radio_sort{
-	display: inline;
-	cursor: pointer;
-	border: 2px solid green;
-	border-radius: 10px;	
-	height: 5px;
-	width: 5px;	
-}
-
-
 input[type="submit"] {
     
     font: bold;
@@ -177,4 +149,63 @@ input[type="submit"] {
 
 #div_submit_test_1{
 	display: table-cell;
+	margin: 0px;
 }
+
+
+
+input[type=radio]{
+	position: absolute;
+	clip: rect(0, 0, 0, 0);
+
+
+}
+
+label {
+	cursor: pointer;
+
+}
+
+input[type=radio]:checked + label:after {
+	/*background-position: 0 -17px;*/
+	visibility: hidden;
+}
+
+
+
+
+
+
+
+
+.div_switch_th{
+	/*border: 2px solid red;*/
+	/*border-radius: 15px;*/
+	/*background: #FFFFFF;*/
+
+
+}
+
+label:after {
+	content: "";
+	display: inline-block;
+	width: 11px;
+	height: 11px;
+	/*position: relative;*/
+	/*margin-left: auto;*/
+	/*margin-right: 0px;*/
+}
+
+.label_group:after{
+	background-image: url(img/group.png);
+}
+
+.label_sort:after{
+	background-image: url(img/sort.png);
+}
+
+.label_oder_sort:after{
+	background-image: url(img/oder_down.png);
+}
+
+
