@@ -5,11 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>ANALYSIS_PAGE</title>
+	<title>TEST_PAGE</title>
 	<meta charset="utf-8">
 	<meta description="Главная страница">
 
-	<link href="css/analysis_css_test.css" rel="stylesheet">
+	<link href="css/analysis_css.css" rel="stylesheet">
 	<?php 	require_once('funktions_hypmon.php');	?>
 	<?php 	require_once('funktions_analysis.php');	?>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -17,17 +17,18 @@
 
 </head>
 	<?php
+		// нужно выбирать только одну!!! строку
+		// сделать индексацию для ускорения работы базы
+	
+		set_time_limit(0);
 		$char_arr = array('+','%','_');		// массив символов для удаления
-		$name_table = "Crypto_1";	//	Выбор таблицы в базе данных
-		// $name_table = "Crypto_test";	//	Выбор таблицы в базе данных
+		// $name_table = "Crypto_1";	//	Выбор таблицы в базе данных
+		$name_table = "Crypto_test";	//	Выбор таблицы в базе данных
 		// $name_table = "Work_table_1";	//	Выбор таблицы в базе данных
 		$link_DB = conect_DB();	
 		$result = querySortingFromDB($link_DB,$name_table,'id','Capitalization','DESC','',0);
 		$arr_keys = array_keys($result[0]);
 	?>
-
-
-
 
 <body>
 
@@ -144,9 +145,6 @@
 </body>
 
 
-
-
-</body>
 </html>
 
 
