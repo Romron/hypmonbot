@@ -33,7 +33,7 @@
 
 		// формируем и отправляем ВТОРОЙ запрос
 			for ($z=0; $z < count($result_1); $z++) { 
-			  	if ($z>200) { break; }	// для тестов
+			  	// if ($z>200) { break; }	// для тестов
 			    $query_2 = "SELECT * FROM `".$name_table."` 
 			    			WHERE `".$main_field."` = '".$result_1[$z][$main_field]."'
 			    			";	
