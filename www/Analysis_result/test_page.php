@@ -25,15 +25,16 @@
 		$result = querySortingFromDB($link_DB,$name_table,'id','Capitalization','DESC','',0);
 		$arr_keys = array_keys($result[0]);
 	?>
+
 <body>
+
 
 	<div id="wrapper_top">
 
-		<div id="heder"> HEDER 
-
-			<?php 
-				echo Build_tree_arr($_POST); 
-			?>
+		<div id="heder">
+		<div id="inform_left"> <?php echo Build_tree_arr($_POST); ?> </div>
+		<div id="inform_centr"> HEDER </div>
+		<div id="inform_right"><span><b>Текущая таблица базы данных:</b> <?php echo $name_table; ?></span></div>
 
 		</div>
 
@@ -90,7 +91,15 @@
 		</form>
 	</div>
 
+
 	<div id="wrapper_bottom">
+		
+		<script type="text/javascript">
+			var wrapper_top_style = getComputedStyle(document.getElementById("wrapper_top"));	// получаю элемент в целом как объект и сразу же все расчитанные для него css свойства 
+			var wrapper_bottom = document.getElementById("wrapper_bottom");	// получаю элемент в целом как объект
+			wrapper_bottom.style.top = wrapper_top_style.height;	// устанавливаю новое значение свойства
+			</script>
+
 		<div id="table_body">
 			<?php 
 				if (isset($_POST["submit_test_1"])) {
@@ -129,10 +138,9 @@
 		</div>
 	</div>
 
-	
-
-
 </body>
+
+
 </html>
 
 

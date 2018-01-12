@@ -1,31 +1,76 @@
 
 
-#wrapper_top {
+#wrapper_top{
 	position: fixed;
 	top: 0px;
 	left: 0px;
 	z-index: 10;	
 	background: #C0C0C0;
-	height: 254px;
+	height: auto;
 	width: 100%;
 }
 
-#wrapper_bottom {
+#wrapper_bottom{
 	position: absolute;
 	top: 258px;
+	margin-top: 10px;
 	left: 0;
 	width: 100%;
 	background: #D3D3D3;
 
 }
 
-#heder {
+#heder{
 	background: #D3D3D3;
 	border: 2px solid #3B303B;
 	border-radius: 10px;
-	height: 150px;
 	margin: 10px;
+	height: 135px;
+	position: relative;
 }
+
+
+#inform_left{
+	position: absolute;
+	background: #C0C0C0;
+	border: 2px solid #3B303B;
+	border-radius: 10px;	
+	width: 15%;	
+	height: auto;
+	top: 10px;
+	left: 10px;
+	bottom: 10px;
+	padding: 10px;
+
+}
+
+#inform_centr{
+	position: absolute;
+	background: #C0C0C0;
+	border: 2px solid #3B303B;
+	border-radius: 10px;	
+	width: 62.8%;	
+	height: auto;
+	top: 10px;
+	left: 17.85%;
+	bottom: 10px;
+	padding: 10px;
+}
+
+#inform_right{
+	position: absolute;
+	background: #C0C0C0;
+	border: 2px solid #3B303B;
+	border-radius: 10px;	
+	width: 15%;	
+	height: auto;
+	top: 10px;
+	right: 10px;
+	bottom: 10px;
+	padding: 10px;
+	font-size: 13px;
+}
+
 
 #block_switch{
 	background: #C0C0C0;
@@ -34,7 +79,7 @@
 	height: auto;
 	width: auto;
 	margin-left: 8px;
-	margin-bottom: 10px;
+	/*margin-bottom: 10px;*/
 }
 
 #table_hed{
