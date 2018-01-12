@@ -17,7 +17,6 @@
 	left: 0;
 	width: 100%;
 	background: #D3D3D3;
-
 }
 
 #heder{
@@ -103,22 +102,22 @@
 	word-wrap: break-word;
 	text-align: center;
 	height: 20px;
-	padding: 2px;
+	/*padding: 2px;*/
 }
 
 .group{
 	background: #FFC0C0;
-}
+	}
 
 .sort{
 	background: #9ECBCC;
 
-}
+	}
 
 .td_div{
 	display: inline-block;
 	border: 1px solid black;
-	padding: 2px;
+	/*padding: 2px;*/
 	height: 30px;
 	display: table-cell;
 	text-align: center;
@@ -197,8 +196,6 @@ input[type="submit"] {
 	margin: 0px;
 }
 
-
-
 input[type=radio]{
 	position: absolute;
 	clip: rect(0, 0, 0, 0);
@@ -209,26 +206,17 @@ input[type=radio]{
 label {
 	cursor: pointer;
 
-}
+	}
 
 input[type=radio]:checked + label:after {
 	/*background-position: 0 -17px;*/
 	visibility: hidden;
 }
 
-
-
-
-
-
-
-
 .div_switch_th{
 	/*border: 2px solid red;*/
 	/*border-radius: 15px;*/
 	/*background: #FFFFFF;*/
-
-
 }
 
 label:after {
@@ -243,14 +231,18 @@ label:after {
 
 .label_group:after{
 	background-image: url(img/group.png);
-}
+	}
 
 .label_sort:after{
 	background-image: url(img/sort.png);
-}
+	}
 
 .label_oder_sort:after{
 	background-image: url(img/oder_down.png);
+	}
+
+
+.col_{
+	width: auto;
+	
 }
-
-

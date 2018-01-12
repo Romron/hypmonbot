@@ -52,7 +52,8 @@
 							$div_str = 'group';
 							}else{$div_str = '';}
 					$key = str_replace($char_arr," ",$key);	// только для вывода на экран
-					echo '<div class="col_'.$n_col_th.' th_div '.$div_str.'">';	
+					// echo '<div class="col_'.$n_col_th.' th_div '.$div_str.'">';	
+					echo '<div class="col_ th_div '.$div_str.'" id="th_div_'.$n_col_th.'">';	//+++++++++++++++++++++++++++++++
 				echo $key;
 				echo '<div class="div_switch_th"> 
 						<input type="radio" class="radio_gs" name="group" id="group_'.$n_col_th.'" value="'.$n_col_th.'"/>
@@ -76,7 +77,7 @@
 						}elseif ($b_s == ($_POST['group'])){
 							$div_str = 'group';
 							}else{$div_str = '';}
-					echo '<div class="col_'.$b_s.' th_div '.$div_str.' ">';	
+					echo '<div class="col_ th_div '.$div_str.' " id="b_s_div_'.$b_s.'">';	
 						echo $b_s;
 					echo "</div>";
 				}
@@ -92,9 +93,10 @@
 	</div>
 
 
+
 	<div id="wrapper_bottom">
 		
-		<script type="text/javascript">
+		<script type="text/javascript">  // плавающий wrapper_bottom 
 			var wrapper_top_style = getComputedStyle(document.getElementById("wrapper_top"));	// получаю элемент в целом как объект и сразу же все расчитанные для него css свойства 
 			var wrapper_bottom = document.getElementById("wrapper_bottom");	// получаю элемент в целом как объект
 			wrapper_bottom.style.top = wrapper_top_style.height;	// устанавливаю новое значение свойства
@@ -124,7 +126,7 @@
 							$div_str = 'group';
 							}else{$div_str = '';}
 
-							echo '<div class="col_'.$n_col_td.' td_div '.$div_str.'">';	
+							echo '<div class="col_'.$n_col_td.' td_div '.$div_str.'" id="td_div_'.$q.'">';	
 								echo $value_2;
 							echo "</div>";
 							}
@@ -137,6 +139,36 @@
 			
 		</div>
 	</div>
+
+
+		<script type="text/javascript">  // плавающий ширина колонок 		+++++++++++++++++++++++++++++++++++++++++
+			
+			for (var i = 1; i < 15; i++) {
+				
+				var th_div = document.getElementById('th_div_'+i);
+				var b_s_div = document.getElementById("b_s_div_"+i);
+				var td_div = document.getElementById("td_div_"+i);
+
+				var th_w = th_div.clientWidth;
+				
+				b_s_div.style.width = th_w+'px';
+				td_div.style.width = th_w+'px';
+
+				var b_s_w = b_s_div.clientWidth;
+				var td_div_w = td_div.clientWidth;
+
+				console.log(i+'. ширина '+th_div+' = '+th_w);
+				console.log(i+'. ширина '+b_s_div+' = '+b_s_w);
+				console.log(i+'. ширина '+td_div+' = '+td_div_w);
+
+				
+
+				}
+
+			</script>
+
+
+
 
 </body>
 
