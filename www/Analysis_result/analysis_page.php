@@ -26,8 +26,10 @@
 		// $name_table = "Crypto_test";	//	Выбор таблицы в базе данных
 		// $name_table = "Work_table_1";	//	Выбор таблицы в базе данных
 		$link_DB = conect_DB();	
-		$result = querySortingFromDB($link_DB,$name_table,'id','Capitalization','DESC','',0);
+		$result = querySortingFromDB($link_DB,$name_table,'id','Capitalization','DESC','',1);
 		$arr_keys = array_keys($result[0]);
+		$depth_of_search = 10;
+
 	?>
 
 <body>
@@ -38,7 +40,13 @@
 		<div id="heder">
 		<div id="inform_left"> <?php echo Build_tree_arr($_POST); ?> </div>
 		<div id="inform_centr"> HEDER </div>
-		<div id="inform_right"><span><b>Текущая таблица базы данных:</b> <?php echo $name_table; ?></span></div>
+		<div id="inform_right">
+			<span>
+				<b>Текущая таблица базы данных:</b> <?php echo $name_table; echo "<br>";?>
+				<b>Глубина поиска:</b> <?php echo $depth_of_search; ?>
+
+			</span>
+		</div>
 
 		</div>
 
@@ -113,7 +121,7 @@
 						$oder_sort = 'DESC';
 					}else{ $oder_sort = 'ASC'; }
 
-					$result = querySortingFromDB($link_DB,$name_table,$arr_keys[$_POST['group']],$arr_keys[$_POST['sort']],$oder_sort,'',0);
+					$result = querySortingFromDB($link_DB,$name_table,$arr_keys[$_POST['group']],$arr_keys[$_POST['sort']],$oder_sort,'',$depth_of_search);
 					
 					for ($q=0; $q < count($result); $q++) { 
 						echo '<div class="tr_div">';
