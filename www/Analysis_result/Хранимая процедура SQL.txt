@@ -1,0 +1,12 @@
+
+DELIMITER //
+CREATE PROCEDURE GrupAndSort()
+     BEGIN
+        CREATE TEMPORARY TABLE temp_test
+        SELECT * FROM `Crypto_test`
+        LIMIT 10;
+     END
+     //
+DELIMITER ;
+
+CALL GrupAndSort();
