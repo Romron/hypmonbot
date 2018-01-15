@@ -10,3 +10,10 @@ CREATE PROCEDURE GrupAndSort()
 DELIMITER ;
 
 CALL GrupAndSort();
+-----------------------------------------
+
+SHOW CREATE PROCEDURE GrupAndSort;
+SHOW TABLE temp_test;
+SHOW TABLE STATUS temp_test;
+CREATE TEMPORARY TABLE `temp_test` LIKE `Crypto_test`;
+

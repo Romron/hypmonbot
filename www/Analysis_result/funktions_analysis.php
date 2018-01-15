@@ -1,9 +1,15 @@
 <?php
 
 
-	function querySortingFromDB($link_DB,$name_table,$main_field,$sorting_field,$sorting_direction='ASC',$WHERE='',$limit='',$table=false){	//	Данная функция извликает данные из базы, групирует и сортирует их по указаным параметрам
+	function querySortingFromDB($link_DB,$name_table,$group_field,$sorting_field,$sorting_direction='ASC',$WHERE='',$limit='',$table=false){	//	Данная функция извликает данные из базы, групирует и сортирует их по указаным параметрам
 
 		//	добавить отбор заданного количества строк
+
+		// суть работы ф-ции в том что первым запросом производиться (только!!) сортировка без повторения, а потом в цыкле формируем блоки строк по ранее отобраному полю т.е. групировка: взять первую строку получить из неё сортируемое поле и сформировать запрос на выборку с базы данных всех строк с этим полем и так далие. 
+		// 
+		//  т.е. эта функция работает не правильно!!!! 
+
+
 
 	   // $patern_zero = '~\d\.[1-9]*(0*)$~';
 	   $patern_zero = '~\.\d*[1-9]?(0*)(?<=$)~U';
@@ -14,13 +20,13 @@
 
 	    if ($WHERE == '') {
 		    $query_1 = "SELECT * FROM `".$name_table."` 		
-		    			GROUP BY `".$main_field."`
+		    			GROUP BY `".$group_field."`
 		    			ORDER BY `".$sorting_field."` ".$sorting_direction."
 		    			".$limit_str."";	 
 		    }else{   
 			    $query_1 = "SELECT * FROM `".$name_table."` 		
 			    			WHERE `".$sorting_field."` > ".$WHERE."
-			    			GROUP BY `".$main_field."`
+			    			GROUP BY `".$group_field."`
 			    			ORDER BY `".$sorting_field."` ".$sorting_direction."
 			    			".$limit_str."";	  	
 			    }
@@ -42,7 +48,7 @@
 			for ($z=0; $z < count($result_1); $z++) { 
 			  	if ($z>20) { break; }	// для тестов
 			    $query_2 = "SELECT * FROM `".$name_table."` 
-			    			WHERE `".$main_field."` = '".$result_1[$z][$main_field]."'
+			    			WHERE `".$group_field."` = '".$result_1[$z][$group_field]."'
 			    			";	
 
 			    // отправка ВТОРОГО запроса 
@@ -64,7 +70,7 @@
 				foreach ($result_2[0] as $key => $value) {
 					if ($key == $sorting_field) {
 						$th_str = '<th class="sorting">';
-					}elseif ($key == $main_field){
+					}elseif ($key == $group_field){
 						$th_str = '<th class="main_sorting">';
 						}else{$th_str = '<th>';}					
 					echo $th_str.$key."</th>";
@@ -78,7 +84,7 @@
 							}
 						if ($key_2 == $sorting_field) {
 							$td_str = '<td class="sorting">';
-						}elseif ($key_2 == $main_field){
+						}elseif ($key_2 == $group_field){
 							$td_str = '<td class="main_sorting">';
 							}else{$td_str = '<td>';}
 						echo $td_str;

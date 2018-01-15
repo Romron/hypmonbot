@@ -58,11 +58,15 @@
     // 			ORDER BY `".$sorting_field."` ".$sorting_direction."
     // 			".$limit_str."";    
 
-    $query_1 = "SELECT * FROM `".$name_table."` 		
-    			GROUP BY Name, Frequency_1
-    			ORDER BY Frequency_1 DESC
-    			LIMIT 2000
-    			";
+    // $query_1 = "SELECT * FROM `".$name_table."` 		
+    // 			GROUP BY Name, Frequency_1
+    // 			ORDER BY Frequency_1 DESC
+    // 			LIMIT 2000
+    // 			";
+
+
+    // $query_1 = "CREATE TABLE `temp_test` LIKE `Crypto_test`";
+    $query_1 = "INSERT INTO `temp_test` SELECT * FROM `Crypto_test` GROUP BY `Name` ORDER BY `Name` DESC LIMIT 10;";
 
 
 
