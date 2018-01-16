@@ -1,4 +1,7 @@
 
+
+----ЧЕРНОВИК
+
 DELIMITER //
 CREATE PROCEDURE GrupAndSort()
      BEGIN
@@ -10,10 +13,54 @@ CREATE PROCEDURE GrupAndSort()
 DELIMITER ;
 
 CALL GrupAndSort();
------------------------------------------
 
 SHOW CREATE PROCEDURE GrupAndSort;
 SHOW TABLE temp_test;
 SHOW TABLE STATUS temp_test;
 CREATE TEMPORARY TABLE `temp_test` LIKE `Crypto_test`;
 
+
+CREATE TABLE `temp_test` SELECT `Name` FROM `Crypto_test`;		-- Создать промежуточную таблицу с групируемым полем
+INSERT IGNORE INTO `temp_test` SELECT DISTINCT `Name` FROM `Crypto_test` ORDER BY `Name` DESC LIMIT 10;		-- добавляем выбраные записи в промежуточную таблицу  
+
+SELECT COUNT(*) FROM `temp_test`;	-- Подсчёт количества строк в таблице
+DECLARE iVAR INT DEFAULT COUNT(*) FROM `temp_test`;
+SELECT * FROM `temp_test` LIMIT  
+SET i=SELECT COUNT(*) FROM `temp_test`;
+
+WHILE () DO
+  запрос
+END WHILE
+
+
+------ ТО ЧТО РАБОТАЕТ ---------------------------------------
+
+    SELECT COUNT(*) FROM `temp_test` INTO q;
+
+
+
+
+-----------------------------------------------------------------------------------------------------
+-- ХРАНИМАЯ ПРОЦЕДУРА  чистовик !!!
+   
+
+BEGIN
+	DECLARE i INTEGER;
+       
+    INSERT IGNORE INTO `temp_test` -- добавляем выбраные записи в промежуточную таблицу
+    	SELECT DISTINCT `Name` -- здесь вставиться переменная с именем групируемого поля
+    	FROM `Crypto_test` 
+    	ORDER BY `Name` DESC 
+    	LIMIT 10;	-- 	 здесь вставиться переменная с глубиной поиска 
+	SET i = (SELECT COUNT(*) FROM `temp_test`);
+	
+	WHILE i>0 DO
+		
+		SELECT * 
+			FROM `Crypto_test` 
+			WHERE `Name` = (SELECT `Name` FROM `temp_test` LIMIT i (i=i+1));
+		SET i=(i-1);
+		END WHILE
+
+
+	END
