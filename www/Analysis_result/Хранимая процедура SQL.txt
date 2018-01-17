@@ -20,7 +20,6 @@ SHOW TABLE STATUS temp_test;
 CREATE TEMPORARY TABLE `temp_test` LIKE `Crypto_test`;
 
 
-<<<<<<< Updated upstream
 CREATE TABLE `temp_test` SELECT `Name` FROM `Crypto_test`;		-- Создать промежуточную таблицу с групируемым полем
 INSERT IGNORE INTO `temp_test` SELECT DISTINCT `Name` FROM `Crypto_test` ORDER BY `Name` DESC LIMIT 10;		-- добавляем выбраные записи в промежуточную таблицу  
 
@@ -91,31 +90,38 @@ BEGIN
 	DECLARE i INTEGER DEFAULT 0;	-- для хранения количества строк временной таблицы
     DECLARE w INTEGER DEFAULT 0;	-- для перебора в цыкле
     DECLARE str CHARACTER (50);		-- для хранения строки извлекаемой из временной таблицы
+    DECLARE x CHARACTER (50);		-- для хранения строки извлекаемой из временной таблицы
 
+    SET x = CONCAT("SELECT DISTINCT `Name` 
+    			FROM `",table_name_for_serch,"` 
+    			ORDER BY `",group_field,"` DESC 
+                LIMIT ",depth_of_search);
+    PREPARE col_name FROM x;
 	CREATE TEMPORARY TABLE `temp_test` 
-		AS (SELECT `Name` 
-			FROM `Crypto_test` 
-			ORDER BY `Name` 
-			DESC LIMIT 5
-			);       
+		AS (EXECUTE col_name);       
 
     SELECT COUNT(*) FROM `temp_test` INTO i;
 	
 	WHILE w < i DO
-        SET str = (SELECT `Name` 
-            FROM `temp_test` LIMIT w, 1);
+       SELECT `Name` 
+            FROM `temp_test` LIMIT w, 1 INTO str;
 		SELECT * 
-            FROM `Crypto_test` 
+            FROM (table_name_for_serch)
             WHERE `Name` = str;
+            
 		SET w = (w + 1);
 		END WHILE;
 
 	END
 
 
------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
 -- ХРАНИМАЯ ПРОЦЕДУРА  чистовик !!!
-   
+-- внешние параметры:
+	depth_of_search	-- для передачи глубины поиска
+	table_name	-- для передачи таблицы поиска
+	$sorting_direction	-- для передачи направления сортировки
+	$group_field	-- для передачи поля по которому будет выполняться групировка
 
 BEGIN
 
@@ -125,7 +131,7 @@ BEGIN
 
 	CREATE TEMPORARY TABLE `temp_test` 
 		AS (SELECT DISTINCT `Name` 
-			FROM `Crypto_1` 			-- как передать имя таблицы в переменной???????????????????
+			FROM `Crypto_1` 
 			ORDER BY group_field DESC 
             LIMIT depth_of_search
 			);       
@@ -136,17 +142,10 @@ BEGIN
        SELECT `Name` 
             FROM `temp_test` LIMIT w, 1 INTO str;
 		SELECT * 
-            FROM `Crypto_1`				-- как передать имя таблицы в переменной???????????????????
+            FROM `Crypto_1`
             WHERE `Name` = str;
             
 		SET w = (w + 1);
 		END WHILE;
 
 	END
-=======
-SELECT * FROM `Crypto_test` ORDER BY `Name` DESC LIMIT 10;
-
-
-INSERT INTO `temp_test` SELECT DISTINCT * FROM `Crypto_test` ORDER BY `Name` DESC LIMIT 10;
-
->>>>>>> Stashed changes
