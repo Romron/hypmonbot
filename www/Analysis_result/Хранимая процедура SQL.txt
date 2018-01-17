@@ -20,6 +20,7 @@ SHOW TABLE STATUS temp_test;
 CREATE TEMPORARY TABLE `temp_test` LIKE `Crypto_test`;
 
 
+<<<<<<< Updated upstream
 CREATE TABLE `temp_test` SELECT `Name` FROM `Crypto_test`;		-- Создать промежуточную таблицу с групируемым полем
 INSERT IGNORE INTO `temp_test` SELECT DISTINCT `Name` FROM `Crypto_test` ORDER BY `Name` DESC LIMIT 10;		-- добавляем выбраные записи в промежуточную таблицу  
 
@@ -142,3 +143,10 @@ BEGIN
 		END WHILE;
 
 	END
+=======
+SELECT * FROM `Crypto_test` ORDER BY `Name` DESC LIMIT 10;
+
+
+INSERT INTO `temp_test` SELECT DISTINCT * FROM `Crypto_test` ORDER BY `Name` DESC LIMIT 10;
+
+>>>>>>> Stashed changes
