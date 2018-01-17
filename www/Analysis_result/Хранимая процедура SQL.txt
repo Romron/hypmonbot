@@ -32,12 +32,84 @@ WHILE () DO
   запрос
 END WHILE
 
+        SELECT * 
+            FROM `Crypto_test` ;
+
+
+CREATE TEMPORARY TABLE `temp_test` SELECT `Name` FROM `Crypto_test`;		-- Создать промежуточную таблицу с групируемым полем
+
+CREATE TEMPORARY TABLE `temp_test` AS (SELECT `Name` FROM `Crypto_test` ORDER BY `Name` DESC LIMIT 5);
+
+
+
+
+
+BEGIN
+
+	DECLARE i INTEGER DEFAULT 0;	-- для хранения количества строк временной таблицы
+    DECLARE w INTEGER DEFAULT 0;	-- для перебора в цыкле
+    DECLARE str CHARACTER (50);		-- для хранения строки извлекаемой из временной таблицы
+
+	CREATE TEMPORARY TABLE `temp_test` 
+		AS (SELECT DISTINCT `Name` 
+			FROM table_name_for_serch -- здесь переменную считает строкой
+			ORDER BY group_field DESC 
+            LIMIT depth_of_search
+			);       
+
+    SELECT COUNT(*) FROM `temp_test` INTO i;
+	
+	WHILE w < i DO
+       SELECT `Name` 
+            FROM `temp_test` LIMIT w, 1 INTO str;
+		SELECT * 
+            FROM table_name_for_serch 
+            WHERE `Name` = str;
+            
+		SET w = (w + 1);
+		END WHILE;
+
+	END
+
+
+
+
+
+
 
 ------ ТО ЧТО РАБОТАЕТ ---------------------------------------
 
-    SELECT COUNT(*) FROM `temp_test` INTO q;
+-- внешние параметры:
+	depth_of_search	-- для передачи глубины поиска
+	table_name	-- для передачи таблицы поиска
+	$sorting_direction	-- для передачи направления сортировки
+	$group_field	-- для передачи поля по которому будет выполняться групировка
 
+BEGIN
 
+	DECLARE i INTEGER DEFAULT 0;	-- для хранения количества строк временной таблицы
+    DECLARE w INTEGER DEFAULT 0;	-- для перебора в цыкле
+    DECLARE str CHARACTER (50);		-- для хранения строки извлекаемой из временной таблицы
+
+	CREATE TEMPORARY TABLE `temp_test` 
+		AS (SELECT `Name` 
+			FROM `Crypto_test` 
+			ORDER BY `Name` 
+			DESC LIMIT 5
+			);       
+
+    SELECT COUNT(*) FROM `temp_test` INTO i;
+	
+	WHILE w < i DO
+        SET str = (SELECT `Name` 
+            FROM `temp_test` LIMIT w, 1);
+		SELECT * 
+            FROM `Crypto_test` 
+            WHERE `Name` = str;
+		SET w = (w + 1);
+		END WHILE;
+
+	END
 
 
 -----------------------------------------------------------------------------------------------------
@@ -45,22 +117,28 @@ END WHILE
    
 
 BEGIN
-	DECLARE i INTEGER;
-       
-    INSERT IGNORE INTO `temp_test` -- добавляем выбраные записи в промежуточную таблицу
-    	SELECT DISTINCT `Name` -- здесь вставиться переменная с именем групируемого поля
-    	FROM `Crypto_test` 
-    	ORDER BY `Name` DESC 
-    	LIMIT 10;	-- 	 здесь вставиться переменная с глубиной поиска 
-	SET i = (SELECT COUNT(*) FROM `temp_test`);
-	
-	WHILE i>0 DO
-		
-		SELECT * 
-			FROM `Crypto_test` 
-			WHERE `Name` = (SELECT `Name` FROM `temp_test` LIMIT i (i=i+1));
-		SET i=(i-1);
-		END WHILE
 
+	DECLARE i INTEGER DEFAULT 0;	-- для хранения количества строк временной таблицы
+    DECLARE w INTEGER DEFAULT 0;	-- для перебора в цыкле
+    DECLARE str CHARACTER (50);		-- для хранения строки извлекаемой из временной таблицы
+
+	CREATE TEMPORARY TABLE `temp_test` 
+		AS (SELECT DISTINCT `Name` 
+			FROM `Crypto_1` 			-- как передать имя таблицы в переменной???????????????????
+			ORDER BY group_field DESC 
+            LIMIT depth_of_search
+			);       
+
+    SELECT COUNT(*) FROM `temp_test` INTO i;
+	
+	WHILE w < i DO
+       SELECT `Name` 
+            FROM `temp_test` LIMIT w, 1 INTO str;
+		SELECT * 
+            FROM `Crypto_1`				-- как передать имя таблицы в переменной???????????????????
+            WHERE `Name` = str;
+            
+		SET w = (w + 1);
+		END WHILE;
 
 	END
