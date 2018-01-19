@@ -14,56 +14,70 @@ DELIMITER ;
 
 CALL GrupAndSort();
 
-SHOW CREATE PROCEDURE GrupAndSort;
-SHOW TABLE temp_test;
-SHOW TABLE STATUS temp_test;
-CREATE TEMPORARY TABLE `temp_test` LIKE `Crypto_test`;
-
-
-CREATE TABLE `temp_test` SELECT `Name` FROM `Crypto_test`;		-- Создать промежуточную таблицу с групируемым полем
-INSERT IGNORE INTO `temp_test` SELECT DISTINCT `Name` FROM `Crypto_test` ORDER BY `Name` DESC LIMIT 10;		-- добавляем выбраные записи в промежуточную таблицу  
-
-SELECT COUNT(*) FROM `temp_test`;	-- Подсчёт количества строк в таблице
-DECLARE iVAR INT DEFAULT COUNT(*) FROM `temp_test`;
-SELECT * FROM `temp_test` LIMIT  
-SET i=SELECT COUNT(*) FROM `temp_test`;
-
-WHILE () DO
-  запрос
-END WHILE
-
-        SELECT * 
-            FROM `Crypto_test` ;
-
-
-
-    SET str = CONCAT(
-		'CREATE TABLE `temp_test` 
-			AS (SELECT DISTINCT `',group_field,'`, `', sort_field, '`
-				FROM `', table_name, '` 
-				ORDER BY `', sort_field, '` DESC 
-	            LIMIT ', depth_of_search, '
-				)'  
-			);   
-	create_str = str;
-	SET @create_str = str;
-	PREPARE prep_create_str FROM @create_str;
-	EXECUTE prep_create_str;
-
-
-
-CREATE TABLE `temp_test` AS (SELECT DISTINCT `Name`, `Capitalization` FROM `Crypto_1` ORDER BY `Capitalization` DESC LIMIT 10 )
 
 
 
 
+BEGIN
 
+	DECLARE i INTEGER DEFAULT 0;	-- для хранения количества строк временной таблицы
+    DECLARE w INTEGER DEFAULT 0;	-- для перебора в цыкле
+    DECLARE str CHARACTER (50) DEFAULT '';		-- для хранения строки извлекаемой из временной таблицы
+    DECLARE create_str_0 CHARACTER (255);
+    DECLARE select_str_0 CHARACTER (255);
+
+	DECLARE str_1 CHARACTER (50) DEFAULT '';
+	DECLARE str_1_0 CHARACTER (150);
+     
+
+       	SELECT `Name` FROM `temp_test` LIMIT w, 1 INTO str;
+
+
+
+
+	DECLARE sort_field_1_0 CHARACTER (150);
+	DECLARE group_field_1_0 CHARACTER (150);	
+	DECLARE sort_field_1_1 CHARACTER (150);
+	DECLARE group_field_1_1 CHARACTER (150);	
+
+
+	SET sort_field_1_0 = CONCAT('SELECT `', sort_field, '`', ' FROM `temp_test` LIMIT 0, 1 INTO @str' );
+	SET group_field_1_0 = CONCAT('SELECT `', group_field, '`', ' FROM `temp_test` LIMIT 0, 1 INTO @str_1' );
+
+	SET @sort_field_1_1 = sort_field_1_0;
+	SET @group_field_1_1 = group_field_1_0;
+
+  	PREPARE prep_sort_field_1 FROM @sort_field_1_1;
+	EXECUTE prep_sort_field_1;  	
+
+	PREPARE prep_group_field_1 FROM @group_field_1_1;
+	EXECUTE prep_group_field_1;
+
+      
+
+ 	SET str_1_0 = CONCAT('SELECT `', group_field, '`, `', sort_field, '` FROM `temp_test` LIMIT @w, 1 INTO @str, @str_1');
+
+	SET @str_1_1 = str_1_0;
+    PREPARE prep_str_1_1 FROM @str_1_1;
+	EXECUTE prep_str_1_1;
+
+END
+
+DECLARE str CHARACTER (50) DEFAULT '';
+DECLARE str_1 CHARACTER (50) DEFAULT '';
+DECLARE str_1_0 CHARACTER (150);
 
 
 ------ ТО ЧТО РАБОТАЕТ ---------------------------------------
 
 
 CREATE TABLE `temp_test` AS (SELECT DISTINCT `Name`, `Capitalization` FROM `Crypto_1` ORDER BY `Capitalization` DESC LIMIT 10 );
+
+	SET str_1_0 = CONCAT('SELECT `', group_field, '`, `', sort_field, '` FROM `temp_test` LIMIT 0, 1 INTO @str, @str_1');
+
+	SET @str_1_1 = str_1_0;
+	PREPARE prep_str_1_1 FROM @str_1_1;
+	EXECUTE prep_str_1_1;
 
 
 -- внешние параметры:
@@ -77,66 +91,107 @@ BEGIN
 
 	DECLARE i INTEGER DEFAULT 0;	-- для хранения количества строк временной таблицы
     DECLARE w INTEGER DEFAULT 0;	-- для перебора в цыкле
-    DECLARE create_str_0 CHARACTER (255);
-
-    SET select_str_0 = CONCAT(
-		"SELECT * 
-				FROM `", table_name, "` 
-				WHERE `Name` = '", str, "'"  
-			);   
-	SET @select_str_1 = select_str_0;
-   
-    PREPARE prep_select_str FROM @select_str_1;
-	EXECUTE prep_select_str;		
-	END
-
----------------------------------------------------------------------------------------------------
--- ХРАНИМАЯ ПРОЦЕДУРА  чистовик !!!
--- внешние параметры:
-	depth_of_search	-- для передачи глубины поиска
-	table_name	-- для передачи таблицы поиска
-	$sorting_direction	-- для передачи направления сортировки
-	$sort_field	-- для передачи поля по которому будет выполняться сортировка
-
-BEGIN
-
-	DECLARE i INTEGER DEFAULT 0;	-- для хранения количества строк временной таблицы
-    DECLARE w INTEGER DEFAULT 0;	-- для перебора в цыкле
-    DECLARE str CHARACTER (50);		-- для хранения строки извлекаемой из временной таблицы
+    DECLARE str CHARACTER (50) ;		-- для хранения строки извлекаемой из временной таблицы
     DECLARE create_str_0 CHARACTER (255);
     DECLARE select_str_0 CHARACTER (255);
+
+    DECLARE str_1 CHARACTER (50) DEFAULT '';
+	DECLARE str_1_0 CHARACTER (150);
+
+	DROP TABLE IF EXISTS `temp_test`;		-- для тестов
 
     SET create_str_0 = CONCAT(
 		'CREATE /*TEMPORARY*/ TABLE `temp_test` 
 			AS (SELECT DISTINCT `',group_field,'`, `', sort_field, '`
 				FROM `', table_name, '` 
-				ORDER BY `', sort_field, '` DESC 
-	            LIMIT ', depth_of_search, '
+				GROUP BY `', group_field, '` ASC 
+	            ORDER BY ', sort_field,' ', sorting_direction,
+	            ' LIMIT ', depth_of_search, '
 				)'  
-			);   
-	
-    SET select_str_0 = CONCAT(
-		"SELECT * 
-				FROM `", table_name, "` 
-				WHERE `Name` = '", str, "'"  
-			);     
+			); 
+
+    SET create_str = create_str_0; 	-- для тестов
 
 	SET @create_str_1 = create_str_0;
-	SET @select_str_1 = select_str_0;
-
     PREPARE prep_create_str FROM @create_str_1;
 	EXECUTE prep_create_str;
-
+	
     SELECT COUNT(*) FROM `temp_test` INTO i;
 	
+	SET str_1_0 = CONCAT('SELECT `', group_field, '`, `', sort_field, '` FROM `temp_test` LIMIT ', w, ', 1 INTO @str, @str_1');
+	SET @str_1_1 = str_1_0;
+
 	WHILE w < i DO
-       SELECT `Name` 
-            FROM `temp_test` LIMIT w, 1 INTO str;
-		SELECT * 
-            FROM `Crypto_1`
-            WHERE `Name` = str;
-            
+
+		PREPARE prep_str_1_1 FROM @str_1_1;
+		EXECUTE prep_str_1_1;
+
+	    SET select_str_0 = CONCAT(
+			"SELECT * 
+					FROM `", table_name, "` 
+					WHERE `Name` = '", str, "'"  
+				);  
+
+	    SET @select_str_1 = select_str_0;
+	    PREPARE prep_select_str FROM @select_str_1;
+		EXECUTE prep_select_str;            
+		
 		SET w = (w + 1);
 		END WHILE;
 
-	END
+END
+
+---------------------------------------------------------------------------------------------------
+-- ХРАНИМАЯ ПРОЦЕДУРА  чистовик !!!
+	-- внешние параметры:
+		depth_of_search	-- для передачи глубины поиска
+		table_name	-- для передачи таблицы поиска
+		sorting_direction	-- для передачи направления сортировки
+		sort_field	-- для передачи поля по которому будет выполняться сортировка
+
+BEGIN
+
+	DECLARE i INTEGER DEFAULT 0;	-- для хранения количества строк временной таблицы
+    DECLARE w INTEGER DEFAULT 0;	-- для перебора в цыкле
+    DECLARE str CHARACTER (50) ;		-- для хранения строки извлекаемой из временной таблицы
+    DECLARE create_str_0 CHARACTER (255);
+    DECLARE select_str_0 CHARACTER (255);
+
+	DROP TABLE IF EXISTS `temp_test`;		-- для тестов
+
+    SET create_str_0 = CONCAT(
+		'CREATE /*TEMPORARY*/ TABLE `temp_test` 
+			AS (SELECT DISTINCT `',group_field,'`, `', sort_field, '`
+				FROM `', table_name, '` 
+				GROUP BY `', group_field, '` ASC 
+	            ORDER BY ', sort_field,' ', sorting_direction,
+	            ' LIMIT ', depth_of_search, '
+				)'  
+			); 
+
+    SET create_str = create_str_0; 	-- для тестов
+
+	SET @create_str_1 = create_str_0;
+    PREPARE prep_create_str FROM @create_str_1;
+	EXECUTE prep_create_str;
+	
+    SELECT COUNT(*) FROM `temp_test` INTO i;
+	
+	WHILE w < i DO
+       	SELECT `Name` 
+            FROM `temp_test` LIMIT w, 1 INTO str;
+		
+	    SET select_str_0 = CONCAT(
+			"SELECT * 
+					FROM `", table_name, "` 
+					WHERE `Name` = '", str, "'"  
+				);  
+
+	    SET @select_str_1 = select_str_0;
+	    PREPARE prep_select_str FROM @select_str_1;
+		EXECUTE prep_select_str;            
+		
+		SET w = (w + 1);
+		END WHILE;
+
+END
