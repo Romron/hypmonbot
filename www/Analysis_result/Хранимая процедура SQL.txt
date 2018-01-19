@@ -94,9 +94,10 @@ BEGIN
     DECLARE str CHARACTER (50) ;		-- для хранения строки извлекаемой из временной таблицы
     DECLARE create_str_0 CHARACTER (255);
     DECLARE select_str_0 CHARACTER (255);
-
-    DECLARE str_1 CHARACTER (50) DEFAULT '';
 	DECLARE str_1_0 CHARACTER (150);
+    DECLARE change_param_curent INTEGER DEFAULT 0;		-- для хранения текущего значения параметра изменения которого отслеживаются
+	DECLARE change_param_old INTEGER DEFAULT 0;			-- для хранения предыдущего значения параметра изменения которого отслеживаются
+    DECLARE difference_change_param INTEGER DEFAULT 0;				-- для хранения разницы текущего и предидущего значений параметра изменения которого отслеживаются
 
 	DROP TABLE IF EXISTS `temp_test`;		-- для тестов
 
@@ -118,26 +119,30 @@ BEGIN
 	
     SELECT COUNT(*) FROM `temp_test` INTO i;
 	
-	SET str_1_0 = CONCAT('SELECT `', group_field, '`, `', sort_field, '` FROM `temp_test` LIMIT ', w, ', 1 INTO @str, @str_1');
-	SET @str_1_1 = str_1_0;
-
 	WHILE w < i DO
-
-		PREPARE prep_str_1_1 FROM @str_1_1;
+    	
+    	-- получаем, построчно, данные из временной таблицы в переменные @str->строка по которой будет формироваться блок, @change_param_curent->параметр изменения которого отслеживаются  
+		SET str_1_0 = CONCAT('SELECT `', group_field, '`, `', sort_field, '` FROM `temp_test` LIMIT ', w, ', 1 INTO @str, @change_param_curent');
+		SET @str_1_1 = str_1_0;    
+	    PREPARE prep_str_1_1 FROM @str_1_1;
 		EXECUTE prep_str_1_1;
 
-	    SET select_str_0 = CONCAT(
-			"SELECT * 
-					FROM `", table_name, "` 
-					WHERE `Name` = '", str, "'"  
-				);  
+		SET difference_change_param = change_param_old - @change_param_curent;
 
-	    SET @select_str_1 = select_str_0;
-	    PREPARE prep_select_str FROM @select_str_1;
-		EXECUTE prep_select_str;            
-		
+		-- формируем блоки выбирая данные из заданной таблицы 
+		IF difference_change_param != 0 AND change_param_old != 0 THEN 
+		    SET select_str_0 = CONCAT("SELECT * FROM `", table_name, "` WHERE `Name` = '", @str, "'" );  
+		    SET @select_str_1 = select_str_0;
+		    PREPARE prep_select_str FROM @select_str_1;
+			EXECUTE prep_select_str;            
+			END IF;
+
+
+
+		SET change_param_old = @change_param_curent;
 		SET w = (w + 1);
 		END WHILE;
+
 
 END
 
@@ -156,6 +161,9 @@ BEGIN
     DECLARE str CHARACTER (50) ;		-- для хранения строки извлекаемой из временной таблицы
     DECLARE create_str_0 CHARACTER (255);
     DECLARE select_str_0 CHARACTER (255);
+    DECLARE str_1 CHARACTER (50) DEFAULT '';
+	DECLARE str_1_0 CHARACTER (150);
+	DECLARE change_param CHARACTER (50) DEFAULT '';
 
 	DROP TABLE IF EXISTS `temp_test`;		-- для тестов
 
@@ -178,15 +186,15 @@ BEGIN
     SELECT COUNT(*) FROM `temp_test` INTO i;
 	
 	WHILE w < i DO
-       	SELECT `Name` 
-            FROM `temp_test` LIMIT w, 1 INTO str;
-		
-	    SET select_str_0 = CONCAT(
-			"SELECT * 
-					FROM `", table_name, "` 
-					WHERE `Name` = '", str, "'"  
-				);  
+    	
+    	-- получаем, построчно, данные из временной таблицы в переменные @str->строка по которой будет формироваться блок, @str_1->параметр изменения которого отслеживаются  
+		SET str_1_0 = CONCAT('SELECT `', group_field, '`, `', sort_field, '` FROM `temp_test` LIMIT ', w, ', 1 INTO @str, @str_1');
+		SET @str_1_1 = str_1_0;    
+	    PREPARE prep_str_1_1 FROM @str_1_1;
+		EXECUTE prep_str_1_1;
 
+		-- формируем блоки выбирая данные из заданной таблицы 
+	    SET select_str_0 = CONCAT("SELECT * FROM `", table_name, "` WHERE `Name` = '", @str, "'" );  
 	    SET @select_str_1 = select_str_0;
 	    PREPARE prep_select_str FROM @select_str_1;
 		EXECUTE prep_select_str;            
