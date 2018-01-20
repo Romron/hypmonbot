@@ -66,14 +66,8 @@
 
 
     // $query_1 = "CREATE TABLE `temp_test` LIKE `Crypto_test`";
-    $query_1 = "INSERT INTO `temp_test` SELECT * FROM `Crypto_test` GROUP BY `Name` ORDER BY `Name` DESC LIMIT 10;";
-
-
-
-
-
-
-
+    // $query_1 = "INSERT INTO `temp_test` SELECT * FROM `Crypto_test` GROUP BY `Name` ORDER BY `Name` DESC LIMIT 10;";
+    $query_1 = "CALL GrupAndSort('10','DESC','Capitalization','Name','Crypto_1')";
 
 
 
@@ -83,9 +77,9 @@ echo "<br>".$query_1;
 echo "<br>=========================================<br>";
 
 
-
+/*
 // отправка запроса 
-   	$result_query_SQL = mysqli_query($link_DB,$query_1);
+   	$result_query_SQL = mysqli_multi_query($link_DB,$query_1);
     if (!$result_query_SQL) {
     	echo "<br><br><b><font color='red'>".__FUNCTION__."&nbsp; Query_1 failed : " . mysqli_error($link_DB)."</font></b>";	
     	exit();
@@ -96,6 +90,26 @@ echo "<br>=========================================<br>";
     	// if ($i>200) { break; }	// для тестов
    		$result[] = mysqli_fetch_assoc($result_query_SQL);
     	}
+
+*/
+
+/* запускаем мультизапрос */
+if (mysqli_multi_query($link_DB, $query_1)) {
+    do {
+        /* получаем первый результирующий набор */
+        if ($result = mysqli_store_result($link_DB)) {
+            while ($row = mysqli_fetch_row($result)) {
+                printf("%s\n", $row[0]);
+            }
+            mysqli_free_result($result);
+        }
+        /* печатаем разделитель */
+        if (mysqli_more_results($link)) {
+            printf("-----------------\n");
+        }
+    } while (mysqli_next_result($link));
+}
+
 
 // вывод результатов в виде таблицы
 			echo "<table>";

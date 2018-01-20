@@ -95,9 +95,10 @@ BEGIN
     DECLARE create_str_0 CHARACTER (255);
     DECLARE select_str_0 CHARACTER (255);
 	DECLARE str_1_0 CHARACTER (150);
-    DECLARE change_param_curent INTEGER DEFAULT 0;		-- для хранения текущего значения параметра изменения которого отслеживаются
-	DECLARE change_param_old INTEGER DEFAULT 0;			-- для хранения предыдущего значения параметра изменения которого отслеживаются
-    DECLARE difference_change_param INTEGER DEFAULT 0;				-- для хранения разницы текущего и предидущего значений параметра изменения которого отслеживаются
+	DECLARE str_1_0_1 CHARACTER (150);
+    DECLARE change_param_curent decimal(15,0) DEFAULT 0;		-- для хранения текущего значения параметра изменения которого отслеживаются
+	DECLARE change_param_old decimal(15,0) DEFAULT 0;			-- для хранения предыдущего значения параметра изменения которого отслеживаются
+    DECLARE difference_change_param decimal(15,0) DEFAULT 0;				-- для хранения разницы текущего и предидущего значений параметра изменения которого отслеживаются
 
 	DROP TABLE IF EXISTS `temp_test`;		-- для тестов
 
@@ -118,26 +119,40 @@ BEGIN
 	EXECUTE prep_create_str;
 	
     SELECT COUNT(*) FROM `temp_test` INTO i;
+
+	    ALTER TABLE `temp_test` ADD param_old decimal(15,0);
+	    ALTER TABLE `temp_test` ADD param_curent decimal(15,0);
+	    ALTER TABLE `temp_test` ADD change_param decimal(15,0); 
+	    ALTER TABLE `temp_test` ADD field_str CHARACTER (50); 
 	
 	WHILE w < i DO
     	
     	-- получаем, построчно, данные из временной таблицы в переменные @str->строка по которой будет формироваться блок, @change_param_curent->параметр изменения которого отслеживаются  
-		SET str_1_0 = CONCAT('SELECT `', group_field, '`, `', sort_field, '` FROM `temp_test` LIMIT ', w, ', 1 INTO @str, @change_param_curent');
+		SET str_1_0 = CONCAT("SELECT `", group_field, "` FROM `temp_test` LIMIT ", w, ", 1 INTO @str");
+		SET str_1_0_1 = CONCAT("SELECT `", sort_field, "` FROM `temp_test` LIMIT ", w, ", 1 INTO @change_param_curent");
 		SET @str_1_1 = str_1_0;    
 	    PREPARE prep_str_1_1 FROM @str_1_1;
 		EXECUTE prep_str_1_1;
 
+		SET @str_1_1_1 = str_1_0_1;    
+	    PREPARE prep_str_1_1_1 FROM @str_1_1_1;
+		EXECUTE prep_str_1_1_1;
+
+		
 		SET difference_change_param = change_param_old - @change_param_curent;
 
+
 		-- формируем блоки выбирая данные из заданной таблицы 
-		IF difference_change_param != 0 AND change_param_old != 0 THEN 
-		    SET select_str_0 = CONCAT("SELECT * FROM `", table_name, "` WHERE `Name` = '", @str, "'" );  
+		IF difference_change_param <> 0 OR change_param_old <> 0 THEN 
+		    SET select_str_0 = CONCAT("SELECT * FROM `", table_name, "` WHERE `Name` = '", @str, "' HAVING `sort_field` = '", @change_param_curent, "'");  
 		    SET @select_str_1 = select_str_0;
 		    PREPARE prep_select_str FROM @select_str_1;
 			EXECUTE prep_select_str;            
 			END IF;
 
 
+		INSERT INTO `temp_test` (param_old, param_curent, change_param, field_str) 
+				VALUES (change_param_old, @change_param_curent, difference_change_param, @str);
 
 		SET change_param_old = @change_param_curent;
 		SET w = (w + 1);
@@ -148,6 +163,7 @@ END
 
 ---------------------------------------------------------------------------------------------------
 -- ХРАНИМАЯ ПРОЦЕДУРА  чистовик !!!
+-- GrupAndSort(depth_of_search,sorting_direction,sort_field,group_field,table_name)	
 	-- внешние параметры:
 		depth_of_search	-- для передачи глубины поиска
 		table_name	-- для передачи таблицы поиска
