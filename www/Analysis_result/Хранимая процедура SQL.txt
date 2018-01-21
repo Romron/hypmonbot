@@ -193,7 +193,7 @@ BEGIN
 				)'  
 			); 
 
-    SET create_str = create_str_0; 	-- для тестов
+    -- SET create_str = create_str_0; 	-- для тестов
 
 	SET @create_str_1 = create_str_0;
     PREPARE prep_create_str FROM @create_str_1;

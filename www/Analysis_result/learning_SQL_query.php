@@ -94,21 +94,25 @@ echo "<br>=========================================<br>";
 */
 
 /* запускаем мультизапрос */
+
 if (mysqli_multi_query($link_DB, $query_1)) {
     do {
         /* получаем первый результирующий набор */
-        if ($result = mysqli_store_result($link_DB)) {
-            while ($row = mysqli_fetch_row($result)) {
-                printf("%s\n", $row[0]);
+        if ($result_query_SQL = mysqli_store_result($link_DB)) {
+            while ($result[] = mysqli_fetch_assoc($result_query_SQL)) {
+                // printf("%s\n", $row[0]);
             }
-            mysqli_free_result($result);
+            mysqli_free_result($result_query_SQL);
         }
         /* печатаем разделитель */
-        if (mysqli_more_results($link)) {
-            printf("-----------------\n");
-        }
-    } while (mysqli_next_result($link));
+        // if (mysqli_more_results($link_DB)) {
+        //     printf("<br>-----------------<br>");
+        // }
+    } while (mysqli_next_result($link_DB));
 }
+
+	// echo "<br>".Build_tree_arr($result)."<br><br>";
+
 
 
 // вывод результатов в виде таблицы
@@ -147,6 +151,8 @@ if (mysqli_multi_query($link_DB, $query_1)) {
 	echo "<br>=========================================";
 	echo "<br> Конец работы скрипта &nbsp - &nbsp".date("d.m.y H:i:s",$time_1);			
 	echo "<br> Время работы скрипта &nbsp - &nbsp".date("i:s",$time)."<br><br>";	
+ 
+
  ?>
 
 </body>
