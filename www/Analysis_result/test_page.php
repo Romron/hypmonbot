@@ -17,37 +17,19 @@
 
 </head>
 	<?php
-		// добавить выборку частотности "за последний день"  "по всему миру" с страницы гугл тренд 
-			// при этом 
-				// частотность берём среднеею из 5 регионов
-				// из раздела "Похожие запросы" взять строку запроса и его динамику
 
-
-		// при анализе частотности поискового запроса к названию валютыдобалять: "растёт" , "стоимость", и т.п.
-		// сделать индексацию для ускорения работы базы работу с базой нужно ускорить!!!!!
-		// нужно чтобы при любых сортировкх в групах строки сортировались по датам
-		// в inform_righ добавить: время выполнения, оброботано строк, выбрано строк
-		// нармально оформить блок кнопок перенести между хедером и заголовком таблицы в строку
-		// добавить кнопку "на весь икран" или хотя бы скрывать хедер
-		// разделить группы разрядов в больших числах пробелами
-		// добавить таблицу анализа и для хайпов
-		// добавить "глубину" сортировки т.е. количество вывоимых строк
-		// чётче выделить точку в дробной части
-		// начинать сортировку при нажатии на клавишу ENTER, другие горячие клавиши
-		// для некоторых строк (пр: Dash, ICON, Ethos, Waves, TRON) не работает сортировка по имени
-		// как связать визуально и аналитически частотность, а она разных видов(!!) и колебания курса
-		// и вообще нужена концепция визуализации для поиска закономерностей разного вида(!!!)
-		// вычислять перепады значений, выделять их цветом и выводить в общую таблицу
 
 		set_time_limit(0);
 		$char_arr = array('+','%','_');		// массив символов для удаления
-		// $name_table = "Crypto_1";	//	Выбор таблицы в базе данных
+		$name_table = "Crypto_1";	//	Выбор таблицы в базе данных
 		// $name_table = "Crypto_test";	//	Выбор таблицы в базе данных
-		$name_table = "Work_table_3";	//	Выбор таблицы в базе данных
+		// $name_table = "Work_table_3";	//	Выбор таблицы в базе данных
 		$link_DB = conect_DB();	
-		$result = querySortingFromDB($link_DB,$name_table,'project','cy','DESC','',1);
+		$result = querySortingFromDB_1($link_DB,$name_table,'Name','Capitalization','DESC',1);
+		
+
 		$arr_keys = array_keys($result[0]);
-		$depth_of_search = 2;
+		$depth_of_search = 100;
 	?>
 
 <body>
@@ -57,8 +39,20 @@
 
 		<div id="heder">
 		<div id="inform_left"> <?php echo Build_tree_arr($_POST); ?> </div>
-		<div id="inform_centr"> HEDER </div>
-		<div id="inform_right"><span><b>Текущая таблица базы данных:</b> <?php echo $name_table; ?></span></div>
+		<div id="inform_centr"> HEDER 
+
+			<?php 
+				// echo "--<br>".Build_tree_arr($arr_keys);
+			?>
+
+		</div>
+		<div id="inform_right">
+			<span>
+				<b>Текущая таблица базы данных:</b> <?php echo $name_table; echo "<br>";?>
+				<b>Глубина поиска:</b> <?php echo $depth_of_search; ?>
+
+			</span>
+		</div>
 
 		</div>
 
@@ -133,28 +127,30 @@
 						$oder_sort = 'DESC';
 					}else{ $oder_sort = 'ASC'; }
 
-					$result = querySortingFromDB($link_DB,$name_table,$arr_keys[$_POST['group']],$arr_keys[$_POST['sort']],$oder_sort,'',$depth_of_search);
+					$result = querySortingFromDB_1($link_DB,$name_table,$arr_keys[$_POST['group']-1],$arr_keys[$_POST['sort']-1],$oder_sort,$depth_of_search);
 					
-					for ($q=0; $q < count($result); $q++) { 
-						echo '<div class="tr_div">';
-						foreach ($result[$q] as $key_2 => $value_2) {
-							$n_col_td++;
-							$value_2 = str_replace($char_arr," ",$value_2);
+					echo "**<br>".Build_tree_arr($result);
 
-						// Выбраные колонки выделяем отдельным цветом
-						if ($key_2 == $arr_keys[($_POST['sort']-1)]) {
-							$div_str = 'sort';
-						}elseif ($key_2 == $arr_keys[($_POST['group']-1)]){
-							$div_str = 'group';
-							}else{$div_str = '';}
+					// for ($q=0; $q < count($result); $q++) { 
+					// 	echo '<div class="tr_div">';
+					// 	foreach ($result[$q] as $key_2 => $value_2) {
+					// 		$n_col_td++;
+					// 		$value_2 = str_replace($char_arr," ",$value_2);
 
-							echo '<div class="col_'.$n_col_td.' td_div '.$div_str.'">';	
-								echo $value_2;
-							echo "</div>";
-							}
-						$n_col_td=0;
-						echo "</div>";
-						}
+					// 	// Выбраные колонки выделяем отдельным цветом
+					// 	if ($key_2 == $arr_keys[($_POST['sort']-1)]) {
+					// 		$div_str = 'sort';
+					// 	}elseif ($key_2 == $arr_keys[($_POST['group']-1)]){
+					// 		$div_str = 'group';
+					// 		}else{$div_str = '';}
+
+					// 		echo '<div class="col_'.$n_col_td.' td_div '.$div_str.'">';	
+					// 			echo $value_2;
+					// 		echo "</div>";
+					// 		}
+					// 	$n_col_td=0;
+					// 	echo "</div>";
+					// 	}
 
 				}		
 			?>
@@ -163,7 +159,6 @@
 	</div>
 
 </body>
-
 
 </html>
 

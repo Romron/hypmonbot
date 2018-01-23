@@ -100,10 +100,10 @@ BEGIN
 	DECLARE change_param_old decimal(15,0) DEFAULT 0;			-- для хранения предыдущего значения параметра изменения которого отслеживаются
     DECLARE difference_change_param decimal(15,0) DEFAULT 0;				-- для хранения разницы текущего и предидущего значений параметра изменения которого отслеживаются
 
-	DROP TABLE IF EXISTS `temp_test`;		-- для тестов
+	-- DROP TABLE IF EXISTS `temp_test`;		-- для тестов
 
     SET create_str_0 = CONCAT(
-		'CREATE /*TEMPORARY*/ TABLE `temp_test` 
+		'CREATE TEMPORARY TABLE `temp_test` 
 			AS (SELECT DISTINCT `',group_field,'`, `', sort_field, '`
 				FROM `', table_name, '` 
 				GROUP BY `', group_field, '` ASC 

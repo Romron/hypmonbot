@@ -114,6 +114,35 @@
 		   		}
 		}
 
+	function querySortingFromDB_1($link_DB,$name_table,$group_field,$sorting_field,$sorting_direction='ASC',$limit=''){
+		
+		$query = "CALL GrupAndSort('".$limit."','".$sorting_direction."','".$sorting_field."','".$group_field."','".$name_table."')";
+		
+		// if ($limit > 2) {
+			echo "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
 
+			echo "++<br>".$name_table."<br>".$group_field."<br>".$sorting_field."<br>".$sorting_direction."<br>".$limit."<br>++<br>";
+			echo "--<br>".$query;
+			// }			
+
+
+			if (mysqli_multi_query($link_DB, $query)) {
+				do {
+			        if ($result_query_SQL = mysqli_store_result($link_DB)) {
+			            while ($result[] = mysqli_fetch_assoc($result_query_SQL)) {
+			                // Здесь разделитель групп ответов сервера
+			            	}
+			            mysqli_free_result($result_query_SQL);
+			        	}					
+					} while (mysqli_next_result($link_DB));
+				}
+		
+		if ($limit > 2) {
+			echo "<br>//<br>".Build_tree_arr($result);
+			}
+		
+
+		return $result;
+		}
 
 ?>
