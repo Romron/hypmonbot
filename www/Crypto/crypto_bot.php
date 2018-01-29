@@ -144,8 +144,8 @@
 	$patern_3_3 = '#<tbody>\s*<tr class="text-right">\s*<td\sclass="text-left">(?:\w{3}\s\d{2},\s20\d{2})<\/td>\s*(?:<td>[\d\.]*<\/td>\s*){3}<td>([\d\.]*)<\/td>\s*#';  // дата выхода на рынок	
 
 
-	for ($i = $quantity_of_pages_passed_0; $i < 1+$quantity_of_pages_passed_0; $i++) { 	// рабочий вариант.  сдесь задаёться количество страниц за один запуск
-		// for ($i=1; $i < 2 ; $i++) {	// для тестов
+	// for ($i = $quantity_of_pages_passed_0; $i < 1+$quantity_of_pages_passed_0; $i++) { 	// рабочий вариант.  сдесь задаёться количество страниц за один запуск
+		for ($i=1; $i < 2 ; $i++) {	// для тестов
 		if ($i>13) { break; }	// ограничение количества страниц
 
 		$url_0 = $str_0.$i;
