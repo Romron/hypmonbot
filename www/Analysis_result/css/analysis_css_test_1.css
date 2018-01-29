@@ -105,6 +105,10 @@
 	/*padding: 2px;*/
 }
 
+.separator_color{
+	background: #e8e3e3;
+	}
+
 .group{
 	background: #FFC0C0;
 	}
@@ -135,7 +139,7 @@
 	}
 
 	.col_3{
-		width: 80px;
+		width: 100px;
 	}
 
 	.col_4{

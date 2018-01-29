@@ -40,13 +40,13 @@
 
 	    // оброботка ПЕРВОГО ответа сервера
 			for ($i=0; $i < mysqli_num_rows($result_query_SQL); $i++) {
-		    	if ($i>20) { break; }	// для тестов
+		    	// if ($i>20) { break; }	// для тестов
 		   		$result_1[] = mysqli_fetch_assoc($result_query_SQL);
 		    	}
 
 		// формируем и отправляем ВТОРОЙ запрос
 			for ($z=0; $z < count($result_1); $z++) { 
-			  	if ($z>20) { break; }	// для тестов
+			  	// if ($z>20) { break; }	// для тестов
 			    $query_2 = "SELECT * FROM `".$name_table."` 
 			    			WHERE `".$group_field."` = '".$result_1[$z][$group_field]."'
 			    			";	
@@ -116,15 +116,8 @@
 
 	function querySortingFromDB_1($link_DB,$name_table,$group_field,$sorting_field,$sorting_direction='ASC',$limit=''){
 		
+		$patern_zero = '~\.\d*[1-9]?(0*)(?<=$)~U';
 		$query = "CALL GrupAndSort('".$limit."','".$sorting_direction."','".$sorting_field."','".$group_field."','".$name_table."')";
-		
-		// if ($limit > 2) {
-			echo "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
-
-			echo "++<br>".$name_table."<br>".$group_field."<br>".$sorting_field."<br>".$sorting_direction."<br>".$limit."<br>++<br>";
-			echo "--<br>".$query;
-			// }			
-
 
 			if (mysqli_multi_query($link_DB, $query)) {
 				do {
@@ -134,14 +127,28 @@
 			            	}
 			            mysqli_free_result($result_query_SQL);
 			        	}					
-					} while (mysqli_next_result($link_DB));
+					} while (@mysqli_next_result($link_DB));		// когда нет следующего результата ф-ция возвращает предупреждение
 				}
-		
-		if ($limit > 2) {
-			echo "<br>//<br>".Build_tree_arr($result);
-			}
-		
 
+		for ($w=0; $w < count($result); $w++) {
+			
+			if (empty($result[$w])) {
+				$result[$w][] = '0';
+				// continue;
+				}
+			$w_n = 0;		// счётчик элементов массива $result[$w] для удаления незначущих нулей в $result
+			foreach ($result[$w] as $key_2 => $value_2) {
+				if (preg_match_all($patern_zero,$value_2,$result_zero,PREG_PATTERN_ORDER)) {
+					$value_2 = str_replace($result_zero[1][0],"",$value_2);	
+					$value_2 = $value_2.'0';
+					$result[$w][$key_2] = $value_2;
+					}
+
+				$w_n++;
+				}
+			}	
+
+		// echo Build_tree_arr($result);	
 		return $result;
 		}
 
