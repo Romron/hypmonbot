@@ -36,10 +36,14 @@
 
 
 			// $url = "http://filterevade.com/index.php?q=".base64_encode('http://allhyipmon.ru/rating');
-			$str = urlencode('биткоин');
-			$url = 'https://online.seranking.com/research.keyword.html?source=ru&filter=keyword&input='.$str;
+			// $str = urlencode('google.com');
+			// $str = base64_encode('google.com');
+			// $str = base64_encode('trends.google.com');
+			// $url = 'http://proxy.bernex.net/index.php?q='.$str;
 			// $page_2 = GetWebPage($url);
-			$page_2 = GetWebPage($url);
+			// echo "<br>url = ".$url."<br>";
+			$page_2 = GetWebPage("http://www.google.com/trends/hottrends");
+			// $page_2 = file_get_contents("http://www.google.com/trends/hottrends");
 			echo $page_2;
 
 
